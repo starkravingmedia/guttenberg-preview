@@ -32,6 +32,10 @@
 - [ ] Research Claude-friendly art engine integration (Midjourney, etc.) for on-the-fly generation
 - [ ] Create fixed style instructions so generated art stays within a consistent design philosophy (documentation, encounters, scene settings)
 
+## Learning & Tooling
+
+- [ ] Learn and understand git in the context of this project (have Claude teach alongside real usage)
+
 ## Claire Deliverables
 
 - [ ] Find the design patterns discussion from chats with Claire
