@@ -22,6 +22,9 @@
 
 ## Architecture & Design Philosophy
 
+- [ ] Formally define the distinction between Design Philosophy and Design Practice:
+  - **Design Philosophy**: abstract north stars that guide decisions (e.g., "fun over tedium," "keep the story moving")
+  - **Design Practice**: concrete mechanisms, patterns, and processes that implement the philosophy (e.g., "this is how we build encounters," "this is how we measure tedium," "this is how we set up test iterations")
 - [ ] Define the layered architecture model — OS-like layers of game functionality where each layer depends on layers below it. Changing something at layer N means you know layers N+1 and above might break. Formalize which mechanics live at which layers, what the dependency rules are, and what testing is required when a layer is modified.
   - [ ] Find and consolidate the existing chat discussion on this topic
 
