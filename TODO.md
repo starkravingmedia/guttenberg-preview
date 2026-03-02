@@ -17,6 +17,7 @@
 - [ ] Define and firm up the types of traversable connections between books — what kinds of links exist, how they're triggered, what makes them traversable vs. locked, one-way vs. two-way, etc.
 - [ ] Design fast travel — two distinct flavors: (1) abbreviated traversal through connected works (skipping the mundane parts but still "traveling the path") and (2) teleportation via in-game mechanisms (bypassing the path entirely). Define what enables each, costs, limitations, and which game mechanics gate them.
 - [ ] Define "montage mode" as a broader design pattern — applies to fast travel but also to other systems like faction turns at the strategic level being summarized. Identify all the places where montage mode applies and formalize the pattern.
+- [ ] Flesh out the mechanics behind a book's immune system — how does a book world detect, resist, or respond to foreign elements/players/intrusions?
 
 ## Player's Guide
 
