@@ -55,7 +55,9 @@
 ## Legal & IP
 
 - [ ] Address copyright and IP questions around LLM-generated content if this becomes a commercial product — characters from published works, derivative content, LLM training data implications, fair use boundaries, public domain vs. copyrighted source material
-- [ ] Deep conversation session: explore the dim/blurry lines around what's acceptable when generative AI is in the mix — public domain starting point (Gutenberg) helps, but the boundaries get fuzzy fast when an LLM is remixing, extending, or generating derivative content. Capture the hard questions and edge cases.
+## Deep Conversations Worth Having
+
+- [ ] Generative AI and copyright gray areas — public domain starting point helps, but bright lines get very dim when an LLM is remixing, extending, or generating derivative content. Where exactly does it get fuzzy? Capture the hard questions and edge cases.
 
 ## Research & Exploration
 
