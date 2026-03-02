@@ -50,6 +50,7 @@
 ## LLM Gotchas & Known Issues
 
 - [ ] Character knowledge bleed — LLMs tend to give characters omniscient knowledge of other characters/books they shouldn't know about. Characters knowing they're characters is OK, but Oliver Twist characters shouldn't know Tom Clancy. Need guardrails or prompting patterns to enforce knowledge boundaries per book world.
+- [ ] Instruction forward-leak / false randomness — when given a multi-step instruction list, the LLM reads the entire list before starting step 1, so "random" outputs in early steps get reverse-engineered to serve later steps. E.g., "create 5 random songs" followed by "create 5 random characters" results in songs that are suspiciously tailored to characters that haven't been created yet. Sometimes helpful, often breaks intended randomness. Need strategies to isolate steps (separate calls, seeded randomness, explicit "do not anticipate future steps" instructions, etc.).
 
 ## Research & Exploration
 
