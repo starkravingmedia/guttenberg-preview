@@ -12,6 +12,7 @@
 - [ ] Separate and define meta-story-level elements — tease out from existing docs (The Marginalia, etc.)
 - [ ] Define design patterns for minigames and how they get used by the engine
 - [ ] Add cooldown timer mechanic for certain skills/abilities
+- [ ] Architect templates for scenarios/encounters (note: these terms also need taxonomic precision)
 
 ## Player's Guide
 
