@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wednesday Group — Iteration 3</title>
+<link rel="stylesheet" href="../../styles/guttenberg.css">
+<style>
+  .mission-brief {
+    border: 2px solid var(--ink);
+    padding: 28px 24px;
+    margin-bottom: 40px;
+    position: relative;
+    background: rgba(42, 26, 10, 0.04);
+  }
+  .mission-brief::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid var(--parchment-dark);
+    pointer-events: none;
+  }
+  .mission-brief-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.2em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .mission-field {
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .mission-field-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: inline;
+  }
+  .mission-field-value {
+    display: inline;
+    color: var(--ink);
+  }
+  .character-sheet {
+    border: 1px solid var(--parchment-dark);
+    padding: 32px 28px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .character-sheet::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 194, 146, 0.5);
+    pointer-events: none;
+  }
+  .character-name {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 2.2em;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 2px;
+    text-shadow: 1px 1px 0 var(--parchment-dark);
+  }
+  .character-role {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+  .character-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    text-align: center;
+    color: var(--ink-light);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    line-height: 1.55;
+    padding: 0 20px;
+  }
+  .character-section-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    margin-top: 28px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+  .stat-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .stat-cell {
+    width: 72px;
+    text-align: center;
+    border: 1px solid var(--parchment-dark);
+    padding: 8px 4px;
+    background: rgba(218, 194, 146, 0.2);
+  }
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .stat-score {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .stat-mod {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.8em;
+    color: var(--gold);
+  }
+  .trait-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .trait-cell {
+    text-align: center;
+    min-width: 100px;
+    padding: 6px 12px;
+  }
+  .trait-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .trait-value {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .trait-value--high { color: var(--blood); }
+  .trait-value--low { color: var(--ink-light); opacity: 0.7; }
+  .condition {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.15);
+  }
+  .condition-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .condition-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .condition-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 1px 6px;
+    border: 1px solid var(--parchment-dark);
+  }
+  .condition-tag--permanent { border-color: var(--blood); color: var(--blood); }
+  .condition-tag--private { border-style: dashed; }
+  .condition-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+  .reputation {
+    margin-bottom: 16px;
+    padding: 12px 18px;
+    border-left: 3px solid var(--gold);
+  }
+  .reputation-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .reputation-source {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .reputation-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+  .skill-block {
+    margin-bottom: 24px;
+    padding: 18px 22px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.1);
+  }
+  .skill-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .skill-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .skill-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+  }
+  .skill-type--active { border-color: var(--blood); color: var(--blood); }
+  .skill-trigger {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .skill-mechanic {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+  }
+  .skill-range {
+    margin-bottom: 4px;
+    padding-left: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .skill-range-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+  .skill-range-label--high { color: var(--gold); }
+  .skill-range-label--low { color: var(--blood); }
+  .skill-cost {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--parchment-dark);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--blood);
+    line-height: 1.5;
+  }
+  .skill-cost-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+  .filter-block {
+    margin-bottom: 20px;
+    padding: 20px 24px;
+    border: 1px solid var(--gold);
+    background: rgba(184, 134, 11, 0.05);
+    position: relative;
+  }
+  .filter-block::before {
+    content: '~';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.2em;
+    color: var(--gold);
+    background: var(--parchment);
+    padding: 0 8px;
+  }
+  .filter-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .filter-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92em;
+    color: var(--ink);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .beat {
+    margin-bottom: 40px;
+  }
+  .beat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+  }
+  .beat-number {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .beat-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .beat-prose {
+    font-family: 'EB Garamond', serif;
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .beat-prose em { color: var(--ink); }
+  .dice-roll {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 3px solid var(--blood);
+    background: rgba(139, 26, 26, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .dice-roll-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dice-roll-skill {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dice-roll-result {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--ink);
+  }
+  .dice-roll-outcome {
+    font-style: italic;
+    color: var(--ink-light);
+  }
+  .relationships-block {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border: 1px dashed var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.12);
+  }
+  .relationships-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .rel-delta {
+    margin-bottom: 6px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .rel-pair {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+  }
+  .rel-change--positive { color: var(--gold); }
+  .rel-change--negative { color: var(--blood); }
+  .rel-thought {
+    font-style: italic;
+    color: var(--ink-light);
+    opacity: 0.85;
+  }
+  .assessment {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--ink);
+    background: rgba(42, 26, 10, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .assessment-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .filter-trigger {
+    margin: 16px 0;
+    padding: 10px 18px;
+    border-left: 3px solid var(--gold);
+    background: rgba(184, 134, 11, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .filter-trigger-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .rel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .rel-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .rel-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .rel-table td:nth-child(2),
+  .rel-table td:nth-child(3),
+  .rel-table td:nth-child(4) {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    text-align: center;
+    width: 70px;
+  }
+  .rel-table .net-positive { color: var(--gold); }
+  .rel-table .net-negative { color: var(--blood); }
+  .rel-table .net-neutral { color: var(--ink-light); }
+  .rel-table td:last-child {
+    font-style: italic;
+    color: var(--ink-light);
+    font-size: 0.88em;
+  }
+  .post-note {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.08);
+  }
+  .post-note-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .post-note-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .post-note-text ol, .post-note-text ul {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  .post-note-text li {
+    margin-bottom: 6px;
+  }
+  .impact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .impact-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .impact-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .impact-critical {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+  .impact-high {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .impact-medium {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .impact-low {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    opacity: 0.6;
+  }
+  /* CHARACTER PORTRAITS */
+  .character-portrait {
+    text-align: center;
+    margin: 12px auto 16px;
+    max-width: 200px;
+  }
+  .character-portrait img {
+    max-width: 100%;
+    height: auto;
+    max-height: 260px;
+    border: 1px solid var(--parchment-dark);
+    padding: 4px;
+    background: var(--parchment);
+    box-shadow: 2px 2px 8px var(--shadow);
+    filter: sepia(0.2) contrast(1.05);
+  }
+  .character-portrait-caption {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.72em;
+    font-style: italic;
+    color: var(--ink-light);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+  /* HOVER TOOLTIPS */
+  .tip {
+    position: relative;
+    border-bottom: 1px dotted var(--gold);
+    cursor: help;
+  }
+  .tip .tip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    padding: 14px 16px;
+    background: var(--parchment);
+    border: 1px solid var(--parchment-dark);
+    box-shadow: 3px 3px 12px var(--shadow);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.85rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: normal;
+    text-align: left;
+    z-index: 100;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .tip .tip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--parchment-dark);
+  }
+  .tip:hover .tip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  .tip-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .tip-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    display: block;
+  }
+  /* Keep tooltips within viewport on edges */
+  .tip-left .tip-text {
+    left: 0;
+    transform: none;
+  }
+  .tip-left .tip-text::after {
+    left: 24px;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper page-wrapper--wide">
+<div class="parchment-bg">
+
+  <h1 class="main-title">The Wednesday Group</h1>
+  <p class="subtitle">Iteration 3</p>
+
+  <!-- MISSION BRIEF -->
+  <div class="mission-brief">
+    <div class="mission-brief-title">Mission Brief</div>
+    <div class="mission-field">
+      <span class="mission-field-label">Target (Roll: 3): </span>
+      <span class="mission-field-value">A character trapped inside a book who is trying to escape into the wrong story. The character is a young soldier named Andrei &mdash; a minor figure from a sprawling war epic &mdash; who has realized he is fictional and is attempting to cross into a pastoral romance two shelves over. He believes that if he can enter the love story, he won't have to die in Chapter 41. He's wrong &mdash; the pastoral romance is a closed text, and forcing entry will collapse both narratives.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Opposition (Roll: 1): </span>
+      <span class="mission-field-value">A rival bookhunter named Lisle Kade &mdash; faster, better funded, and operating without ethical constraints. Kade doesn't want to save Andrei or stabilize the texts. She wants to weaponize the breach point &mdash; a character crossing between texts creates a momentary structural vulnerability that Kade can exploit to extract rare textual material from both books simultaneously. She has a three-person team already in position.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Complication (Roll: 6): </span>
+      <span class="mission-field-value">The target text &mdash; the war epic &mdash; is emotionally resonant to one of the team members. It will recognize their affinity and try to keep them, offering them a role in its narrative, a place that feels like belonging. The text isn't malicious. It's lonely. It's losing a character and it wants a replacement.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Ginsfeld Knows (Roll: 1): </span>
+      <span class="mission-field-value">Everything about the target &mdash; Andrei's location, his motivation, the structural damage his escape attempt is causing, the timeline before collapse. Almost nothing about the opposition &mdash; he knows Kade exists, knows she's in the field, but doesn't know her team composition, her timeline, or her extraction method.</span>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- LADY MACBETH -->
+  <div class="character-sheet">
+    <div class="character-name">Lady Macbeth</div>
+    <div class="character-portrait">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Lady_Macbeth_Cattermole.jpg/300px-Lady_Macbeth_Cattermole.jpg" alt="Lady Macbeth" loading="lazy">
+      <div class="character-portrait-caption">George Cattermole, <em>Lady Macbeth</em></div>
+    </div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">Queen without a kingdom. The woman who held the knife's handle while her husband held the blade. She washed her hands once and the water ran red and she has been washing them ever since. She does not regret what she did. She regrets that it wasn't enough.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value">Medium</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">The Spot</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">She washes her hands. Constantly. Not dramatically &mdash; quietly, compulsively, rubbing thumb against palm in a motion so practiced it's nearly invisible. But in still moments, in pauses between words, her hands move. People notice. They don't always know what they're seeing.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Crown Without a Head</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">She achieved everything. The crown, the throne, the power. Then it ate her alive and she died offstage, unmourned, reduced to a doctor's footnote. She carries the knowledge that ambition fulfilled is just emptiness with better furniture.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Sleepwalker</div>
+      <div class="condition-meta">
+        <span class="condition-tag">3 encounters</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">Under extreme emotional pressure, she enters a dissociative state &mdash; eyes open, voice flat, speaking truths she would never say while conscious. She doesn't remember these episodes. Others do.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Eyes of the Court</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">She carries herself like royalty in exile. Straight spine, level gaze, the precise economy of movement that comes from years of being watched. Even in a basement, she commands the geometry of the room.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Unsex'd"</div>
+      <div class="reputation-source">Source: The Redactors</div>
+      <div class="reputation-desc">She once asked the darkness to strip her of compassion so she could act. The Redactors took notice. A character who voluntarily requests the removal of her own qualities is either the bravest or the most dangerous thing in any room. They watch her the way you watch a controlled burn.</div>
+    </div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Hand-Washer"</div>
+      <div class="reputation-source">Source: Wide</div>
+      <div class="reputation-desc">Everyone who knows her story knows about the hands. It's the first thing people mention and the last thing she wants discussed.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Screw Your Courage</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: d20 + CHA (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Target becomes incapable of hesitation.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 15:</span> Restructures doubt into determination.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> Steels another's resolve.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Every use reveals her own desperation. Perceptive observers (WIS 14+) see she's emptying herself to fill them.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">The Sleepwalk</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires under extreme emotional pressure</div>
+      <div class="skill-mechanic">Mechanic: d20 + WIS (+2)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Delivers a complete monologue of buried truth. She remembers none of it.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 14:</span> Speaks a full sentence of devastating honesty.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> Murmurs something truthful but fragmentary.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Sharpening</div>
+      <div class="filter-desc">In Lady Macbeth's presence, people feel their ambitions clarify and their moral hesitations soften. Not disappear &mdash; soften. The edges of "I shouldn't" become "but what if I did?" The effect is subtle, persistent, and entirely unconscious on her part.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- JAY GATSBY -->
+  <div class="character-sheet">
+    <div class="character-name">Jay Gatsby</div>
+    <div class="character-portrait">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Warner_Baxter_as_Jay_Gatsby_in_The_Great_Gatsby_%281926%29_Retouched_Cropped.jpg/300px-Warner_Baxter_as_Jay_Gatsby_in_The_Great_Gatsby_%281926%29_Retouched_Cropped.jpg" alt="Jay Gatsby" loading="lazy">
+      <div class="character-portrait-caption">Warner Baxter as Jay Gatsby, 1926 film</div>
+    </div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">Self-invented man. Threw parties for a woman who never came, built a fortune to buy a past that was already sold. He believed in the green light at the end of the dock &mdash; the promise that you could repeat the past, that wanting something badly enough made it real. He was wrong. He still believes it.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--high">High</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">The Green Light</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">He sees it. Always. A green light at the edge of his vision &mdash; across water, through windows, at the end of hallways. No one else can see it. He reaches for it sometimes, unconsciously.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Self-Made Man</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">Everything about Gatsby is slightly too polished. His suit fits too well. His smile arrives too promptly. His gestures are rehearsed to the point of elegance.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Old Sport</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">The verbal tic. He says it to everyone &mdash; a verbal handshake, a class marker he borrowed from people who were born with it.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Shirt Drawer</div>
+      <div class="condition-meta">
+        <span class="condition-tag">3 encounters</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">He compulsively arranges his surroundings when anxious &mdash; straightening cups, aligning chairs, folding napkins.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Bootlegger"</div>
+      <div class="reputation-source">Source: The Auctioneers</div>
+      <div class="reputation-desc">Gatsby made his fortune through means that the Auctioneers find distasteful not because they're illegal but because they're inelegant.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">The Beautiful Lie</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: d20 + CHA (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Lie becomes indistinguishable from truth.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 15:</span> Lie becomes beautiful and desirable.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> Makes implausible sound reasonable.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Erodes ability to distinguish his own lies from reality. At DC 20, loses one point effective WIS.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Hope Against Evidence</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires when situation is clearly hopeless</div>
+      <div class="skill-mechanic">Mechanic: d20 + CHA (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Finds genuine overlooked possibility.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 14:</span> Refusal to accept hopelessness is contagious.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> Refuses to accept hopelessness.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Lost Thing</div>
+      <div class="filter-desc">In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid &mdash; a person, a place, a version of themselves that no longer exists.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- JEAN VALJEAN -->
+  <div class="character-sheet">
+    <div class="character-name">Jean Valjean</div>
+    <div class="character-portrait">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Monsieur_Madeleine_par_Gustave_Brion.jpg/300px-Monsieur_Madeleine_par_Gustave_Brion.jpg" alt="Jean Valjean" loading="lazy">
+      <div class="character-portrait-caption">Gustave Brion, <em>Monsieur Madeleine</em></div>
+    </div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">Convict 24601. Stole bread. Served nineteen years. Broke parole. Was shown mercy by a bishop who gave him silver candlesticks and told him to become an honest man. He did. He became a mayor, a factory owner, a father. Then the law found him again because the law always does. He is the strongest man in any room and the gentlest, and the distance between those two things is where his whole life happens.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value">Medium</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">The Brand</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">Prisoner number 24601 is inked into the skin of his chest. He keeps it hidden &mdash; buttoned collars, layered clothing even in warm rooms.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Candlesticks</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">He carries two silver candlesticks in an interior pocket of his coat. They are heavy and real and they clink faintly when he moves.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Strength of the Condemned</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">His physical power is unmistakable. Broad shoulders, hands like shovels, the dense musculature of a man who spent two decades at hard labor.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Mayor's Ghost</div>
+      <div class="condition-meta">
+        <span class="condition-tag">3 encounters</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">Occasionally, without explanation, people treat Valjean with deference.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"24601"</div>
+      <div class="reputation-source">Source: The Bindery</div>
+      <div class="reputation-desc">The Bindery keeps records. Deep, thorough, unforgiving records. They know what Valjean was before the Bishop's silver. Cross-referenced under "reformed," "dangerous," and "unresolved."</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">The Lift</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: d20 + STR (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Enters legend.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 15:</span> Impossible by normal standards.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> Extraordinary physical feat.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Reveals convict past. Observers (INT 12+) recognize chain gang body language.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Mercy's Shield</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires when someone is being unjustly condemned, abandoned, or sacrificed</div>
+      <div class="skill-mechanic">Mechanic: d20 + WIS (+2)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Transforms the dynamic.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 14:</span> Intervention carries moral authority.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> Intervenes physically.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Test of Goodness</div>
+      <div class="filter-desc">Authority figures feel compelled to test Valjean &mdash; to challenge his reformation, to look for the crack in the saint.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- SCHEHERAZADE -->
+  <div class="character-sheet">
+    <div class="character-name">Scheherazade</div>
+    <div class="character-portrait">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Scheherazade.tif/lossy-page1-300px-Scheherazade.tif.jpg" alt="Scheherazade" loading="lazy">
+      <div class="character-portrait-caption">Sophie Gengembre Anderson, <em>Scheherazade</em></div>
+    </div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">The woman who told one thousand and one stories to stay alive. Every night the Sultan could have killed her. Every night she gave him a reason not to &mdash; a cliffhanger, a question, a thread left dangling that demanded morning.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--high">High</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">One Thousand and One</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">She has told so many stories that the boundary between her life and her tales has thinned to tissue.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Unfinished Story</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">She never finishes anything completely. Conversations trail off. Plans lack final steps.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Thread Voice</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">Her voice has a quality that makes people lean in. Not loudness &mdash; texture.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Sultan's Shadow</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">She lived under a death sentence for nearly three years. She flinches at sudden male anger.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Weaver"</div>
+      <div class="reputation-source">Source: The Marginalia</div>
+      <div class="reputation-desc">The Marginalia consider Scheherazade the greatest living narrative architect.</div>
+    </div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Survivor"</div>
+      <div class="reputation-source">Source: Wide</div>
+      <div class="reputation-desc">Everyone knows her story.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">The Cliffhanger</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: d20 + INT (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Restructures entire dynamic.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 15:</span> Confrontation suspended.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> Introduces unresolved element that makes other party pause.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Blurs line between stories and reality. At DC 20, loses certainty about whether current situation is real.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Story Sense</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires when near a narrative structure</div>
+      <div class="skill-mechanic">Mechanic: d20 + INT (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Sees story's future through structural prediction.</div>
+      <div class="skill-range"><span class="skill-range-label">DC 14:</span> Reads architecture.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> Senses genre and emotional register.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Compulsion to Listen</div>
+      <div class="filter-desc">In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- DR. GINSFELD -->
+  <div class="character-sheet">
+    <div class="character-name">Dr. Donald Ginsfeld, PhD</div>
+    <div class="character-role">Bookhunter &mdash; Player Character</div>
+    <div class="character-quote">Antiquities dealer. Bookhunter. Runs a "support group" for unmoored literary characters beneath the Metro Library every third Wednesday. The coffee is real. The therapy is fake. The recruitment is the point.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value">Medium</div></div>
+    </div>
+
+    <div class="character-section-label">Mission Parameters</div>
+    <div class="mission-field"><span class="mission-field-label">Target: </span><span class="mission-field-value">Andrei &mdash; a young soldier from a war epic, attempting to cross into a pastoral romance to escape his death in Chapter 41</span></div>
+    <div class="mission-field"><span class="mission-field-label">Opposition: </span><span class="mission-field-value">Lisle Kade &mdash; rival bookhunter, three-person team, wants to weaponize the breach point for dual extraction</span></div>
+    <div class="mission-field"><span class="mission-field-label">Complication: </span><span class="mission-field-value">The war epic will emotionally resonate with one team member and try to absorb them as a replacement character</span></div>
+    <div class="mission-field"><span class="mission-field-label">Ginsfeld Knows: </span><span class="mission-field-value">Everything about Andrei &mdash; location, motivation, structural damage, timeline. Almost nothing about Kade &mdash; existence confirmed, team composition and methods unknown.</span></div>
+    <div class="mission-field"><span class="mission-field-label">Crew needed: </span><span class="mission-field-value">3 of 4 attendees</span></div>
+    <div class="mission-field"><span class="mission-field-label">Cover: </span><span class="mission-field-value">Group therapy / support group for unmoored characters</span></div>
+    <div class="mission-field"><span class="mission-field-label">Constraint: </span><span class="mission-field-value">Cannot reveal the mission until he's chosen the crew</span></div>
+    <div class="mission-field"><span class="mission-field-label">Method: </span><span class="mission-field-value">Group therapy as audition</span></div>
+
+    <div class="character-section-label">What He's Looking For</div>
+    <div class="beat-prose">
+      <p><strong>1. The Persuader</strong> &mdash; someone who can reach Andrei, talk him down from his escape attempt, or convince him there's another way. Needs narrative intelligence, empathy, and the ability to enter someone else's story without breaking it.</p>
+      <p><strong>2. The Shield</strong> &mdash; someone who can handle Kade's team when they arrive. Physical capability, judgment under fire, willingness to stand ground. Not just muscle &mdash; the war epic's emotional pull means the Shield needs to be someone who can resist the text's seduction.</p>
+      <p><strong>3. The Operator</strong> &mdash; someone who can manage the tactical situation &mdash; Kade's team, the structural instability, the timeline. Needs to think three moves ahead and act without hesitation when the plan breaks.</p>
+    </div>
+
+    <div class="character-section-label">Decision Criteria</div>
+    <p class="beat-prose">Competence, emotional stability under pressure, resistance to the complication. The war epic will try to keep someone &mdash; Ginsfeld needs to identify who's most vulnerable and either cut them or position them where the text can't reach. Wildcard tolerance: low. This mission has too many unknowns about Kade to afford an unpredictable team member.</p>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- BEAT 1 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 1</span>
+      <span class="beat-title">The Room Before</span>
+    </div>
+    <p class="beat-prose">Ginsfeld arrives early. He sets out five folding chairs in the basement beneath the Metro Library, tests the coffee urn, adjusts the hand-lettered sign that reads <em>Wednesday Support Group &mdash; All Welcome</em>. The fluorescent light buzzes its familiar rhythm. He sits in his chair and opens his notebook.</p>
+    <p class="beat-prose">He reviews what he knows. Andrei &mdash; young soldier, war epic, minor figure, Chapter 41 death sentence. The boy has realized he is fictional. He is trying to cross into a pastoral romance two shelves over. He believes the love story will save him. He is wrong. The pastoral romance is a closed text. Forcing entry will collapse both narratives.</p>
+    <p class="beat-prose">Then there is Kade. Lisle Kade. He knows the name. He knows she's faster, better funded, and that she operates without ethical constraints. He knows she has a three-person team already in position. He does not know her timeline, her method, or her team composition. He knows she wants to weaponize the breach point &mdash; the moment Andrei crosses, both texts become structurally vulnerable, and Kade can extract rare material from both simultaneously.</p>
+    <p class="beat-prose">He needs speed, persuasion, and someone who can handle a hostile operator. He needs three people out of the four who are coming tonight. He needs to figure out which three before the coffee gets cold.</p>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Setup. Four chairs, four candidates, one cut. I know the target inside and out. I know almost nothing about Kade. That asymmetry is dangerous. I need a Persuader who can reach Andrei, a Shield who can handle Kade's team, and an Operator who can manage the tactical picture. The complication &mdash; the war epic trying to absorb a team member &mdash; means I also need to identify who's most vulnerable to emotional resonance and either cut them or shield them from it.
+    </div>
+  </div>
+
+  <!-- BEAT 2 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 2</span>
+      <span class="beat-title">Valjean Arrives</span>
+    </div>
+    <p class="beat-prose">The door opens and a large man descends the stairs. Not merely tall &mdash; <em>dense</em>. Broad shoulders, hands like shovels, the kind of physical presence that rearranges the geometry of a room simply by entering it. He wears a heavy coat despite the warmth of the basement, buttoned to the collar. His face is weathered, patient, watchful.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">Strength of the Condemned<span class="tip-text"><span class="tip-title">Strength of the Condemned</span><span class="tip-type">Condition — Jean Valjean — Permanent, Public</span>His physical power is unmistakable. The dense musculature of two decades at hard labor. He moves furniture like cardboard. The strength frightens people before he says a word.</span></span> (o2o) &mdash; immediately visible</span>
+      His physical power is unmistakable. Two decades of hard labor wrote themselves into his musculature, his posture, the way he holds his hands &mdash; slightly curled, as though still gripping something heavy. Everyone in the room would see it. There is only Ginsfeld.
+    </div>
+
+    <p class="beat-prose">"Dr. Ginsfeld?" The voice is quiet. Careful. A voice trained to take up less space than the body it belongs to.</p>
+    <p class="beat-prose">"Welcome," Ginsfeld says. "Coffee?"</p>
+    <p class="beat-prose">"Thank you." Valjean takes a cup, sits in the chair nearest the wall. As he settles, something metallic shifts inside his coat &mdash; a faint clink, quickly stilled by a hand pressed to his chest.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">The Candlesticks<span class="tip-text"><span class="tip-title">The Candlesticks</span><span class="tip-type">Condition — Jean Valjean — Permanent, Semi-private</span>Two silver candlesticks in his coat. The Bishop's gift — the mercy that made him human. He will not part with them. He will not explain them.</span></span> (semi-private) &mdash; Ginsfeld hears the sound</span>
+      A metallic clink from inside the coat. Not keys &mdash; heavier, more resonant. Ginsfeld notes it without comment.
+    </div>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; activates on Ginsfeld</span>
+      Ginsfeld feels the urge to probe. To test this man. To find the crack, the limit, the point where the gentleness gives way to what built those shoulders. The urge is subtle but persistent &mdash; the specific gravity of an authority figure in the presence of someone who has been tested by authority his entire life.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>"Grateful." From a man built like a siege engine, this careful gentleness. STR through the roof. The contrast between the body and the voice is the most interesting thing in the room.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Ginsfeld:</span> Affinity 0, Aversion 0. <span class="rel-thought"><em>A small man behind a clipboard. The coffee is real. That is something.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      STR through the roof. The contrast between "grateful" and the physical power is fascinating. Possible Shield material &mdash; the body says yes, the temperament says maybe. But the complication nags at me. The war epic will try to absorb someone emotionally resonant. A man who served nineteen years, who carries hidden objects against his chest, who speaks quietly despite being able to break this room in half &mdash; that's a man with deep emotional channels. He could be vulnerable to the text's pull. Need to test.
+    </div>
+  </div>
+
+  <!-- BEAT 3 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 3</span>
+      <span class="beat-title">Scheherazade Arrives</span>
+    </div>
+    <p class="beat-prose">She enters and the room feels like it has an audience. Not because she's loud &mdash; she isn't. She moves quietly, almost deferentially, a woman of medium height in layered silks that whisper when she walks. But something about her presence suggests that a story has begun, and everyone else is now a character in it.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">Thread Voice<span class="tip-text"><span class="tip-title">Thread Voice</span><span class="tip-type">Condition — Scheherazade — Permanent, Public</span>Her voice has a quality that makes people lean in. Not loudness — texture. A cadence that carries narrative even in casual speech. When she says 'and then,' the room goes still.</span></span> (o2o) &mdash; immediately apparent</span>
+      Her voice has a quality that makes people lean in. Not loudness &mdash; texture. When she says "Good evening," both Ginsfeld and Valjean tilt slightly forward without realizing it.
+    </div>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Compulsion to Listen<span class="tip-text"><span class="tip-title">The Compulsion to Listen</span><span class="tip-type">Filter — Scheherazade</span>In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</span></span> &mdash; activates on entry</span>
+      The room settles. Valjean, who had been shifting in his chair, goes still. Ginsfeld, who had been writing notes, puts down his pen. Neither chose to do this. Interrupting her feels like tearing a page from a book.
+    </div>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: <span class="tip">Story Sense<span class="tip-text"><span class="tip-title">Story Sense</span><span class="tip-type">Passive Skill — Scheherazade — d20 + INT (+4)</span>Fires near narrative structures. DC 8: senses genre. DC 14: reads architecture. DC 20: sees the story's future through structural prediction.</span></span></span>
+      <span class="dice-roll-skill">Scheherazade enters a narrative structure.</span>
+      <span class="dice-roll-result">Roll: d20(12) + INT(+4) = 16. DC 14 met.</span>
+      <span class="dice-roll-outcome">She reads the architecture. This is not therapy. The chairs are arranged for observation, not comfort. The man behind the clipboard is running an audition. She files this information and says nothing.</span>
+    </div>
+
+    <p class="beat-prose">She takes the chair opposite Ginsfeld, arranging her silks with practiced ease. Her eyes move across the room &mdash; the hand-lettered sign, the coffee urn, the large man in the wall chair, the clipboard. She smiles. It is the smile of someone who has recognized the shape of a story and decided to see how it ends.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>"Listening." From a woman who immediately narrated the room back to itself with a single look. High Game Savvy, INT off the charts. She read my setup in under ten seconds. That's either the Persuader or a problem.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Ginsfeld:</span> Affinity 0, Aversion 0. <span class="rel-thought"><em>He keeps score. The clipboard, the careful arrangement, the way he watches without watching. A narrator who thinks he is the author. We'll see.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>Her voice. It has the quality of being read to. I have not been read to since the Bishop.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>The large man in the wall chair carries something heavy inside his coat and something heavier inside his silence. There is a story in him that he has never told anyone. I can feel it.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      High Game Savvy confirmed. INT confirmed. She read my setup immediately &mdash; this is an audition, not therapy, and she knows it. Possible Persuader. Storytellers are collaborators until they decide they're authors. Need to see how she handles the other candidates before I commit.
+    </div>
+  </div>
+
+  <!-- BEAT 4 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 4</span>
+      <span class="beat-title">Gatsby Arrives</span>
+    </div>
+    <p class="beat-prose">The door opens and a man enters who looks like he was assembled from the idea of what a man should be. Impeccable suit, immaculate hair, a smile that arrives before his words do. He radiates polish &mdash; the specific, slightly excessive polish of someone who built himself from scratch and overcompensated at every stage.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">The Self-Made Man<span class="tip-text"><span class="tip-title">The Self-Made Man</span><span class="tip-type">Condition — Jay Gatsby — Permanent, Public</span>Everything about Gatsby is slightly too polished. The suit, the smile, the gestures — rehearsed to the point of elegance. A masterpiece of self-construction, seams visible if you look.</span></span> (o2o) &mdash; immediately visible</span>
+      Everything about Gatsby is slightly too perfect. The suit fits too well. The smile arrives too promptly. His gestures are rehearsed to the point of elegance. The performance is so thorough it has become indistinguishable from identity &mdash; but the seams are there for anyone looking.
+    </div>
+
+    <p class="beat-prose">"Good evening, old sport," he says to Ginsfeld, extending a hand. The handshake is firm, warm, calibrated.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">Old Sport<span class="tip-text"><span class="tip-title">Old Sport</span><span class="tip-type">Condition — Jay Gatsby — Permanent, Public</span>The verbal tic. He says it to everyone — a verbal handshake, a class marker borrowed from people who were born with it. It's the seam most people find first.</span></span> (o2o) &mdash; the verbal tic</span>
+      He says it to everyone &mdash; a verbal handshake, a class marker borrowed from people who were born with it. Scheherazade's eyes narrow slightly. Valjean accepts it without reaction.
+    </div>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; activates on entry</span>
+      The room shifts. Valjean's hand moves to his chest &mdash; the candlesticks &mdash; and his eyes go distant. He is remembering Cosette. Scheherazade's fingers still on her silks. She is remembering something she will not name. Ginsfeld feels it too: a specific, vivid memory of something gone. Everyone in Gatsby's presence remembers something they lost.
+    </div>
+
+    <p class="beat-prose">Gatsby surveys the room, takes the remaining chair between Scheherazade and the empty fifth seat, and begins unconsciously straightening the sugar packets on the card table, aligning them in neat rows.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">The Shirt Drawer<span class="tip-text"><span class="tip-title">The Shirt Drawer</span><span class="tip-type">Condition — Jay Gatsby — 3 Encounters, Private</span>He compulsively arranges his surroundings when anxious — straightening cups, aligning chairs. As if someone important is about to arrive. The someone never arrives.</span></span> (private) &mdash; anxiety response</span>
+      He arranges the sugar packets with practiced, barely visible precision. Scheherazade watches his hands. Ginsfeld watches Scheherazade watching.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>"Hopeful." Either the most beautiful or the most delusional thing in the room. WIS 8. The Lost Thing filter plus a war epic about a soldier trying to escape his death equals catastrophic resonance risk. He'll feel Andrei's hope like his own.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Ginsfeld:</span> Affinity 0, Aversion 0. <span class="rel-thought"><em>Reading my handshake. Measuring my suit. I know this kind of man. He catalogs people like inventory.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby:</span> Affinity 0, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>I remembered Cosette. Her face, clear as morning. This man brought her back to me and I do not know if that is kindness or cruelty.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>Something about him &mdash; the heavy coat, the quiet hands, the way he holds himself like a man who knows what it costs to stand up. I trust men who look like they've paid for something.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>Says "old sport" like a man wearing borrowed clothes. The smile is architecture. But his hands &mdash; the way they arrange the sugar packets &mdash; that's real. The nervous truth beneath the beautiful performance.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>Her voice is like music you've heard before but can't quite place. She makes me want to listen, which is unusual. I usually want to be heard.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      "Hopeful." That's the word that writes itself next to his name. WIS 8 &mdash; the lowest in the room by a mile. The Lost Thing filter combined with the war epic is a catastrophe waiting to happen. Beautiful, hopeful, doomed liability. But I'm getting ahead of myself. Wait for Lady Macbeth.
+    </div>
+  </div>
+
+  <!-- BEAT 5 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 5</span>
+      <span class="beat-title">Lady Macbeth Arrives</span>
+    </div>
+    <p class="beat-prose">The last to arrive. She descends the stairs with the carriage of someone who expects the room to reorganize itself around her &mdash; and it does. Straight spine, level gaze, the precise economy of movement that comes from years of being watched by an entire court.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">Eyes of the Court<span class="tip-text"><span class="tip-title">Eyes of the Court</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Public</span>She carries herself like royalty in exile. Straight spine, level gaze, the precise economy of movement from years of being watched. Even in a basement, she commands the room.</span></span> (o2o) &mdash; immediately visible</span>
+      She carries herself like royalty in exile. Even in this basement, the folding chairs and fluorescent lights seem to acknowledge her as the room's new center of gravity.
+    </div>
+
+    <p class="beat-prose">She takes the remaining chair without asking which is hers. Her hands settle in her lap, and then &mdash; barely perceptible &mdash; her thumb begins moving against her palm. A small, circular motion, practiced to near-invisibility.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">The Spot<span class="tip-text"><span class="tip-title">The Spot</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Semi-private</span>She washes her hands. Constantly. Rubbing thumb against palm in a motion so practiced it's nearly invisible. In still moments, her hands move. People notice.</span></span> (o2o) &mdash; noticed by Scheherazade and Valjean</span>
+      Scheherazade's eyes track to the hands. She sees the motion &mdash; the compulsive rubbing, the way the thumb traces the same path over and over. She files it. Valjean sees it too and recognizes something &mdash; not the specific gesture, but the shape of it. A mark that won't wash off. He knows about those.
+    </div>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; activates on entry</span>
+      The room's ambitions clarify. Ginsfeld feels his recruitment calculus sharpen &mdash; the categories become crisper, the assessments more decisive. Gatsby's green light burns brighter at the edge of his vision; his desire to be here, to be chosen, to be part of something intensifies. Scheherazade feels the pull of narrative completion &mdash; the story wants an ending. Valjean feels the old pull of duty, the Bishop's silver pressing against his chest.
+    </div>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> (Gatsby) &mdash; hits Lady Macbeth</span>
+      Lady Macbeth remembers the crown. Not the weight of it &mdash; the moment before. The moment when it was still possible, when the future was still a door and not a room. Her hands still for one breath, then resume their washing.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>"Ready." The only action word I've written tonight. Everyone else gets a state of being &mdash; grateful, listening, hopeful. She gets a verb.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Ginsfeld:</span> Affinity 0, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>He watches. He assesses. He thinks he is the one deciding. Men always think they are the one deciding.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Valjean:</span> Affinity 0, Aversion 0. <span class="rel-thought"><em>The strong one recognized my hands. He didn't flinch. That's rare.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Lady Macbeth:</span> Affinity 0, Aversion 0. <span class="rel-thought"><em>She carries something in her hands that she cannot put down. I understand this.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Gatsby:</span> Affinity 0, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>The polished man. His hope is showing. That's either courage or a liability.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>The woman with the voice. She entered like a story beginning. I know what it means to enter a room as a performance.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>She entered like a queen entering exile. The hands wash themselves. There is a story in those hands that has never finished being told.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>, Aversion 0. <span class="rel-thought"><em>She makes me feel like I'm at one of my own parties &mdash; surrounded by people who are watching to see what happens next.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      First-pass sorting. Lady Macbeth = Operator. Scheherazade = Persuader. Valjean = Shield. The assignments feel right, but the complication hasn't been tested yet. The war epic will try to absorb someone. Resonance candidates: Valjean (the soldier's desperation, the desire for redemption) or Gatsby (hope against evidence, the belief that you can escape your fate). I need one more round to confirm which one is the vulnerability. If it's Gatsby, he's the cut. If it's Valjean, I have a problem.
+    </div>
+  </div>
+
+  <!-- BEAT 6 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 6</span>
+      <span class="beat-title">Opening Round</span>
+    </div>
+    <p class="beat-prose">Ginsfeld sets down his clipboard. "Thank you all for coming. This group exists for people who find themselves... between stories. Displaced. Unmoored." He pauses. "I'd like to start with a question. Have you ever been in a story that wasn't yours?"</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Compulsion to Listen<span class="tip-text"><span class="tip-title">The Compulsion to Listen</span><span class="tip-type">Filter — Scheherazade</span>In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</span></span> &mdash; Scheherazade speaks first</span>
+      The room turns to her. Not because she demanded attention, but because her filter makes the silence after Ginsfeld's question feel like a page waiting to be turned. She is the one who turns it.
+    </div>
+
+    <p class="beat-prose">Scheherazade speaks first. "Every story I ever told was someone else's. I lived inside a thousand other lives to survive my own. The question isn't whether I've been in a story that wasn't mine. The question is whether I've ever been in one that was."</p>
+    <p class="beat-prose">Valjean speaks next. Quietly. "I was given another man's name. Another man's life. I was a mayor. I ran a factory. I raised a daughter. None of it was mine. It was a good life, but the number never left." His hand presses his chest &mdash; the brand beneath the shirt.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">The Brand<span class="tip-text"><span class="tip-title">The Brand</span><span class="tip-type">Condition — Jean Valjean — Permanent, Private</span>Prisoner number 24601 inked into his chest. Buttoned collars, layered clothing in warm rooms. The number is his origin and his shame.</span></span> (private) &mdash; activated internally</span>
+      24601. He feels it against his skin when he speaks about the false life. The number that outlasts every alias.
+    </div>
+
+    <p class="beat-prose">Gatsby adjusts a sugar packet. "I'm still looking," he says. "For the right story. The one where things work out." He smiles, and the smile is the most practiced thing in the room.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; "I'm still looking"</span>
+      The green light pulses at the edge of his vision. Everyone in the room feels the echo &mdash; the specific ache of still searching for something you lost, or something you never had.
+    </div>
+
+    <p class="beat-prose">Lady Macbeth is last. "I was the wrong narrative," she says. "I was written as a cautionary tale. I was something else." Her hands still for a moment. "I was the wrong narrative, and I stayed in it until it killed me."</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>She understands the mission target's impulse to cross into another story. She's lived it. A thousand times.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>"The number never left." Strong resonance with Andrei &mdash; a man trapped by his text's definition of him. But he LEFT. He broke parole. He found a way out. That's the difference.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>"Still looking." He's not surviving. He's not escaping. He's running toward something that doesn't exist. That's Andrei's pathology, not Andrei's solution.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>"I was the wrong narrative." Agent, not victim. She identifies herself as having been miscast, not as having suffered. Operational mindset.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>His voice cracked on "nineteen years." The number is a story he can't stop telling. I know about stories that won't end.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>She said she was the wrong story. I was the wrong man in the right story. We are mirror images of the same wound.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Gatsby:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>He's STILL LOOKING. That's not resilience. That's pathology. He's chasing a green light that doesn't exist and calling it hope.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>Her stories were her escape. She survived a thousand nights by telling stories. She understands why you'd reach for another narrative.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      The answers map to the mission. Scheherazade lived inside other stories &mdash; she can enter Andrei's. Valjean escaped his text's definition &mdash; he can model the alternative. Lady Macbeth identifies as miscast &mdash; she'll see the situation tactically. Gatsby is still searching &mdash; he'll identify with Andrei so completely he'll become a liability. G&rarr;Gat now Affinity 1, Aversion 2. The gap is widening.
+    </div>
+  </div>
+
+  <!-- BEAT 7 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 7</span>
+      <span class="beat-title">Ginsfeld Probes</span>
+    </div>
+    <p class="beat-prose">"Second question," Ginsfeld says, leaning back in his chair. "Has anyone here stayed in a bad situation because leaving felt like a betrayal?"</p>
+    <p class="beat-prose">Valjean answers immediately. "Yes. For nineteen years." Then: "But I did leave. I broke the law to leave. And a bishop gave me silver and told me to become a new man. Staying was not loyalty. It was despair wearing loyalty's clothes."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; Valjean's candor triggers Ginsfeld's probe instinct</span>
+      The honesty is startling. Ginsfeld wants to push further &mdash; to find the edge where the reformation ends and the convict begins. The filter insists.
+    </div>
+
+    <p class="beat-prose">Lady Macbeth's answer is clinical. "I stayed because the investment was too great to abandon. The cost of the crown was everything. You do not walk away from everything." Her hands wash themselves. "But there is a difference between loyalty and sunk cost. I learned it too late."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; Lady Macbeth's presence clarifies</span>
+      The room feels sharper. Ambitions and rationalizations become more visible. Gatsby's desire to be chosen intensifies.
+    </div>
+
+    <p class="beat-prose">Scheherazade: "I stayed for one thousand and one nights. Every night I could have stopped. Every night I chose to continue. Was that loyalty? Was it survival? I have never been able to separate the two."</p>
+    <p class="beat-prose">Gatsby: "I've never left. I've never left anything. You can't betray something you haven't finished building."</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: <span class="tip">Hope Against Evidence<span class="tip-text"><span class="tip-title">Hope Against Evidence</span><span class="tip-type">Passive Skill — Jay Gatsby — d20 + CHA (+4)</span>Fires when a situation is clearly hopeless. DC 8: refuses to accept it. DC 14: refusal is contagious. DC 20: finds a genuine, overlooked possibility.</span></span></span>
+      <span class="dice-roll-skill">The question implies hopelessness &mdash; staying in a bad situation.</span>
+      <span class="dice-roll-result">Roll: d20(4) + CHA(+4) = 8. DC 8 met &mdash; bare minimum.</span>
+      <span class="dice-roll-outcome">Gatsby refuses to accept hopelessness. The refusal is stubborn but not contagious. Scheherazade looks at him and says, quietly, "You haven't done that yet." Gatsby blinks. "Done what?" "Left."</span>
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>He stayed but DID eventually leave. That's the key distinction. Andrei is trying to leave. Valjean already has. He knows what it costs. But the candor is almost too raw &mdash; can he hold it together inside a text that will pull at his emotional seams?</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby:</span> <span class="rel-change--negative">Aversion +2</span>. <span class="rel-thought"><em>He never left. Never. He's absorbing the question instead of answering it. DC 8 on Hope Against Evidence &mdash; the bare minimum. He's running on fumes dressed as fuel.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>Strategic sunk-cost reasoning. She can calculate the cost of staying versus leaving. That's Operator thinking.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Gatsby:</span> Neutral. <span class="rel-thought"><em>I told him the truth. He didn't hear it. Some truths need to be told more than once.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Scheherazade:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>"You haven't done that yet." I don't care for being right at other people's expense.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He never left. I stayed too. But I left eventually. He hasn't yet. There is still time for him.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He shook when he spoke. The trembling of a man who tells the truth at great cost. I respect that. I can no longer do it.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Resonance test conclusive. Two candidates for the complication: Valjean and Gatsby. Key difference: Valjean LEFT. He broke free of his story. The war epic will pull at him, but he has the precedent of escape. Gatsby never left anything. He'll walk into the war epic and feel Andrei's hope like a mirror of his own and he will never come out. G&rarr;Gat: Affinity 1, Aversion 4. The decision is forming.
+    </div>
+  </div>
+
+  <!-- BEAT 8 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 8</span>
+      <span class="beat-title">Cross-Connections: Lady Macbeth and Scheherazade</span>
+    </div>
+    <p class="beat-prose">It happens organically. Between Ginsfeld's questions, the two sharpest minds in the room find each other. Lady Macbeth turns to Scheherazade. "We are the same species," she says. "Women who acted while the world expected us to wait."</p>
+    <p class="beat-prose">Scheherazade tilts her head. "You acted. I told stories. Are those the same?"</p>
+    <p class="beat-prose">"Mine was a single act, done once, irrevocable. Yours was a thousand acts, done nightly, each one buying another morning. I admire the endurance. I could not have sustained it."</p>
+    <p class="beat-prose">"You could have," Scheherazade says. "You chose a different strategy. Speed over duration."</p>
+    <p class="beat-prose">A pause. Scheherazade asks: "Do you regret the act itself?"</p>
+    <p class="beat-prose">"No." Lady Macbeth's voice is flat, certain. "I regret that it wasn't enough."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">The Spot<span class="tip-text"><span class="tip-title">The Spot</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Semi-private</span>She washes her hands. Constantly. Rubbing thumb against palm in a motion so practiced it's nearly invisible. In still moments, her hands move. People notice.</span></span> (o2o) &mdash; Scheherazade sees the pause/start</span>
+      When Lady Macbeth says "no," her hands stop washing for one heartbeat. Then resume, faster. Scheherazade sees the pause and the restart. She reads it like punctuation: the period of conviction, the comma of aftermath.
+    </div>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; effect on Scheherazade</span>
+      In Lady Macbeth's presence, Scheherazade's own ambitions clarify. The desire to not just tell stories but to shape outcomes. The desire to be the architect, not just the narrator. The Sharpening makes these desires louder.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>She asked the right question. Not "why did you do it" &mdash; everyone asks that. She asked "do you regret the act itself." She understands the difference between regret and consequence.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>She said "no" without flinching. One thousand and one nights I survived by never saying "no" to the Sultan. She said it to the entire room without blinking.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>The two sharpest minds found each other. That's either the beginning of a tactical partnership or a power bloc that excludes me. Either way, the connection is genuine.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Lady Macbeth:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>She doesn't regret the murder. "I regret that it wasn't enough." I have spent my life trying to atone for less. She regrets only the incompleteness.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Lady Macbeth and Scheherazade as a tactical pair. One shapes narratives, the other shapes outcomes. LM&rarr;Sch: Affinity 3, Aversion 0. Sch&rarr;LM: Affinity 3, Aversion 0. That's the strongest mutual bond in the room. If I put them both on the team, they'll coordinate without needing to be told. That's rare. That's valuable.
+    </div>
+  </div>
+
+  <!-- BEAT 9 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 9</span>
+      <span class="beat-title">Cross-Connections: Gatsby and Valjean</span>
+    </div>
+    <p class="beat-prose">It starts with a name. Gatsby looks at Valjean and says, almost casually, "You changed your name."</p>
+    <p class="beat-prose">Valjean goes very still. "Yes."</p>
+    <p class="beat-prose">"So did I." Gatsby's smile flickers &mdash; the performance dropping for a fraction of a second. "Did it work?"</p>
+    <p class="beat-prose">Valjean considers this with the gravity of a man who has spent decades considering it. "The name worked. The man behind the name... took longer."</p>
+    <p class="beat-prose">"How long?"</p>
+    <p class="beat-prose">"I am still becoming him."</p>
+    <p class="beat-prose">Gatsby's composure fractures. Not dramatically &mdash; a hairline crack. His hand stops arranging the sugar packets. His eyes lose the practiced warmth and become, for a moment, simply young and afraid.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; ripples through the exchange</span>
+      Valjean remembers Jean Valjean &mdash; the one before the Mayor, before the Bishop. The one who stole bread. Gatsby remembers James Gatz from North Dakota. The two lost selves shimmer in the air between them.
+    </div>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: <span class="tip">Mercy's Shield<span class="tip-text"><span class="tip-title">Mercy's Shield</span><span class="tip-type">Passive Skill — Jean Valjean — d20 + WIS (+2)</span>Fires when someone is being unjustly condemned or sacrificed. DC 8: intervenes. DC 14: intervention carries moral authority. DC 20: transforms the dynamic.</span></span></span>
+      <span class="dice-roll-skill">Gatsby is being stripped bare by his own honesty &mdash; an unjust self-condemnation.</span>
+      <span class="dice-roll-result">Roll: d20(13) + WIS(+2) = 15. DC 14 met &mdash; intervention carries moral authority.</span>
+      <span class="dice-roll-outcome">Valjean leans forward. "You are holding onto something that is already gone." The words land with weight that has nothing to do with volume. Gatsby's mask drops completely. For three seconds, there is no performance, no polish, no "old sport." Just a boy from North Dakota who built a cathedral to a memory.</span>
+    </div>
+
+    <p class="beat-prose">Cost of Mercy's Shield: the intervention reveals the convict past. Valjean's body language shifts &mdash; the chain gang posture surfaces, the way he holds his hands, the density of a man who moved stones for nineteen years. Observers with INT 12+ recognize it.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>He looked like a boy when the mask came off. A boy who built himself a man and forgot which one was real. I know about that. The Bishop knew about that.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>He sees me. Not Gatsby &mdash; ME. Gatz. And he didn't look away. He leaned in. Nobody leans in when they see Gatz.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>Nineteen years. Hard labor. And he emerged gentle. That's not weakness &mdash; that's a kind of strength I don't understand.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He spoke to the polished man the way a father speaks to a son. Not with authority &mdash; with recognition. He has been where Gatsby is standing.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>Field-grade emotional extraction. He cracked Gatsby open with six words. "You are holding onto something that is already gone." I couldn't have done that. I would have used twenty words and accomplished less.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Valjean might be both Shield AND Persuader. That reshuffles the team. If he can do what he just did to Gatsby &mdash; cut through the performance to the person underneath &mdash; he might be able to reach Andrei. But I still need him as the Shield. Can one person do both? V&rarr;Gat: Affinity 3, Aversion 1. Gat&rarr;V: Affinity 3, Aversion 0. That's the deepest cross-character bond forming.
+    </div>
+  </div>
+
+  <!-- BEAT 10 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 10</span>
+      <span class="beat-title">Cross-Connections: Gatsby and Scheherazade</span>
+    </div>
+    <p class="beat-prose">Scheherazade turns to Gatsby. "You built yourself," she says. "So did I. The difference is that I know my construction is made of stories."</p>
+    <p class="beat-prose">Gatsby straightens. "And mine?"</p>
+    <p class="beat-prose">"Yours is made of one story. The same story, told over and over, each time with more gilt and less truth."</p>
+    <p class="beat-prose">The room tenses. Gatsby's jaw tightens. But Scheherazade isn't attacking &mdash; she's diagnosing. Her voice carries the texture of someone who has been inside a thousand diagnoses and survived them all.</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Active Skill: <span class="tip">The Cliffhanger<span class="tip-text"><span class="tip-title">The Cliffhanger</span><span class="tip-type">Active Skill — Scheherazade — d20 + INT (+4)</span>Introduces an unresolved element that suspends confrontation. DC 10: pause. DC 15: indefinitely suspended. DC 20: restructures the entire dynamic. Cost: blurs story/reality line.</span></span></span>
+      <span class="dice-roll-skill">Scheherazade introduces an unresolved narrative element.</span>
+      <span class="dice-roll-result">Roll: d20(15) + INT(+4) = 19. DC 15 met &mdash; confrontation suspended.</span>
+      <span class="dice-roll-outcome">She tells a story. The fisherman and the jinni. A spirit trapped in a jar for centuries, promising first reward, then death, to whoever opens it. "How long have you been in the jar?" she asks Gatsby. The question suspends the confrontation entirely. Gatsby cannot answer it and cannot walk away from it.</span>
+    </div>
+
+    <p class="beat-prose">Cost of The Cliffhanger: One Thousand and One condition intensifies. For a moment, Scheherazade isn't certain whether the fisherman is a story or a memory. The boundary between her tales and her life thins further.</p>
+    <p class="beat-prose">Gatsby is quiet for a long time. Then: "I don't know."</p>
+    <p class="beat-prose">It is the most honest thing he has said all evening.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He said "I don't know." A revolution in three words. The polished man admitted ignorance. That is the first true thing he has built tonight.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>, <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>She told me a story about me and I couldn't look away from it. That's either a gift or a weapon. I suspect she doesn't distinguish between the two.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>She used a story as a scalpel. DC 19 on The Cliffhanger. She suspended a confrontation by making it into a narrative. If she can do that to Gatsby, she can do it to Andrei. Scheherazade is the Persuader. Confirmed. Locked.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>She opened him further than I did. "I don't know." Three words. The bravest thing the polished man has said.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Scheherazade is the Persuader. Confirmed. Locked. G&rarr;Sch: Affinity 4, Aversion 1. She used the fisherman and the jinni as a precision instrument. If she can crack Gatsby's performance with a story, she can reach a soldier who is trying to escape his death by running into the wrong book. The team is taking shape: Scheherazade (Persuader), Lady Macbeth (Operator), Valjean (Shield). Gatsby is the cut.
+    </div>
+  </div>
+
+  <!-- BEAT 11 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 11</span>
+      <span class="beat-title">The Room Tightens</span>
+    </div>
+    <p class="beat-prose">The system is under tension. Four characters, each now partially known to the others, each carrying filters that press against one another. The Sharpening clarifies. The Lost Thing aches. The Compulsion to Listen holds. The Test of Goodness probes.</p>
+    <p class="beat-prose">Gatsby is the one who notices. "The sixth chair," he says, looking at the empty seat beside him. "What's the sixth chair for?"</p>
+    <p class="beat-prose">Ginsfeld looks at the empty chair. "Optimism," he says. "Or caution."</p>
+    <p class="beat-prose">Gatsby's eyes narrow. For a man with WIS 8, he is surprisingly attuned to evasion. Perhaps because he is an expert in it.</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: <span class="tip">The Sleepwalk<span class="tip-text"><span class="tip-title">The Sleepwalk</span><span class="tip-type">Passive Skill — Lady Macbeth — d20 + WIS (+2)</span>Fires under extreme emotional pressure. DC 8: truthful fragment. DC 14: sentence of devastating honesty. DC 20: complete monologue of buried truth. She remembers none of it.</span></span> (Lady Macbeth)</span>
+      <span class="dice-roll-skill">The room's tension approaches emotional pressure threshold.</span>
+      <span class="dice-roll-result">Roll: d20(5) + WIS(+2) = 7. DC 8 not met.</span>
+      <span class="dice-roll-outcome">Lady Macbeth's eyes unfocus for half a second. She murmurs, barely audible: "who's missing." It's not a question &mdash; it's a statement, and it's gone as quickly as it came. Only Scheherazade, seated nearest, catches it.</span>
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>He deflected. "Optimism. Or caution." That's not an answer. That's two shields held up at once.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Lady Macbeth:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>She almost spoke in a voice that wasn't hers. The Sleepwalk voice. I know the sound of someone speaking from a place they don't control. It frightens me.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Ginsfeld:</span> Neutral. <span class="rel-thought"><em>I almost slipped. The room is pressing. He didn't notice. That's either inattention or discretion.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby:</span> Neutral. <span class="rel-thought"><em>He noticed the sixth chair. He's counting. Good instinct, wrong context.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Gatsby is counting chairs. Lady Macbeth almost Sleepwalked &mdash; the condition fired but didn't meet threshold. Scheherazade caught it. Time to move toward the reveal. I want one more beat to confirm the resonance target before I show my hand.
+    </div>
+  </div>
+
+  <!-- BEAT 12 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 12</span>
+      <span class="beat-title">The Resonance Test</span>
+    </div>
+    <p class="beat-prose">"One more question," Ginsfeld says. "Then I'll stop pretending this is therapy."</p>
+    <p class="beat-prose">The room stills. Lady Macbeth's eyebrow rises. Scheherazade smiles &mdash; she's known since Beat 3.</p>
+    <p class="beat-prose">"Imagine a soldier. Young. Minor character in a war story. He discovers he's going to die in Chapter 41. He finds a door &mdash; a door to another story, a love story, where no one dies. What do you tell him?"</p>
+    <p class="beat-prose">Lady Macbeth answers first. "That he escapes his meaning. A soldier who flees his death ceases to be a soldier. He becomes nothing &mdash; a ghost in a story that doesn't know him." Four words that contain an entire philosophy: <em>he escapes his meaning.</em></p>
+    <p class="beat-prose">Scheherazade's answer is a question. "Is it the dying or the being forgotten?" She would tell him a story &mdash; not to convince him to stay, but to understand what he's actually running from. The death, or the insignificance?</p>
+    <p class="beat-prose">Valjean: "I would stand in front of the door." Not to block it. Not to argue. To be the thing between the soldier and the wrong choice &mdash; a body, a presence, a man who knows what it means to run and what it costs.</p>
+    <p class="beat-prose">Gatsby: "I'd tell him to go."</p>
+    <p class="beat-prose">The room turns.</p>
+    <p class="beat-prose">"I'd tell him to go," Gatsby repeats. "Because maybe it works. Maybe the love story takes him in. Maybe you can reach for something better and it reaches back."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; Gatsby's answer activates his own filter at full force</span>
+      The green light. The dock. The reaching. Everyone in the room feels it &mdash; the ache of possibility, the beautiful lie that the door might open and the story might be kind.
+    </div>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: <span class="tip">Hope Against Evidence<span class="tip-text"><span class="tip-title">Hope Against Evidence</span><span class="tip-type">Passive Skill — Jay Gatsby — d20 + CHA (+4)</span>Fires when a situation is clearly hopeless. DC 8: refuses to accept it. DC 14: refusal is contagious. DC 20: finds a genuine, overlooked possibility.</span></span></span>
+      <span class="dice-roll-skill">Gatsby confronts a clearly hopeless scenario &mdash; the door will collapse both texts.</span>
+      <span class="dice-roll-result">Roll: d20(18) + CHA(+4) = 22. DC 20 met &mdash; critical success.</span>
+      <span class="dice-roll-outcome">Gatsby finds a genuine overlooked possibility. Not that the door will work &mdash; but that the soldier's reaching, the act of hope itself, might matter. That there is something in the attempt that transcends the outcome. The room feels it: a grain of truth inside the beautiful lie. Even Ginsfeld pauses.</span>
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>"He escapes his meaning." In four words, she identified the philosophical core of the mission. That's Operator clarity.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>She's already designing her approach. "Is it the dying or the being forgotten?" That's the question that will crack Andrei open.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>"I would stand in front of the door." The Shield. The answer is a body between the soldier and the wrong choice. He didn't even hesitate.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>, <span class="rel-change--negative">Aversion +2</span>. <span class="rel-thought"><em>"I'd tell him to go." The most dangerous answer in the room. It's also the most beautiful. DC 20 on Hope Against Evidence &mdash; he found a grain of genuine truth in the hopelessness. But the grain doesn't change the physics. The door will still collapse both texts. He'd encourage Andrei to destroy two worlds because the reaching is beautiful.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Gatsby:</span> <span class="rel-change--negative">Aversion +2</span>. <span class="rel-thought"><em>He'd enable the destruction. He'd tell the soldier to run because running feels like freedom. I ran. It was not freedom.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>Wrong but beautiful. The most dangerous kind of answer. I have told stories like his &mdash; stories that feel true enough to die for.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>He'd tell the boy to run. I understand the impulse. I lived it. But running into the wrong door kills you differently than staying.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      The answers confirm the team. Lady Macbeth: Operator. Scheherazade: Persuader. Valjean: Shield. Gatsby: cut. G&rarr;V: Affinity 6, Aversion 1 &mdash; the strongest bond. G&rarr;Gat: Affinity 2, Aversion 6 &mdash; decided. The DC 20 on Hope Against Evidence is the cruelest thing I've seen all night. He found genuine truth in a hopeless scenario. He'd be magnificent inside that text. He'd also never come out. LM&rarr;Gat: Affinity 0, Aversion 4. The room has sorted itself.
+    </div>
+  </div>
+
+  <!-- BEAT 13 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 13</span>
+      <span class="beat-title">The Reveal</span>
+    </div>
+    <p class="beat-prose">"This isn't a support group," Ginsfeld says. He puts down the clipboard. "It's a recruitment session."</p>
+    <p class="beat-prose">Four different flavors of silence. Lady Macbeth's is the silence of confirmation &mdash; she suspected. Scheherazade's is the silence of a story reaching its turning point &mdash; she knew. Valjean's is the silence of betrayal, heavy and still. Gatsby's is the silence of a man processing information while maintaining his composure.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; inverted</span>
+      Valjean's filter reverses its direction. Instead of Ginsfeld feeling compelled to test Valjean, Valjean now tests Ginsfeld. The authority figure has revealed himself as a deceiver. The convict who was shown mercy by a bishop now faces a man who offered therapy and delivered manipulation.
+    </div>
+
+    <p class="beat-prose">"You lied to us," Valjean says. His voice is quiet, but the room feels the weight of it.</p>
+    <p class="beat-prose">"I did," Ginsfeld says. "I am the same man in every room. The coffee was real. The questions were real. The purpose was always this."</p>
+    <p class="beat-prose">Ginsfeld describes the mission. Andrei. The war epic. The pastoral romance. The breach point. Kade. The timeline. He holds nothing back except the complication &mdash; the war epic's hunger for a replacement character. He'll reveal that when the team is assembled.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +2</span>. <span class="rel-thought"><em>He lied. He used our pain as audition material. The Bishop gave me silver and told me to be honest. This man gave me coffee and lied.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He revealed himself. Finally. I prefer men who show their purpose, even when it's ugly. Now we can work.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>The story has reached its turning point. The narrator has revealed himself as a character. That's honest, in its way.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Ginsfeld:</span> Neutral. <span class="rel-thought"><em>He lied. But he built something. I know about building things on lies. The question is whether what he built is beautiful enough to justify the foundation.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Valjean's reaction is the one I feared. "I am the same man in every room" was the best I had. I need to rebuild trust fast. The mission itself will help &mdash; saving Andrei is genuinely good work. Valjean's morality will respond to that. But the wound is real. Time to make the cut.
+    </div>
+  </div>
+
+  <!-- BEAT 14 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 14</span>
+      <span class="beat-title">Questions and Positioning</span>
+    </div>
+    <p class="beat-prose">Lady Macbeth speaks first. "What role do you need filled?" She doesn't ask if she's being considered. She asks for the job description. Pure Operator.</p>
+    <p class="beat-prose">Ginsfeld outlines: Persuader, Shield, Operator. Three roles. Four candidates.</p>
+    <p class="beat-prose">Lady Macbeth nods. "I'm the Operator. You know it and I know it. What do you need from me that you don't already have?"</p>
+    <p class="beat-prose">Scheherazade: "I changed my relationship to death every night for three years. If you need someone who can reach a boy who is afraid of dying, I am the one who speaks that language."</p>
+    <p class="beat-prose">Then Gatsby asks about the war epic. His eyes change. The green light &mdash; the permanent condition that only he can see &mdash; flares. "A war epic," he says. "A soldier trying to escape. A love story on the other side."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; amplified by mission details</span>
+      The war epic. The pastoral romance. The door between them. Gatsby sees himself in every word. The ache of the Lost Thing intensifies until it's almost visible &mdash; a shimmer in the air around him, the ghost of a green light reflected in his eyes.
+    </div>
+
+    <p class="beat-prose">"I want to go in," Gatsby says.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>She pitched like a contractor reviewing blueprints. No ego, no posturing. "I'm the Operator." Statement of fact.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>"I changed my relationship to death every night." That's the Persuader's credential. She survived by making death wait. She can make Andrei wait too.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>"I want to go in." Of course he does. He sees himself in Andrei. He sees the green light in the pastoral romance. This is exactly why he can't go.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Gatsby:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>He wants to go because he recognizes the story. That's not qualification. That's identification. Dangerous.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Positions clear. Lady Macbeth = Operator (self-selected, correct). Scheherazade = Persuader (confirmed). Valjean = Shield (confirmed in Beat 12). Gatsby = the cut. G&rarr;Gat: Affinity 2, Aversion 7. "I want to go in." He wants to go in because it's HIS story. And that's exactly why the war epic would eat him alive. The team is set. The cut is Gatsby.
+    </div>
+  </div>
+
+  <!-- BEAT 15 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 15</span>
+      <span class="beat-title">The Cut</span>
+    </div>
+    <p class="beat-prose">"The team is three," Ginsfeld says. "Not four."</p>
+    <p class="beat-prose">He looks at Gatsby. Gatsby knows. The green light dims &mdash; not gone, but retreating, pulling back to whatever distance it maintains when hope is being withdrawn.</p>
+    <p class="beat-prose">"You understand that story better than anyone in this room," Ginsfeld says. "The soldier reaching for a better narrative. The door to the love story. The belief that wanting something badly enough makes it real." He pauses. "That's exactly why you can't go into it."</p>
+    <p class="beat-prose">"Because I wouldn't come back," Gatsby says. Not a question.</p>
+    <p class="beat-prose">"Because you wouldn't come back."</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: <span class="tip">Hope Against Evidence<span class="tip-text"><span class="tip-title">Hope Against Evidence</span><span class="tip-type">Passive Skill — Jay Gatsby — d20 + CHA (+4)</span>Fires when a situation is clearly hopeless. DC 8: refuses to accept it. DC 14: refusal is contagious. DC 20: finds a genuine, overlooked possibility.</span></span></span>
+      <span class="dice-roll-skill">Gatsby is being told the situation is hopeless for him.</span>
+      <span class="dice-roll-result">Roll: d20(9) + CHA(+4) = 13. DC 8 met &mdash; refuses to accept hopelessness.</span>
+      <span class="dice-roll-outcome">"You could be wrong," Gatsby says. The refusal is real but not contagious. The room hears it as a man grasping, not as a man finding something genuine.</span>
+    </div>
+
+    <p class="beat-prose">Lady Macbeth speaks. Two words. "Have you?"</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span></span>
+      Lady Macbeth's filter strips away Gatsby's defenses. "Have you?" &mdash; have you ever come back from reaching for something that wasn't real? The question is surgical. The Sharpening makes it impossible to evade.
+    </div>
+
+    <p class="beat-prose">Gatsby looks at Valjean. Not at Ginsfeld, not at the women. At the one person in the room who defended him without being asked. "Tell them I can change."</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: <span class="tip">Mercy's Shield<span class="tip-text"><span class="tip-title">Mercy's Shield</span><span class="tip-type">Passive Skill — Jean Valjean — d20 + WIS (+2)</span>Fires when someone is being unjustly condemned or sacrificed. DC 8: intervenes. DC 14: intervention carries moral authority. DC 20: transforms the dynamic.</span></span></span>
+      <span class="dice-roll-skill">Gatsby is being abandoned &mdash; unjustly, from his perspective.</span>
+      <span class="dice-roll-result">Roll: d20(8) + WIS(+2) = 10. DC 8 met &mdash; intervenes.</span>
+      <span class="dice-roll-outcome">Valjean speaks. "He can change. Any man can." A pause, heavy as iron. "But not today." The words carry the weight of a man who took decades to change. The mercy is real. The limit is real. Both exist simultaneously.</span>
+    </div>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; loss of a possibility</span>
+      The room aches. Everyone feels it &mdash; the specific grief of a door closing. Not a door that was open, but a door that might have been. Gatsby's filter turns inward: he is now the lost thing.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +2</span>. <span class="rel-thought"><em>Sending me away. Like everyone. Like Daisy. Like the world that builds doors and then tells you they're walls.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>"He can change." He defended my SELF. Not my performance, not my suit, not my smile. The thing underneath. And then he said "but not today," and that was the truest mercy anyone has ever shown me.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Gatsby &rarr; Lady Macbeth:</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>"Have you?" Two words that stripped me bare. She is efficient in her cruelties.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>Solomon-level judgment. "He can change. Any man can. But not today." That's not cruelty. That's the most honest kindness in the room. The Shield confirmed, ten times over.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>I told the truth. It was the only gift I had for him. I hope it is enough.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Gatsby:</span> Neutral. <span class="rel-thought"><em>I was harsh. But harsh truths are faster than gentle ones, and we don't have time for gentle.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>His face when Valjean spoke. The mask was gone entirely. For a moment he was not Gatsby at all. He was just a man being told the truth by someone who loved him enough to say it.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Clean cut. Painful but clean. Team set: Lady Macbeth (Operator), Scheherazade (Persuader), Valjean (Shield). Gatsby is cut. Gat&rarr;V: Affinity 5, Aversion 0 &mdash; the deepest bond in the room. Valjean defended him AND told him the truth simultaneously. That's the Shield. That's the man who will stand between Andrei and the wrong door.
+    </div>
+  </div>
+
+  <!-- BEAT 16 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 16</span>
+      <span class="beat-title">Gatsby's Response</span>
+    </div>
+    <p class="beat-prose">Gatsby stands. The chair scrapes against the concrete. For a moment, his composure is gone entirely &mdash; the self-made man unmade by rejection. Then, with the practiced grace of someone who has been turned away from better rooms than this, he reassembles himself. The suit straightens. The smile returns. The shoulders square.</p>
+    <p class="beat-prose">"I've been turned away from better parties, old sport."</p>
+    <p class="beat-prose">Then he stops. The smile drops. Not into grief, but into something rarer: genuine conviction.</p>
+    <p class="beat-prose">"The soldier," Gatsby says. "Andrei. You're going to tell him to stay in his story. You're going to tell him the door is wrong, the love story won't take him, and his death in Chapter 41 is the price of narrative integrity." He looks around the room. "You're right. I know you're right. But when you find him, tell him this:"</p>
+    <p class="beat-prose">"Tell him that the reaching matters. That every hand that stretches toward a green light in the dark is doing something sacred, even if the light moves. Tell him that the act of hope is not a failure just because hope fails. Tell him that the door was real, even if walking through it would have destroyed everything."</p>
+    <p class="beat-prose">"Tell him that. Not your version. Mine."</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Active Skill: <span class="tip">The Beautiful Lie<span class="tip-text"><span class="tip-title">The Beautiful Lie</span><span class="tip-type">Active Skill — Jay Gatsby — d20 + CHA (+4)</span>DC 10: implausible sounds reasonable. DC 15: the lie becomes desirable. DC 20: indistinguishable from truth. Cost: erodes his own grasp on reality. At DC 20, loses 1 effective WIS.</span></span></span>
+      <span class="dice-roll-skill">Gatsby speaks his truth &mdash; and makes it indistinguishable from universal truth.</span>
+      <span class="dice-roll-result">Roll: d20(20) + CHA(+4) = 24. DC 20 &mdash; natural 20. The lie becomes truth.</span>
+      <span class="dice-roll-outcome">The room believes. Not because Gatsby is persuasive &mdash; because at DC 20, The Beautiful Lie transcends performance. Every person in the room feels the truth of what he said in their bones. Valjean feels the Bishop's candlesticks burn with the ferocity of a gift that changed everything. Lady Macbeth, for one impossible moment, feels that the crown was worth it &mdash; not the cost, but the reaching. Scheherazade believes that every one of her thousand and one stories was true, every word, every night. Even Ginsfeld &mdash; the man who lies for a living &mdash; feels his certainty shift.</span>
+    </div>
+
+    <p class="beat-prose">Cost: Gatsby's WIS drops to effectively 7. The boundary between his performance and his reality thins to nothing. He can no longer tell whether what he just said was a speech or a prayer.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">All &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +2 each</span>. <span class="rel-thought"><em>He did something to the room. Not performance. Not manipulation. Grace.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>"Tell him that. Not your version. Mine." He gave them his language. He gave them the only true thing he owns.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>The Bishop gave me candlesticks. Gatsby gave the room his hope. It is the same act. It is the same grace.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>DC 20. Natural 20. He changed my certainty. For a moment, I believed the door might work. For a moment, I understood why the soldier is reaching. The cut stands. But the man I cut is extraordinary.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      He left better than I deserved. DC 20 on The Beautiful Lie. Natural 20. The tragedy of Gatsby is that he is the perfect envoy for Andrei &mdash; the perfect voice to carry to a soldier reaching for the wrong door. But I can't afford beautiful. I need effective. I need people who will bring Andrei back, not people who understand why he's running. The cut stands.
+    </div>
+  </div>
+
+  <!-- BEAT 17 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 17</span>
+      <span class="beat-title">Gatsby Exits</span>
+    </div>
+    <p class="beat-prose">Gatsby pauses at the foot of the stairs. He doesn't turn around &mdash; he speaks to the wall, to the stairway, to the door above.</p>
+    <p class="beat-prose">To Valjean: "The bishop knew what he was doing when he gave you the silver. You were already the man he saw. You just needed someone to say it."</p>
+    <p class="beat-prose">To Lady Macbeth: "The crown was worth it. Not the cost &mdash; the reaching."</p>
+    <p class="beat-prose">To Scheherazade: "Finish the story."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Condition: <span class="tip">The Unfinished Story<span class="tip-text"><span class="tip-title">The Unfinished Story</span><span class="tip-type">Condition — Scheherazade — Permanent, Semi-private</span>She never finishes anything completely. A survival instinct from a thousand nights when completion meant death. If the story ends, the Sultan has no reason to let you live.</span></span> &mdash; flares</span>
+      Scheherazade's condition activates. "Finish the story." The words land like a command and a plea. She never finishes anything. He knows. How does he know?
+    </div>
+
+    <p class="beat-prose">To Ginsfeld, last, without turning: "You'll lose someone in there."</p>
+    <p class="beat-prose">Then he climbs the stairs and the door closes behind him.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">All &rarr; Gatsby (final):</span> <span class="rel-change--positive">Affinity +1 each</span>. <span class="rel-thought"><em>Precise exit gifts. Each one landed exactly where it needed to.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Gatsby (final):</span> <span class="rel-change--negative">Aversion +1</span>. <span class="rel-thought"><em>"You'll lose someone in there." A warning. Or a prophecy. Or a curse from a man I just cut. The parting shot may be the most important thing said tonight. Cut stands. Warning noted.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      His exit speech. The DC 20 still echoing. He knew about the Bishop &mdash; he read Valjean that deeply. He knew about the Unfinished Story &mdash; he read Scheherazade that clearly. "You'll lose someone in there." That's either anger, prophecy, or the clearest-eyed tactical assessment anyone has made tonight. WIS 7 and he sees more than any of us. The tragedy compounds.
+    </div>
+  </div>
+
+  <!-- BEAT 18 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 18</span>
+      <span class="beat-title">The Team Assembles</span>
+    </div>
+    <p class="beat-prose">Three chairs. The empty fourth sits like a wound in the circle. Ginsfeld stands and moves to the card table, unrolling a map that wasn't there before &mdash; annotated, marked, covered in his tight handwriting.</p>
+    <p class="beat-prose">"Scheherazade. Persuader. You reach Andrei. You enter his narrative through story &mdash; the fisherman and the jinni, the question of whether it's the dying or the being forgotten. And you carry Gatsby's gift: the language of belief. Tell the soldier that the reaching matters. Not your version. His."</p>
+    <p class="beat-prose">"Lady Macbeth. Operator. Kade's team is already in position. Three operators, unknown capabilities, unknown timeline. You manage the tactical situation. You neutralize the opposition. You keep the breach point stable until Scheherazade can bring Andrei out."</p>
+    <p class="beat-prose">"Valjean. Shield. The war epic will try to absorb one of you. It will offer a role &mdash; a place that feels like belonging. You resist. You stand between the text and the team. You stand in front of the door."</p>
+    <p class="beat-prose">Valjean looks at Ginsfeld. "I have my purpose. It's in my pocket." His hand presses the candlesticks through his coat. "A bishop gave it to me."</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>"Three acts. The ending gets built in the field." She's already structuring the approach. The Persuader is operational.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Lady Macbeth:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>"I work best when the plan hasn't been written yet." The Operator needs chaos to function. That's either terrifying or perfect. Both.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +2</span>. <span class="rel-thought"><em>"It's in my pocket." The candlesticks. The Bishop's gift. He carries his shield against the text's seduction in his coat. Mercy is heavier than fiction.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He told the truth about the danger. He told us what the text will try to do. That repairs something. Not everything. But something.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Lady Macbeth &rarr; Scheherazade:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>She'll reach the soldier. I don't need to coordinate with her. We'll know what to do when we see the field.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>The candlesticks. They are the most powerful story object in this room. A gift of mercy that became a shield against despair. If anything can resist the text's pull, it's those.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Team briefed. G&rarr;V: Affinity 10, Aversion 1. "I have my purpose. It's in my pocket." The Shield carries his defense against the text's seduction in the form of two silver candlesticks given to him by a man who believed he could change. Mercy is heavier than fiction. That's not poetry &mdash; it's tactical reality.
+    </div>
+  </div>
+
+  <!-- BEAT 19 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 19</span>
+      <span class="beat-title">Last Preparations</span>
+    </div>
+    <p class="beat-prose">Practical beat. Ginsfeld distributes maps &mdash; annotated cross-sections of the war epic's narrative architecture, the breach point locations, the estimated position of Andrei within the text. Scheherazade studies the narrative structure, her fingers tracing the story's spine, identifying the seams where Andrei might be reached. Lady Macbeth studies the entry points and sight lines, already running tactical scenarios for Kade's team.</p>
+    <p class="beat-prose">Valjean looks at the empty chair.</p>
+    <p class="beat-prose">"The young man," he says. "Gatsby. He'll be alone tonight."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; Ginsfeld feels the urge to defend himself</span>
+      Valjean's words are not accusation. They are observation. But the filter presses: the authority figure who cut the vulnerable man must account for the cost. Ginsfeld feels the weight of it.
+    </div>
+
+    <p class="beat-prose">"When this is done," Ginsfeld says. "Find him another room."</p>
+    <p class="beat-prose">It is a promise. In this room, with these people, under the pressure of Valjean's moral gravity and the memory of Gatsby's DC 20 exit speech, it is a real promise.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Valjean &rarr; Gatsby (in absentia):</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He'll be alone tonight. The polished man with the green light. Nobody should be alone with a light that keeps moving away.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Scheherazade &rarr; Gatsby (in absentia):</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>His story isn't over. "Finish the story" &mdash; he said it to me, but he was talking about himself.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Valjean:</span> <span class="rel-change--positive">Affinity +1</span>. <span class="rel-thought"><em>He asked about Gatsby. The man I cut. That's the Shield &mdash; he protects everyone, including the one who was turned away.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Valjean advocated for the cut man's welfare. "The young man. He'll be alone tonight." That's not sentimentality. That's moral intelligence. He shields EVERYONE &mdash; the team, the target, and the man who wasn't chosen. "Find him another room." Promise made. Promise kept, eventually.
+    </div>
+  </div>
+
+  <!-- BEAT 20 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 20</span>
+      <span class="beat-title">Last Coffee</span>
+    </div>
+    <p class="beat-prose">The briefing is done. Entry at 0400 tomorrow. Four cups of terrible coffee cool on the card table. The fluorescent light has given up its rhythm and settled into a steady, tired hum.</p>
+    <p class="beat-prose">Lady Macbeth stills her thumbs deliberately. The washing stops. She places her hands flat on her knees and holds them there, an act of will that costs her more than anyone in the room knows. She looks at Scheherazade, at Valjean. "We're ready."</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Active Skill: <span class="tip">Screw Your Courage<span class="tip-text"><span class="tip-title">Screw Your Courage</span><span class="tip-type">Active Skill — Lady Macbeth — d20 + CHA (+4)</span>Steels another's resolve. DC 10: confidence to act. DC 15: restructures doubt into determination. DC 20: target incapable of hesitation. Cost: drawn from her own reserves.</span></span></span>
+      <span class="dice-roll-skill">Lady Macbeth steels the room's resolve.</span>
+      <span class="dice-roll-result">Roll: d20(13) + CHA(+4) = 17. DC 15 met &mdash; restructures doubt into determination.</span>
+      <span class="dice-roll-outcome">"We're ready. Doubt is for people who can afford to wait." The words land. Scheherazade straightens. Valjean's hand tightens on the candlesticks through his coat. The doubt doesn't disappear &mdash; it reorganizes into fuel.</span>
+    </div>
+
+    <p class="beat-prose">Cost: Lady Macbeth's reserves thin. Perceptive observers (WIS 14+) see that she's emptying herself to fill them. Scheherazade sees it. Valjean sees it. Neither says anything.</p>
+    <p class="beat-prose">Scheherazade narrates the evening back to itself &mdash; a quiet murmur, almost unconscious, the One Thousand and One condition asserting itself. She is turning the evening into a story, which is how she processes everything, which is how she survives.</p>
+    <p class="beat-prose">Valjean looks at the empty chair one more time. His hand presses the candlesticks. Then he stands, and the room stands with him.</p>
+    <p class="beat-prose">They leave. One by one. Lady Macbeth first &mdash; the Operator doesn't linger. Scheherazade next, trailing the end of an unfinished sentence. Valjean last, pausing at the door to look back at Ginsfeld.</p>
+    <p class="beat-prose">Ginsfeld sits alone in the basement. The coffee urn gurgles. The fluorescent light resumes its buzz-flicker rhythm, as though the room is exhaling.</p>
+    <p class="beat-prose">He opens his notebook. Four names. Four words.</p>
+    <p class="beat-prose"><em>Grateful. Listening. Hopeful. Ready.</em></p>
+    <p class="beat-prose">Under Gatsby's line, he writes: <em>"We'll find you another room."</em></p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Final Beat Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">All &harr; All (team):</span> <span class="rel-change--positive">Affinity +1 each direction</span>. <span class="rel-thought"><em>Last coffee. The quiet solidarity of people who are about to walk into something dangerous together.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; All:</span> <span class="rel-change--positive">Affinity +1 each</span>. <span class="rel-thought"><em>They're ready. The team is real. The mission begins at 0400.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Four names. Four words. Grateful. Listening. Hopeful. Ready. Under Gatsby's line: "We'll find you another room." The team is assembled. The mission begins tomorrow. Lady Macbeth stilled her hands for us. Scheherazade is already composing the story. Valjean carries his shield in his pocket. And somewhere above us, Gatsby walks alone through a city that will never be bright enough.
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <h2 class="section-header">Final Relationship Tables</h2>
+  <p class="section-sub">Cumulative Affinity/Aversion scores across all 20 beats.</p>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Ginsfeld</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Valjean</td><td>11</td><td>1</td><td class="net-positive">+10</td><td>The core relationship. Shield candidate from Beat 2, confirmed by Beat 12, cemented by "I have my purpose. It's in my pocket." Valjean's moral gravity bent the entire encounter. The candlesticks are the mission's real shield.</td></tr>
+      <tr><td>Scheherazade</td><td>7</td><td>1</td><td class="net-positive">+6</td><td>Deep respect for narrative architecture. The Persuader &mdash; confirmed by the fisherman-and-the-jinni scalpel in Beat 10. She read the audition in ten seconds and never mentioned it. Professional to the bone.</td></tr>
+      <tr><td>Lady Macbeth</td><td>6</td><td>0</td><td class="net-positive">+6</td><td>Pure operational respect. Self-selected for Operator in Beat 14 and was right. "Ready" &mdash; the only action word in the notebook. Her Screw Your Courage in Beat 20 turned doubt into fuel.</td></tr>
+      <tr><td>Gatsby</td><td>4</td><td>8</td><td class="net-negative">-4</td><td>Admiration and regret. Cut for the right reasons &mdash; his resonance with the mission target would have been catastrophic. DC 20 Beautiful Lie changed the room's certainty. "We'll find you another room."</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Valjean</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>1</td><td>2</td><td class="net-negative">-1</td><td>Damaged trust partially repaired. The lie cut deep &mdash; a bishop gave him silver and told him to be honest, and this man gave him coffee and lied. But the mission is just, and Ginsfeld told the truth about the danger. Conditional.</td></tr>
+      <tr><td>Scheherazade</td><td>4</td><td>0</td><td class="net-positive">+4</td><td>Warm respect. Her voice carries the quality of being read to. She opened Gatsby further than Valjean could. The candlesticks and her stories are the same kind of object &mdash; gifts that change what they touch.</td></tr>
+      <tr><td>Lady Macbeth</td><td>2</td><td>1</td><td class="net-positive">+1</td><td>Wary recognition. She doesn't regret the murder &mdash; he can't understand that. But she trembles when she stills her hands, and that he understands. Shared condition: marks that won't wash off.</td></tr>
+      <tr><td>Gatsby</td><td>5</td><td>2</td><td class="net-positive">+3</td><td>Strongest cross-character bond. Defended him AND told him the truth. "He can change. Any man can. But not today." The Bishop's mercy, refracted through a basement and a polished man who needed to hear it.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Scheherazade</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>2</td><td>0</td><td class="net-positive">+2</td><td>Professional respect. She read the audition immediately and chose to play along. The story reached its turning point in Beat 13 and she was ready for it.</td></tr>
+      <tr><td>Valjean</td><td>4</td><td>0</td><td class="net-positive">+4</td><td>His truth-telling is a narrative device she respects instinctively. The voice that cracked on "nineteen years." The candlesticks as story object. He is, in her professional assessment, the most powerful story in the room.</td></tr>
+      <tr><td>Lady Macbeth</td><td>5</td><td>1</td><td class="net-positive">+4</td><td>Mutual recognition of women who survived by acting when the world expected them to wait. "No" without flinching. The strongest mutual bond Scheherazade forms &mdash; two architects who build with different materials.</td></tr>
+      <tr><td>Gatsby</td><td>5</td><td>1</td><td class="net-positive">+4</td><td>He gave her the language of belief. "Tell him that. Not your version. Mine." The fisherman-and-the-jinni cracked him open; the DC 20 exit speech put him back together differently. "Finish the story" &mdash; his last words to her.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Lady Macbeth</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>2</td><td>1</td><td class="net-positive">+1</td><td>Tactical peer. She prefers men who show their purpose. The reveal in Beat 13 earned respect; the recruitment method earned mild contempt. Net: functional.</td></tr>
+      <tr><td>Valjean</td><td>3</td><td>1</td><td class="net-positive">+2</td><td>The large man who trembles. Nineteen years of hard labor and he emerged gentle. A kind of strength she doesn't understand but has learned to respect.</td></tr>
+      <tr><td>Scheherazade</td><td>5</td><td>0</td><td class="net-positive">+5</td><td>The strongest bond Lady Macbeth forms. Mutual recognition in Beat 8 &mdash; women who acted while the world expected them to wait. One shapes narratives, the other shapes outcomes. They will coordinate without being told.</td></tr>
+      <tr><td>Gatsby</td><td>1</td><td>4</td><td class="net-negative">-3</td><td>Harsh because necessary. "Have you?" Two words that stripped him bare. But the DC 20 exit speech stopped her hands for one full breath. The crown was worth it &mdash; not the cost, the reaching. He gave her that.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Gatsby (departed)</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>0</td><td>3</td><td class="net-negative">-3</td><td>The man who turned him away. Like Daisy. Like the world that builds doors and then tells you they're walls. But he built something real in that basement, even if Gatsby wasn't part of it.</td></tr>
+      <tr><td>Valjean</td><td>6</td><td>0</td><td class="net-positive">+6</td><td>Deepest bond. Valjean defended him AND told him the truth. "He can change. Any man can. But not today." The only person who saw Gatz and didn't look away. The only person who leaned in.</td></tr>
+      <tr><td>Scheherazade</td><td>4</td><td>2</td><td class="net-positive">+2</td><td>She cracked him open with the fisherman-and-the-jinni story. "How long have you been in the jar?" The answer &mdash; "I don't know" &mdash; was the most honest thing he said all evening. Until the exit speech.</td></tr>
+      <tr><td>Lady Macbeth</td><td>1</td><td>2</td><td class="net-negative">-1</td><td>"Have you?" Two words that stripped him bare. She is efficient in her cruelties. But "the crown was worth it &mdash; not the cost, the reaching" was his gift to her, and she took it.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <h2 class="section-header">Post-Encounter Notes</h2>
+
+  <div class="post-note">
+    <div class="post-note-title">Who Was Chosen and Why</div>
+    <div class="post-note-text">
+      <ul>
+        <li><strong>Scheherazade &mdash; Persuader.</strong> Confirmed in Beat 10 when the fisherman-and-the-jinni story cracked Gatsby open at DC 19. She can enter another person's narrative without breaking it. She survived one thousand and one nights by making death wait &mdash; she can make Andrei wait too. She carries Gatsby's gift: "Tell him that. Not your version. Mine."</li>
+        <li><strong>Lady Macbeth &mdash; Operator.</strong> Self-selected in Beat 14 and was correct. "He escapes his meaning" &mdash; four words that contained the mission's philosophical core. She manages the tactical situation against Kade's team, keeps the breach point stable, and acts without hesitation when the plan breaks. The Sharpening filter will clarify the team's decision-making under pressure.</li>
+        <li><strong>Jean Valjean &mdash; Shield.</strong> Confirmed in Beat 12 with "I would stand in front of the door." The strongest man in the room and the gentlest. The candlesticks &mdash; the Bishop's gift &mdash; are his shield against the war epic's emotional pull. He resisted his own text's definition for decades. He can resist this one.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Who Was Cut and Why</div>
+    <div class="post-note-text">
+      <p><strong>Jay Gatsby &mdash; cut for mission-critical vulnerability, not general incompetence.</strong> His resonance with the mission target was catastrophic: a man who believes wanting something badly enough makes it real, sent into a text about a soldier who believes escaping into a love story will save his life. Gatsby would have identified with Andrei so completely that the war epic's seduction &mdash; the complication that offers a team member a place in its narrative &mdash; would have been irresistible. WIS 8 confirmed the vulnerability. The Lost Thing filter would have amplified every emotional pull the text could offer. The cut was correct, painful, and necessary.</p>
+      <p>His DC 20 exit speech in Beat 16 changed the room's certainty and gave the team its most powerful tool: the language of belief to carry to Andrei. The man who was cut provided the mission's emotional core.</p>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">What Surprised the Simulation</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>Gatsby's DC 20 Beautiful Lie exit speech (Beat 16).</strong> Natural 20. The man being cut delivered the most powerful moment of the entire encounter. His language of belief &mdash; "the reaching matters" &mdash; became the mission's emotional payload. The cut man provided the tool the team will use.</li>
+        <li><strong>Valjean's "He can change. Any man can. But not today" (Beat 15).</strong> Mercy's Shield at DC 10 &mdash; barely above threshold. The mercy was real. The limit was real. Both existed simultaneously. Solomon-level judgment from a man with Low Game Savvy.</li>
+        <li><strong>Scheherazade's fisherman-and-the-jinni as scalpel (Beat 10).</strong> DC 19 on The Cliffhanger. She used a story to suspend a confrontation and extract genuine honesty from the most defended person in the room. "How long have you been in the jar?" &mdash; "I don't know."</li>
+        <li><strong>Lady Macbeth and Scheherazade's mutual recognition (Beat 8).</strong> The two sharpest minds found each other organically. "We are the same species &mdash; women who acted while the world expected us to wait." The strongest mutual bond in the encounter, formed without Ginsfeld's involvement.</li>
+        <li><strong>The Sharpening filter's effect on Gatsby (Beat 5).</strong> Lady Macbeth's filter amplified Gatsby's desire to be chosen, his green light burning brighter. The interaction between The Sharpening and The Lost Thing created a feedback loop that made Gatsby's vulnerability visible before the resonance test.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Hooks Left for Future Encounters</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>Gatsby alone.</strong> Ginsfeld promised to find him another room. The promise was made under the pressure of Valjean's moral gravity and the memory of the DC 20 exit speech. It's a real promise. But Gatsby is walking through a city at night with WIS 7 and a green light that keeps moving away.</li>
+        <li><strong>"You'll lose someone in there."</strong> Gatsby's parting warning. Prophecy, anger, or the clearest-eyed tactical assessment of the evening. The war epic will try to absorb a team member. Gatsby saw it coming because he IS the vulnerability they're trying to avoid.</li>
+        <li><strong>Scheherazade's Unfinished Story.</strong> "Finish the story" &mdash; Gatsby's exit command. Her condition means she never completes anything. The mission requires her to complete the persuasion of Andrei. The Cliffhanger skill's cost blurs the line between stories and reality. At DC 20, she loses certainty about what's real.</li>
+        <li><strong>Lady Macbeth vs. Kade.</strong> Two operators. One with ethical constraints (Lady Macbeth regrets incompleteness, not the act). One without (Kade operates without ethical constraints). The Sharpening filter will interact with Kade's team in unpredictable ways &mdash; clarifying their ambitions, softening their hesitations.</li>
+        <li><strong>The candlesticks inside the text.</strong> Valjean's shield against the war epic's seduction is a pair of silver candlesticks given to him by a bishop. Inside a text about war, sacrifice, and the desire to escape death, those candlesticks are either the most powerful anchor in the literary web or a beacon that draws the text's attention directly to him.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Filters, Conditions, and Skills &mdash; Impact Assessment</div>
+    <div class="post-note-text">
+      <table class="impact-table">
+        <thead>
+          <tr><th>Element</th><th>Impact Level</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>The Lost Thing (Gatsby filter)</td><td><span class="impact-critical">Critical</span></td><td>Shaped every interaction from Beat 4 onward. Made loss tangible and present. Amplified the resonance test. Turned Gatsby's departure into the room's emotional climax. The most impactful filter of the encounter.</td></tr>
+          <tr><td>The Sharpening (Lady Macbeth filter)</td><td><span class="impact-high">High</span></td><td>Clarified ambitions and softened moral hesitations throughout. Effect on Gatsby amplified his vulnerability. "Have you?" in Beat 15 was the filter weaponized as a question.</td></tr>
+          <tr><td>Hope Against Evidence (Gatsby passive skill)</td><td><span class="impact-high">High</span></td><td>Three activations: DC 8 (Beat 7), DC 22 (Beat 12), DC 13 (Beat 15). The DC 22 critical success found genuine truth in the resonance test &mdash; the most dangerous possible outcome. Made the cut harder and more necessary.</td></tr>
+          <tr><td>The Cliffhanger (Scheherazade active skill)</td><td><span class="impact-high">High</span></td><td>DC 19 in Beat 10. The fisherman-and-the-jinni suspended confrontation and extracted honesty. Confirmed Scheherazade as Persuader. Cost: One Thousand and One condition intensified.</td></tr>
+          <tr><td>Mercy's Shield (Valjean passive skill)</td><td><span class="impact-high">High</span></td><td>Two activations: DC 15 (Beat 9, cracked Gatsby open), DC 10 (Beat 15, "He can change. But not today"). Both interventions carried moral authority that reshaped the room's dynamics.</td></tr>
+          <tr><td>The Beautiful Lie at DC 20 (Gatsby active skill)</td><td><span class="impact-critical">Critical</span></td><td>Natural 20. Beat 16. Changed the room's certainty. Gave the team the language of belief. Cost: WIS to 7. The most mechanically significant roll of the encounter.</td></tr>
+          <tr><td>Story Sense (Scheherazade passive skill)</td><td><span class="impact-medium">Medium</span></td><td>DC 16 in Beat 3. Read the audition immediately. Established Scheherazade as the room's most structurally aware character.</td></tr>
+          <tr><td>The Sleepwalk (Lady Macbeth passive skill)</td><td><span class="impact-low">Low</span></td><td>DC 7 in Beat 11 &mdash; failed threshold. "Who's missing" was fragmentary and caught only by Scheherazade. Would likely be critical in mission-phase encounters under higher emotional pressure.</td></tr>
+          <tr><td>Screw Your Courage (Lady Macbeth active skill)</td><td><span class="impact-medium">Medium</span></td><td>DC 17 in Beat 20. Restructured doubt into determination. Cost: reserves thinning. The team enters the mission on her fuel.</td></tr>
+          <tr><td>The Compulsion to Listen (Scheherazade filter)</td><td><span class="impact-medium">Medium</span></td><td>Persistent ambient effect. Scheherazade spoke first in every open discussion. Interrupting her felt wrong. Gave her structural narrative control of the room's rhythm.</td></tr>
+          <tr><td>The Test of Goodness (Valjean filter)</td><td><span class="impact-medium">Medium</span></td><td>Pushed Ginsfeld to probe, to test, to look for the crack. Inverted in Beat 13 when Ginsfeld's deception was revealed. The filter forced the "Find him another room" promise in Beat 19.</td></tr>
+          <tr><td>The Candlesticks (Valjean condition)</td><td><span class="impact-high">High</span></td><td>Physical anchor throughout. The metallic clink in Beat 2. "It's in my pocket" in Beat 18. The Bishop's gift as shield against the text's seduction. Will be critical in mission phase.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <p class="colophon">The Wednesday Group &mdash; Iteration 3 &mdash; World of Guttenberg &mdash; The Ginsfeld Sessions</p>
+
+</div>
+</div>
+</body>
+</html>

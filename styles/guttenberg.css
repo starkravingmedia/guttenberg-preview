@@ -1,0 +1,1524 @@
+/* ============================================================
+   GUTTENBERG — Design System
+   A parchment-and-ink aesthetic for literary documentation.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=UnifrakturCook:wght@700&display=swap');
+
+/* ------------------------------------------------------------
+   1. TOKENS
+   ------------------------------------------------------------ */
+
+:root {
+  --parchment:      #f4e8c1;
+  --parchment-dark: #dac292;
+  --ink:            #2a1a0a;
+  --ink-light:      #5a3a1a;
+  --blood:          #8b1a1a;
+  --gold:           #b8860b;
+  --gold-light:     #d4a843;
+  --shadow:         rgba(42, 26, 10, 0.3);
+}
+
+/* ------------------------------------------------------------
+   2. RESET & BASE
+   ------------------------------------------------------------ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--ink);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+a:hover {
+  color: var(--blood);
+  border-bottom-color: var(--blood);
+}
+
+em { color: var(--ink); }
+
+/* ------------------------------------------------------------
+   3. PAGE STRUCTURE
+   ------------------------------------------------------------ */
+
+.page-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.page-wrapper--wide {
+  max-width: 1000px;
+}
+
+.parchment-bg {
+  background: var(--parchment);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(218, 194, 146, 0.4) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 20%, rgba(184, 134, 11, 0.08) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  border: 2px solid var(--parchment-dark);
+  box-shadow:
+    0 0 60px rgba(42, 26, 10, 0.5),
+    inset 0 0 80px rgba(218, 194, 146, 0.3);
+  padding: 60px 50px;
+  position: relative;
+}
+
+.parchment-bg::before {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px solid var(--parchment-dark);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   4. TYPOGRAPHY
+   ------------------------------------------------------------ */
+
+/* Main title — UnifrakturCook */
+.main-title {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 3em;
+  text-align: center;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+  text-shadow: 1px 1px 0 var(--parchment-dark);
+}
+
+/* Subtitle — Cinzel, small caps feel */
+.subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95em;
+  text-align: center;
+  color: var(--ink-light);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+/* Draft / edition mark */
+.draft-mark {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.85em;
+  text-align: center;
+  color: var(--blood);
+  margin-bottom: 50px;
+  opacity: 0.7;
+}
+
+/* Epigraph — centered italic block */
+.epigraph {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1em;
+  text-align: center;
+  color: var(--ink-light);
+  margin-bottom: 40px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* Section headers */
+.section-header {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.section-sub {
+  font-style: italic;
+  text-align: center;
+  color: var(--ink-light);
+  margin-bottom: 35px;
+  font-size: 0.95em;
+}
+
+/* ------------------------------------------------------------
+   5. DIVIDERS
+   ------------------------------------------------------------ */
+
+.divider {
+  text-align: center;
+  margin: 50px 0 40px;
+  color: var(--gold);
+  font-size: 1.4em;
+  letter-spacing: 0.5em;
+}
+
+/* ------------------------------------------------------------
+   6. CARDS
+   ------------------------------------------------------------ */
+
+.card {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding: 20px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.card:hover {
+  background: rgba(218, 194, 146, 0.4);
+  border-color: var(--parchment-dark);
+}
+
+.card-number {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.8em;
+  color: var(--gold);
+  min-width: 28px;
+  padding-top: 3px;
+}
+
+.card-image-wrap {
+  flex-shrink: 0;
+  width: 90px;
+  height: 110px;
+  border: 1px solid var(--parchment-dark);
+  background: var(--parchment-dark);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 2px 2px 8px var(--shadow);
+}
+
+.card-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(30%) contrast(1.05);
+  transition: filter 0.3s ease;
+}
+
+.card:hover .card-image-wrap img {
+  filter: sepia(10%) contrast(1.1);
+}
+
+.card-image-wrap .placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6em;
+  color: var(--ink-light);
+  text-align: center;
+  padding: 8px;
+  opacity: 0.5;
+}
+
+.card-image-wrap .loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  font-size: 0.65em;
+  color: var(--ink-light);
+  opacity: 0.4;
+}
+
+.card-body { flex: 1; }
+
+.card-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.05em;
+  margin-bottom: 4px;
+}
+
+.card-title a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold);
+  transition: all 0.2s ease;
+}
+
+.card-title a:hover {
+  color: var(--blood);
+  border-bottom-color: var(--blood);
+}
+
+.card-desc {
+  color: var(--ink-light);
+  font-size: 0.95em;
+  line-height: 1.55;
+}
+
+.card-desc em { color: var(--ink); }
+
+/* ------------------------------------------------------------
+   7. BADGES
+   ------------------------------------------------------------ */
+
+.badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.badge--battle-tested {
+  font-size: 0.6em;
+  letter-spacing: 0.1em;
+  color: var(--blood);
+  border: 1px solid var(--blood);
+  opacity: 0.7;
+}
+
+.badge--blood {
+  color: var(--blood);
+  border: 1px solid var(--blood);
+}
+
+.badge--gold {
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.badge--sidelined {
+  color: var(--ink-light);
+  border: 1px dashed var(--parchment-dark);
+  opacity: 0.5;
+}
+
+/* Legacy class names (match existing markup) */
+.battle-tested {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blood);
+  border: 1px solid var(--blood);
+  padding: 1px 6px;
+  margin-left: 8px;
+  opacity: 0.7;
+  vertical-align: middle;
+}
+
+.team-badge-d {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blood);
+  border: 1px solid var(--blood);
+  padding: 1px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.team-badge-u {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 1px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.sidelined-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  border: 1px dashed var(--parchment-dark);
+  padding: 1px 6px;
+  margin-left: 8px;
+  opacity: 0.5;
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------
+   8. TEAM BLOCKS
+   ------------------------------------------------------------ */
+
+.team-block {
+  margin-bottom: 36px;
+  border: 1px solid var(--parchment-dark);
+  padding: 28px 24px 20px;
+  position: relative;
+}
+
+.team-descenders { border-left: 4px solid var(--blood); }
+.team-unsilenced { border-left: 4px solid var(--gold); }
+
+.team-header { margin-bottom: 20px; }
+
+.team-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.4em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.team-descenders .team-name { color: var(--blood); }
+.team-unsilenced .team-name { color: var(--gold); }
+
+.team-motto {
+  font-style: italic;
+  font-size: 0.9em;
+  color: var(--ink-light);
+  margin-top: 4px;
+}
+
+.team-roster {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.team-member {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 14px;
+  background: rgba(218, 194, 146, 0.3);
+  border: 1px solid var(--parchment-dark);
+  position: relative;
+}
+
+.team-member.captain { border-width: 2px; }
+.team-descenders .team-member.captain { border-color: var(--blood); }
+.team-unsilenced .team-member.captain { border-color: var(--gold); }
+
+.role-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.team-descenders .role-badge { color: var(--blood); }
+.team-unsilenced .role-badge { color: var(--gold); }
+
+.member-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  margin-bottom: 2px;
+}
+
+.member-role {
+  font-style: italic;
+  font-size: 0.8em;
+  color: var(--ink-light);
+}
+
+/* ------------------------------------------------------------
+   9. SIDELINED BLOCK
+   ------------------------------------------------------------ */
+
+.sidelined-block {
+  margin-top: 30px;
+  padding: 20px;
+  text-align: center;
+  opacity: 0.6;
+  border: 1px dashed var(--parchment-dark);
+}
+
+.sidelined-header {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+}
+
+.sidelined-names {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1em;
+  margin-bottom: 6px;
+}
+
+.sidelined-note {
+  font-style: italic;
+  font-size: 0.85em;
+  color: var(--ink-light);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   10. CHAIN / TIMELINE
+   ------------------------------------------------------------ */
+
+.chain-section {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.chain-step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  border-left: 2px solid var(--gold);
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.chain-step:hover { background: rgba(218, 194, 146, 0.3); }
+
+.chain-step::before {
+  content: '';
+  position: absolute;
+  left: -7px; top: 18px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--parchment);
+  border: 2px solid var(--gold);
+}
+
+.chain-step.step-book::before {
+  width: 14px; height: 14px;
+  left: -8px; top: 17px;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px var(--gold);
+}
+
+.chain-step.step-branch {
+  border-left-style: dashed;
+  border-left-color: var(--blood);
+}
+
+.chain-step.step-branch::before { border-color: var(--blood); }
+.chain-step.step-branch.step-book::before {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px var(--blood);
+}
+
+.chain-number {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--gold);
+  min-width: 22px;
+  padding-top: 2px;
+}
+
+.chain-step.step-branch .chain-number { color: var(--blood); }
+
+.chain-body { flex: 1; }
+
+.chain-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.chain-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.92em;
+  color: var(--ink-light);
+  line-height: 1.5;
+}
+
+.chain-text em { color: var(--ink); }
+
+.branch-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9em;
+  font-weight: 700;
+  color: var(--blood);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 30px 0 10px 18px;
+}
+
+/* ------------------------------------------------------------
+   11. DIAGRAM NODES
+   ------------------------------------------------------------ */
+
+.diagram-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.diagram-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+
+.node {
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  cursor: default;
+  transition: transform 0.3s ease;
+}
+
+.node:hover { transform: translate(-50%, -50%) scale(1.05); }
+
+.node-book { width: 160px; }
+.node-link { width: 120px; }
+
+.node-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+}
+
+.node-book .node-circle {
+  width: 88px; height: 88px;
+  background: var(--parchment);
+  border: 3px solid var(--ink);
+  box-shadow:
+    0 0 0 4px var(--parchment),
+    0 0 0 6px var(--gold),
+    0 4px 14px var(--shadow),
+    inset 0 0 16px rgba(218, 194, 146, 0.5);
+}
+
+.node-link .node-circle {
+  width: 48px; height: 48px;
+  background: var(--parchment);
+  border: 2px solid var(--ink-light);
+  box-shadow:
+    0 0 0 3px var(--parchment),
+    0 0 0 4px var(--parchment-dark),
+    0 2px 6px var(--shadow);
+}
+
+.node-icon { font-size: 2em; line-height: 1; filter: grayscale(20%); }
+.node-book .node-icon { font-size: 2.1em; }
+.node-link .node-icon { font-size: 1.2em; }
+
+.node-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.74em;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 2px;
+}
+
+.node-book .node-title { font-size: 0.78em; }
+
+.node-author {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.72em;
+  color: var(--ink-light);
+  line-height: 1.2;
+}
+
+.node-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.68em;
+  color: var(--ink-light);
+  line-height: 1.2;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   12. EDGE LABELS & LEGEND
+   ------------------------------------------------------------ */
+
+.edge-label {
+  position: absolute;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  font-family: 'EB Garamond', serif;
+  font-size: 0.7em;
+  font-style: italic;
+  color: var(--blood);
+  text-align: center;
+  max-width: 130px;
+  line-height: 1.25;
+  background: var(--parchment);
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
+.edge-label.ink { color: var(--ink-light); }
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.85em;
+  color: var(--ink-light);
+}
+
+.legend-circle-big {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--parchment);
+  box-shadow: 0 0 0 2px var(--gold);
+}
+
+.legend-circle-small {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-light);
+  background: var(--parchment);
+  box-shadow: 0 0 0 1px var(--parchment-dark);
+}
+
+.legend-line {
+  width: 30px;
+  height: 2px;
+  background: var(--ink-light);
+}
+
+/* ------------------------------------------------------------
+   13. COLOPHON (Footer)
+   ------------------------------------------------------------ */
+
+.colophon {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid var(--parchment-dark);
+  font-style: italic;
+  color: var(--ink-light);
+  text-align: center;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------
+   14. MISSION BRIEF PANEL
+   ------------------------------------------------------------ */
+
+.mission-brief {
+  border: 2px solid var(--ink);
+  padding: 28px 24px;
+  margin-bottom: 40px;
+  position: relative;
+  background: rgba(42, 26, 10, 0.04);
+}
+
+.mission-brief::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid var(--parchment-dark);
+  pointer-events: none;
+}
+
+.mission-brief-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.2em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+
+.mission-field {
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+
+.mission-field-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blood);
+  display: inline;
+}
+
+.mission-field-value {
+  display: inline;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------
+   15. CHARACTER SHEET
+   ------------------------------------------------------------ */
+
+.character-sheet {
+  border: 1px solid var(--parchment-dark);
+  padding: 32px 28px;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.character-sheet::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid rgba(218, 194, 146, 0.5);
+  pointer-events: none;
+}
+
+.character-name {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 2.2em;
+  text-align: center;
+  color: var(--ink);
+  margin-bottom: 2px;
+  text-shadow: 1px 1px 0 var(--parchment-dark);
+}
+
+.character-role {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--ink-light);
+  margin-bottom: 16px;
+}
+
+.character-quote {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.95em;
+  text-align: center;
+  color: var(--ink-light);
+  max-width: 560px;
+  margin: 0 auto 28px;
+  line-height: 1.55;
+  padding: 0 20px;
+}
+
+.character-section-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.75em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  margin-top: 28px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--parchment-dark);
+}
+
+/* ------------------------------------------------------------
+   16. STAT BLOCK
+   ------------------------------------------------------------ */
+
+.stat-grid {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.stat-cell {
+  width: 72px;
+  text-align: center;
+  border: 1px solid var(--parchment-dark);
+  padding: 8px 4px;
+  background: rgba(218, 194, 146, 0.2);
+}
+
+.stat-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.65em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 2px;
+}
+
+.stat-score {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.3em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.stat-mod {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8em;
+  color: var(--gold);
+}
+
+/* ------------------------------------------------------------
+   17. TRAIT GRID
+   ------------------------------------------------------------ */
+
+.trait-grid {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.trait-cell {
+  text-align: center;
+  min-width: 100px;
+  padding: 6px 12px;
+}
+
+.trait-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 2px;
+}
+
+.trait-value {
+  font-family: 'EB Garamond', serif;
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--ink);
+}
+
+.trait-value--high { color: var(--blood); }
+.trait-value--low { color: var(--ink-light); opacity: 0.7; }
+
+/* ------------------------------------------------------------
+   18. CONDITION BLOCK
+   ------------------------------------------------------------ */
+
+.condition {
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--parchment-dark);
+  background: rgba(218, 194, 146, 0.15);
+}
+
+.condition-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.condition-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.condition-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  padding: 1px 6px;
+  border: 1px solid var(--parchment-dark);
+}
+
+.condition-tag--permanent { border-color: var(--blood); color: var(--blood); }
+.condition-tag--private { border-style: dashed; }
+
+.condition-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9em;
+  color: var(--ink-light);
+  line-height: 1.55;
+}
+
+/* ------------------------------------------------------------
+   19. REPUTATION BLOCK
+   ------------------------------------------------------------ */
+
+.reputation {
+  margin-bottom: 16px;
+  padding: 12px 18px;
+  border-left: 3px solid var(--gold);
+}
+
+.reputation-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.reputation-source {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.reputation-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9em;
+  color: var(--ink-light);
+  line-height: 1.55;
+}
+
+/* ------------------------------------------------------------
+   20. SKILL BLOCK
+   ------------------------------------------------------------ */
+
+.skill-block {
+  margin-bottom: 24px;
+  padding: 18px 22px;
+  border: 1px solid var(--parchment-dark);
+  background: rgba(218, 194, 146, 0.1);
+}
+
+.skill-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.skill-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  color: var(--ink);
+}
+
+.skill-type {
+  font-family: 'Cinzel', serif;
+  font-size: 0.55em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+
+.skill-type--active { border-color: var(--blood); color: var(--blood); }
+
+.skill-trigger {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.88em;
+  color: var(--ink-light);
+  margin-bottom: 10px;
+}
+
+.skill-mechanic {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+}
+
+.skill-range {
+  margin-bottom: 4px;
+  padding-left: 16px;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.88em;
+  line-height: 1.5;
+  color: var(--ink-light);
+}
+
+.skill-range-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.8em;
+  color: var(--ink);
+  margin-right: 4px;
+}
+
+.skill-range-label--high { color: var(--gold); }
+.skill-range-label--low { color: var(--blood); }
+
+.skill-cost {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--parchment-dark);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.88em;
+  color: var(--blood);
+  line-height: 1.5;
+}
+
+.skill-cost-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.7em;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blood);
+}
+
+/* ------------------------------------------------------------
+   21. FILTER BLOCK
+   ------------------------------------------------------------ */
+
+.filter-block {
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  border: 1px solid var(--gold);
+  background: rgba(184, 134, 11, 0.05);
+  position: relative;
+}
+
+.filter-block::before {
+  content: '~';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'EB Garamond', serif;
+  font-size: 1.2em;
+  color: var(--gold);
+  background: var(--parchment);
+  padding: 0 8px;
+}
+
+.filter-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.filter-desc {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.92em;
+  color: var(--ink);
+  line-height: 1.6;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------
+   22. BEAT NARRATIVE
+   ------------------------------------------------------------ */
+
+.beat {
+  margin-bottom: 40px;
+}
+
+.beat-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8px;
+}
+
+.beat-number {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.beat-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+
+.beat-prose {
+  font-family: 'EB Garamond', serif;
+  font-size: 1em;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.beat-prose em { color: var(--ink); }
+
+/* ------------------------------------------------------------
+   23. DICE ROLL (INLINE)
+   ------------------------------------------------------------ */
+
+.dice-roll {
+  margin: 16px 0;
+  padding: 12px 18px;
+  border-left: 3px solid var(--blood);
+  background: rgba(139, 26, 26, 0.04);
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9em;
+  line-height: 1.55;
+}
+
+.dice-roll-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blood);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dice-roll-skill {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dice-roll-result {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--ink);
+}
+
+.dice-roll-outcome {
+  font-style: italic;
+  color: var(--ink-light);
+}
+
+/* ------------------------------------------------------------
+   24. RELATIONSHIP DELTAS
+   ------------------------------------------------------------ */
+
+.relationships-block {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border: 1px dashed var(--parchment-dark);
+  background: rgba(218, 194, 146, 0.12);
+}
+
+.relationships-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+.rel-delta {
+  margin-bottom: 6px;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.88em;
+  line-height: 1.5;
+  color: var(--ink-light);
+}
+
+.rel-pair {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.8em;
+  color: var(--ink);
+}
+
+.rel-change--positive { color: var(--gold); }
+.rel-change--negative { color: var(--blood); }
+
+.rel-thought {
+  font-style: italic;
+  color: var(--ink-light);
+  opacity: 0.85;
+}
+
+/* ------------------------------------------------------------
+   25. ASSESSMENT BLOCK
+   ------------------------------------------------------------ */
+
+.assessment {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--ink);
+  background: rgba(42, 26, 10, 0.04);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.9em;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.assessment-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.65em;
+  font-style: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 6px;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------
+   26. FILTER TRIGGER (INLINE)
+   ------------------------------------------------------------ */
+
+.filter-trigger {
+  margin: 16px 0;
+  padding: 10px 18px;
+  border-left: 3px solid var(--gold);
+  background: rgba(184, 134, 11, 0.04);
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9em;
+  line-height: 1.55;
+}
+
+.filter-trigger-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ------------------------------------------------------------
+   27. RELATIONSHIP TABLE
+   ------------------------------------------------------------ */
+
+.rel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9em;
+}
+
+.rel-table th {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.7em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.rel-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--parchment-dark);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.rel-table td:nth-child(2),
+.rel-table td:nth-child(3),
+.rel-table td:nth-child(4) {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  text-align: center;
+  width: 70px;
+}
+
+.rel-table .net-positive { color: var(--gold); }
+.rel-table .net-negative { color: var(--blood); }
+.rel-table .net-neutral { color: var(--ink-light); }
+
+.rel-table td:last-child {
+  font-style: italic;
+  color: var(--ink-light);
+  font-size: 0.88em;
+}
+
+/* ------------------------------------------------------------
+   28. POST-ENCOUNTER NOTE
+   ------------------------------------------------------------ */
+
+.post-note {
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  border: 1px solid var(--parchment-dark);
+  background: rgba(218, 194, 146, 0.08);
+}
+
+.post-note-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.post-note-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.92em;
+  color: var(--ink-light);
+  line-height: 1.6;
+}
+
+.post-note-text ol, .post-note-text ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.post-note-text li {
+  margin-bottom: 6px;
+}
+
+/* ------------------------------------------------------------
+   29. IMPACT TABLE
+   ------------------------------------------------------------ */
+
+.impact-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.9em;
+}
+
+.impact-table th {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.7em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.impact-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--parchment-dark);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.impact-critical {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--blood);
+}
+
+.impact-high {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.impact-medium {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+
+.impact-low {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  opacity: 0.6;
+}
+
+/* ------------------------------------------------------------
+   30. RESPONSIVE
+   ------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+  .parchment-bg { padding: 30px 20px; }
+  .main-title { font-size: 2em; }
+
+  .node-book { width: 120px; }
+  .node-link { width: 95px; }
+  .node-book .node-circle { width: 68px; height: 68px; }
+  .node-link .node-circle { width: 40px; height: 40px; }
+  .node-book .node-icon { font-size: 1.6em; }
+  .node-link .node-icon { font-size: 1em; }
+  .node-title { font-size: 0.64em; }
+  .node-author, .node-desc { font-size: 0.58em; }
+  .edge-label { font-size: 0.58em; max-width: 100px; }
+  .legend { gap: 20px; }
+}
+
+@media (max-width: 640px) {
+  .card { flex-direction: column; gap: 12px; }
+  .card-image-wrap { width: 100%; height: 160px; }
+}
+
+@media (max-width: 480px) {
+  .parchment-bg { padding: 24px 14px; }
+  .main-title { font-size: 1.6em; }
+  .subtitle { font-size: 0.7em; letter-spacing: 0.15em; }
+  .chain-step { padding: 10px 12px; }
+  .legend { flex-direction: column; align-items: center; gap: 10px; }
+}

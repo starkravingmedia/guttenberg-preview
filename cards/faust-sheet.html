@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World of Guttenberg — Faust</title>
+<link rel="stylesheet" href="../styles/guttenberg.css">
+<style>
+  /* Character sheet additions */
+  .char-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .char-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 4px;
+  }
+
+  .char-name {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 2.6em;
+    color: var(--ink);
+    text-shadow: 1px 1px 0 var(--parchment-dark);
+    margin-bottom: 2px;
+  }
+
+  .char-epithet {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blood);
+    margin-bottom: 6px;
+  }
+
+  .char-source {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.85em;
+    color: var(--ink-light);
+  }
+
+  .char-portrait {
+    width: 140px;
+    height: 180px;
+    margin: 0 auto 20px;
+    border: 2px solid var(--parchment-dark);
+    box-shadow: 3px 3px 12px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--parchment-dark);
+  }
+
+  .char-portrait .placeholder {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    color: var(--ink-light);
+    text-align: center;
+    opacity: 0.5;
+    padding: 12px;
+  }
+
+  blockquote.char-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    color: var(--ink-light);
+    line-height: 1.55;
+    max-width: 620px;
+    margin: 0 auto 10px;
+    text-align: center;
+    border: none;
+    padding: 0;
+  }
+
+  /* Stat table */
+  .stat-table {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 10px;
+    border-collapse: collapse;
+    font-family: 'Cinzel', serif;
+  }
+
+  .stat-table th {
+    font-size: 0.7em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 6px 12px;
+    border-bottom: 2px solid var(--parchment-dark);
+    text-align: center;
+  }
+
+  .stat-table td {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--parchment-dark);
+    text-align: center;
+    color: var(--ink);
+  }
+
+  .stat-table td:first-child {
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: left;
+  }
+
+  .stat-table td.mod-positive { color: var(--gold); font-weight: 700; }
+  .stat-table td.mod-negative { color: var(--blood); font-weight: 700; }
+  .stat-table td.mod-zero { color: var(--ink-light); }
+
+  /* Trait table */
+  .trait-table {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 10px;
+    border-collapse: collapse;
+    font-family: 'Cinzel', serif;
+  }
+
+  .trait-table th {
+    font-size: 0.7em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 6px 12px;
+    border-bottom: 2px solid var(--parchment-dark);
+    text-align: center;
+  }
+
+  .trait-table td {
+    font-size: 0.85em;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--parchment-dark);
+    color: var(--ink);
+  }
+
+  .trait-table td:first-child {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .trait-table td:last-child {
+    text-align: center;
+  }
+
+  .trait-high { color: var(--blood); font-weight: 700; }
+  .trait-medium { color: var(--gold); }
+  .trait-low { color: var(--ink-light); }
+
+  /* Condition block */
+  .condition {
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--gold);
+    background: rgba(218, 194, 146, 0.15);
+  }
+
+  .condition-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .condition-props {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .condition-prop {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  .condition-prop strong {
+    color: var(--ink);
+  }
+
+  .condition-text {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  /* Reputation block */
+  .reputation {
+    margin-bottom: 20px;
+    padding-left: 18px;
+    border-left: 2px solid var(--parchment-dark);
+  }
+
+  .reputation-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .reputation-source {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .reputation-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  /* Roll skill block */
+  .skill {
+    margin-bottom: 28px;
+    padding: 18px 20px;
+    border: 1px solid var(--parchment-dark);
+    position: relative;
+  }
+
+  .skill-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .skill-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--ink);
+  }
+
+  .skill-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    vertical-align: middle;
+  }
+
+  .skill-type--active {
+    color: var(--blood);
+    border: 1px solid var(--blood);
+  }
+
+  .skill-type--passive {
+    color: var(--gold);
+    border: 1px solid var(--gold);
+  }
+
+  .skill-detail {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .skill-detail strong {
+    color: var(--ink);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    letter-spacing: 0.03em;
+  }
+
+  .skill-tiers {
+    margin: 10px 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .skill-tiers li {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    line-height: 1.5;
+    padding: 4px 0 4px 20px;
+    position: relative;
+  }
+
+  .skill-tiers li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--parchment-dark);
+    border: 1px solid var(--ink-light);
+  }
+
+  .tier-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+
+  .skill-cost {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--blood);
+    line-height: 1.5;
+    padding-top: 8px;
+    border-top: 1px solid var(--parchment-dark);
+  }
+
+  /* Filter block */
+  .filter-block {
+    padding: 20px 24px;
+    border: 2px solid var(--gold);
+    background: rgba(184, 134, 11, 0.06);
+    margin-bottom: 10px;
+  }
+
+  .filter-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--ink-light);
+    line-height: 1.55;
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Equipment / bindings */
+  .equipment-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .equipment-slot {
+    flex: 1;
+    min-width: 200px;
+    padding: 14px 18px;
+    border: 1px dashed var(--parchment-dark);
+    text-align: center;
+    opacity: 0.6;
+  }
+
+  .equipment-slot.bound {
+    border-style: solid;
+    opacity: 1;
+  }
+
+  .slot-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 4px;
+  }
+
+  .slot-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+  }
+
+  .slot-empty {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.85em;
+    color: var(--ink-light);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .char-name { font-size: 1.8em; }
+    .condition-props { flex-direction: column; gap: 4px; }
+    .equipment-row { flex-direction: column; }
+    .skill-header { flex-direction: column; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="parchment-bg">
+
+  <!-- Header -->
+  <div class="char-header">
+    <div class="char-type">Actor</div>
+    <div class="char-portrait">
+      <div class="placeholder">No portrait.<br>The face<br>keeps changing.</div>
+    </div>
+    <div class="char-name">Faust</div>
+    <div class="char-epithet">The Bargainer</div>
+    <div class="char-source">From Goethe's Faust &mdash; via Marlowe, via Mann, via the smell of sulfur on old paper</div>
+  </div>
+
+  <blockquote class="char-desc">Scholar, overreacher, deal-maker, damned. Faust sold his soul for knowledge and got everything except the ability to stop wanting more. He knows the rules of every game because he's read the contract. He knows the cost of every move because he's already paying. He speaks in the calm, measured tone of a man who signed something terrible a long time ago and has made peace with the installments.</blockquote>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Ability Scores -->
+  <h2 class="section-header">Ability Scores</h2>
+  <p class="section-sub">The measure of what he traded for</p>
+
+  <table class="stat-table">
+    <thead>
+      <tr><th>Stat</th><th>Score</th><th>Mod</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>STR</td><td>10</td><td class="mod-zero">+0</td></tr>
+      <tr><td>DEX</td><td>11</td><td class="mod-zero">+0</td></tr>
+      <tr><td>CON</td><td>12</td><td class="mod-positive">+1</td></tr>
+      <tr><td>INT</td><td>20</td><td class="mod-positive">+5</td></tr>
+      <tr><td>WIS</td><td>8</td><td class="mod-negative">&minus;1</td></tr>
+      <tr><td>CHA</td><td>17</td><td class="mod-positive">+3</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Game Traits -->
+  <h2 class="section-header">Game Traits</h2>
+  <p class="section-sub">The qualities that don't fit in numbers</p>
+
+  <table class="trait-table">
+    <thead>
+      <tr><th>Trait</th><th>Level</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Game Savvy</td><td><span class="trait-high">High</span></td></tr>
+      <tr><td>Honesty</td><td><span class="trait-low">Low</span></td></tr>
+      <tr><td>Verbosity</td><td><span class="trait-medium">Medium</span></td></tr>
+      <tr><td>Sensitivity</td><td><span class="trait-low">Low</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Conditions -->
+  <h2 class="section-header">Conditions</h2>
+  <p class="section-sub">What persists. What festers. What marks him.</p>
+
+  <div class="condition">
+    <div class="condition-name">The Clause</div>
+    <div class="condition-props">
+      <span class="condition-prop"><strong>Duration:</strong> Permanent</span>
+      <span class="condition-prop"><strong>Visibility:</strong> Semi-private</span>
+      <span class="condition-prop"><strong>Observability:</strong> o2o</span>
+    </div>
+    <div class="condition-text">Somewhere in the fine print of existence, Faust owes a debt that compounds. He doesn't know when it will be called. Others with sufficient perception feel a faint contractual weight around him &mdash; not evil, exactly, but encumbered. Like standing next to someone carrying an invisible suitcase full of lead.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">The Scholar's Hunger</div>
+    <div class="condition-props">
+      <span class="condition-prop"><strong>Duration:</strong> Permanent</span>
+      <span class="condition-prop"><strong>Visibility:</strong> Public</span>
+      <span class="condition-prop"><strong>Observability:</strong> o2o</span>
+    </div>
+    <div class="condition-text">He cannot stop learning. Every new system, every hidden mechanism, every locked door is a compulsion. This is not curiosity &mdash; it is appetite. Others notice because he leans forward at exactly the moments when normal people lean back. When someone says "you don't want to know," his pupils dilate.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">Mephistopheles' Shadow</div>
+    <div class="condition-props">
+      <span class="condition-prop"><strong>Duration:</strong> Until the debt is settled</span>
+      <span class="condition-prop"><strong>Visibility:</strong> Private</span>
+      <span class="condition-prop"><strong>Observability:</strong> no2o</span>
+    </div>
+    <div class="condition-text">In moments of extreme stress or triumph, Faust catches a second shadow at the edge of his vision &mdash; one that moves half a beat too late and smiles when he doesn't. No one else can see it. He has stopped being alarmed by it. That, perhaps, is the most alarming thing.</div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Reputations -->
+  <h2 class="section-header">Reputations</h2>
+  <p class="section-sub">What the world remembers, whether he wants it to or not</p>
+
+  <div class="reputation">
+    <div class="reputation-name">"The Man Who Signed"</div>
+    <div class="reputation-source">Source: The Bindery (widespread)</div>
+    <div class="reputation-text">The Bindery knows about the contract. They know it was signed in something that wasn't quite ink. They respect the audacity and fear the implications &mdash; a man who would sign his soul away is either the bravest person in the room or the most dangerous. The Bindery tends to offer him excellent terms on lesser bargains, hoping to stay on whatever side of his ledger survives.</div>
+  </div>
+
+  <div class="reputation">
+    <div class="reputation-name">"The Professor"</div>
+    <div class="reputation-source">Source: The Lamplighters (moderate)</div>
+    <div class="reputation-text">The Lamplighters have noted Faust's extraordinary ability to decode systems, translate between incompatible frameworks, and find the structural weaknesses in any text he enters. They've offered him work three times. He declined each time &mdash; politely, in language that suggested he was declining on someone else's behalf. The Lamplighters are still deciding whether that someone is real or a negotiating fiction.</div>
+  </div>
+
+  <div class="reputation">
+    <div class="reputation-name">"Sulfur and Quill-Ink"</div>
+    <div class="reputation-source">Source: The Ashkeepers (limited)</div>
+    <div class="reputation-text">A few Ashkeepers have reported a faint smell of sulfur in texts recently visited by someone matching Faust's description. They don't know his name yet. They've filed it under environmental anomalies. The file is getting thicker.</div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Roll Skills -->
+  <h2 class="section-header">Roll Skills</h2>
+  <p class="section-sub">What he can do, and what it costs him</p>
+
+  <div class="skill">
+    <div class="skill-header">
+      <span class="skill-name">Read the Contract</span>
+      <span class="skill-type skill-type--active">Active</span>
+    </div>
+    <div class="skill-detail"><strong>Trigger:</strong> Faust chooses to analyze a system, agreement, or hidden mechanism</div>
+    <div class="skill-detail"><strong>Mechanic:</strong> d20 + INT (+5)</div>
+    <ul class="skill-tiers">
+      <li><span class="tier-label">18+:</span> He sees the entire architecture &mdash; not just the rules, but who wrote them and what they were afraid of. He identifies the clause that was meant to stay hidden. The system is transparent to him.</li>
+      <li><span class="tier-label">10&ndash;17:</span> He reads the system accurately &mdash; its structure, its constraints, its primary exploit. He knows what it does and roughly what it costs.</li>
+      <li><span class="tier-label">1&ndash;9:</span> He reads what the system wants him to read. The false front. He proceeds with unearned confidence, which is more dangerous than ignorance.</li>
+    </ul>
+    <div class="skill-cost"><strong>Cost:</strong> Every system he decodes remembers being decoded. Texts he has analyzed are subtly harder to re-enter &mdash; their immune systems learn his signature. The more he reads, the more the literary world knows his methods.</div>
+  </div>
+
+  <div class="skill">
+    <div class="skill-header">
+      <span class="skill-name">Call It Due</span>
+      <span class="skill-type skill-type--passive">Passive</span>
+    </div>
+    <div class="skill-detail"><strong>Trigger:</strong> Fires when Faust makes a promise, offer, or agreement of any kind &mdash; including casual ones</div>
+    <div class="skill-detail"><strong>Mechanic:</strong> d20 + CHA (+3)</div>
+    <ul class="skill-tiers">
+      <li><span class="tier-label">18+:</span> The agreement carries binding force beyond the social. Both parties feel the weight of the terms settling into reality. Breaking this agreement will have consequences neither side can predict.</li>
+      <li><span class="tier-label">10&ndash;17:</span> The agreement lands with unusual gravity. The other party takes it more seriously than they intended to. Faust's word feels expensive.</li>
+      <li><span class="tier-label">1&ndash;9:</span> The contractual energy misfires. Faust accidentally binds himself to terms he didn't intend, or the other party senses the mechanism and recoils.</li>
+    </ul>
+    <div class="skill-cost"><strong>Cost:</strong> Every agreement Faust makes &mdash; even a casual "I'll be there" &mdash; accumulates on his ledger. The original debt notices. Each new contract, however minor, increases the probability that the Clause activates. He is, in effect, paying compound interest on borrowed time every time he shakes hands.</div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Filter -->
+  <h2 class="section-header">Filter</h2>
+  <p class="section-sub">The passive weather he cannot turn off</p>
+
+  <div class="filter-block">
+    <div class="filter-name">"The Price of Everything"</div>
+    <div class="filter-text">In Faust's presence, every interaction becomes faintly transactional. Not mercenary &mdash; something deeper. People near him become aware of what things cost. Not in money, but in time, in loyalty, in the parts of themselves they trade away without noticing. Conversations acquire subtext about value. Generosity feels strategic. Gifts feel like opening offers. The air around Faust smells, very faintly, of ink drying on a contract no one remembers signing.</div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Relationships -->
+  <h2 class="section-header">Relationships</h2>
+  <p class="section-sub">The ledger of the heart &mdash; currently empty</p>
+
+  <div class="sidelined-block">
+    <div class="sidelined-header">No Encounters Recorded</div>
+    <div class="sidelined-note">Affinity and animosity toward other Actors will be populated during play.<br>The ledger waits. It is very patient.</div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- Equipment -->
+  <h2 class="section-header">Equipment</h2>
+  <p class="section-sub">What he carries, and what carries him</p>
+
+  <div class="equipment-row">
+    <div class="equipment-slot">
+      <div class="slot-label">Artifact</div>
+      <div class="slot-empty">(unbound)</div>
+    </div>
+    <div class="equipment-slot">
+      <div class="slot-label">Idea</div>
+      <div class="slot-empty">(unbound)</div>
+    </div>
+  </div>
+
+  <p class="colophon">Faust &mdash; Actor Card &mdash; World of Guttenberg<br>Ginsfeld-era character sheet. The contract is the character.</p>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wednesday Group — Iteration 1</title>
+<link rel="stylesheet" href="../../styles/guttenberg.css">
+<style>
+  /* ============================================================
+     PROPOSED NEW COMPONENTS
+     ============================================================ */
+
+  /* 1. MISSION BRIEF PANEL */
+  .mission-brief {
+    border: 2px solid var(--ink);
+    padding: 28px 24px;
+    margin-bottom: 40px;
+    position: relative;
+    background: rgba(42, 26, 10, 0.04);
+  }
+  .mission-brief::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid var(--parchment-dark);
+    pointer-events: none;
+  }
+  .mission-brief-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.2em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .mission-field {
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .mission-field-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: inline;
+  }
+  .mission-field-value {
+    display: inline;
+    color: var(--ink);
+  }
+
+  /* 2. CHARACTER SHEET */
+  .character-sheet {
+    border: 1px solid var(--parchment-dark);
+    padding: 32px 28px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .character-sheet::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 194, 146, 0.5);
+    pointer-events: none;
+  }
+  .character-name {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 2.2em;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 2px;
+    text-shadow: 1px 1px 0 var(--parchment-dark);
+  }
+  .character-role {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+  .character-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    text-align: center;
+    color: var(--ink-light);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    line-height: 1.55;
+    padding: 0 20px;
+  }
+  .character-section-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    margin-top: 28px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+
+  /* 3. STAT BLOCK */
+  .stat-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .stat-cell {
+    width: 72px;
+    text-align: center;
+    border: 1px solid var(--parchment-dark);
+    padding: 8px 4px;
+    background: rgba(218, 194, 146, 0.2);
+  }
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .stat-score {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .stat-mod {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.8em;
+    color: var(--gold);
+  }
+
+  /* 4. TRAIT GRID */
+  .trait-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .trait-cell {
+    text-align: center;
+    min-width: 100px;
+    padding: 6px 12px;
+  }
+  .trait-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .trait-value {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .trait-value--high { color: var(--blood); }
+  .trait-value--low { color: var(--ink-light); opacity: 0.7; }
+
+  /* 5. CONDITION BLOCK */
+  .condition {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.15);
+  }
+  .condition-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .condition-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .condition-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 1px 6px;
+    border: 1px solid var(--parchment-dark);
+  }
+  .condition-tag--permanent { border-color: var(--blood); color: var(--blood); }
+  .condition-tag--private { border-style: dashed; }
+  .condition-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  /* 6. REPUTATION BLOCK */
+  .reputation {
+    margin-bottom: 16px;
+    padding: 12px 18px;
+    border-left: 3px solid var(--gold);
+  }
+  .reputation-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .reputation-source {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .reputation-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  /* 7. SKILL BLOCK */
+  .skill-block {
+    margin-bottom: 24px;
+    padding: 18px 22px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.1);
+  }
+  .skill-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .skill-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .skill-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+  }
+  .skill-type--active { border-color: var(--blood); color: var(--blood); }
+  .skill-trigger {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .skill-mechanic {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+  }
+  .skill-range {
+    margin-bottom: 4px;
+    padding-left: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .skill-range-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+  .skill-range-label--high { color: var(--gold); }
+  .skill-range-label--low { color: var(--blood); }
+  .skill-cost {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--parchment-dark);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--blood);
+    line-height: 1.5;
+  }
+  .skill-cost-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+
+  /* 8. FILTER BLOCK */
+  .filter-block {
+    margin-bottom: 20px;
+    padding: 20px 24px;
+    border: 1px solid var(--gold);
+    background: rgba(184, 134, 11, 0.05);
+    position: relative;
+  }
+  .filter-block::before {
+    content: '~';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.2em;
+    color: var(--gold);
+    background: var(--parchment);
+    padding: 0 8px;
+  }
+  .filter-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .filter-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92em;
+    color: var(--ink);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* 9. BEAT NARRATIVE */
+  .beat {
+    margin-bottom: 40px;
+  }
+  .beat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+  }
+  .beat-number {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .beat-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .beat-prose {
+    font-family: 'EB Garamond', serif;
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .beat-prose em { color: var(--ink); }
+
+  /* 10. DICE ROLL INLINE */
+  .dice-roll {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 3px solid var(--blood);
+    background: rgba(139, 26, 26, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .dice-roll-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dice-roll-skill {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dice-roll-result {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--ink);
+  }
+  .dice-roll-outcome {
+    font-style: italic;
+    color: var(--ink-light);
+  }
+
+  /* 11. RELATIONSHIP DELTAS */
+  .relationships-block {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border: 1px dashed var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.12);
+  }
+  .relationships-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .rel-delta {
+    margin-bottom: 6px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .rel-pair {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+  }
+  .rel-change--positive { color: var(--gold); }
+  .rel-change--negative { color: var(--blood); }
+  .rel-thought {
+    font-style: italic;
+    color: var(--ink-light);
+    opacity: 0.85;
+  }
+
+  /* 12. ASSESSMENT BLOCK */
+  .assessment {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--ink);
+    background: rgba(42, 26, 10, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .assessment-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  /* 13. FILTER INTERACTION */
+  .filter-trigger {
+    margin: 16px 0;
+    padding: 10px 18px;
+    border-left: 3px solid var(--gold);
+    background: rgba(184, 134, 11, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .filter-trigger-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* 14. RELATIONSHIP TABLE */
+  .rel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .rel-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .rel-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .rel-table td:nth-child(2),
+  .rel-table td:nth-child(3),
+  .rel-table td:nth-child(4) {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    text-align: center;
+    width: 70px;
+  }
+  .rel-table .net-positive { color: var(--gold); }
+  .rel-table .net-negative { color: var(--blood); }
+  .rel-table .net-neutral { color: var(--ink-light); }
+  .rel-table td:last-child {
+    font-style: italic;
+    color: var(--ink-light);
+    font-size: 0.88em;
+  }
+
+  /* 15. POST-ENCOUNTER NOTE BLOCK */
+  .post-note {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.08);
+  }
+  .post-note-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .post-note-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .post-note-text ol, .post-note-text ul {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  .post-note-text li {
+    margin-bottom: 6px;
+  }
+
+  /* 16. IMPACT TABLE */
+  .impact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .impact-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .impact-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .impact-critical {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+  .impact-high {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .impact-medium {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .impact-low {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper page-wrapper--wide">
+<div class="parchment-bg">
+
+  <h1 class="main-title">The Wednesday Group</h1>
+  <p class="subtitle">Iteration 1</p>
+
+  <!-- MISSION BRIEF -->
+  <div class="mission-brief">
+    <div class="mission-brief-title">Mission Brief</div>
+    <div class="mission-field">
+      <span class="mission-field-label">Target: </span>
+      <span class="mission-field-value">A character trapped inside a book who is trying to escape into the wrong story. The character is pushing against the seams of their text, and every failed escape attempt destabilizes the surrounding narratives. If they break through into the wrong story, the cross-contamination could corrupt both texts permanently.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Opposition: </span>
+      <span class="mission-field-value">The Redactors. They've flagged the target for erasure rather than recovery. Their position: a character trying to escape is a character who has gone wrong, and wrong characters don't get rescued — they get unmade. The Redactors have a three-person strike team already in the field.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Complication: </span>
+      <span class="mission-field-value">One member of the team will be recognized by inhabitants of the target text. Whoever it is will draw attention, suspicion, and potentially hostile response. The team won't know who until they're already inside.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Ginsfeld Knows: </span>
+      <span class="mission-field-value">Everything about the opposition — the Redactors' methods, their team composition, their timeline (72 hours before they begin erasure). Almost nothing about the target — not which book, not which character, not why they're trying to escape. His contact gave him the job and the opposition brief. The rest is fog.</span>
+    </div>
+  </div>
+
+  <!-- ✦ DIVIDER ✦ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- ============================================================
+       CHARACTER CARDS
+       ============================================================ -->
+
+  <!-- SEI SHŌNAGON -->
+  <div class="character-sheet">
+    <div class="character-name">Sei Sh&#333;nagon</div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">Lady-in-waiting to Empress Teishi, diarist of the Heian court, compiler of the world's most devastating lists. Sei does not merely observe — she categorizes, ranks, and files away every human weakness she encounters. She wants to find a court worthy of her attention. She carries a pillow book that is never quite full.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--high">High</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">The List-Maker's Compulsion</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">She categorizes everything she encounters — people, rooms, feelings, the quality of light. Others notice her eyes moving, cataloguing. Her fingers twitch as though writing. Those being observed feel, without knowing why, that they are being measured and found either elegant or wanting.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Displaced from the Seasons</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">Ripped from the Heian court, she has lost her context entirely. Her robes are a thousand years out of fashion. She wears them anyway. The displacement manifests as a faint temporal shimmer — her edges seem soft, as though she is a painting placed in a photograph.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Ink That Won't Dry</div>
+      <div class="condition-meta">
+        <span class="condition-tag">Until she finds a text that feels like home</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">She has been annotating the margins of every text she passes through. The annotations are brilliant, cutting, and occasionally cruel. Several texts now carry her commentary like graffiti on cathedral walls. She doesn't know the Marginalia have noticed.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Homesickness as Aesthetic Wound</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">She aches for the court of Empress Teishi — not the politics, but the beauty. Moonlight on wet sleeves. The rustle of layered silk. She would trade everything for one perfect autumn evening. This longing makes her simultaneously more perceptive and more brittle.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Cataloguer"</div>
+      <div class="reputation-source">Source: The Lamplighters</div>
+      <div class="reputation-desc">The Lamplighters know that Sei Sh&#333;nagon has been documenting everything she encounters with terrifying precision. Her pillow book contains observations about people, texts, and systems that most organizations would prefer stayed unwritten. Useful as an intelligence source. Dangerous as a loose canon of recorded truth.</div>
+    </div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Court Ghost"</div>
+      <div class="reputation-source">Source: The Marginalia (limited)</div>
+      <div class="reputation-desc">A few among the Marginalia have noticed annotations appearing in texts — elegant, classical Japanese interspersed with cutting observations in whatever local language the text employs. They haven't identified the source yet, but they're looking.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Devastating Observation</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-trigger">Trigger: Sei chooses to study a person or situation closely and deliver her assessment</div>
+      <div class="skill-mechanic">Mechanic: d20 + CHA (+3)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">18+:</span> She identifies not just what someone is hiding, but WHY — the emotional architecture beneath the mask. The insight is precise enough to use as leverage.</div>
+      <div class="skill-range"><span class="skill-range-label">10–17:</span> She reads the surface accurately — posture, tells, inconsistencies — and forms a correct general impression.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> She projects her own biases onto the target and misreads them, usually by assuming they are less sophisticated than they are.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>The target always knows they've been observed. Sei cannot study someone without them feeling it. High-success observations leave the target feeling exposed, which can create enemies even when the reading is accurate.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Aesthetic Resonance</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires when Sei enters a new space or encounters a text for the first time</div>
+      <div class="skill-mechanic">Mechanic: d20 + WIS (+2)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">17+:</span> She perceives the deep structure of the place — its narrative grammar, its emotional weather, its hidden doors. The space reveals itself to her as a poem reveals itself on third reading.</div>
+      <div class="skill-range"><span class="skill-range-label">10–16:</span> She gets a strong aesthetic impression — whether the space is harmonious or discordant, alive or dying, true or false.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> The space overwhelms her with sensory data. She freezes, lost in cataloguing, and misses what matters.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">"Things That Lose by Being Painted"</div>
+      <div class="filter-desc">The world presents itself to Sei in hierarchies of elegance. When she enters a room, everyone present becomes subtly aware of whether they are being found pleasing or wanting. This is not something she does consciously — it radiates from her like a frequency. People near Sei find themselves straightening their posture, choosing their words more carefully, or bristling with defensive resentment. The shabby becomes shabbier. The beautiful becomes more beautiful. Mediocrity becomes unbearable.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- YVAIN -->
+  <div class="character-sheet">
+    <div class="character-name">Yvain</div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">Knight of the Round Table, lion-tamer, oath-breaker, madman, penitent. Yvain forgot to return to his wife Laudine and lost his mind in the forest for it. The lion he saved from a serpent followed him out and never left. The lion isn't here tonight, but the bond is. Yvain wants to be the kind of man who keeps his word. He carries a sword he hasn't drawn in a long time and guilt that never sheathes.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value">Medium</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">The Madness Scar</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">He went feral in the forest after betraying Laudine's trust. It left marks: a wildness that flickers behind his eyes under stress, an involuntary flinch at loud sounds, and a tendency to go very still when he feels trapped. Others can see it — a barely-contained animal pacing behind a knight's composure.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Lion's Bond</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">His lion isn't here, but the bond persists. Yvain occasionally tilts his head as though listening for a low rumble that isn't there. In moments of danger, his hand reaches to his left side — where the lion would stand. The absence is a phantom limb.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Oath-Breaker's Weight</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">He promised Laudine he would return in a year. He forgot. The forgetting haunts him more than deliberate betrayal would — it means he is the kind of man who can simply lose track of the most important promise he ever made. This manifests as an almost pathological attention to time and deadlines.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Forest-Touched</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">Living wild in the forest rewired his senses. Enclosed spaces make him hypervigilant. He maps exits automatically, tracks air currents, notices shifts in ambient sound. In this basement, he has already identified two exits and catalogued every person's position relative to each one.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Knight Who Went Wild"</div>
+      <div class="reputation-source">Source: The Ashkeepers</div>
+      <div class="reputation-desc">The Ashkeepers know Yvain lost his mind in the forest and was restored by a hermit's ointment. They respect his recovery — not many come back from that kind of break. But they question his stability under pressure. A knight who forgot his wife might forget his mission.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Lion's Fury</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-trigger">Trigger: Yvain chooses to physically protect someone he has committed to</div>
+      <div class="skill-mechanic">Mechanic: d20 + STR (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">18+:</span> Devastating, precise, controlled violence. He places himself between the threat and the protected with absolute authority. Nothing gets through.</div>
+      <div class="skill-range"><span class="skill-range-label">10–17:</span> Effective protection, but the intensity is visible. He moves with more force than the situation warrants. Others see the animal behind the knight.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> The protective instinct overwhelms his judgment. He overreacts, escalates, or moves toward violence when de-escalation was the better path.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>The intensity of the protective response is always visible and often alarming — including to the person being protected. It reveals the wildness under his composure every time.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Forest Sense</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires when Yvain is in an enclosed or unfamiliar space</div>
+      <div class="skill-mechanic">Mechanic: d20 + WIS (+2)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">17+:</span> He perceives threats and exit routes that others miss entirely — hidden doors, structural weaknesses, the faint sound of someone breathing on the other side of a wall.</div>
+      <div class="skill-range"><span class="skill-range-label">10–16:</span> Accurate awareness of the physical space — exits, sight lines, who is positioned where. Solid tactical read.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> The hypervigilance spikes into anxiety. He becomes fixated on a perceived threat that isn't there, drawing attention to his unease.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">"The Oath That Echoes"</div>
+      <div class="filter-desc">Promises made in Yvain's presence carry physical weight. Anyone who gives their word while he is nearby feels the gravity of the commitment settle onto them like a hand on the shoulder. Those who have broken promises in their past feel a low, persistent prickle of conscience — not accusation, just awareness. Yvain himself radiates a quiet moral pressure that makes casual dishonesty uncomfortable. Liars don't suddenly become truthful, but their lies cost more effort. Truth-tellers find their words landing harder than intended.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- FEVVERS -->
+  <div class="character-sheet">
+    <div class="character-name">Fevvers</div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">Six feet two inches of Cockney aerialiste, blonde as a bombshell, loud as a music hall. Claims she was hatched from an egg. Has wings — enormous, functional, ambiguously real. Raised in a Whitechapel brothel by the kind madam Ma Nelson, she learned early that desire is an economy and spectacle is currency. She wants to be believed. She wants to not need to be believed. She carries herself like the headline act, even when the theatre is a basement.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--low">Low</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">Hatched, Not Born</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">She has wings. They emerge from her shoulder blades and span roughly six feet on each side when extended. Whether they are real, prosthetic, magical, or simply the most committed performance in literary history is genuinely unclear. They are visible. They are large. They smell faintly of musk and feathers. People stare.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Broken Pinion</div>
+      <div class="condition-meta">
+        <span class="condition-tag">3 encounters</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">Her left wing was damaged during a rough extraction from a hostile text. She keeps it folded tight against her back, but winces when she moves too quickly. Those watching closely notice she favors her left side and avoids turning sharply. The wing needs rest she isn't giving it.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Ma Nelson's Economics</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">Raised in a brothel, she learned to read desire before she could read words. She instinctively calculates what everyone in a room wants and what they'd trade for it. This isn't manipulation — it's survival arithmetic. She can't turn it off.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Walser's Shadow</div>
+      <div class="condition-meta">
+        <span class="condition-tag">Until resolved</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">Jack Walser, the American journalist who followed her across continents, may still be following her. She doesn't know. The uncertainty makes her check doorways, scan crowds, and startle at the scratch of pen on paper. She doesn't want to be someone's story anymore. She wants to be her own.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Cockney Venus"</div>
+      <div class="reputation-source">Source: The Dockhands (wide)</div>
+      <div class="reputation-desc">The Dockhands — those who move characters and cargo between texts — know Fevvers as the biggest act in three continua. Opinions divide sharply: half say she's the genuine article, a woman with real wings born from an egg, the avatar of the new century. The other half say she's the best con artist in literary history. Both halves agree she's unforgettable.</div>
+    </div>
+
+    <div class="reputation">
+      <div class="reputation-name">"Wing-Clipper's Survivor"</div>
+      <div class="reputation-source">Source: The Bindery (limited)</div>
+      <div class="reputation-desc">The Bindery heard she escaped from a collector called the Grand Duke who wanted to cage her, gilded bars and all. The details of the escape vary with every telling — she burned the house down, she seduced the guards, she simply flew. The Bindery respects the escape but wonders what it cost and whether the Duke is still looking.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Is She Fact or Is She Fiction?</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires when anyone attempts to assess Fevvers' truthfulness or authenticity</div>
+      <div class="skill-mechanic">Mechanic: d20 + CHA (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">18+:</span> Complete ontological disruption. The assessor cannot determine not just whether she's lying, but whether the categories of "true" and "false" apply to her at all. She becomes a paradox that the observer's mind keeps circling without resolving.</div>
+      <div class="skill-range"><span class="skill-range-label">10–17:</span> The assessor gets a strong impression that could go either way. Every piece of evidence for authenticity is balanced by a counter-reading. The assessment fails to resolve.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> The cracks show. Something about her performance falters — a wing twitches wrong, a story contradicts itself, the timing is off. The assessor sees through to something real beneath the spectacle.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Even Fevvers can no longer reliably distinguish her performance from her reality. Each successful deflection deepens her own uncertainty about what she actually is.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Aerialiste's Grace</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-trigger">Trigger: Physical action requiring balance, agility, strength, or sheer spectacle</div>
+      <div class="skill-mechanic">Mechanic: d20 + STR (+3)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">18+:</span> Genuinely superhuman. The wings unfold, the physics bend, and for a moment everyone in the room sees something that should not be possible. The room holds its breath.</div>
+      <div class="skill-range"><span class="skill-range-label">10–17:</span> Impressive, athletic, striking — but explicable. A very strong, very graceful woman doing extraordinary things that a very strong, very graceful woman could do.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> The broken wing betrays her. She stumbles, overextends, or the wing spasms visibly. The vulnerability beneath the spectacle shows.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">"The Suspension of Disbelief"</div>
+      <div class="filter-desc">When Fevvers is in a room, the boundary between truth and performance dissolves. Other characters find their certainties wobbling — not just about her, but about everything. Skeptics become fascinated despite themselves. Believers begin to doubt what they believed. The room's reality becomes softer, more negotiable, as though Fevvers' mere presence opens a space where things that shouldn't be possible haven't been ruled out yet. This effect is strongest when she is speaking and weakest when she is still.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- AZARO -->
+  <div class="character-sheet">
+    <div class="character-name">Azaro</div>
+    <div class="character-role">Actor &mdash; Unaffiliated</div>
+    <div class="character-quote">Spirit child. Abiku. The boy who keeps being born and keeps refusing to stay dead. Azaro chose the living world over the spirit world, and the spirits have never forgiven him. He sees both worlds at once — the fluorescent light and the ghost-light, the folding chair and the throne of bones beneath it. He is young. He is ancient. He wants to stay. He carries hunger like a second heartbeat.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--high">High</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+
+    <div class="condition">
+      <div class="condition-name">Spirit-Sight</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">Azaro sees the spirit world overlaid on the physical like a double exposure. Every room has a second room inside it. Every person has something riding their shoulders. The fluorescent light of this basement flickers because something in the spirit layer keeps brushing against the bulb. He doesn't mention this. Others can't tell he's seeing anything unusual — he just looks like a quiet child staring at nothing.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Road's Call</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag condition-tag--private">Private</span>
+        <span class="condition-tag">no2o</span>
+      </div>
+      <div class="condition-desc">The spirit world wants him back. The pull is constant, like a current beneath still water. It intensifies when he's tired, hungry, or emotionally overwhelmed. Azaro resists by anchoring himself in physical sensation — the taste of food, the texture of a chair, the sound of voices. The resistance is invisible but exhausting.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">The Scars of Return</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent</span>
+        <span class="condition-tag">Semi-private</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">Each death and rebirth left marks: faint lines on his wrists and temples that seem to shift position when you're not looking directly at them. In certain light, they glow faintly. Anyone who looks closely sees the marks and feels, without understanding why, that this child has been somewhere no child should go.</div>
+    </div>
+
+    <div class="condition">
+      <div class="condition-name">Hunger of Two Worlds</div>
+      <div class="condition-meta">
+        <span class="condition-tag condition-tag--permanent">Permanent (managed)</span>
+        <span class="condition-tag">Public</span>
+        <span class="condition-tag">o2o</span>
+      </div>
+      <div class="condition-desc">Sustaining a presence in two worlds requires fuel. Azaro eats constantly — not greedily, but steadily, the way someone feeds a fire. He gravitates toward food the moment he enters any space. The coffee and powdered creamer on Ginsfeld's card table will be insufficient. He will eat whatever is available and it will never seem like enough.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+
+    <div class="reputation">
+      <div class="reputation-name">"The Boy Who Wouldn't Stay Dead"</div>
+      <div class="reputation-source">Source: The Marginalia (whispered)</div>
+      <div class="reputation-desc">Among the Marginalia, there are stories of a child who appears in texts that are dying — texts fraying at the edges, losing coherence, bleeding into other narratives. He shows up, and sometimes the text stabilizes. Sometimes it doesn't. The Marginalia don't know if he's a symptom or a cure. They watch for him.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Between the Pages</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-trigger">Trigger: Fires when Azaro is near a boundary between texts or inside a destabilized narrative</div>
+      <div class="skill-mechanic">Mechanic: d20 + WIS (+4)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">18+:</span> He sees the seams between stories with perfect clarity — where one narrative ends and another begins, where the walls are thin, where a trapped character might be pushing through. He can find hidden passages, narrative shortcuts, and the exact point of structural weakness.</div>
+      <div class="skill-range"><span class="skill-range-label">10–17:</span> He gets a strong sense of the narrative landscape — stable zones, dangerous zones, places where the text feels wrong. Useful navigation but not precise.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> The seams open too wide. Something on the other side sees him. The spirits press closer. The Road's Call intensifies and he must anchor himself immediately or risk being pulled.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Seeing the seams means being seen. Every successful reading is a two-way door. The spirits of the space between texts always notice Azaro when he looks, and they always remember.</div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Spirit Bargain</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-trigger">Trigger: Azaro chooses to communicate with entities that exist between texts</div>
+      <div class="skill-mechanic">Mechanic: d20 + INT (+2)</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--high">18+:</span> The entity cooperates fully — information, safe passage, or assistance. The bargain is fair and Azaro retains control of the terms.</div>
+      <div class="skill-range"><span class="skill-range-label">10–17:</span> The entity cooperates, but the terms are ambiguous. Azaro gets what he needs, but the cost will reveal itself later. Something was traded that he didn't explicitly offer.</div>
+      <div class="skill-range"><span class="skill-range-label skill-range-label--low">1–9:</span> The entity demands too much. The negotiation breaks down, or worse, the entity takes something without permission — a memory, a sensation, a small piece of Azaro's attachment to the living world.</div>
+      <div class="skill-cost"><span class="skill-cost-label">Cost: </span>The spirits always want something. Even on a high success, the transaction is never free. Every bargain erodes, by a tiny amount, Azaro's grip on the physical world.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">"The Abiku's Gravity"</div>
+      <div class="filter-desc">Wherever Azaro stands, the boundary between what is real and what is remembered becomes thin. Shadows lengthen. Sounds carry strangely — a voice from across the room might arrive before the speaker's lips move. Adults near Azaro feel an inexplicable pull in one of two directions: an urge to protect him, or an urge to push him away, as though his presence is a question about mortality that they'd rather not answer. Characters with high WIS notice the thinning of reality. Characters with low WIS just feel uneasy without knowing why.</div>
+    </div>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <!-- DR. GINSFELD -->
+  <div class="character-sheet">
+    <div class="character-name">Dr. Donald Ginsfeld, PhD</div>
+    <div class="character-role">Bookhunter &mdash; Player Character</div>
+    <div class="character-quote">Antiquities dealer. Bookhunter. Runs a "support group" for unmoored literary characters beneath the Metro Library every third Wednesday. The coffee is real. The therapy is fake. The recruitment is the point.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value">Medium</div></div>
+    </div>
+
+    <div class="character-section-label">Mission Parameters</div>
+    <div class="mission-field"><span class="mission-field-label">Target: </span><span class="mission-field-value">A character trapped inside a book, trying to escape into the wrong story</span></div>
+    <div class="mission-field"><span class="mission-field-label">Opposition: </span><span class="mission-field-value">The Redactors — three-person strike team, 72-hour window before they begin erasure</span></div>
+    <div class="mission-field"><span class="mission-field-label">Complication: </span><span class="mission-field-value">One team member will be recognized by inhabitants of the target text</span></div>
+    <div class="mission-field"><span class="mission-field-label">Ginsfeld Knows: </span><span class="mission-field-value">Everything about the Redactors' methods, personnel, and timeline. Almost nothing about the target, the text, or why the character is trying to escape.</span></div>
+    <div class="mission-field"><span class="mission-field-label">Crew needed: </span><span class="mission-field-value">3 of 4 attendees</span></div>
+    <div class="mission-field"><span class="mission-field-label">Cover: </span><span class="mission-field-value">Group therapy / support group for unmoored characters</span></div>
+    <div class="mission-field"><span class="mission-field-label">Constraint: </span><span class="mission-field-value">Cannot reveal the mission until he's chosen the crew</span></div>
+    <div class="mission-field"><span class="mission-field-label">Method: </span><span class="mission-field-value">Group therapy as audition</span></div>
+
+    <div class="character-section-label">What He's Looking For</div>
+    <div class="beat-prose">
+      <p><strong>1. A Navigator</strong> — someone who can find the trapped character inside an unknown text. Must be able to read narrative architecture, find seams, follow traces. Azaro's spirit-sight makes him the obvious candidate, but Ginsfeld doesn't know that yet.</p>
+      <p><strong>2. A Shield</strong> — someone who can handle the Redactors when they arrive. The strike team is professional, efficient, and willing to erase anyone in the way. Physical capability, loyalty under fire, willingness to stand ground. Not just muscle — judgment under pressure.</p>
+      <p><strong>3. A Face</strong> — someone who can move through the target text's inhabitants without causing a narrative immune response. Charm, adaptability, the ability to pass as belonging. Complicated by the fact that one team member will be recognized.</p>
+      <p><strong>4. A Steady Hand</strong> — someone Ginsfeld can rely on to follow the plan when things go sideways. The Redactors don't improvise — they execute. Ginsfeld's team will need to improvise constantly. He needs at least one person who stays calm when the script breaks.</p>
+    </div>
+
+    <div class="character-section-label">Decision Criteria</div>
+    <p class="beat-prose">Competence, reliability, team chemistry, controllability. Wildcard tolerance: one unpredictable member IF the other two are stable. Dealbreaker: anyone who can't take direction, will betray for personal reasons, or whose baggage will detonate mid-job.</p>
+  </div>
+
+  <!-- ✦ DIVIDER ✦ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- ============================================================
+       THE ENCOUNTER — BEATS 1-20
+       ============================================================ -->
+
+  <!-- BEAT 1 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 1</span>
+      <span class="beat-title">Sei Arrives</span>
+    </div>
+    <p class="beat-prose">The basement smells like wet concrete and instant coffee. The fluorescent tube nearest the door has committed to a rhythm: buzz-flicker-buzz-flicker, every four seconds. Ginsfeld counts the intervals while he straightens the folding chairs into something approaching a circle. Five chairs. The fifth is his.</p>
+    <p class="beat-prose">The door opens at 8:47 PM — thirteen minutes early. Sei Sh&#333;nagon descends the stairs with the posture of someone entering a throne room and the expression of someone cataloguing its inadequacies. She wears layered robes — plum over ash over white — that belong to no century currently in use. Her hair is drawn up and pinned with what appears to be an actual writing brush. She pauses three steps from the bottom and surveys the room.</p>
+    <p class="beat-prose">Ginsfeld watches her eyes move. Left to right. The coffee urn (dismissed). The folding chairs (noted). The hand-lettered sign (read twice). The flickering light (categorized as either <em>Things That Are Unpleasant</em> or <em>Things That Reveal the Poverty of the Host</em>). Him.</p>
+    <p class="beat-prose">"Dr. Ginsfeld." She says it the way you'd say the name of a restaurant you've read mixed reviews about. "I am Sei Sh&#333;nagon. I was told this group addresses the condition of displacement."</p>
+    <p class="beat-prose">"It does," Ginsfeld says. He gestures toward the chairs. "Coffee?"</p>
+    <p class="beat-prose">She looks at the Styrofoam cups. "No," she says, and sits in the chair that gives her a sightline to both the door and the rest of the circle. She chose it in under two seconds.</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: Aesthetic Resonance</span>
+      <span class="dice-roll-skill">Sei enters a new space.</span>
+      <span class="dice-roll-result">Roll: d20(11) + WIS(+2) = 13. Medium success.</span>
+      <span class="dice-roll-outcome">Sei gets a strong impression of the room: discordant, deliberately understated, a space that is pretending to be less than it is. The shabbiness reads as costume, not poverty. She files this away. The man is performing humility. Why?</span>
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Sei:</span> <span class="rel-change--positive">Affinity +2</span> (she's early, observant, chose the strategic chair). <span class="rel-thought"><em>She's already reading the room. That's either very useful or very dangerous.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (the setting is beneath her; he's performing). <span class="rel-thought"><em>A man who arranges folding chairs with this much care is arranging something else.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Smart. Dangerously smart. She'll figure out what this is before the coffee gets cold. I need to decide early whether that's an asset or a problem.
+    </div>
+  </div>
+
+  <!-- BEAT 2 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 2</span>
+      <span class="beat-title">Yvain Arrives</span>
+    </div>
+    <p class="beat-prose">At 8:53 PM the door opens with more force than necessary and a man fills the stairway. Yvain has to duck — the lintel was built for librarians, not knights, and he catches it with his shoulder anyway. He descends carefully, one hand on the railing, his body angled sideways in the narrow space. He is large in the way that stone walls are large: not aggressive, just unavoidably present.</p>
+    <p class="beat-prose">He wears a tunic and trousers that look hand-mended, boots that have seen forest floors, and a sword belt with no sword. The empty scabbard hangs at his left hip like a question. His face is weathered, bearded, early middle age — handsome once, maybe, before something stripped the softness out. His eyes scan the room the instant he clears the stairs: door, far wall, Ginsfeld, the woman, back to the door.</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: Forest Sense</span>
+      <span class="dice-roll-skill">Yvain enters an enclosed, unfamiliar space.</span>
+      <span class="dice-roll-result">Roll: d20(14) + WIS(+2) = 16. Medium-high success.</span>
+      <span class="dice-roll-outcome">He catalogs: one exit (the stairs), a utility door behind the coffee table (locked, probably storage), a ventilation grate near the ceiling (too small). Four folding chairs plus one occupied. The woman in robes is watching him. The air down here is still. No draft from the grate. He notes this and files it under <em>enclosed, single egress, manageable.</em></span>
+    </div>
+
+    <p class="beat-prose">"Welcome," Ginsfeld says. "I'm Donald. You must be —"</p>
+    <p class="beat-prose">"Yvain." He says it like a stone dropping into water. He looks at the chairs, selects the one nearest the stairs, and sits. The chair groans.</p>
+    <p class="beat-prose">Sei watches him settle. Her fingers move against her thigh — writing invisible notes. A knight without a sword. An empty scabbard worn anyway, which means the absence is a wound, not a choice. His eyes went to the exits before they went to the people. She adds him to a list she hasn't titled yet.</p>
+    <p class="beat-prose">Yvain feels her looking. He meets her eyes for a moment — not challenging, just acknowledging — and then looks away. Something about her gaze makes the air feel thinner.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: The Oath That Echoes — passive presence activation</span>
+      The room's moral gravity shifts slightly. Ginsfeld, mid-sentence about the coffee, feels a brief, unwelcome prickle at the base of his skull — the somatic signature of a man who lies for a living sitting near a man whose mere presence makes lying more expensive.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (physical presence, reliability read). <span class="rel-thought"><em>Built like a battlement. The empty scabbard means he follows rules — even stupid ones. That's useful.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (appreciates the welcome, the simplicity). <span class="rel-thought"><em>He offered coffee before he asked my name. A small courtesy. I notice these.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (recognizes honor), <span class="rel-change--negative">Aversion +1</span> (crude, forest-smell, no appreciation of the aesthetic). <span class="rel-thought"><em>An honest man. You can see it in the way he wears his guilt on his belt. But he smells like pine sap and hasn't considered the line of his tunic once.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Sei:</span> <span class="rel-change--negative">Aversion +1</span> (felt the judgment). <span class="rel-thought"><em>The woman in the robes. She looked at me the way my lord's clerk looked at supply ledgers. I am a line item.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      The Shield. Almost certainly. I just need to know if the madness I can see behind his eyes is dormant or a lit fuse.
+    </div>
+  </div>
+
+  <!-- BEAT 3 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 3</span>
+      <span class="beat-title">Azaro Arrives</span>
+    </div>
+    <p class="beat-prose">At 9:01 PM — precisely on time — a child walks down the stairs without making any sound at all.</p>
+    <p class="beat-prose">He is perhaps ten, perhaps eight, perhaps a number that doesn't map to any normal developmental chart. Thin. Dark-skinned. Wearing clothes that fit him badly, as though someone else chose them. His eyes are the problem. His eyes are ancient — not wise, not precocious, just <em>old</em>, the way riverbeds are old, worn smooth by the passage of things that aren't there anymore.</p>
+    <p class="beat-prose">He pauses at the bottom of the stairs and looks at the room. Then he looks at something to the left of the room — something none of the others can see. His head tilts. He seems to be listening. Then he walks to the card table, picks up a Styrofoam cup, fills it with coffee, adds four packets of powdered creamer, and drinks it standing up.</p>
+    <p class="beat-prose">Ginsfeld watches this with his mouth slightly open. He hadn't expected a child.</p>
+    <p class="beat-prose">Sei watches the boy's eyes. They are tracking things that aren't there. She has seen this before in the Heian court — shrine maidens who saw what others couldn't, monks who spoke to presences invisible to everyone else. Her Sensitivity registers immediately: this child exists in more than one place at once.</p>
+    <p class="beat-prose">Yvain sits forward in his chair. His hand moves to his left side — where the lion would be. A child, alone, in a basement, at nine o'clock at night. Every protective circuit in his body fires simultaneously. He doesn't speak, but his posture shifts from guarded to vigilant.</p>
+    <p class="beat-prose">"Hello," Ginsfeld says carefully. "I'm Dr. Ginsfeld. This is the Wednesday group. Are you —"</p>
+    <p class="beat-prose">"Azaro," the boy says. He finishes the coffee and pours another cup. "I know what this is." He sits in the chair between Yvain and the empty chair, which puts him as far from the door as possible. Yvain's chair creaks as the knight unconsciously leans slightly toward the child.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: The Abiku's Gravity — activates on entry</span>
+      The shadows in the corners of the room deepen by a shade. The fluorescent flicker develops an irregular pattern, as though something is interfering with the current. Yvain (WIS 14) feels a prickle at the back of his neck — the room is <em>different</em> now, in a way he can't name. Sei (WIS 14) notices the shadows and files them under <em>Things That Should Not Be Happening in a Basement with Adequate Electrical Wiring.</em> Ginsfeld (WIS 16) feels the shift most clearly: the boundary between the real and the not-real has thinned, like a page held up to light.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +2</span> (immediate fascination, senses rare ability). <span class="rel-thought"><em>A spirit-child. If he can see what I think he can see, he's the most valuable person in this room. Including me.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span>, <span class="rel-change--negative">Aversion +1</span> (senses kindness and deception in equal measure). <span class="rel-thought"><em>This man has two faces. Both of them are smiling. One of them means it.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +2</span> (recognition, fascination). <span class="rel-thought"><em>He sees what the shrine maidens see. And he's a child. The elegance of his displacement is almost beautiful — a spirit wearing a boy like an ill-fitting coat.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Sei:</span> <span class="rel-change--positive">Affinity +1</span> (she noticed him, really noticed). <span class="rel-thought"><em>The lady in the colored robes. She looked at me and didn't flinch. Most people flinch.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +2</span> (protective instinct, immediate). <span class="rel-thought"><em>He is a child. He is alone. This is enough.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +2</span> (feels safe). <span class="rel-thought"><em>The big man. A lion walks behind him that isn't there. I know about things that aren't there. He's warm.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      The Navigator. Christ. He's a child and he might be exactly what I need. If he can see between texts — and I think he can — the Redactors won't see him coming. But I'd be sending a child into a warzone. [pencil tapping] I need to think about this.
+    </div>
+  </div>
+
+  <!-- BEAT 4 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 4</span>
+      <span class="beat-title">Fevvers Arrives</span>
+    </div>
+    <p class="beat-prose">At 9:09 PM the basement door crashes open and something enormous and golden fills the stairway.</p>
+    <p class="beat-prose">Fevvers descends like a chandelier being lowered into a coal mine. She is six foot two before the heels, and the heels add three inches. Her hair is platinum blonde, piled and pinned and escaping in tendrils. She wears a red coat that strains across her shoulders — across shoulders that are too wide, that move with a suggestion of something folded beneath the fabric — and the coat's back has been altered, slit and re-stitched, to accommodate something that should not need accommodating.</p>
+    <p class="beat-prose">She smells like greasepaint and rosewater and, faintly, like a bird.</p>
+    <p class="beat-prose">"Sorry, sorry — am I late? I'm late, aren't I. Always fashionably," she says, her Cockney accent filling the basement like warm brass. She looks around the room: the folding chairs (she grins), the coffee urn (she makes a face), the knight (her eyebrows go up), the boy (her face softens), the woman in robes (her eyes narrow), Ginsfeld (she winks).</p>
+    <p class="beat-prose">"Fevvers," she says, and drops into the remaining chair with the controlled grace of someone who has spent her life performing in spaces not designed for her dimensions. The chair receives her with a metallic shriek. "Please tell me there's something stronger than coffee."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: The Suspension of Disbelief — activates on entry</span>
+      The room's reality softens. Not breaks — <em>softens</em>, the way a photograph blurs at the edges. Ginsfeld, mid-thought, loses the thread of his assessment and finds himself staring at her shoulders. Are the wings real? The question enters his mind and does not resolve. Sei, who was preparing a categorization, discovers that the categories won't hold — Fevvers exists in the gap between <em>Things That Are Magnificent</em> and <em>Things That Are Fraudulent</em>, and the two lists keep merging. Yvain looks at her and sees strength first, spectacle second. Azaro looks at her and —
+    </div>
+
+    <p class="beat-prose">Azaro goes still. In his spirit-sight, Fevvers is <em>blinding</em>. The double exposure of the living and spirit worlds, which usually overlays the room in gentle translucence, is overwhelmed by her presence. She is so aggressively, insistently <em>here</em> that the spirit layer recoils. For the first time since he entered the room, Azaro can see only one world. It startles him. He stares.</p>
+    <p class="beat-prose">Fevvers notices the boy staring and gives him a big, warm, slightly performative smile. "All right, little man?"</p>
+    <p class="beat-prose">Azaro nods. He doesn't know what to make of her. She's too loud for the spirits to hear through.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (charisma, physical presence). <span class="rel-thought"><em>She'd be impossible to ignore inside a text. That's either camouflage or a spotlight. I need to figure out which.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (appreciates the setup, reads the hustle). <span class="rel-thought"><em>Basement therapy. Free coffee. Folding chairs. This man is running something. Takes one to know one, love.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Fevvers:</span> <span class="rel-change--negative">Aversion +2</span> (vulgar, loud, uncategorizable). <span class="rel-thought"><em>She entered the room like a firework entering a poem. Everything about her is excessive. And yet — and this is what disturbs me — I cannot determine if she is magnificent or absurd. The inability to categorize is the insult.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Sei:</span> <span class="rel-change--negative">Aversion +1</span> (feels the judgment). <span class="rel-thought"><em>Oh, there's one in every room, isn't there. The one with the perfect posture who's already decided you're common. Well, darling, I've been looked at by dukes and duchesses and grand panjandrums of every description, and I am still here.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (impressed by physicality). <span class="rel-thought"><em>She is... large. In the way that storms are large. There is strength in her. The wings — are they real? The question is less important than what they mean: she carries something enormous and it has not broken her.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (likes his solidity). <span class="rel-thought"><em>Now there's a man who's real. Look at the size of him. And sad — you can see the sad on him like weather on a mountain. I like a sad man. They don't waste your time with nonsense.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Fevvers:</span> <span class="rel-change--negative">Aversion +1</span> (her filter disrupts his sight), <span class="rel-change--positive">Affinity +1</span> (she's kind to him). <span class="rel-thought"><em>She's so bright the spirits can't see through her. That's never happened before. It's frightening. But she smiled at me and meant it. She meant the smile, even if she means nothing else.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (charmed). <span class="rel-thought"><em>Oh, the little one. He looked at me like he could see straight through me, and then decided to stay anyway. That's — that's something, that is.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      The variable. She changes every room she enters. Inside a text, that could be invaluable — or catastrophic. Need to test her under pressure. Also: the wing is hurt. She's hiding it but she favors the left side. Liability?
+    </div>
+  </div>
+
+  <!-- BEAT 5 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 5</span>
+      <span class="beat-title">The Room Settles</span>
+    </div>
+    <p class="beat-prose">Five people in a basement. The fluorescent light flickers. The coffee urn gurgles. Azaro is on his third cup.</p>
+    <p class="beat-prose">Ginsfeld stands, lifts his own coffee, and takes the fifth chair — the one that completes the circle. He crosses one leg over the other and holds his cup in both hands, the posture of a man who has done this many times. Which he has. The therapy is fake. The posture is real.</p>
+    <p class="beat-prose">"Thank you all for coming," he says. "I know it's late. I know the venue is —" he gestures at the basement — "not what you might have hoped. But I've found that the most important conversations happen in the least impressive rooms."</p>
+    <p class="beat-prose">Sei's eyes flick to his hands. He's holding the cup to create a barrier between himself and the group. A counselor's trick. She begins a list: <em>Things This Man Does to Appear Trustworthy.</em></p>
+    <p class="beat-prose">Yvain sits with his forearms on his thighs, leaning forward slightly. The posture of a man who listens with his whole body. He glances at Azaro beside him. The boy is eating the powdered creamer directly from the packet. Yvain reaches over, very gently, and pushes the remaining packets closer to him.</p>
+    <p class="beat-prose">Fevvers has arranged herself in the folding chair as though it is a velvet chaise. One leg crossed over the other, the red coat draped open. She is taking up more space than the chair allows and doing it with the ease of someone who has always taken up more space than she was given. Her eyes are on Ginsfeld. She's reading him the way she'd read an audience: what does he want? What will he pay?</p>
+    <p class="beat-prose">Azaro eats the creamer. In his spirit-sight, the room has two additional occupants: a thin, grey shape near the ceiling that seems to be watching the fluorescent light with interest, and something low and heavy near the utility door that doesn't move. Neither is hostile. Both are curious. He ignores them.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter Interaction: "Things That Lose by Being Painted" meets "The Oath That Echoes"</span>
+      Sei's filter and Yvain's filter create a cross-pressure in the room. People feel simultaneously measured (by Sei) and morally weighted (by Yvain). The effect is subtle but real: Fevvers, who lies as naturally as breathing, finds herself momentarily straightening up, choosing her posture more deliberately. Ginsfeld feels the twin pressure like dual spotlights and adjusts by leaning into his counselor persona harder — soft voice, open hands.
+    </div>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Sei:</span> <span class="rel-change--positive">Affinity +1</span> (she's observing everything — a good sign of intelligence). <span class="rel-thought"><em>She's making lists. I can see her making lists. She probably has a list called "Lists I Am Making About This Man."</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (the counselor posture is calculated). <span class="rel-thought"><em>He holds the cup like a shield and calls it warmth. Every gesture is deliberate. I have met politicians with less artifice.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (the creamer gesture). <span class="rel-thought"><em>The boy is hungry. This is something I can do something about.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (felt the gentleness). <span class="rel-thought"><em>He pushed the food closer without saying anything. That's the best kind of kindness — the kind that doesn't need you to say thank you.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      The room has chemistry. Sei and Fevvers are oil and water — that's fine, I only need three. Yvain has already bonded with the kid, which is either going to make my job easier or much harder depending on whether I take both or neither. I need to start the show.
+    </div>
+  </div>
+
+  <!-- BEAT 6 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 6</span>
+      <span class="beat-title">Introductions</span>
+    </div>
+    <p class="beat-prose">"Let's start simple," Ginsfeld says. "Tell us your name, where you're from, and one thing you'd like to get out of being here tonight."</p>
+    <p class="beat-prose">He turns to Sei first — she's the most composed, and he wants to set a high bar for vulnerability.</p>
+    <p class="beat-prose">Sei inclines her head. "I am Sei Sh&#333;nagon, formerly lady-in-waiting to Her Majesty the Empress Teishi of the Heian court. I am from a world that no longer exists in any recognizable form. As for what I would like from this evening —" She pauses. Her eyes move around the circle. "I would like to encounter one thing of genuine elegance. The odds seem poor, but I have been surprised before."</p>
+    <p class="beat-prose">The room absorbs this. Ginsfeld nods slowly, genuinely impressed by the precision of the slight. Fevvers snorts — not unkindly.</p>
+    <p class="beat-prose">Yvain goes next. He looks at the floor. "Yvain. Knight of the Round Table." A pause. "I broke a promise to someone who mattered more than anything, and I lost my mind for it. I lived in the forest like an animal until someone found me and brought me back." He looks up. "I'm here because I don't know what comes after."</p>
+    <p class="beat-prose">The room is very quiet. Sei's hand has stopped its invisible writing. That was — that was honest. <em>Uncomfortably</em> honest. She adds a new list: <em>Things That Are Moving Despite Being Poorly Expressed.</em></p>
+    <p class="beat-prose">Fevvers speaks next, and the room's temperature shifts. "Fevvers. That's the stage name and the real name both — I was hatched, not born, in a Whitechapel knocking shop on the stroke of Big Ben, and I've been performing ever since. Trapeze, mostly. Aerialiste extraordinaire." She spreads her arms and something shifts beneath the coat — a flutter, a suggestion of wingspan. "What do I want? Same thing I always want, love. To be believed."</p>
+    <p class="beat-prose">Azaro is last. He has finished the creamer packets and is cradling his coffee cup in both hands. He speaks without looking up.</p>
+    <p class="beat-prose">"Azaro. I'm a spirit child. I chose to live, and the spirits are angry about it. I'm from a road that goes everywhere and nowhere." He pauses. "I'm here because the sign said 'no weapons' and 'free coffee.' Both of those things are good."</p>
+    <p class="beat-prose">Ginsfeld almost laughs. He catches it and redirects it into a warm nod.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (moved by his honesty). <span class="rel-thought"><em>He broke a promise and speaks of it as though confessing to a priest. There is a bruised elegance in that — the aesthetics of genuine shame. I revise my initial assessment.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Sei:</span> Neutral (her introduction was clever, not vulnerable; he respects it without connecting to it).</div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (touched by his openness). <span class="rel-thought"><em>Oh, love. Who broke you like that? You walked in here carrying a sword belt with no sword and then you just — said it. Just said the worst thing. I could never.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (confirms the honor read). <span class="rel-thought"><em>He can't lie. He literally just told a room full of strangers the worst thing he's ever done. That's either integrity or pathology. For my purposes, both work.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (charmed, and the "I know what this is" from earlier still nags). <span class="rel-thought"><em>"No weapons and free coffee." He's funny. And he said he knows what this is, which means he's either perceptive beyond his years or he's been recruited before.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Introductions confirmed: Sei is the analyst, Yvain is the soldier-penitent, Fevvers is the performer, Azaro is the wild card. I need three. The mission needs a navigator, a shield, and a face. Yvain is the shield. Azaro might be the navigator. Which means the cut is between Sei and Fevvers for the face role — and neither of them is an obvious fit.
+    </div>
+  </div>
+
+  <!-- BEAT 7 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 7</span>
+      <span class="beat-title">What Brought You Here</span>
+    </div>
+    <p class="beat-prose">"Let me push a little deeper," Ginsfeld says. He leans forward, cup still in both hands. "Not your name, not your resume. What's the feeling? What's the thing that made you walk down a flight of stairs into a basement on a Wednesday night? What are you <em>missing</em>?"</p>
+    <p class="beat-prose">Silence. The question lands differently on each of them.</p>
+    <p class="beat-prose">Sei speaks first, because she is High Verbosity and the silence offends her. "I miss <em>context</em>," she says. "I was a woman whose every observation had a frame — the court, the empress, the seasons, the rituals. Here, I observe with the same precision, but the observations land in nothing. I am a calligrapher writing on water." Her voice is steady, but her hand, the one that writes invisible lists, is still.</p>
+    <p class="beat-prose">Yvain speaks to the floor. "I miss the lion." Three words. He doesn't elaborate. Fevvers, who was about to jump in, closes her mouth. Even Sei is quiet.</p>
+    <p class="beat-prose">After a long moment, Fevvers fills the silence — because she is also High Verbosity and silence feels like a vacuum to be occupied. "What am I missing? An audience, love. A proper one. Not gawkers and not skeptics and not men who want to put me in a cage — a real audience. People who came to see something marvellous and were ready to believe it." She pauses, and the performance drops for half a second. "I miss being looked at by people who wanted to be amazed."</p>
+    <p class="beat-prose">The Suspension of Disbelief filter pulses. For a moment, everyone in the room wants, very badly, to believe her.</p>
+    <p class="beat-prose">Azaro doesn't volunteer. Ginsfeld looks at him. The boy is staring at a point near the ceiling — where, in his sight, the thin grey spirit is now watching the conversation with visible interest.</p>
+    <p class="beat-prose">"Azaro? What are you missing?"</p>
+    <p class="beat-prose">"My mother," Azaro says simply. "But she's not gone. She's just in a different part of the story."</p>
+    <p class="beat-prose">The room goes still. Yvain's jaw tightens. His hand moves to his left side again — the absent lion. He and the boy are, in this moment, mirrors: a man who misses an animal companion, a boy who misses a mother, both separated by the architecture of narrative.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (the mirror). <span class="rel-thought"><em>He misses his mother. I miss my lion. We are both reaching for something that is close but unreachable. I will not let this child come to harm.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (he saw the hand reach for the lion). <span class="rel-thought"><em>He reaches for something that isn't there, just like me. We're the same kind of lonely.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (the mask dropped). <span class="rel-thought"><em>For half a heartbeat, she was not performing. The desire to be believed by someone who wanted to believe — that is not vulgar. That is a wound.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (saw the vulnerability). <span class="rel-thought"><em>The mask slipped. Under the spectacle, she wants something very simple. That's leverage — but it's also real. I need to be careful with that.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Sei:</span> <span class="rel-change--positive">Affinity +1</span> (the calligrapher-on-water line). <span class="rel-thought"><em>She said "calligrapher writing on water." That's not an analyst speaking. That's someone in pain. She's better at hiding it than the others but the pain is the same.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      They're all displaced. All of them. That's the therapeutic premise and it's also the truth. The mission requires people willing to enter someone else's story — and everyone in this room has lost their own. That's not a coincidence. That's the talent pool.
+    </div>
+  </div>
+
+  <!-- BEAT 8 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 8</span>
+      <span class="beat-title">The Probe</span>
+    </div>
+    <p class="beat-prose">Ginsfeld shifts the exercise. "I'd like to try something. I want each of you to tell the group something you're <em>good at</em>. Not your role, not your title — a specific thing you can do that most people can't."</p>
+    <p class="beat-prose">This is the audition. The others don't know it yet. Ginsfeld does.</p>
+    <p class="beat-prose">Sei tilts her head. She knows what this question is for. Game Savvy (High) fires: this isn't therapy. This is an interview question dressed in a cardigan. She decides to play along — for now — because the answer reveals the question's purpose, and she wants to see where he's going.</p>
+    <p class="beat-prose">"I can read a room," Sei says. "Not the furniture — the people. Within thirty seconds of entering a space, I know who has power, who wants it, who is afraid, and who is pretending." She looks at Ginsfeld. "For example."</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Active Skill: Devastating Observation — Sei targets Ginsfeld</span>
+      <span class="dice-roll-result">Roll: d20(15) + CHA(+3) = 18. High success.</span>
+      <span class="dice-roll-outcome">She reads him with surgical precision: the cup held as a barrier, the forward lean calibrated to invite without threatening, the questions escalating in a pattern designed to extract specific information. His WIS is high — he's not stupid. His Honesty is low — the warmth is constructed. He's running an assessment behind the assessment. She doesn't know what for, but she knows the therapy is a shell.</span>
+    </div>
+
+    <p class="beat-prose"><strong>Cost:</strong> Ginsfeld knows she just read him. He felt it — a sensation like having a drawer opened inside his chest and riffled through by competent hands. He meets her eyes and sees that she saw. She sees that he knows she saw. The information is now mutual.</p>
+    <p class="beat-prose">Yvain's answer is simple. "I can protect people." He doesn't expand. Low Verbosity.</p>
+    <p class="beat-prose">Fevvers leans back. "I can fly," she says. She lets the word hang. The Suspension of Disbelief filter makes the statement shimmer — not true, not false, just <em>possible</em>. "And I can make anyone in a room look at me instead of the door."</p>
+    <p class="beat-prose">This is also an audition answer, though Fevvers doesn't know it's an audition. Ma Nelson's Economics (her private condition) is working: she instinctively identified what the man running the room might want to buy.</p>
+    <p class="beat-prose">Azaro looks up from his empty cup. "I can see where stories end and other stories begin. The places where the pages bleed together."</p>
+    <p class="beat-prose">The room gets very quiet. Ginsfeld's hand, the one not holding the cup, goes still on his knee.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Sei:</span> <span class="rel-change--positive">Affinity +1</span> (brilliant), <span class="rel-change--negative">Aversion +2</span> (she made him — he's now a known quantity to her). <span class="rel-thought"><em>She read me. Clean. I haven't been read like that in years. She's the most dangerous person in this room and she just proved it to my face.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (confirmed: he's running something). <span class="rel-change--positive">Affinity +1</span> (but it's well-run). <span class="rel-thought"><em>He is conducting an audition. The therapy is scenery. The question now is: for what?</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +2</span> (confirmed the Navigator). <span class="rel-thought"><em>He can see the seams. He actually said it out loud. This child can do what I need done. The ethics of using him are — I'll deal with the ethics later.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (useful talent). <span class="rel-thought"><em>She can redirect attention. In a text full of inhabitants, that's not nothing. And if she can actually fly... No. Stay focused. Can she take direction?</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Sei made me. She knows this isn't therapy. She's not going to blow the cover — she wants to see what I'm doing. That gives me maybe four more beats before she forces the issue. Azaro is confirmed as the Navigator. Yvain is the Shield. The Face is still open, and Sei just demonstrated she'd be perfect for intelligence work — but she also just demonstrated she'll never let me steer her. Fevvers is more controllable. I think. The wing concerns me.
+    </div>
+  </div>
+
+  <!-- BEAT 9 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 9</span>
+      <span class="beat-title">Cross-Connections: Sei and Fevvers</span>
+    </div>
+    <p class="beat-prose">Ginsfeld lets the conversation open. "You've heard each other. Does anyone want to respond to what someone else said?"</p>
+    <p class="beat-prose">Sei turns to Fevvers. It's immediate, almost involuntary — the High Sensitivity drawing her to the room's most complicated signal. "You said you can fly."</p>
+    <p class="beat-prose">Fevvers meets her gaze. "I did."</p>
+    <p class="beat-prose">"And can you?"</p>
+    <p class="beat-prose">"What do <em>you</em> think?"</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: Is She Fact or Is She Fiction? — Sei is assessing Fevvers' truthfulness</span>
+      <span class="dice-roll-result">Roll: d20(14) + CHA(+4) = 18. High success.</span>
+      <span class="dice-roll-outcome">The assessment collapses into paradox. Sei, one of the most perceptive minds in literary history, reaches for a judgment and finds herself holding smoke. Fevvers isn't lying. Fevvers isn't telling the truth. The categories refuse to apply. The wings are <em>there</em>, under the coat, smelling of musk and feather — Sei can see the outline of them, the way the fabric strains. But whether they are biological, mechanical, magical, or purely theatrical is a question that keeps bifurcating without resolving.</span>
+    </div>
+
+    <p class="beat-prose">Sei's expression doesn't change, but her invisible writing hand goes still. This hasn't happened to her before.</p>
+    <p class="beat-prose">"I think," Sei says slowly, "that the question itself may be poorly formed."</p>
+    <p class="beat-prose">Fevvers grins. It's enormous and golden and slightly feral. "Now <em>that's</em> the first interesting thing anyone's said to me in months."</p>
+    <p class="beat-prose">For one moment, the two women regard each other across the fluorescent-lit gulf between a Heian court lady and a Whitechapel aerialiste, and something happens that neither expected: recognition. Not of similarity — they are opposites in nearly every respect — but of <em>weight</em>. They are both women who have survived by controlling what others see. The methods are antithetical. The skill is the same.</p>
+    <p class="beat-prose">Then the moment passes. Sei breaks eye contact first, which surprises her. She adds Fevvers to a new list: <em>Things That Defeat Categorization (Insufferable).</em></p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (recognition of a peer), <span class="rel-change--negative">Aversion +1</span> (defeated, and it stings). <span class="rel-thought"><em>She is the first subject I have failed to classify. This is not a compliment — it is a problem. And she ENJOYED it. Unbearable.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Sei:</span> <span class="rel-change--positive">Affinity +2</span> (someone took her seriously enough to try). <span class="rel-thought"><em>She tried to pin me down and couldn't. Most people don't try — they either believe or they don't. She actually LOOKED. No one's looked that hard since Walser, and he was in love with me. This one's not in love with me. This one's just — good. Damn.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; (observing):</span> <span class="rel-thought"><em>Two apex predators circling each other. Sei tried to read Fevvers and failed. That's unprecedented — I've never seen Sei fail to categorize someone. Fevvers' filter is real, whatever else about her isn't. That means inside a text, she could confuse even narrative-native observers. Noted. Important.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Fevvers just passed a test she didn't know she was taking. If Sei can't read her, the inhabitants of a target text won't be able to either. That's the Face. That's the camouflage. The question is whether I can point her in the right direction.
+    </div>
+  </div>
+
+  <!-- BEAT 10 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 10</span>
+      <span class="beat-title">Cross-Connections: Yvain and Azaro</span>
+    </div>
+    <p class="beat-prose">While Sei and Fevvers conduct their mutual assessment, something quieter happens on the other side of the circle.</p>
+    <p class="beat-prose">Azaro has been staring at the space just behind Yvain's left shoulder. In the spirit layer, the lion is there — not the lion itself, but the <em>impression</em> of the lion, the way a footprint holds the shape of the foot after it's gone. A golden absence. An outline of loyalty.</p>
+    <p class="beat-prose">"Your lion," Azaro says.</p>
+    <p class="beat-prose">Yvain goes rigid. "What?"</p>
+    <p class="beat-prose">"He's still with you. Just — not in the way you think." Azaro looks at Yvain directly for the first time. "He's behind your left shoulder. That's why your hand keeps going there."</p>
+    <p class="beat-prose">The room goes very quiet. Sei and Fevvers break off their exchange. Ginsfeld leans forward.</p>
+    <p class="beat-prose">Yvain's hand is, in fact, resting on his left thigh — exactly where it goes when he reaches for the lion. He hasn't told anyone about the lion in this room except the barest mention in his introduction. The boy couldn't know. Unless —</p>
+    <p class="beat-prose">"You can see him?" Yvain's voice is rough.</p>
+    <p class="beat-prose">"Not him exactly. The place where he was. The shape he left." Azaro looks back at his empty cup. "Like a hole in the air that's shaped like loyalty."</p>
+    <p class="beat-prose">Yvain says nothing. His eyes are bright. He swallows once, hard. Then he reaches over and puts his hand — gently, the hand of a man who has killed with those hands and learned gentleness after — on the boy's shoulder.</p>
+    <p class="beat-prose">"Thank you," he says.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter Interaction: The Abiku's Gravity + The Oath That Echoes</span>
+      Two filters intersect around the moment. Azaro's thinning of reality allows something invisible to become briefly perceptible. Yvain's moral weight gives the moment gravity. For a half-second, everyone in the room — including Ginsfeld, including Sei — feels the presence of something large and warm and absent, pressing against the edge of the room like a cat against a closed door.
+    </div>
+
+    <p class="beat-prose">Fevvers shudders. She doesn't know why.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +2</span> (profound emotional connection). <span class="rel-thought"><em>He saw my lion. No one has ever seen my lion. This child is — I don't have words. I do not have words for this child.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (accepted, valued). <span class="rel-thought"><em>He didn't ask how. He didn't call me a liar or a witch or a demon. He said thank you. That's the second-best kind of kindness.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (deeply impressed). <span class="rel-thought"><em>The boy sees ghosts. Not metaphorical ghosts — actual presences. And he described the knight's lion as "a hole in the air shaped like loyalty." I would burn my entire pillow book for that sentence.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (beyond confirmed). <span class="rel-thought"><em>He can see presences invisible to everyone else. He can read emotional resonance across the spirit boundary. I need him. I absolutely need him.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Azaro:</span> <span class="rel-change--negative">Aversion +1</span> (unsettled — he made the room feel haunted). <span class="rel-thought"><em>That was — all right, that was something. The room went cold for a second and I felt something I can't explain and I don't like things I can't explain. But the boy's face when he said it — pure. No performance in it. That's rare.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Yvain and Azaro just bonded. Really bonded. That's a problem if I want one without the other, and a gift if I want both. I want both. Yvain is the Shield. Azaro is the Navigator. They've already formed a unit. Now I just need the Face, and I need to figure out what to do about Sei.
+    </div>
+  </div>
+
+  <!-- BEAT 11 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 11</span>
+      <span class="beat-title">Cross-Connections: Fevvers and Yvain</span>
+    </div>
+    <p class="beat-prose">The lion moment has shifted the room's emotional register. The therapy pretense feels thinner now — everyone has said something real, and the folding chairs have become, against all odds, a confessional circle. Ginsfeld lets the silence breathe. Then Fevvers, who cannot tolerate silence (High Verbosity), pivots toward Yvain.</p>
+    <p class="beat-prose">"So, love. You broke a promise to your wife, went mad in the woods, and got a lion out of it?" She leans toward him with the ease of a woman who has never met a personal boundary she respected. "Forgive me, but that sounds like you came out ahead."</p>
+    <p class="beat-prose">Yvain's jaw sets. The Oath That Echoes activates — Fevvers feels a sudden weight to her own words, a gravity she didn't intend. She was joking. She's always joking. But the joke, spoken near Yvain, lands with the thud of a broken vow.</p>
+    <p class="beat-prose">"I came out with nothing," Yvain says quietly. "The lion chose to follow me. I did not earn him."</p>
+    <p class="beat-prose">Fevvers tilts her head. The performance drops again — second time tonight, and she's noticed it happening, which unsettles her. "Right. Yeah. Sorry, that was — I didn't mean —"</p>
+    <p class="beat-prose">"It's all right." He looks at her, really looks. The Madness Scar flickers behind his eyes — not rage, just a flash of raw feeling, quickly controlled. "You asked if I came out ahead. I came out alive. I don't know if that's ahead."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter Interaction: The Oath That Echoes + The Suspension of Disbelief</span>
+      The two filters push against each other. Yvain's moral gravity pulls everything toward sincerity; Fevvers' reality-softening pushes toward ambiguity. The result is a strange middle ground: a conversation that is simultaneously more honest and more uncertain than either of them intended. Fevvers finds herself saying things she means without the protective layer of performance. Yvain finds himself acknowledging feelings he usually keeps locked behind the knight's composure.
+    </div>
+
+    <p class="beat-prose">"I know about that," Fevvers says softly. "Coming out alive and not knowing if it counts."</p>
+    <p class="beat-prose">She's thinking about the Grand Duke's cage. The gilded bars. The escape that she won't talk about because the price of it was something she hasn't finished paying.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +2</span> (real connection, shared wound). <span class="rel-thought"><em>She knows. Under all the noise and the feathers and the spectacle — she knows what it is to survive something and not be certain the survival was worthwhile. I did not expect this.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +2</span> (he made her honest). <span class="rel-thought"><em>Damn the man. He made me sincere. I don't do sincere. Sincere is for people who can afford it. But he — the way he said "I came out alive" — I've said that exact thing to myself in the dark. Not out loud. Never out loud. And he just — said it. In a basement. To strangers.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; (observing):</span> <span class="rel-change--positive">Affinity +1</span> toward both (genuinely moved). <span class="rel-thought"><em>I was wrong about her. Not entirely wrong — she is excessive and vulgar and her coat is an abomination. But the moment she stopped performing, she became... recognizable. Two people stripped bare by their own survival. I should look away. I cannot look away.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Chemistry. Real chemistry, and I didn't manufacture it. Yvain and Fevvers just connected over shared damage, and it's the kind of bond that holds under pressure. If I take these two plus Azaro, I have a team with genuine interpersonal trust forming organically. Sei is the smarter choice — but intelligence doesn't survive a firefight with the Redactors. Trust does.
+    </div>
+  </div>
+
+  <!-- BEAT 12 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 12</span>
+      <span class="beat-title">The Room Shifts</span>
+    </div>
+    <p class="beat-prose">Azaro sets down his cup. He's been quiet since the lion moment, his eyes tracking between the visible conversation and the spirit layer that overlays the room. The thin grey shape near the ceiling has moved — it's now hovering directly above Ginsfeld's chair. The heavy presence near the utility door has shifted closer to the circle.</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Passive Skill Trigger: Between the Pages — Azaro senses the narrative boundaries of the space</span>
+      <span class="dice-roll-result">Roll: d20(17) + WIS(+4) = 21. Critical success.</span>
+      <span class="dice-roll-outcome">The room's structure cracks open for Azaro like a geode. He sees the basement not as a room but as a node — a junction point where multiple narratives converge. The Metro Library above them is a nexus of texts, and this basement sits at the seam where several of them bleed together. He can see faint lines of narrative force running through the concrete walls — stories pressing against each other, whispering through the structural boundaries. And in one direction — northeast, through the wall behind Ginsfeld — there's something wrong. A distortion. A place where a story is trying to push through into a story it doesn't belong in.</span>
+    </div>
+
+    <p class="beat-prose"><strong>Cost:</strong> The spirits on the other side of the seam notice him. The grey shape above Ginsfeld descends and hovers near Azaro's shoulder. The heavy presence moves closer still. In the spirit layer, something far away — further than the room, further than the library — turns its attention toward this basement.</p>
+    <p class="beat-prose">Azaro shudders. His eyes go wide.</p>
+    <p class="beat-prose">"There's something pushing," Azaro says. His voice is very small. "Through the wall. Behind you." He's looking at Ginsfeld. "A story is trying to get into another story. It's — hurting."</p>
+    <p class="beat-prose">Every head turns toward the wall behind Ginsfeld. There's nothing there — concrete, a water pipe, an electrical panel. But Yvain's Forest Sense prickles. Sei feels the aesthetic dissonance — the wall feels <em>wrong</em>, like a line in a poem that disrupts the meter. Fevvers' filter softens, and for a moment the wall seems to breathe.</p>
+    <p class="beat-prose">Ginsfeld goes very still. The boy just described the target. The <em>target he doesn't know about.</em> Azaro isn't sensing the mission — he's sensing the <em>condition</em> that the mission was designed to address, through fifty feet of concrete and several layers of narrative boundary.</p>
+    <p class="beat-prose">"What kind of hurting?" Ginsfeld asks. His voice is carefully neutral.</p>
+    <p class="beat-prose">"Like a bird hitting glass," Azaro says. "Again and again. It doesn't understand why it can't get through."</p>
+    <p class="beat-prose">The room absorbs this. Yvain's hand goes to his left side. Fevvers wraps her arms around herself — the broken wing twinges. Sei watches Ginsfeld's face and sees something she hasn't seen before: genuine surprise, instantly controlled.</p>
+    <p class="beat-prose">She files this: <em>Things That Alarmed the Host.</em></p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +2</span> (he just independently confirmed the mission target). <span class="rel-thought"><em>He sensed it. Through walls. Without briefing, without context, without knowing anything. This child is not optional. He is the mission.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (the man's reaction was wrong — he wasn't surprised enough). <span class="rel-thought"><em>He already knew. He didn't look surprised when I said it. He looked — confirmed. Like I told him something he expected. Why would he expect it?</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (caught the controlled reaction). <span class="rel-thought"><em>He wasn't surprised. He was VERIFIED. The boy told him something he already suspected, and he reacted like a scientist whose hypothesis was confirmed. This is not therapy. This is reconnaissance.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (protective surge). <span class="rel-thought"><em>The boy is seeing something that frightens him. I will not leave this room without knowing he is safe.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Azaro just confirmed the target is real, nearby, and active. The Redactors' 72-hour clock might be tighter than I thought. I need to accelerate. The cover can't hold much longer anyway — Sei is about to blow it open, and honestly, it's time.
+    </div>
+  </div>
+
+  <!-- BEAT 13 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 13</span>
+      <span class="beat-title">Sei Figures It Out</span>
+    </div>
+    <p class="beat-prose">"Dr. Ginsfeld." Sei's voice cuts through the room like a line of ink across wet paper. "May I make an observation?"</p>
+    <p class="beat-prose">Ginsfeld looks at her. He knows what's coming. He's known since Beat 8, when she read him clean. "Please."</p>
+    <p class="beat-prose">"This is not a support group." She says it calmly, without accusation. "The questions you've asked are not therapeutic. They are diagnostic. You are assessing capabilities, emotional resilience, and interpersonal compatibility. You asked what we are <em>good at</em> — not what we are <em>struggling with</em>. A therapist would ask the latter. A recruiter asks the former."</p>
+    <p class="beat-prose">The room goes silent. Yvain looks at Ginsfeld with a slowly dawning expression — not anger, but a flicker of the Madness Scar: he was lied to. The Oath That Echoes pulses. Ginsfeld feels it — a pressure in his chest, the weight of a broken social contract.</p>
+    <p class="beat-prose">Fevvers leans back and laughs. "Well, there it is. I knew it. From the minute I walked in." She didn't, but Game Savvy (Medium) retroactively processes the evening's cues, and she genuinely believes she always knew. "So what's the job, Dr. Ginsfeld?"</p>
+    <p class="beat-prose">Azaro says nothing. He looks at Ginsfeld with those ancient eyes and nods once, as though confirming something he sensed from the beginning.</p>
+    <p class="beat-prose">Ginsfeld sets down his coffee cup. He folds his hands. The counselor persona falls away like a coat slipping off a chair, and what's underneath is sharper, leaner, and considerably more tired.</p>
+    <p class="beat-prose">"She's right," he says. "This isn't therapy. I'm sorry about that — genuinely sorry, for what it's worth. The coffee is real. The displacement is real. What you've all been through is real, and if you want to talk about it, I'll be here next Wednesday. But tonight, yes, I'm recruiting."</p>
+    <p class="beat-prose">He looks around the circle. "I need a team of three. There's a job. It's dangerous. I can tell you what I know, which is less than I'd like."</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (confirmed liar), <span class="rel-change--positive">Affinity +1</span> (at least he owned it cleanly). <span class="rel-thought"><em>He admitted it without performance, without excuse. The lie was operational, not cruel. I can respect the mechanics while despising the principle.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +2</span> (the lie — the Oath That Echoes magnifies it). <span class="rel-thought"><em>He deceived us. All of us. The boy drank his coffee and sat in his circle and it was a lie. I will hear him out because the woman said I should, but the trust is damaged.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (respects the hustle). <span class="rel-thought"><em>Takes one to know one, love. I've run this exact game in a dozen cities. You dress up the con in concern and you audition people who don't know they're auditioning. Difference is, I respect a man who drops the act when the act is up.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Ginsfeld:</span> Neutral shift. <span class="rel-thought"><em>He lied. But the thing behind the wall is real. And he wants to help it. That matters more than how he asked.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Cover's blown. Good. Sei forced the timeline but the timing works. Now I lay out what I have and see who bites. Yvain is angry — the oath filter is making the deception feel larger than it is. I need to address him directly or I'll lose him. Fevvers is amused. Azaro is calm. I need to get to the mission pitch before Yvain's trust erodes further.
+    </div>
+  </div>
+
+  <!-- BEAT 14 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 14</span>
+      <span class="beat-title">The Mission Surfaces</span>
+    </div>
+    <p class="beat-prose">Ginsfeld speaks. He does not use the counselor voice. He uses the voice beneath it — a bookhunter's voice, precise and tired and carrying the weight of missions that went wrong.</p>
+    <p class="beat-prose">"There's a character trapped inside a book. They're trying to escape, but they're pushing into the wrong story — crossing narrative boundaries in a way that's damaging both texts. I don't know who they are. I don't know which book. My contact gave me the job and a warning."</p>
+    <p class="beat-prose">He pauses. "The warning is: the Redactors are coming. I know the Redactors — I know their team, their methods, their timeline. They've been given 72 hours to erase the target rather than recover them. They started counting yesterday."</p>
+    <p class="beat-prose">Sei: "That leaves 48 hours."</p>
+    <p class="beat-prose">"Approximately. Yes."</p>
+    <p class="beat-prose">"And you know nothing about the target itself?"</p>
+    <p class="beat-prose">"Almost nothing. The boy —" He looks at Azaro. "You felt it. Through the wall. A story pushing into the wrong story."</p>
+    <p class="beat-prose">Azaro nods. "A bird hitting glass."</p>
+    <p class="beat-prose">"That's our target. And you're the only person I've met who can sense it without being inside the text." Ginsfeld lets that land. "The complication: once we enter the target text, one member of the team will be recognized by the text's inhabitants. I don't know who. I don't know the text well enough to predict it. Whoever it is will draw attention — possibly hostile attention."</p>
+    <p class="beat-prose">Fevvers: "So one of us is bait whether we like it or not."</p>
+    <p class="beat-prose">"Essentially."</p>
+    <p class="beat-prose">Yvain has been listening with his arms crossed. The Madness Scar is visible — a tightness around his eyes, a micro-tremor in his jaw. But he's listening. "You said a team of three."</p>
+    <p class="beat-prose">"There are four of you. I need three."</p>
+    <p class="beat-prose">The room contracts. Four chairs, five people, and suddenly the arithmetic is sharp and cold.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (the mission is real, serious, and ethically complicated — intellectually compelling). <span class="rel-thought"><em>Forty-eight hours. The Redactors. An unknown target. An unknown text. One team member as accidental bait. This is either madness or the most interesting problem I've encountered since I left the court.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion -1</span> (partially forgiven — the mission context justifies the method). <span class="rel-thought"><em>He lied to audition us. A dishonorable method. But the purpose — rescuing someone who is trapped, opposing those who would erase them — that is a purpose I understand. The knight's code does not require that I like my commander. It requires that the cause be just.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (the mission is mad, which appeals to her). <span class="rel-thought"><em>Forty-eight hours to find someone nobody knows in a book nobody's read, with erasers on the clock and one of us marked for recognition? That's not a mission, love. That's a circus. And I know circuses.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (the thing behind the wall can be helped). <span class="rel-thought"><em>The bird hitting glass. He wants to help it stop hitting glass. That's reason enough.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      They're listening. Even Yvain, who I almost lost. The mission reframes the deception — it's not personal, it's operational. Now comes the hard part: the cut. I know who I want: Azaro for navigation, Yvain for protection, Fevvers for her filter's effect inside narrative space. Sei is the strongest analyst in the room, but the mission needs bodies that can survive contact with the Redactors, and Sei's STR of 8 is a death sentence in a physical confrontation. Her Devastating Observation is invaluable in an intelligence context. Inside a collapsing text under Redactor assault? It's a luxury I can't afford.
+    </div>
+  </div>
+
+  <!-- BEAT 15 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 15</span>
+      <span class="beat-title">The Calculus</span>
+    </div>
+    <p class="beat-prose">"I want to be transparent about my thinking," Ginsfeld says. The irony of this statement, coming from a man who has been lying for eight beats, is not lost on anyone. Sei's eyebrow rises a millimeter. "I need specific roles filled. A navigator who can find the target inside the text. A shield who can handle the Redactors. And a face who can move through the text's inhabitants without triggering a narrative immune response."</p>
+    <p class="beat-prose">Sei speaks immediately. "The navigator is the boy. Obviously."</p>
+    <p class="beat-prose">Ginsfeld nods. "Obviously."</p>
+    <p class="beat-prose">"And the shield is the knight."</p>
+    <p class="beat-prose">Yvain looks at Sei. She just advocated for him without being asked. His Sensitivity (Medium) registers this — she sees his value, even if she finds him aesthetically insufficient.</p>
+    <p class="beat-prose">"Which leaves the face," Sei continues. She looks at Fevvers, then back at Ginsfeld. "And you're choosing between us."</p>
+    <p class="beat-prose">The room holds its breath. Fevvers goes very still — the first time all evening she hasn't been in motion.</p>
+    <p class="beat-prose">"I am," Ginsfeld says.</p>
+    <p class="beat-prose">Sei stands. It's a small movement — she's not tall — but the room reorganizes around her as though she's risen to a podium. Her filter activates at full force: everyone in the circle feels measured, assessed, ranked.</p>
+    <p class="beat-prose">"Then let me make your decision easier," Sei says. "She is the better choice."</p>
+    <p class="beat-prose">Silence. Ginsfeld hadn't expected this. Neither had Fevvers, whose mouth opens and then closes.</p>
+    <p class="beat-prose">"Her presence disrupts certainty. Inside a text, that means the inhabitants won't be able to fix her in their narrative — she'll slide through their perception like oil on water. My presence does the opposite: I clarify things. I make people more aware of what they're seeing. Inside a text, that means I'd be a spotlight in a room that needs shadow."</p>
+    <p class="beat-prose">She's right. Ginsfeld knows she's right, and she knows he knows.</p>
+    <p class="beat-prose">"Furthermore," Sei says, "I am physically weak. If the Redactors find us, I cannot fight. She can." She looks at Fevvers. "You can fight, yes?"</p>
+    <p class="beat-prose">Fevvers nods. The performance is gone. She's just listening.</p>
+    <p class="beat-prose">"Then the mathematics are clear," Sei says. She sits back down. Her hand resumes its invisible writing. The only sign that this cost her anything is a faint tremor in her wrist.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +2</span> (genuine respect, publicly offered). <span class="rel-thought"><em>I chose her over myself. Not from generosity — from precision. She is the correct answer to the question he is asking. And she will be magnificent, the vulgar creature. She will be absolutely magnificent.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Sei:</span> <span class="rel-change--positive">Affinity +3</span> (stunned, moved). <span class="rel-thought"><em>She just — she advocated for me. Over herself. The woman who's been cataloguing my every flaw all evening just told the room I'm the better choice. I don't — I don't know what to do with that. Nobody's ever — chosen me over themselves when they had the option to fight for it.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Sei:</span> <span class="rel-change--positive">Affinity +2</span> (honor recognized — she sacrificed her position honestly). <span class="rel-thought"><em>She did what I could not do when Laudine needed me: she saw the truth and acted on it immediately, without flinching. This woman is braver than most knights I have known.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Sei:</span> <span class="rel-change--positive">Affinity +2</span> (she just made his hardest decision for him — and she was right). <span class="rel-change--negative">Aversion +1</span> (she's too perceptive to remain uninvolved; she'll be a loose end). <span class="rel-thought"><em>She solved my problem before I had to create it. And she did it with dignity. I owe her for that. The question is whether what I owe her matters more than what the mission requires.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Sei:</span> <span class="rel-change--positive">Affinity +2</span> (in the spirit layer, her act of sacrifice glows faintly — the spirits recognize selflessness). <span class="rel-thought"><em>She gave up her place. In the spirit world, that kind of sacrifice leaves a mark that shines. The spirits near the ceiling are watching her now. They're gentle about it.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      She did it for me. She saw the cut coming and she made it herself, cleanly, with more grace than I would have managed. The team is Azaro, Yvain, Fevvers. But Sei Sh&#333;nagon just demonstrated the single quality I value most: the ability to see the truth and act on it even when it costs. I'm going to regret not taking her. I already regret it.
+    </div>
+  </div>
+
+  <!-- BEAT 16 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 16</span>
+      <span class="beat-title">The Cut Resisted</span>
+    </div>
+    <p class="beat-prose">But the room isn't done.</p>
+    <p class="beat-prose">"No," Yvain says.</p>
+    <p class="beat-prose">Everyone looks at him. He's standing — when did he stand? — and his full height in the low-ceilinged basement is imposing in a way that the folding chairs and fluorescent lights were never designed to accommodate.</p>
+    <p class="beat-prose">"The lady speaks with courage," Yvain says. Low Verbosity means every word is load-bearing. "She assessed herself and found herself wanting against the mission's requirements. But that assessment is incomplete."</p>
+    <p class="beat-prose">He looks at Ginsfeld. The Oath That Echoes is radiating. Ginsfeld feels it like a hand pressing on his sternum.</p>
+    <p class="beat-prose">"You said one of us will be recognized inside the text. You don't know who. The woman with the wings —" He means Fevvers. "— has a reputation. The Dockhands know her. The Bindery knows her. If the target text has any connection to those networks, she will be recognized <em>immediately</em>."</p>
+    <p class="beat-prose">This is not something Ginsfeld had fully considered. He opens his mouth. Closes it.</p>
+    <p class="beat-prose">"The lady in the robes has been writing in the margins of texts for months." Yvain gestures toward Sei. "The Marginalia are looking for her but haven't found her. She moves through texts without being identified. That is stealth. That is the face you need."</p>
+    <p class="beat-prose">Sei stares at Yvain. He just advocated for her inclusion using intelligence she didn't know he had — she'd assumed his Game Savvy was too low to process tactical information. But this isn't Game Savvy. This is battlefield assessment, which is a different faculty entirely.</p>
+    <p class="beat-prose">Fevvers, to her credit, doesn't argue. She looks from Yvain to Ginsfeld and back. Ma Nelson's Economics computes rapidly: the knight is right. Her reputation is too large. Inside a text, she'd be a searchlight.</p>
+    <p class="beat-prose">"He's got a point," Fevvers says quietly. "I'm a lot of things, love, but inconspicuous isn't one of them."</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Sei:</span> <span class="rel-change--positive">Affinity +1</span> (he advocates for merit). <span class="rel-thought"><em>She sacrificed herself. The sacrifice was honourable but tactically wrong. A knight corrects a tactical error — that is not disrespect. It is service.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +2</span> (astonished — he saw what she missed). <span class="rel-thought"><em>The knight saw my value when I argued against it. He used intelligence I didn't know he possessed. I have underestimated him badly, and the underestimation was my own failure of observation. This is — humiliating and wonderful simultaneously.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (he's right and she respects it). <span class="rel-change--negative">Aversion +1</span> (it stings). <span class="rel-thought"><em>He just argued me out of the team. Gently. By being right. That's the worst way to lose.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +2</span> (excellent tactical thinking). <span class="rel-thought"><em>The knight just out-analyzed me. He's right: Fevvers' reputation is a liability inside an unknown text. Sei's anonymity is an asset. I had the analysis backwards.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Damn. He's right. Yvain just flipped my decision using information I should have weighted more heavily. Fevvers is conspicuous. Sei is not. The Marginalia haven't identified her yet — she's been moving through texts as a ghost. That's the Face. But if I take Sei, I lose Fevvers' physical strength and her reality-warping filter. The Redactors are coming and I might need muscle more than stealth. [pencil tapping intensifies]
+    </div>
+  </div>
+
+  <!-- BEAT 17 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 17</span>
+      <span class="beat-title">The Room Debates</span>
+    </div>
+    <p class="beat-prose">The decision has cracked open and everyone has an opinion.</p>
+    <p class="beat-prose">"If I may," Sei says, and there is a new quality in her voice — something warmer, something that was not there before Yvain spoke for her. "The knight makes a valid tactical point. But the mission faces the Redactors. They are professionals. A confrontation is likely. I cannot fight them. She can." She nods toward Fevvers.</p>
+    <p class="beat-prose">Fevvers shakes her head. "Stop being noble, both of you. I'm not —" She pauses. The Broken Pinion throbs. She shifts in her chair and her face tightens. "I'm not at my best. The wing's hurt. I won't be flying anywhere."</p>
+    <p class="beat-prose">This is the first time she's admitted the injury publicly. The semi-private condition has gone public, and it changes the calculus again.</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Active Skill: Aerialiste's Grace — Fevvers demonstrates current physical capability</span>
+      <span class="dice-roll-result">Roll: d20(7) + STR(+3) = 10. Low-medium success.</span>
+      <span class="dice-roll-outcome">Fevvers pushes herself to standing and rolls her shoulders, letting the coat fall open slightly. The wings are visible — enormous, tawny, folded tight. The left one doesn't extend as far as the right. The movement is impressive but clearly human-scale. She's strong, she's graceful, but she's not superhuman tonight. The wing has clipped her ceiling.</span>
+    </div>
+
+    <p class="beat-prose">"Still strong," Yvain says, watching her. "But limited."</p>
+    <p class="beat-prose">"Limited is one word for it." Fevvers sits back down heavily. "Can't fly, can't fully extend the left wing, and fast turns hurt like buggery. Other than that, I'm a delight."</p>
+    <p class="beat-prose">Azaro, who has been silent, speaks. "It doesn't matter."</p>
+    <p class="beat-prose">Everyone looks at the boy.</p>
+    <p class="beat-prose">"What I saw through the wall — the bird hitting glass — it's not far. The text where it's happening. It's <em>here</em>. Close. In the library above us. Finding it won't be hard." He pauses. "Getting inside without the Redactors following — that's what's hard. You need someone who can make the door invisible after we go through."</p>
+    <p class="beat-prose">He looks at Fevvers. "You can do that. You make things uncertain. If you stand at the door, nobody can be sure it's really a door."</p>
+    <p class="beat-prose">Ginsfeld blinks. The child just described Fevvers' filter as a tactical asset for the <em>entry point</em> rather than for movement inside the text. He hadn't thought of that. Nobody had.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (he keeps solving problems I haven't articulated yet). <span class="rel-thought"><em>The child is thinking three steps ahead. Use Fevvers at the entry point to obscure the door from the Redactors. It's brilliant. It's also an argument for taking ALL four of them.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +1</span> (impressed by tactical clarity). <span class="rel-thought"><em>The spirit child just proposed a deployment strategy. He is ten years old and he is the strategist in this room.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Azaro:</span> <span class="rel-change--positive">Affinity +2</span> (he found a role for her that accommodates the injury). <span class="rel-thought"><em>The little one just told me what I'm for. Not the Face. Not the muscle. The door. I'm the door. I make the door uncertain, and the erasers can't find it. That's — that's not what I expected, but it's clever. Clever little thing.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Four. I need four, not three. Azaro is the Navigator. Yvain is the Shield. Sei is the Face (stealth inside the text). Fevvers is the Door (uncertainty at the entry point). Everyone has a role. Everyone is necessary. But my briefing said three. My contact said three. Three is the maximum for a quiet insertion. Four is loud. Four is — but if Azaro is right that the text is close, maybe loud doesn't matter. [long pause] No. The Redactors will be monitoring. Four people entering a text they're watching is an alarm bell. Three can move quietly. Four cannot. Someone has to stay behind.
+    </div>
+  </div>
+
+  <!-- BEAT 18 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 18</span>
+      <span class="beat-title">The Decision</span>
+    </div>
+    <p class="beat-prose">Ginsfeld stands. The folding chair scrapes against the concrete. He has made his decision and it costs him, and the cost is visible on his face for the first time all evening.</p>
+    <p class="beat-prose">"I hear all of you. You've each made arguments that are correct. But the constraint is real: three inside, not four. The Redactors are monitoring. Four is a signature they'll detect."</p>
+    <p class="beat-prose">He looks at each of them in turn.</p>
+    <p class="beat-prose">"Azaro. You're the navigator. Without you, we don't find the target."</p>
+    <p class="beat-prose">The boy nods.</p>
+    <p class="beat-prose">"Yvain. You're the shield. Without you, the Redactors take us apart."</p>
+    <p class="beat-prose">Yvain inclines his head. His hand is on Azaro's shoulder again.</p>
+    <p class="beat-prose">"Sei." He pauses. "You're the face. You can move through the text unseen. Yvain was right — your anonymity is your greatest asset."</p>
+    <p class="beat-prose">Sei meets his eyes. Her expression is composed, but the tremor in her writing hand has stopped. She has been chosen.</p>
+    <p class="beat-prose">Ginsfeld turns to Fevvers. "And you —"</p>
+    <p class="beat-prose">"I'm the door," Fevvers says. Her voice is even. "But the door stays outside."</p>
+    <p class="beat-prose">"The door stays outside. You hold the entry point. Your filter keeps it hidden from the Redactors while we're inside. When we come back out — and we <em>will</em> come back out — you're there. You're the extraction."</p>
+    <p class="beat-prose">Fevvers stands. She is enormous in the small room, and for a moment the Suspension of Disbelief filter ripples through the space like heat shimmer. Nobody in the room is certain what they're seeing. A woman with wings being told she won't fly. A performer being cast as the stage door. An exit sign with a heartbeat.</p>
+    <p class="beat-prose">"So it's not three," Fevvers says slowly. "It's four. But one of us isn't inside."</p>
+    <p class="beat-prose">"One of you is the most important person on the mission," Ginsfeld says. "Because if the entry point collapses, nobody comes home."</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: The Oath That Echoes — Ginsfeld makes a commitment in Yvain's presence</span>
+      The promise — <em>we will come back out</em> — settles into the room with the weight of a foundation stone. Ginsfeld feels it. He meant it when he said it, which is unusual for him. Yvain's filter has extracted a genuine commitment from a habitual liar.
+    </div>
+
+    <p class="beat-prose">Yvain registers this. A promise made in earnest. It doesn't erase the earlier deception, but it creates a new layer of trust on top of the damaged one.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (she's outside, not inside — it stings). <span class="rel-change--positive">Affinity +2</span> (but the role is real, and he made it matter). <span class="rel-thought"><em>He put me at the door. Not inside. The door. And then he told me I'm the most important person on the mission, and the mad thing is — he might be right. If the way out disappears, they're all dead. I'm the way out.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +2</span> (the promise was real — Yvain felt it). <span class="rel-thought"><em>He promised we would come back. He meant it. I know because I have broken promises and I know what they feel like in the mouth. His sat true.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (moved by her grace in accepting a diminished role). <span class="rel-thought"><em>She wanted to be inside. She wanted the mission. And when he gave her the door instead, she stood up taller. That is what courage looks like when it wears feathers.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Sei:</span> <span class="rel-change--positive">Affinity +1</span> (a nod of mutual respect). <span class="rel-thought"><em>She's going inside. She'll be the face, the ghost, the one who walks through walls. I'll be outside making sure the wall has a door in it. Fair enough. That's — fair enough.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (she's going to keep the door open — she'll keep the way home visible). <span class="rel-thought"><em>She'll be the door. She'll keep the spirits from closing it. That's the most important thing — the way back.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Four, not three. I broke my own constraint. My contact won't be happy. But the team is right: Azaro navigates, Yvain protects, Sei moves unseen, Fevvers holds the exit. Nobody is cut. Everybody has a role. The question is whether the Redactors will detect a four-person deployment, and the answer is: probably. But if Fevvers can keep the entry point uncertain enough, the three inside might move like ghosts. It's a risk. Everything about this job is a risk. But these are the four I'd choose if I could choose four, and apparently I just did.
+    </div>
+  </div>
+
+  <!-- BEAT 19 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 19</span>
+      <span class="beat-title">Nobody Leaves</span>
+    </div>
+    <p class="beat-prose">The room rearranges itself. Four people who walked in as strangers, who sat in folding chairs and drank bad coffee and told pieces of truth under fluorescent light, have become — not yet a team, but the raw material of one.</p>
+    <p class="beat-prose">Ginsfeld pours a fresh cup of coffee. It's terrible. He drinks it anyway.</p>
+    <p class="beat-prose">"We have 48 hours, give or take," he says. "The text is in the library above us — Azaro confirmed that. I'll need the night to run reconnaissance with my contact and get what additional intelligence I can about the target. I'd like to meet tomorrow night, same place, with a plan."</p>
+    <p class="beat-prose">"I have a question," Sei says. "You said you know the Redactors. Describe them."</p>
+    <p class="beat-prose">Ginsfeld nods. "Three-person team. The leader is called Morrow — efficient, no ego, follows protocol exactly. She'll run the erasure by the book, which means she's predictable. The second is a tracker called Lune — fast, perceptive, works in advance of the main team to identify the target's exact location. He's already inside or near the text. The third is the eraser itself — I don't have a name, just a designation. They call it the Stylus. It's the instrument of deletion."</p>
+    <p class="beat-prose">"The Stylus will be the problem," Sei says. "Morrow and Lune are human problems. The Stylus is an ontological one."</p>
+    <p class="beat-prose">Ginsfeld looks at her with genuine respect. "That's exactly right."</p>
+    <p class="beat-prose">Yvain: "Can the Stylus be fought?"</p>
+    <p class="beat-prose">"Not directly. It erases. Engaging it physically means risking erasure. It needs to be outmaneuvered, not overpowered."</p>
+    <p class="beat-prose">"Then the Shield needs to keep it away from the team, not fight it."</p>
+    <p class="beat-prose">"Also exactly right."</p>
+    <p class="beat-prose">Azaro has been listening. The spirit layer is active — the grey shape above Ginsfeld has settled into what looks like a perch, as though it plans to stay. The heavy presence near the utility door has retreated slightly. The thing that turned its attention toward the basement from far away is still watching, but passively, like a cat watching a bird it hasn't decided to chase yet.</p>
+    <p class="beat-prose">"The thing through the wall," Azaro says. "The bird hitting glass. It's getting weaker. It's been hitting for a long time."</p>
+    <p class="beat-prose">The urgency crystallizes. This isn't abstract. Someone is trapped and fading.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (respect for intelligence sharing). <span class="rel-thought"><em>He described the opposition precisely and without omission. After the initial deception, he is now being thorough. That is — if not trustworthy — at least competent.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Ginsfeld:</span> <span class="rel-change--positive">Affinity +1</span> (the plan is taking shape). <span class="rel-thought"><em>A commander who shares intelligence and accepts correction. I have served worse.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Azaro &rarr; everyone:</span> <span class="rel-change--negative">Aversion +1</span> to the situation (the target is weakening — urgency creates pressure on his spirit-sight). <span class="rel-thought"><em>It's tired. The bird is tired. We need to go soon.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (his question about fighting the Stylus — practical, brave, immediate). <span class="rel-thought"><em>He asked if the eraser-thing could be fought. He wasn't afraid. He just wanted to know the terms. That's a man you want at your back.</em></span></div>
+    </div>
+  </div>
+
+  <!-- BEAT 20 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 20</span>
+      <span class="beat-title">Resolution</span>
+    </div>
+    <p class="beat-prose">The group stands. The folding chairs are pushed back, the circle broken. The fluorescent light flickers one last time and then, as if acknowledging that the evening's business is concluded, settles into a steady buzz.</p>
+    <p class="beat-prose">Ginsfeld shakes each of their hands. He holds Azaro's a moment longer. "Get some rest," he tells the boy. "Tomorrow you'll need everything you've got."</p>
+    <p class="beat-prose">"I never rest," Azaro says. "But I'll eat."</p>
+    <p class="beat-prose">"I'll have food."</p>
+    <p class="beat-prose">Sei and Fevvers stand by the stairs, not quite together but not apart. Sei reaches into her robes and produces a small piece of paper — torn from what, it's unclear — and writes something on it with the brush from her hair. She holds it out to Fevvers.</p>
+    <p class="beat-prose">Fevvers takes it. It's a single line of calligraphy, Japanese characters brushed with a steady hand. "What's it say?"</p>
+    <p class="beat-prose">"'Things That Are Near Though Distant.' It is a list category from my book. It means: things that seem far away but are closer than you think. It is what you are."</p>
+    <p class="beat-prose">Fevvers looks at the paper for a long time. Then she folds it carefully and puts it inside her coat, near the heart.</p>
+    <p class="beat-prose">"Right," Fevvers says. Her voice is thick. "Right, then."</p>
+    <p class="beat-prose">Yvain is the last to leave. He pauses at the bottom of the stairs and looks back at Ginsfeld.</p>
+    <p class="beat-prose">"If the boy is harmed," he says. It is not a complete sentence. It does not need to be.</p>
+
+    <div class="filter-trigger">
+      <span class="filter-trigger-label">Filter: The Oath That Echoes — Yvain issues an implicit promise/threat</span>
+      The weight of the unfinished sentence fills the stairwell. Ginsfeld understands it perfectly: this is the knight's version of a binding contract. If Azaro is hurt, Yvain will not ask questions. He will not wait for explanations. He will act with the full force of a man who went mad in a forest and came back with a lion.
+    </div>
+
+    <p class="beat-prose">"Understood," Ginsfeld says.</p>
+    <p class="beat-prose">Yvain turns and walks up the stairs. His footsteps shake the fluorescent fixture.</p>
+    <p class="beat-prose">Ginsfeld stands alone in the basement. The coffee urn gurgles. The grey spirit shape near the ceiling tilts its head at him — he can't see it, but he feels something watching. Through the northeast wall, very faint, something beats against the glass between stories.</p>
+    <p class="beat-prose">He sits back down in his folding chair, pulls out a notebook, and begins to plan.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Final Beat Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sei &rarr; Fevvers:</span> <span class="rel-change--positive">Affinity +1</span> (the calligraphy — an act of connection from a woman who connects to nothing). <span class="rel-thought"><em>I gave her a piece of my book. I do not know why. I have never done that. She is near though distant. I will stand at the door's edge and make certain she is safe when they return.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Fevvers &rarr; Sei:</span> <span class="rel-change--positive">Affinity +2</span> (the most meaningful gesture anyone has made toward her in years). <span class="rel-thought"><em>Near though distant. Near though distant. Damn the woman. I'll remember this when I'm standing at the door. I'll remember this forever.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Yvain &rarr; Ginsfeld:</span> <span class="rel-change--negative">Aversion +1</span> (the threat was necessary, which means trust is conditional). <span class="rel-change--positive">Affinity +1</span> (Ginsfeld accepted the terms without flinching). <span class="rel-thought"><em>He did not argue. He did not bargain. He said "understood." That is the response of a man who means to honour the condition.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Ginsfeld &rarr; Yvain:</span> <span class="rel-change--positive">Affinity +1</span> (the threat confirms Yvain's reliability). <span class="rel-thought"><em>He just told me he'll destroy me if the child is hurt. That's not a red flag — that's a guarantee. A man who makes that threat will die before he lets Azaro take a scratch. The Shield is real.</em></span></div>
+    </div>
+  </div>
+
+  <!-- ✦ DIVIDER ✦ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- ============================================================
+       FINAL RELATIONSHIP TABLES
+       ============================================================ -->
+
+  <h2 class="section-header">Final Relationship Tables</h2>
+  <p class="section-sub">Cumulative Affinity/Aversion scores across all 20 beats.</p>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Ginsfeld</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Sei</td><td>10</td><td>3</td><td class="net-positive">+7</td><td>Deep respect. She solved his hardest problem, read him clean, and accepted the mission with grace. He regrets what she costs him — a mind like hers is irreplaceable.</td></tr>
+      <tr><td>Yvain</td><td>9</td><td>2</td><td class="net-positive">+7</td><td>The Shield. Reliable, principled, protective. The conditional threat regarding Azaro is a feature, not a bug. Trust is rebuilt but conditional.</td></tr>
+      <tr><td>Fevvers</td><td>7</td><td>3</td><td class="net-positive">+4</td><td>The Variable. Her filter is invaluable but she's unpredictable. The Door role suits her better than the Face — she knows it and accepted it. Respect earned.</td></tr>
+      <tr><td>Azaro</td><td>12</td><td>2</td><td class="net-positive">+10</td><td>The Mission. Everything depends on this child. Ginsfeld's protective instinct surprises even himself. The ethical weight of sending a child into danger will keep him awake.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Sei Sh&#333;nagon</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>6</td><td>6</td><td class="net-neutral">0</td><td>Perfectly balanced ambivalence. She respects his intelligence, despises his methods, admires his purpose, and distrusts his instincts. She will work with him as a professional works with a flawed tool.</td></tr>
+      <tr><td>Yvain</td><td>7</td><td>2</td><td class="net-positive">+5</td><td>Revised dramatically upward. Initial dismissal (crude, unlettered) overturned by his tactical advocacy and moral clarity. He saw her value when she argued against herself. She will not forget this.</td></tr>
+      <tr><td>Fevvers</td><td>6</td><td>4</td><td class="net-positive">+2</td><td>Complicated respect. Sei cannot categorize her, which is infuriating. But the connection at the end — "near though distant" — was genuine. A bond formed against both their natures.</td></tr>
+      <tr><td>Azaro</td><td>7</td><td>1</td><td class="net-positive">+6</td><td>Fascination and protectiveness. His perception exceeds hers in domains she didn't know existed. "A hole in the air shaped like loyalty" — she would burn her pillow book for that sentence.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Yvain</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>7</td><td>4</td><td class="net-positive">+3</td><td>Trust damaged, partially rebuilt. The initial deception offended the knight's sense of honor. The mission's just cause and Ginsfeld's genuine promise to return provided foundation for conditional loyalty.</td></tr>
+      <tr><td>Sei</td><td>5</td><td>2</td><td class="net-positive">+3</td><td>Respect forged through action. She sacrificed her place; he restored it. A reciprocal debt of honor that neither will speak of but both will honour.</td></tr>
+      <tr><td>Fevvers</td><td>6</td><td>2</td><td class="net-positive">+4</td><td>A bond of shared damage. She survived something terrible and doesn't perform around him. He survived something terrible and doesn't dissemble around her. The connection is quiet and real.</td></tr>
+      <tr><td>Azaro</td><td>8</td><td>0</td><td class="net-positive">+8</td><td>Absolute. Unconditional. The boy saw his lion. The boy is hungry and alone and sees ghosts. Yvain will protect this child with everything he has. This is not negotiable.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Fevvers</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>6</td><td>3</td><td class="net-positive">+3</td><td>She respects the hustle. She's been the con artist in enough rooms to recognize the mechanics. The Door role stung, but his framing of it — the most important person on the mission — was either brilliant manipulation or genuine belief. She chooses to believe it's both.</td></tr>
+      <tr><td>Sei</td><td>7</td><td>3</td><td class="net-positive">+4</td><td>The most unexpected relationship of the evening. From mutual hostility to "near though distant" — a piece of calligraphy folded near the heart. Fevvers has been looked at by millions. Sei is the first person to see her and describe what she saw in poetry.</td></tr>
+      <tr><td>Yvain</td><td>6</td><td>1</td><td class="net-positive">+5</td><td>Real. That's the word. He's real in a way that makes her performance feel both unnecessary and thin. She doesn't perform around him and the relief of that is physical.</td></tr>
+      <tr><td>Azaro</td><td>5</td><td>2</td><td class="net-positive">+3</td><td>Charmed and unsettled. His spirit-sight disrupts her filter — when he looks at her, she suspects he sees something she doesn't want to know about. But he's kind, and he found her a purpose. The Door. She'll stand at the door.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Azaro</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Aversion</th><th>Net</th><th>Summary</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ginsfeld</td><td>5</td><td>3</td><td class="net-positive">+2</td><td>Azaro sees both faces. The kind one and the calculating one. He trusts the calculating one more, because it has a purpose. The kind one might forget. The calculating one won't.</td></tr>
+      <tr><td>Sei</td><td>6</td><td>1</td><td class="net-positive">+5</td><td>She sees him without flinching. In the spirit world, her act of self-sacrifice glows. The spirits respect her. That's rare — the spirits respect almost nothing.</td></tr>
+      <tr><td>Yvain</td><td>8</td><td>0</td><td class="net-positive">+8</td><td>Safety. Warmth. The man with the invisible lion. Azaro has never felt this protected. It frightens him slightly, because the spirit world takes away the things he loves. But for now, the warmth is real.</td></tr>
+      <tr><td>Fevvers</td><td>4</td><td>3</td><td class="net-positive">+1</td><td>Her presence overwhelms his spirit-sight, which is disorienting. But she smiled at him and meant it, and she'll hold the door. The door matters most.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ✦ DIVIDER ✦ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- ============================================================
+       POST-ENCOUNTER NOTES
+       ============================================================ -->
+
+  <h2 class="section-header">Post-Encounter Notes</h2>
+
+  <div class="post-note">
+    <div class="post-note-title">Team Composition</div>
+    <div class="post-note-text">
+      <p><strong>Inside team:</strong> Azaro (Navigator), Yvain (Shield), Sei Sh&#333;nagon (Face)</p>
+      <p><strong>Entry point:</strong> Fevvers (Door)</p>
+      <p><strong>Handler:</strong> Ginsfeld (external)</p>
+      <p>Ginsfeld broke his own three-person constraint. The mission briefing specified a crew of three, but the encounter dynamics produced a four-person deployment with the fourth (Fevvers) positioned at the entry point rather than inside the target text. This was driven by two factors:</p>
+      <ol>
+        <li>Azaro's identification of Fevvers' filter as a tactical asset for obscuring the entry point from the Redactors — a use case nobody else, including Ginsfeld, had considered.</li>
+        <li>Yvain's intervention in Beat 16, which flipped the Sei/Fevvers assessment by highlighting Fevvers' conspicuousness and Sei's stealth.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Who Was Chosen and Why</div>
+    <div class="post-note-text">
+      <ul>
+        <li><strong>Azaro</strong> — confirmed as Navigator in Beat 8 when he described his ability to see narrative seams, and again in Beat 12 when he independently sensed the mission target through the basement wall. He is irreplaceable.</li>
+        <li><strong>Yvain</strong> — the Shield from the start. His physical capability, protective instinct (especially toward Azaro), and the Oath That Echoes filter (which extracts genuine commitments from those around him) make him the team's moral and physical anchor.</li>
+        <li><strong>Sei Sh&#333;nagon</strong> — initially set to be cut, she was restored by Yvain's advocacy in Beat 16. Her anonymity (the Marginalia haven't identified her despite months of annotation), her observational precision, and her ability to navigate complex social environments make her the ideal Face for moving unseen inside an unknown text.</li>
+        <li><strong>Fevvers</strong> — not cut, but repositioned. Her Suspension of Disbelief filter, originally valued as an asset inside the text, was reframed by Azaro as an entry-point asset: she can make the door uncertain, preventing the Redactors from locating it. Her broken wing makes interior deployment risky; the Door role accommodates the injury while maximizing her unique capability.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Who Was Cut and Why</div>
+    <div class="post-note-text">
+      <p><strong>Nobody.</strong> This is the first iteration in which the four-to-three cut did not result in elimination. The simulation produced a scenario where all four characters found distinct, necessary roles. The engine's constraint (crew of 3) was bent rather than broken — three inside, one at the threshold.</p>
+      <p>This outcome was driven entirely by character interaction, not by design. Sei's self-sacrifice in Beat 15 set up Yvain's counter-argument in Beat 16, which set up Azaro's tactical reframe in Beat 17. Each character's contribution was necessary to reach the final configuration. If any one of them had behaved differently — if Sei hadn't advocated for Fevvers, if Yvain hadn't advocated for Sei, if Azaro hadn't reimagined Fevvers' role — the cut would have proceeded as expected.</p>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">What Surprised the Simulation</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>The Sei/Fevvers exchange in Beats 9 and 15.</strong> The initial hostility between the Heian court lady and the Cockney aerialiste was expected. The mutual recognition was not. Sei's "near though distant" calligraphy in Beat 20 — a genuine act of connection from a character designed for clinical observation — was emergent and unplanned.</li>
+        <li><strong>Yvain's tactical advocacy in Beat 16.</strong> The character's Low Game Savvy suggested he would not engage in strategic analysis. But the simulation distinguished between social Game Savvy (reading hidden agendas — low) and battlefield assessment (evaluating tactical deployment — high). Yvain's intervention was the pivot point of the entire encounter.</li>
+        <li><strong>Azaro's "bird hitting glass" in Beat 12.</strong> The spirit child independently confirmed the mission target through sheer perceptual power, which was mechanically predicted (Between the Pages, critical success) but narratively striking. The metaphor — a bird hitting glass — became the mission's emotional core, giving the abstract target a visceral reality.</li>
+        <li><strong>Nobody was cut.</strong> The engine specifies four becomes three. The characters found a way to be four. This felt honest — forcing a cut when all four characters had found distinct roles would have been artificial steering, which the engine explicitly warns against.</li>
+        <li><strong>The Oath That Echoes as truth serum.</strong> Yvain's filter had an outsized effect on Ginsfeld, forcing genuine commitments from a character whose defining trait is deception. The promise to return (Beat 18) and the acceptance of Yvain's threat regarding Azaro (Beat 20) were both moments where Ginsfeld's Low Honesty was overridden by the filter's moral gravity. This will have consequences on the mission.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Hooks for Future Encounters</div>
+    <div class="post-note-text">
+      <ul>
+        <li><strong>The Redactors' timeline</strong> — 48 hours remain. The next session must address reconnaissance, planning, and entry. Lune (the tracker) is already near the target text.</li>
+        <li><strong>The target identity</strong> — still unknown. Azaro can sense the target's presence and distress but not their identity or the text they're trapped in. The library above the basement contains the answer.</li>
+        <li><strong>Sei's Marginalia problem</strong> — she's been annotating texts for months. The Marginalia are looking for the source. If they identify her while she's inside the target text, her stealth advantage evaporates.</li>
+        <li><strong>Fevvers' injury</strong> — the Broken Pinion has 3 encounters before it heals. If the mission spans multiple encounters, she may recover in time for a larger role. If it resolves in one, she's operating at reduced capacity at the entry point.</li>
+        <li><strong>Yvain's conditional loyalty</strong> — his commitment to Ginsfeld is conditional on Azaro's safety. If the mission puts the boy in danger (which it will), Yvain's loyalty will be tested against his protective instinct.</li>
+        <li><strong>The watching presence</strong> — Azaro's critical success on Between the Pages drew the attention of something far away. It noticed. It's watching. It hasn't decided whether to act.</li>
+        <li><strong>Walser's Shadow</strong> — Fevvers' private condition. If Jack Walser is following her, he may show up at the entry point during the mission. A journalist at the door is a complication Ginsfeld hasn't planned for.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Filters, Conditions, and Skills — Impact Assessment</div>
+    <div class="post-note-text">
+      <table class="impact-table">
+        <thead>
+          <tr><th>Element</th><th>Impact Level</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>The Oath That Echoes (Yvain filter)</td><td><span class="impact-critical">Critical</span></td><td>Shaped Ginsfeld's behavior throughout; forced genuine commitments; made casual lying expensive. Single most impactful filter.</td></tr>
+          <tr><td>The Suspension of Disbelief (Fevvers filter)</td><td><span class="impact-high">High</span></td><td>Disrupted Sei's assessment in Beat 9; provided the basis for the Door role; softened reality perception for all characters.</td></tr>
+          <tr><td>Between the Pages (Azaro skill)</td><td><span class="impact-high">High</span></td><td>Critical success in Beat 12 confirmed the target and established urgency. Cost activated: something far away is now watching.</td></tr>
+          <tr><td>Devastating Observation (Sei skill)</td><td><span class="impact-high">High</span></td><td>Made Ginsfeld in Beat 8; accelerated the reveal timeline; cost (target knows they've been read) created mutual awareness between Sei and Ginsfeld.</td></tr>
+          <tr><td>Things That Lose by Being Painted (Sei filter)</td><td><span class="impact-medium">Medium</span></td><td>Created ambient social pressure throughout; forced characters to perform at a higher register; contributed to Fevvers' bristling.</td></tr>
+          <tr><td>The Abiku's Gravity (Azaro filter)</td><td><span class="impact-medium">Medium</span></td><td>Thinned reality in the room; enabled the lion moment in Beat 10; contributed to the room's uncanny atmosphere.</td></tr>
+          <tr><td>Forest Sense (Yvain skill)</td><td><span class="impact-low">Low-Medium</span></td><td>Provided tactical awareness but no major narrative impact. Would likely be critical in mission-phase encounters.</td></tr>
+          <tr><td>Lion's Fury (Yvain skill)</td><td><span class="impact-low">Not triggered</span></td><td>No direct physical threat materialized. Expected to be critical in mission-phase encounters.</td></tr>
+          <tr><td>The Broken Pinion (Fevvers condition)</td><td><span class="impact-high">High</span></td><td>Changed the tactical calculus in Beats 17-18; the injury disclosure prompted the shift from Face role to Door role.</td></tr>
+          <tr><td>Is She Fact or Is She Fiction? (Fevvers skill)</td><td><span class="impact-high">High</span></td><td>Defeated Sei's assessment — a dramatic moment that confirmed Fevvers' filter as genuine.</td></tr>
+          <tr><td>Oath-Breaker's Weight (Yvain condition)</td><td><span class="impact-medium">Medium</span></td><td>Drove his attention to promises and time; heightened his reaction to Ginsfeld's deception; grounded his advocacy for Sei.</td></tr>
+          <tr><td>Spirit-Sight (Azaro condition)</td><td><span class="impact-high">High</span></td><td>Provided continuous background narration of the spirit layer; enriched every scene Azaro was in; detected the mission target.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ✦ DIVIDER ✦ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <p class="colophon">The Wednesday Group — Iteration 1. Twenty beats. Four characters. One basement.</p>
+
+</div>
+</div>
+</body>
+</html>
