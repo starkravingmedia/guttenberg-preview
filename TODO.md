@@ -43,6 +43,11 @@
 
 - [ ] Explore downloading texts from Project Gutenberg and processing them with a local model — assess utility for the game (content sourcing, world-building raw material, NLP pipelines, etc.)
 
+## Taxonomy Enforcement
+
+- [ ] Build a taxonomy linter — a system that checks all content going into the game against the taxonomy, flags reserved words used incorrectly, and prompts for verification
+- [ ] Auto-link taxonomy terms in HTML game documents — any taxonomically reserved word should be automatically underlined and linked to its taxonomy reference entry
+
 ## Learning & Tooling
 
 - [ ] Learn and understand git in the context of this project (have Claude teach alongside real usage)
