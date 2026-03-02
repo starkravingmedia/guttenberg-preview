@@ -13,6 +13,7 @@
 - [ ] Define design patterns for minigames and how they get used by the engine
 - [ ] Add cooldown timer mechanic for certain skills/abilities
 - [ ] Architect templates for scenarios/encounters (note: these terms also need taxonomic precision)
+- [ ] Resolve player vs. character identity model — is the player a distinct entity behind the characters (MTG model: player takes damage, isn't a card) or does the player exist only through their characters (Baldur's Gate model: no "you" outside the party)? This is architecturally foundational.
 
 ## Player's Guide
 
