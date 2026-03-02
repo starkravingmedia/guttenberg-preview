@@ -32,6 +32,10 @@
 - [ ] Research Claude-friendly art engine integration (Midjourney, etc.) for on-the-fly generation
 - [ ] Create fixed style instructions so generated art stays within a consistent design philosophy (documentation, encounters, scene settings)
 
+## Research & Exploration
+
+- [ ] Explore downloading texts from Project Gutenberg and processing them with a local model — assess utility for the game (content sourcing, world-building raw material, NLP pipelines, etc.)
+
 ## Learning & Tooling
 
 - [ ] Learn and understand git in the context of this project (have Claude teach alongside real usage)
