@@ -15,6 +15,7 @@
 - [ ] Architect templates for scenarios/encounters (note: these terms also need taxonomic precision)
 - [ ] Resolve player vs. character identity model — is the player a distinct entity behind the characters (MTG model: player takes damage, isn't a card) or does the player exist only through their characters (Baldur's Gate model: no "you" outside the party)? This is architecturally foundational.
 - [ ] Define and firm up the types of traversable connections between books — what kinds of links exist, how they're triggered, what makes them traversable vs. locked, one-way vs. two-way, etc.
+- [ ] Design fast travel — two distinct flavors: (1) abbreviated traversal through connected works (skipping the mundane parts but still "traveling the path") and (2) teleportation via in-game mechanisms (bypassing the path entirely). Define what enables each, costs, limitations, and which game mechanics gate them.
 
 ## Player's Guide
 
