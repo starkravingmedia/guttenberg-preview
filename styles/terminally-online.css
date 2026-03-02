@@ -1,0 +1,1579 @@
+/* ============================================================
+   TERMINALLY ONLINE — Design System
+   A dark-mode, karma-poisoned aesthetic for the chronically online.
+   Reddit threads, YouTube comments, Discord energy.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;0,700&family=Bangers&display=swap');
+
+/* ------------------------------------------------------------
+   1. TOKENS
+   ------------------------------------------------------------ */
+
+:root {
+  --void:           #030303;
+  --surface:        #1a1a1b;
+  --surface-raised: #272729;
+  --surface-hover:  #2d2d2f;
+  --border:         #343536;
+  --border-light:   #3a3a3c;
+  --text:           #d7dadc;
+  --text-muted:     #818384;
+  --text-faint:     #575859;
+  --upvote:         #ff4500;
+  --downvote:       #7193ff;
+  --online:         #46d160;
+  --gold-award:     #ffd700;
+  --platinum:       #a0e8ff;
+  --mod:            #58d68d;
+  --op:             #4fbcff;
+  --nsfw:           #ff585b;
+  --shadow:         rgba(0, 0, 0, 0.5);
+}
+
+/* ------------------------------------------------------------
+   2. RESET & BASE
+   ------------------------------------------------------------ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--op);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--upvote);
+  text-decoration: underline;
+}
+
+em { color: var(--text); font-style: italic; }
+code {
+  font-family: 'IBM Plex Mono', 'Consolas', monospace;
+  font-size: 0.9em;
+  background: var(--surface);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--upvote);
+}
+
+/* ------------------------------------------------------------
+   3. PAGE STRUCTURE
+   ------------------------------------------------------------ */
+
+.page-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+.page-wrapper--wide {
+  max-width: 1100px;
+}
+
+.parchment-bg {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 32px;
+  position: relative;
+}
+
+.parchment-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--upvote), var(--gold-award), var(--upvote));
+  border-radius: 4px 4px 0 0;
+}
+
+/* ------------------------------------------------------------
+   4. TYPOGRAPHY
+   ------------------------------------------------------------ */
+
+/* Main title — Bangers (YouTuber energy) */
+.main-title {
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: 2.8em;
+  text-align: center;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--upvote), var(--gold-award));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtitle — muted, subreddit tagline */
+.subtitle {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.85em;
+  text-align: center;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+}
+
+/* Draft / edition mark */
+.draft-mark {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  text-align: center;
+  color: var(--nsfw);
+  margin-bottom: 40px;
+  padding: 4px 12px;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  background: rgba(255, 88, 91, 0.08);
+  border: 1px solid rgba(255, 88, 91, 0.2);
+  border-radius: 4px;
+}
+
+/* Epigraph — pinned comment style */
+.epigraph {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-style: italic;
+  font-size: 0.9em;
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+  padding: 12px 16px;
+  border-left: 3px solid var(--mod);
+  background: rgba(88, 214, 141, 0.04);
+  text-align: left;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Section headers */
+.section-header {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: var(--text);
+  text-align: left;
+  margin-bottom: 4px;
+}
+
+.section-header::before {
+  content: '▲';
+  color: var(--upvote);
+  margin-right: 8px;
+  font-size: 0.7em;
+  vertical-align: middle;
+}
+
+.section-sub {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  padding-left: 22px;
+}
+
+/* ------------------------------------------------------------
+   5. DIVIDERS
+   ------------------------------------------------------------ */
+
+.divider {
+  text-align: center;
+  margin: 32px 0 24px;
+  color: var(--text-faint);
+  font-size: 0.75em;
+  letter-spacing: 0.5em;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* ------------------------------------------------------------
+   6. CARDS (Reddit post / YouTube thumbnail)
+   ------------------------------------------------------------ */
+
+.card {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  position: relative;
+  background: var(--surface);
+}
+
+.card:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-light);
+}
+
+.card-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.75em;
+  color: var(--upvote);
+  min-width: 24px;
+  padding-top: 2px;
+  text-align: center;
+}
+
+.card-image-wrap {
+  flex-shrink: 0;
+  width: 120px;
+  height: 68px;
+  border-radius: 4px;
+  background: var(--surface-raised);
+  overflow: hidden;
+  position: relative;
+}
+
+.card-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+
+.card:hover .card-image-wrap img {
+  opacity: 0.9;
+}
+
+.card-image-wrap .placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6em;
+  color: var(--text-faint);
+  text-align: center;
+  padding: 8px;
+}
+
+.card-image-wrap .loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65em;
+  color: var(--text-faint);
+}
+
+.card-body { flex: 1; }
+
+.card-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.card-title a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.card-title a:hover {
+  color: var(--op);
+  text-decoration: none;
+}
+
+.card-desc {
+  color: var(--text-muted);
+  font-size: 0.85em;
+  line-height: 1.45;
+}
+
+.card-desc em { color: var(--text); }
+
+/* ------------------------------------------------------------
+   7. BADGES (Flairs / Awards)
+   ------------------------------------------------------------ */
+
+.badge {
+  display: inline-block;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.7em;
+  font-weight: 600;
+  padding: 2px 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-radius: 12px;
+}
+
+.badge--battle-tested {
+  font-size: 0.7em;
+  color: var(--void);
+  background: var(--upvote);
+}
+
+.badge--blood {
+  color: var(--void);
+  background: var(--nsfw);
+}
+
+.badge--gold {
+  color: var(--void);
+  background: var(--gold-award);
+}
+
+.badge--sidelined {
+  color: var(--text-faint);
+  background: transparent;
+  border: 1px dashed var(--border);
+}
+
+/* Legacy class names */
+.battle-tested {
+  display: inline-block;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.7em;
+  font-weight: 600;
+  color: var(--void);
+  background: var(--upvote);
+  padding: 2px 8px;
+  margin-left: 6px;
+  border-radius: 12px;
+  vertical-align: middle;
+}
+
+.team-badge-d {
+  display: inline-block;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.68em;
+  font-weight: 600;
+  color: #fff;
+  background: var(--nsfw);
+  padding: 2px 8px;
+  margin-left: 6px;
+  border-radius: 12px;
+  vertical-align: middle;
+}
+
+.team-badge-u {
+  display: inline-block;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.68em;
+  font-weight: 600;
+  color: var(--void);
+  background: var(--gold-award);
+  padding: 2px 8px;
+  margin-left: 6px;
+  border-radius: 12px;
+  vertical-align: middle;
+}
+
+.sidelined-badge {
+  display: inline-block;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.68em;
+  font-weight: 500;
+  color: var(--text-faint);
+  border: 1px dashed var(--border);
+  padding: 2px 8px;
+  margin-left: 6px;
+  border-radius: 12px;
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------
+   8. TEAM BLOCKS (Subreddits / Channels)
+   ------------------------------------------------------------ */
+
+.team-block {
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.team-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40px;
+}
+
+.team-descenders::before { background: linear-gradient(180deg, rgba(255, 88, 91, 0.15) 0%, transparent 100%); }
+.team-unsilenced::before { background: linear-gradient(180deg, rgba(255, 215, 0, 0.12) 0%, transparent 100%); }
+
+.team-descenders { border-top: 3px solid var(--nsfw); }
+.team-unsilenced { border-top: 3px solid var(--gold-award); }
+
+.team-header { margin-bottom: 16px; position: relative; z-index: 1; }
+
+.team-name {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+.team-descenders .team-name { color: var(--nsfw); }
+.team-descenders .team-name::before { content: 'r/'; font-weight: 400; opacity: 0.6; }
+.team-unsilenced .team-name { color: var(--gold-award); }
+.team-unsilenced .team-name::before { content: 'r/'; font-weight: 400; opacity: 0.6; }
+
+.team-motto {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.team-roster {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.team-member {
+  flex: 1;
+  min-width: 130px;
+  padding: 10px 12px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  position: relative;
+}
+
+.team-member.captain { border-width: 2px; }
+.team-descenders .team-member.captain { border-color: var(--nsfw); }
+.team-unsilenced .team-member.captain { border-color: var(--gold-award); }
+
+.role-badge {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.65em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.team-descenders .role-badge { color: var(--nsfw); }
+.team-unsilenced .role-badge { color: var(--gold-award); }
+
+.member-name {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  margin-bottom: 2px;
+  color: var(--text);
+}
+
+.member-name::before {
+  content: 'u/';
+  font-weight: 400;
+  color: var(--text-faint);
+}
+
+.member-role {
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   9. SIDELINED BLOCK (Downvoted / Collapsed)
+   ------------------------------------------------------------ */
+
+.sidelined-block {
+  margin-top: 24px;
+  padding: 16px;
+  text-align: center;
+  opacity: 0.5;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.sidelined-header {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.75em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+
+.sidelined-header::before {
+  content: '▼ ';
+  color: var(--downvote);
+}
+
+.sidelined-names {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.sidelined-note {
+  font-size: 0.85em;
+  color: var(--text-faint);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   10. CHAIN / TIMELINE (Comment Thread)
+   ------------------------------------------------------------ */
+
+.chain-section {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.chain-step {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+  padding: 10px 14px;
+  border-left: 2px solid var(--border);
+  position: relative;
+  transition: background 0.15s ease;
+  margin-left: 8px;
+}
+
+.chain-step:hover { background: var(--surface-hover); border-radius: 0 4px 4px 0; }
+
+.chain-step::before {
+  content: '';
+  position: absolute;
+  left: -6px; top: 16px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+}
+
+.chain-step.step-book::before {
+  width: 12px; height: 12px;
+  left: -7px; top: 15px;
+  border-color: var(--upvote);
+  background: var(--upvote);
+}
+
+.chain-step.step-branch {
+  border-left-style: dashed;
+  border-left-color: var(--downvote);
+  margin-left: 28px;
+}
+
+.chain-step.step-branch::before { border-color: var(--downvote); background: var(--surface); }
+.chain-step.step-branch.step-book::before {
+  border-color: var(--downvote);
+  background: var(--downvote);
+}
+
+.chain-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.8em;
+  color: var(--upvote);
+  min-width: 22px;
+  padding-top: 2px;
+}
+
+.chain-step.step-branch .chain-number { color: var(--downvote); }
+
+.chain-body { flex: 1; }
+
+.chain-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.chain-text {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.chain-text em { color: var(--text); }
+
+.branch-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--downvote);
+  margin: 20px 0 8px 16px;
+}
+
+/* ------------------------------------------------------------
+   11. DIAGRAM NODES
+   ------------------------------------------------------------ */
+
+.diagram-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.diagram-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+
+.node {
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  cursor: default;
+  transition: transform 0.2s ease;
+}
+
+.node:hover { transform: translate(-50%, -50%) scale(1.08); }
+
+.node-book { width: 160px; }
+.node-link { width: 120px; }
+
+.node-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+}
+
+.node-book .node-circle {
+  width: 80px; height: 80px;
+  background: var(--surface-raised);
+  border: 3px solid var(--upvote);
+  box-shadow: 0 0 12px rgba(255, 69, 0, 0.3);
+}
+
+.node-link .node-circle {
+  width: 44px; height: 44px;
+  background: var(--surface-raised);
+  border: 2px solid var(--border-light);
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.node-icon { font-size: 2em; line-height: 1; }
+.node-book .node-icon { font-size: 2em; }
+.node-link .node-icon { font-size: 1.2em; }
+
+.node-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.74em;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 2px;
+}
+
+.node-book .node-title { font-size: 0.78em; }
+
+.node-author {
+  font-size: 0.72em;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.node-desc {
+  font-size: 0.68em;
+  color: var(--text-faint);
+  line-height: 1.2;
+}
+
+/* ------------------------------------------------------------
+   12. EDGE LABELS & LEGEND
+   ------------------------------------------------------------ */
+
+.edge-label {
+  position: absolute;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  font-size: 0.7em;
+  font-style: italic;
+  color: var(--upvote);
+  text-align: center;
+  max-width: 130px;
+  line-height: 1.25;
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.edge-label.ink { color: var(--text-muted); }
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+
+.legend-circle-big {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--upvote);
+  background: var(--surface-raised);
+  box-shadow: 0 0 6px rgba(255, 69, 0, 0.2);
+}
+
+.legend-circle-small {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-light);
+  background: var(--surface-raised);
+}
+
+.legend-line {
+  width: 30px;
+  height: 2px;
+  background: var(--border-light);
+}
+
+/* ------------------------------------------------------------
+   13. COLOPHON (Footer)
+   ------------------------------------------------------------ */
+
+.colophon {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  color: var(--text-faint);
+  text-align: center;
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   14. MISSION BRIEF PANEL
+   ------------------------------------------------------------ */
+
+.mission-brief {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 32px;
+  position: relative;
+  background: var(--surface-raised);
+  border-left: 4px solid var(--upvote);
+}
+
+.mission-brief::before {
+  content: none;
+}
+
+.mission-brief-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  color: var(--upvote);
+}
+
+.mission-brief-title::before {
+  content: '📌 ';
+}
+
+.mission-field {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.mission-field-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--upvote);
+  display: inline;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.mission-field-value {
+  display: inline;
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------
+   15. CHARACTER SHEET (User Profile)
+   ------------------------------------------------------------ */
+
+.character-sheet {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 24px;
+  margin-bottom: 40px;
+  position: relative;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.character-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(135deg, var(--upvote), #ff6b3d);
+  opacity: 0.15;
+}
+
+.character-name {
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: 2.2em;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 0;
+  position: relative;
+  letter-spacing: 0.03em;
+}
+
+.character-role {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8em;
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.character-quote {
+  font-size: 0.9em;
+  text-align: center;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto 24px;
+  line-height: 1.5;
+  padding: 10px 16px;
+  border-left: 3px solid var(--border);
+  text-align: left;
+  font-style: italic;
+  position: relative;
+}
+
+.character-section-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.75em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--upvote);
+  margin-bottom: 12px;
+  margin-top: 24px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+/* ------------------------------------------------------------
+   16. STAT BLOCK (Karma Breakdown)
+   ------------------------------------------------------------ */
+
+.stat-grid {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.stat-cell {
+  width: 72px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 4px;
+  background: var(--surface-raised);
+}
+
+.stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.6em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.stat-score {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.3em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.stat-mod {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  color: var(--upvote);
+}
+
+/* ------------------------------------------------------------
+   17. TRAIT GRID
+   ------------------------------------------------------------ */
+
+.trait-grid {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.trait-cell {
+  text-align: center;
+  min-width: 100px;
+  padding: 6px 12px;
+  background: var(--surface-raised);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.trait-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.trait-value {
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--text);
+}
+
+.trait-value--high { color: var(--upvote); }
+.trait-value--low { color: var(--text-faint); }
+
+/* ------------------------------------------------------------
+   18. CONDITION BLOCK (Content Warning / Post Flair)
+   ------------------------------------------------------------ */
+
+.condition {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--border);
+  background: var(--surface-raised);
+  border-radius: 0 4px 4px 0;
+}
+
+.condition-name {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.condition-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.condition-tag {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.65em;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.condition-tag--permanent { border-color: var(--nsfw); color: var(--nsfw); background: rgba(255, 88, 91, 0.08); }
+.condition-tag--private { border-style: dashed; }
+
+.condition-desc {
+  font-size: 0.88em;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   19. REPUTATION BLOCK
+   ------------------------------------------------------------ */
+
+.reputation {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  border-left: 3px solid var(--gold-award);
+  background: rgba(255, 215, 0, 0.03);
+  border-radius: 0 4px 4px 0;
+}
+
+.reputation-name {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.reputation-source {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold-award);
+  margin-bottom: 6px;
+}
+
+.reputation-desc {
+  font-size: 0.88em;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   20. SKILL BLOCK
+   ------------------------------------------------------------ */
+
+.skill-block {
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface-raised);
+}
+
+.skill-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.skill-name {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  color: var(--text);
+}
+
+.skill-type {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--gold-award);
+  color: var(--gold-award);
+}
+
+.skill-type--active { border-color: var(--nsfw); color: var(--nsfw); background: rgba(255, 88, 91, 0.06); }
+
+.skill-trigger {
+  font-style: italic;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.skill-mechanic {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  background: var(--surface);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.skill-range {
+  margin-bottom: 4px;
+  padding-left: 16px;
+  font-size: 0.85em;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.skill-range-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--text);
+  margin-right: 4px;
+}
+
+.skill-range-label--high { color: var(--online); }
+.skill-range-label--low { color: var(--nsfw); }
+
+.skill-cost {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-style: italic;
+  font-size: 0.85em;
+  color: var(--nsfw);
+  line-height: 1.45;
+}
+
+.skill-cost-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.75em;
+  font-style: normal;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--nsfw);
+}
+
+/* ------------------------------------------------------------
+   21. FILTER BLOCK (Subreddit Rule / AutoMod)
+   ------------------------------------------------------------ */
+
+.filter-block {
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  border: 1px solid var(--gold-award);
+  border-radius: 4px;
+  background: rgba(255, 215, 0, 0.03);
+  position: relative;
+}
+
+.filter-block::before {
+  content: '⚡';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1em;
+  background: var(--surface);
+  padding: 0 6px;
+}
+
+.filter-name {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  color: var(--gold-award);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.filter-desc {
+  font-style: italic;
+  font-size: 0.88em;
+  color: var(--text);
+  line-height: 1.5;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------
+   22. BEAT NARRATIVE
+   ------------------------------------------------------------ */
+
+.beat {
+  margin-bottom: 32px;
+}
+
+.beat-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--upvote);
+  padding-bottom: 8px;
+}
+
+.beat-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.95em;
+  color: var(--upvote);
+  white-space: nowrap;
+}
+
+.beat-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05em;
+  color: var(--text);
+}
+
+.beat-prose {
+  font-size: 0.92em;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.beat-prose em { color: var(--text); }
+
+/* ------------------------------------------------------------
+   23. DICE ROLL (Bot Comment)
+   ------------------------------------------------------------ */
+
+.dice-roll {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--nsfw);
+  background: rgba(255, 88, 91, 0.04);
+  font-size: 0.85em;
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}
+
+.dice-roll-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--nsfw);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dice-roll-skill {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dice-roll-result {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.9em;
+  color: var(--text);
+  background: var(--surface);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.dice-roll-outcome {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   24. RELATIONSHIP DELTAS
+   ------------------------------------------------------------ */
+
+.relationships-block {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  background: var(--surface-raised);
+}
+
+.relationships-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+
+.rel-delta {
+  margin-bottom: 6px;
+  font-size: 0.85em;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.rel-pair {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--text);
+}
+
+.rel-change--positive { color: var(--online); }
+.rel-change--positive::before { content: '▲ '; font-size: 0.7em; }
+.rel-change--negative { color: var(--nsfw); }
+.rel-change--negative::before { content: '▼ '; font-size: 0.7em; }
+
+.rel-thought {
+  font-style: italic;
+  color: var(--text-faint);
+}
+
+/* ------------------------------------------------------------
+   25. ASSESSMENT BLOCK (Mod Sticky)
+   ------------------------------------------------------------ */
+
+.assessment {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--mod);
+  background: rgba(88, 214, 141, 0.04);
+  font-style: italic;
+  font-size: 0.88em;
+  line-height: 1.55;
+  color: var(--text);
+  border-radius: 0 4px 4px 0;
+}
+
+.assessment-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.65em;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mod);
+  margin-bottom: 6px;
+}
+
+.assessment-label::before {
+  content: '📌 ';
+}
+
+/* ------------------------------------------------------------
+   26. FILTER TRIGGER (INLINE)
+   ------------------------------------------------------------ */
+
+.filter-trigger {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--gold-award);
+  background: rgba(255, 215, 0, 0.04);
+  font-size: 0.88em;
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}
+
+.filter-trigger-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.7em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold-award);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ------------------------------------------------------------
+   27. RELATIONSHIP TABLE
+   ------------------------------------------------------------ */
+
+.rel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 0.85em;
+}
+
+.rel-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.7em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.rel-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.rel-table td:nth-child(2),
+.rel-table td:nth-child(3),
+.rel-table td:nth-child(4) {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.85em;
+  text-align: center;
+  width: 70px;
+}
+
+.rel-table .net-positive { color: var(--online); }
+.rel-table .net-negative { color: var(--nsfw); }
+.rel-table .net-neutral { color: var(--text-faint); }
+
+.rel-table td:last-child {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.88em;
+}
+
+/* ------------------------------------------------------------
+   28. POST-ENCOUNTER NOTE
+   ------------------------------------------------------------ */
+
+.post-note {
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface-raised);
+}
+
+.post-note-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.85em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.post-note-text {
+  font-size: 0.88em;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.post-note-text ol, .post-note-text ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.post-note-text li {
+  margin-bottom: 6px;
+}
+
+/* ------------------------------------------------------------
+   29. IMPACT TABLE
+   ------------------------------------------------------------ */
+
+.impact-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 0.85em;
+}
+
+.impact-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.7em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.impact-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.impact-critical {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: var(--nsfw);
+}
+
+.impact-high {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: var(--gold-award);
+}
+
+.impact-medium {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.impact-low {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ------------------------------------------------------------
+   30. RESPONSIVE
+   ------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+  .parchment-bg { padding: 16px; }
+  .main-title { font-size: 2em; }
+
+  .node-book { width: 120px; }
+  .node-link { width: 95px; }
+  .node-book .node-circle { width: 64px; height: 64px; }
+  .node-link .node-circle { width: 38px; height: 38px; }
+  .node-book .node-icon { font-size: 1.5em; }
+  .node-link .node-icon { font-size: 1em; }
+  .node-title { font-size: 0.64em; }
+  .node-author, .node-desc { font-size: 0.58em; }
+  .edge-label { font-size: 0.58em; max-width: 100px; }
+  .legend { gap: 16px; }
+}
+
+@media (max-width: 640px) {
+  .card { flex-direction: column; gap: 8px; }
+  .card-image-wrap { width: 100%; height: 160px; }
+}
+
+@media (max-width: 480px) {
+  .parchment-bg { padding: 12px 10px; }
+  .main-title { font-size: 1.6em; }
+  .subtitle { font-size: 0.75em; }
+  .chain-step { padding: 8px 10px; }
+  .legend { flex-direction: column; align-items: center; gap: 8px; }
+}

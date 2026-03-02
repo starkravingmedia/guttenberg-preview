@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World of Guttenberg — Proposed Style Guide Updates</title>
+<link rel="stylesheet" href="styles/guttenberg.css">
+<style>
+  /* Styleguide-specific additions (from styleguide.html) */
+  .sg-example { margin-bottom: 40px; }
+  .sg-example-render { margin-bottom: 16px; }
+  .sg-code {
+    background: rgba(42, 26, 10, 0.06);
+    border: 1px solid var(--parchment-dark);
+    padding: 16px 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.78em;
+    line-height: 1.55;
+    color: var(--ink-light);
+    overflow-x: auto;
+    white-space: pre;
+    border-radius: 2px;
+    tab-size: 2;
+  }
+  .sg-code-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    opacity: 0.6;
+  }
+  .sg-note {
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* ============================================================
+     PROPOSED NEW COMPONENTS
+     ============================================================ */
+
+  /* 1. MISSION BRIEF PANEL */
+  .mission-brief {
+    border: 2px solid var(--ink);
+    padding: 28px 24px;
+    margin-bottom: 40px;
+    position: relative;
+    background: rgba(42, 26, 10, 0.04);
+  }
+  .mission-brief::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid var(--parchment-dark);
+    pointer-events: none;
+  }
+  .mission-brief-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.2em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .mission-field {
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .mission-field-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: inline;
+  }
+  .mission-field-value {
+    display: inline;
+    color: var(--ink);
+  }
+
+  /* 2. CHARACTER SHEET */
+  .character-sheet {
+    border: 1px solid var(--parchment-dark);
+    padding: 32px 28px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .character-sheet::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 194, 146, 0.5);
+    pointer-events: none;
+  }
+  .character-name {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 2.2em;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 2px;
+    text-shadow: 1px 1px 0 var(--parchment-dark);
+  }
+  .character-role {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+  .character-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    text-align: center;
+    color: var(--ink-light);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    line-height: 1.55;
+    padding: 0 20px;
+  }
+  .character-section-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    margin-top: 28px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+
+  /* 3. STAT BLOCK */
+  .stat-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .stat-cell {
+    width: 72px;
+    text-align: center;
+    border: 1px solid var(--parchment-dark);
+    padding: 8px 4px;
+    background: rgba(218, 194, 146, 0.2);
+  }
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .stat-score {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .stat-mod {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.8em;
+    color: var(--gold);
+  }
+
+  /* 4. TRAIT GRID */
+  .trait-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .trait-cell {
+    text-align: center;
+    min-width: 100px;
+    padding: 6px 12px;
+  }
+  .trait-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .trait-value {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .trait-value--high { color: var(--blood); }
+  .trait-value--low { color: var(--ink-light); opacity: 0.7; }
+
+  /* 5. CONDITION BLOCK */
+  .condition {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.15);
+  }
+  .condition-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .condition-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .condition-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 1px 6px;
+    border: 1px solid var(--parchment-dark);
+  }
+  .condition-tag--permanent { border-color: var(--blood); color: var(--blood); }
+  .condition-tag--private { border-style: dashed; }
+  .condition-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  /* 6. REPUTATION BLOCK */
+  .reputation {
+    margin-bottom: 16px;
+    padding: 12px 18px;
+    border-left: 3px solid var(--gold);
+  }
+  .reputation-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .reputation-source {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .reputation-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  /* 7. SKILL BLOCK */
+  .skill-block {
+    margin-bottom: 24px;
+    padding: 18px 22px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.1);
+  }
+  .skill-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .skill-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .skill-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+  }
+  .skill-type--active { border-color: var(--blood); color: var(--blood); }
+  .skill-trigger {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .skill-mechanic {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+  }
+  .skill-range {
+    margin-bottom: 4px;
+    padding-left: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .skill-range-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+  .skill-range-label--high { color: var(--gold); }
+  .skill-range-label--low { color: var(--blood); }
+  .skill-cost {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--parchment-dark);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--blood);
+    line-height: 1.5;
+  }
+  .skill-cost-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+
+  /* 8. FILTER BLOCK */
+  .filter-block {
+    margin-bottom: 20px;
+    padding: 20px 24px;
+    border: 1px solid var(--gold);
+    background: rgba(184, 134, 11, 0.05);
+    position: relative;
+  }
+  .filter-block::before {
+    content: '~';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.2em;
+    color: var(--gold);
+    background: var(--parchment);
+    padding: 0 8px;
+  }
+  .filter-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .filter-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92em;
+    color: var(--ink);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* 9. BEAT NARRATIVE */
+  .beat {
+    margin-bottom: 40px;
+  }
+  .beat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+  }
+  .beat-number {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .beat-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .beat-prose {
+    font-family: 'EB Garamond', serif;
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .beat-prose em { color: var(--ink); }
+
+  /* 10. DICE ROLL INLINE */
+  .dice-roll {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 3px solid var(--blood);
+    background: rgba(139, 26, 26, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .dice-roll-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dice-roll-skill {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dice-roll-result {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--ink);
+  }
+  .dice-roll-outcome {
+    font-style: italic;
+    color: var(--ink-light);
+  }
+
+  /* 11. RELATIONSHIP DELTAS */
+  .relationships-block {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border: 1px dashed var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.12);
+  }
+  .relationships-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .rel-delta {
+    margin-bottom: 6px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .rel-pair {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+  }
+  .rel-change--positive { color: var(--gold); }
+  .rel-change--negative { color: var(--blood); }
+  .rel-thought {
+    font-style: italic;
+    color: var(--ink-light);
+    opacity: 0.85;
+  }
+
+  /* 12. ASSESSMENT BLOCK (Ginsfeld's internal monologue) */
+  .assessment {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--ink);
+    background: rgba(42, 26, 10, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .assessment-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  /* 13. FILTER INTERACTION (mid-narrative) */
+  .filter-trigger {
+    margin: 16px 0;
+    padding: 10px 18px;
+    border-left: 3px solid var(--gold);
+    background: rgba(184, 134, 11, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .filter-trigger-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* 14. RELATIONSHIP TABLE (final summary) */
+  .rel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .rel-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .rel-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .rel-table td:nth-child(2),
+  .rel-table td:nth-child(3),
+  .rel-table td:nth-child(4) {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    text-align: center;
+    width: 70px;
+  }
+  .rel-table .net-positive { color: var(--gold); }
+  .rel-table .net-negative { color: var(--blood); }
+  .rel-table .net-neutral { color: var(--ink-light); }
+  .rel-table td:last-child {
+    font-style: italic;
+    color: var(--ink-light);
+    font-size: 0.88em;
+  }
+
+  /* 15. POST-ENCOUNTER NOTE BLOCK */
+  .post-note {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.08);
+  }
+  .post-note-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .post-note-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .post-note-text ol, .post-note-text ul {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  .post-note-text li {
+    margin-bottom: 6px;
+  }
+
+  /* 16. IMPACT TABLE */
+  .impact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .impact-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .impact-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .impact-critical {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+  .impact-high {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .impact-medium {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .impact-low {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    opacity: 0.6;
+  }
+
+</style>
+</head>
+<body>
+<div class="page-wrapper page-wrapper--wide">
+<div class="parchment-bg">
+
+  <h1 class="main-title">Proposed Updates</h1>
+  <p class="subtitle">Style Guide Additions</p>
+  <p class="epigraph">New components needed to render the Ginsfeld Sessions. Each is designed to extend the existing design system without breaking its conventions.</p>
+
+  <!-- ============================================================
+       1. MISSION BRIEF PANEL
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Mission Brief Panel</h2>
+  <p class="section-sub">Structured intelligence briefing with double-border frame</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="mission-brief">
+        <div class="mission-brief-title">Mission Brief</div>
+        <div class="mission-field">
+          <span class="mission-field-label">Target: </span>
+          <span class="mission-field-value">A character trapped inside a book who is trying to escape into the wrong story.</span>
+        </div>
+        <div class="mission-field">
+          <span class="mission-field-label">Opposition: </span>
+          <span class="mission-field-value">The Redactors. Three-person strike team. 72-hour window.</span>
+        </div>
+        <div class="mission-field">
+          <span class="mission-field-label">Complication: </span>
+          <span class="mission-field-value">One member of the team will be recognized by inhabitants of the target text.</span>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="mission-brief"&gt;
+  &lt;div class="mission-brief-title"&gt;Mission Brief&lt;/div&gt;
+  &lt;div class="mission-field"&gt;
+    &lt;span class="mission-field-label"&gt;Target: &lt;/span&gt;
+    &lt;span class="mission-field-value"&gt;Description...&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Double-border frame echoes <code>.parchment-bg</code>. Labels are <code>--blood</code> in Cinzel uppercase. Reuses the <code>::before</code> inner-border pattern from the page structure.</p>
+  </div>
+
+  <!-- ============================================================
+       2. CHARACTER SHEET
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Character Sheet</h2>
+  <p class="section-sub">Full character card with name, role, quote, and internal sections</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="character-sheet">
+        <div class="character-name">Sei Sh&#333;nagon</div>
+        <div class="character-role">Actor &mdash; Unaffiliated</div>
+        <div class="character-quote">Lady-in-waiting to Empress Teishi, diarist of the Heian court, compiler of the world's most devastating lists.</div>
+        <div class="character-section-label">Stats</div>
+        <p style="font-style: italic; font-size: 0.85em; color: var(--ink-light); text-align: center;">(See Stat Block below)</p>
+        <div class="character-section-label">Conditions</div>
+        <p style="font-style: italic; font-size: 0.85em; color: var(--ink-light); text-align: center;">(See Condition Block below)</p>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="character-sheet"&gt;
+  &lt;div class="character-name"&gt;Sei Sh&#333;nagon&lt;/div&gt;
+  &lt;div class="character-role"&gt;Actor &amp;mdash; Unaffiliated&lt;/div&gt;
+  &lt;div class="character-quote"&gt;Description...&lt;/div&gt;
+  &lt;div class="character-section-label"&gt;Stats&lt;/div&gt;
+  &lt;!-- stat block, conditions, skills, etc. --&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Uses UnifrakturCook for the name (same as page titles), Cinzel for role/section labels, EB Garamond for the quote. Inner <code>::before</code> border provides the manuscript feel. Section labels use <code>--gold</code> with a bottom border.</p>
+  </div>
+
+  <!-- ============================================================
+       3. STAT BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Stat Block</h2>
+  <p class="section-sub">D&amp;D-style ability scores in a compact grid</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <div class="stat-label">STR</div>
+          <div class="stat-score">8</div>
+          <div class="stat-mod">-1</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">DEX</div>
+          <div class="stat-score">12</div>
+          <div class="stat-mod">+1</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">CON</div>
+          <div class="stat-score">10</div>
+          <div class="stat-mod">+0</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">INT</div>
+          <div class="stat-score">18</div>
+          <div class="stat-mod">+4</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">WIS</div>
+          <div class="stat-score">14</div>
+          <div class="stat-mod">+2</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">CHA</div>
+          <div class="stat-score">16</div>
+          <div class="stat-mod">+3</div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="stat-grid"&gt;
+  &lt;div class="stat-cell"&gt;
+    &lt;div class="stat-label"&gt;STR&lt;/div&gt;
+    &lt;div class="stat-score"&gt;8&lt;/div&gt;
+    &lt;div class="stat-mod"&gt;-1&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- repeat for each stat --&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Six cells in a centered flex row. Modifiers use <code>--gold</code>. Labels are Cinzel uppercase, scores are Cinzel bold, modifiers are EB Garamond. Parchment-wash background on each cell.</p>
+  </div>
+
+  <!-- ============================================================
+       4. TRAIT GRID
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Trait Grid</h2>
+  <p class="section-sub">Game traits at a glance: Game Savvy, Honesty, Verbosity, Sensitivity</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="trait-grid">
+        <div class="trait-cell">
+          <div class="trait-name">Game Savvy</div>
+          <div class="trait-value trait-value--high">High</div>
+        </div>
+        <div class="trait-cell">
+          <div class="trait-name">Honesty</div>
+          <div class="trait-value">Medium</div>
+        </div>
+        <div class="trait-cell">
+          <div class="trait-name">Verbosity</div>
+          <div class="trait-value trait-value--high">High</div>
+        </div>
+        <div class="trait-cell">
+          <div class="trait-name">Sensitivity</div>
+          <div class="trait-value trait-value--high">High</div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="trait-grid"&gt;
+  &lt;div class="trait-cell"&gt;
+    &lt;div class="trait-name"&gt;Game Savvy&lt;/div&gt;
+    &lt;div class="trait-value trait-value--high"&gt;High&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- repeat --&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Flex row, centered. <code>--high</code> modifier colors the value <code>--blood</code>. <code>--low</code> reduces opacity. Medium is default <code>--ink</code>.</p>
+  </div>
+
+  <!-- ============================================================
+       5. CONDITION BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Condition Block</h2>
+  <p class="section-sub">Persistent states with duration, visibility, and observability metadata</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="condition">
+        <div class="condition-name">The List-Maker's Compulsion</div>
+        <div class="condition-meta">
+          <span class="condition-tag condition-tag--permanent">Permanent</span>
+          <span class="condition-tag">Semi-Private</span>
+          <span class="condition-tag">o2o</span>
+        </div>
+        <div class="condition-desc">She categorizes everything she encounters &mdash; people, rooms, feelings, the quality of light. Others notice her eyes moving, cataloguing. Her fingers twitch as though writing.</div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="condition"&gt;
+  &lt;div class="condition-name"&gt;Name&lt;/div&gt;
+  &lt;div class="condition-meta"&gt;
+    &lt;span class="condition-tag condition-tag--permanent"&gt;Permanent&lt;/span&gt;
+    &lt;span class="condition-tag"&gt;Semi-Private&lt;/span&gt;
+    &lt;span class="condition-tag"&gt;o2o&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="condition-desc"&gt;Description...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Left-border accent, parchment-wash background. Metadata tags are badge-like (Cinzel uppercase). <code>--permanent</code> modifier uses <code>--blood</code> border. <code>--private</code> uses dashed border. Follows the badge convention established in the styleguide.</p>
+  </div>
+
+  <!-- ============================================================
+       6. REPUTATION BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Reputation Block</h2>
+  <p class="section-sub">What organizations know about a character</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="reputation">
+        <div class="reputation-name">"The Cataloguer"</div>
+        <div class="reputation-source">Source: The Lamplighters</div>
+        <div class="reputation-desc">The Lamplighters know that Sei Sh&#333;nagon has been documenting everything she encounters with terrifying precision.</div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="reputation"&gt;
+  &lt;div class="reputation-name"&gt;"The Cataloguer"&lt;/div&gt;
+  &lt;div class="reputation-source"&gt;Source: The Lamplighters&lt;/div&gt;
+  &lt;div class="reputation-desc"&gt;Description...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Gold left-border (matching the <code>.chain-step</code> accent). Source line in Cinzel gold uppercase. Mirrors the chain timeline's visual language of information flowing from authoritative sources.</p>
+  </div>
+
+  <!-- ============================================================
+       7. SKILL BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Skill Block</h2>
+  <p class="section-sub">Roll skills with trigger, mechanic, ranges, and cost</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="skill-block">
+        <div class="skill-header">
+          <span class="skill-name">Devastating Observation</span>
+          <span class="skill-type skill-type--active">Active</span>
+        </div>
+        <div class="skill-trigger">Trigger: Sei chooses to study a person or situation closely and deliver her assessment</div>
+        <div class="skill-mechanic">d20 + CHA (+3)</div>
+        <div class="skill-range">
+          <span class="skill-range-label skill-range-label--high">18+</span>
+          She identifies not just what someone is hiding, but WHY &mdash; the emotional architecture beneath the mask.
+        </div>
+        <div class="skill-range">
+          <span class="skill-range-label">10&ndash;17</span>
+          She reads the surface accurately &mdash; posture, tells, inconsistencies.
+        </div>
+        <div class="skill-range">
+          <span class="skill-range-label skill-range-label--low">1&ndash;9</span>
+          She projects her own biases onto the target and misreads them.
+        </div>
+        <div class="skill-cost">
+          <span class="skill-cost-label">Cost: </span>
+          The target always knows they've been observed. High-success observations leave the target feeling exposed.
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="skill-block"&gt;
+  &lt;div class="skill-header"&gt;
+    &lt;span class="skill-name"&gt;Name&lt;/span&gt;
+    &lt;span class="skill-type skill-type--active"&gt;Active&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="skill-trigger"&gt;Trigger: ...&lt;/div&gt;
+  &lt;div class="skill-mechanic"&gt;d20 + STAT (+mod)&lt;/div&gt;
+  &lt;div class="skill-range"&gt;
+    &lt;span class="skill-range-label skill-range-label--high"&gt;18+&lt;/span&gt;
+    High success description.
+  &lt;/div&gt;
+  &lt;div class="skill-range"&gt;
+    &lt;span class="skill-range-label"&gt;10&amp;ndash;17&lt;/span&gt;
+    Medium success description.
+  &lt;/div&gt;
+  &lt;div class="skill-range"&gt;
+    &lt;span class="skill-range-label skill-range-label--low"&gt;1&amp;ndash;9&lt;/span&gt;
+    Failure description.
+  &lt;/div&gt;
+  &lt;div class="skill-cost"&gt;
+    &lt;span class="skill-cost-label"&gt;Cost: &lt;/span&gt;
+    Always-paid cost.
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Active/Passive type badges follow the <code>.badge</code> convention. Active uses <code>--blood</code>, Passive uses <code>--gold</code>. Range labels use gold (high), ink (medium), blood (low). Cost is italicized with a blood-colored label. Borrows the bordered panel from <code>.team-member</code>.</p>
+  </div>
+
+  <!-- ============================================================
+       8. FILTER BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Filter Block</h2>
+  <p class="section-sub">Passive aura that changes the social environment</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="filter-block">
+        <div class="filter-name">"Things That Lose by Being Painted"</div>
+        <div class="filter-desc">The world presents itself to Sei in hierarchies of elegance. When she enters a room, everyone present becomes subtly aware of whether they are being found pleasing or wanting.</div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="filter-block"&gt;
+  &lt;div class="filter-name"&gt;"Filter Name"&lt;/div&gt;
+  &lt;div class="filter-desc"&gt;Description...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Gold border and centered text distinguish filters from conditions and skills. The <code>~</code> symbol in the <code>::before</code> pseudo-element suggests a wave or aura. Italic EB Garamond for the dreamy, always-on quality of filters.</p>
+  </div>
+
+  <!-- ============================================================
+       9. DICE ROLL INLINE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Dice Roll (Inline)</h2>
+  <p class="section-sub">Skill triggers within the narrative flow</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="dice-roll">
+        <span class="dice-roll-label">Passive Skill Trigger: Aesthetic Resonance</span>
+        <span class="dice-roll-skill">Roll:</span> d20(11) + WIS(+2) = <span class="dice-roll-result">13</span>.
+        <span class="dice-roll-outcome">Medium success.</span>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="dice-roll"&gt;
+  &lt;span class="dice-roll-label"&gt;Passive Skill Trigger: Name&lt;/span&gt;
+  &lt;span class="dice-roll-skill"&gt;Roll:&lt;/span&gt; d20(11) + WIS(+2) =
+  &lt;span class="dice-roll-result"&gt;13&lt;/span&gt;.
+  &lt;span class="dice-roll-outcome"&gt;Medium success.&lt;/span&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Blood left-border distinguishes mechanical interventions from narrative. The label is Cinzel uppercase in blood. Result is Cinzel bold. Outcome is italic. Mirrors the left-border accent pattern of conditions and chains.</p>
+  </div>
+
+  <!-- ============================================================
+       10. FILTER TRIGGER (mid-narrative)
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Filter Trigger (Inline)</h2>
+  <p class="section-sub">Filter activations within the narrative flow</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="filter-trigger">
+        <span class="filter-trigger-label">Filter: The Oath That Echoes</span>
+        The room's moral gravity shifts slightly. Ginsfeld feels a brief, unwelcome prickle at the base of his skull.
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="filter-trigger"&gt;
+  &lt;span class="filter-trigger-label"&gt;Filter: Name&lt;/span&gt;
+  Narrative description of the filter's effect.
+&lt;/div&gt;</pre>
+    <p class="sg-note">Gold left-border (vs. blood for dice rolls). Same structural pattern as the dice roll block, differentiated by color. The gold signals passive/environmental effects while blood signals active mechanical interventions.</p>
+  </div>
+
+  <!-- ============================================================
+       11. RELATIONSHIP DELTAS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Relationship Deltas</h2>
+  <p class="section-sub">Beat-close affinity and aversion changes with internal thoughts</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="relationships-block">
+        <div class="relationships-label">Beat-Close Relationships</div>
+        <div class="rel-delta">
+          <span class="rel-pair">Ginsfeld &rarr; Sei:</span>
+          <span class="rel-change--positive">Affinity +2</span>
+          <span class="rel-thought">&mdash; She's early, observant, chose the strategic chair. She's already reading the room.</span>
+        </div>
+        <div class="rel-delta">
+          <span class="rel-pair">Sei &rarr; Ginsfeld:</span>
+          <span class="rel-change--negative">Aversion +1</span>
+          <span class="rel-thought">&mdash; A man who arranges folding chairs with this much care is arranging something else.</span>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="relationships-block"&gt;
+  &lt;div class="relationships-label"&gt;Beat-Close Relationships&lt;/div&gt;
+  &lt;div class="rel-delta"&gt;
+    &lt;span class="rel-pair"&gt;Ginsfeld &amp;rarr; Sei:&lt;/span&gt;
+    &lt;span class="rel-change--positive"&gt;Affinity +2&lt;/span&gt;
+    &lt;span class="rel-thought"&gt;&amp;mdash; Internal thought.&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Dashed border and parchment-wash background echo the <code>.sidelined-block</code> pattern &mdash; relationships are metadata that sit alongside the narrative rather than in it. Gold for positive changes, blood for negative. Thoughts are italic EB Garamond.</p>
+  </div>
+
+  <!-- ============================================================
+       12. ASSESSMENT BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Assessment Block</h2>
+  <p class="section-sub">Ginsfeld's internal monologue at the end of each beat</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="assessment">
+        <div class="assessment-label">Ginsfeld's Assessment</div>
+        Smart. Dangerously smart. She'll figure out what this is before the coffee gets cold. I need to decide early whether that's an asset or a problem.
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="assessment"&gt;
+  &lt;div class="assessment-label"&gt;Ginsfeld's Assessment&lt;/div&gt;
+  Italic internal monologue text.
+&lt;/div&gt;</pre>
+    <p class="sg-note">Ink left-border (darker than conditions or filters) signals a different voice &mdash; the handler's private calculus. Italic EB Garamond throughout. The darker border distinguishes it from the gold (filters) and blood (dice) accent blocks.</p>
+  </div>
+
+  <!-- ============================================================
+       13. RELATIONSHIP TABLE (final summary)
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Relationship Table</h2>
+  <p class="section-sub">Cumulative affinity/aversion summary</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <table class="rel-table">
+        <thead>
+          <tr>
+            <th>Character</th>
+            <th>Affinity</th>
+            <th>Aversion</th>
+            <th>Net</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700;">Sei</td>
+            <td>10</td>
+            <td>3</td>
+            <td class="net-positive">+7</td>
+            <td>Deep respect. She solved his hardest problem.</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700;">Yvain</td>
+            <td>9</td>
+            <td>2</td>
+            <td class="net-positive">+7</td>
+            <td>The Shield. Reliable, principled, protective.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;table class="rel-table"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Character&lt;/th&gt;&lt;th&gt;Affinity&lt;/th&gt;
+    &lt;th&gt;Aversion&lt;/th&gt;&lt;th&gt;Net&lt;/th&gt;&lt;th&gt;Summary&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Name&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;
+      &lt;td class="net-positive"&gt;+7&lt;/td&gt;
+      &lt;td&gt;Summary text.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+    <p class="sg-note">Cinzel headers, EB Garamond body. Net score colored: <code>.net-positive</code> (gold), <code>.net-negative</code> (blood), <code>.net-neutral</code> (ink-light). Character names are Cinzel bold. Summary column is italic. Follows standard table styling with ink header border and parchment-dark row borders.</p>
+  </div>
+
+  <!-- ============================================================
+       14. IMPACT TABLE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Impact Table</h2>
+  <p class="section-sub">Filters, conditions, and skills rated by impact level</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <table class="impact-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Impact</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.88em;">The Oath That Echoes</td>
+            <td><span class="impact-critical">Critical</span></td>
+            <td>Shaped Ginsfeld's behavior throughout; forced genuine commitments.</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.88em;">Forest Sense</td>
+            <td><span class="impact-low">Low&ndash;Medium</span></td>
+            <td>Provided tactical awareness but no major narrative impact.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;table class="impact-table"&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Name&lt;/td&gt;
+    &lt;td&gt;&lt;span class="impact-critical"&gt;Critical&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;Notes...&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+    <p class="sg-note">Impact levels: <code>.impact-critical</code> (blood), <code>.impact-high</code> (gold), <code>.impact-medium</code> (ink-light), <code>.impact-low</code> (ink-light at 0.6 opacity). All in Cinzel uppercase. Follows the same semantic color coding used throughout the system: blood for danger/urgency, gold for significance, fading for diminishing impact.</p>
+  </div>
+
+  <!-- ============================================================
+       15. POST-ENCOUNTER NOTE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Post-Encounter Note</h2>
+  <p class="section-sub">Analysis blocks for design commentary</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="post-note">
+        <div class="post-note-title">What Surprised the Simulation</div>
+        <div class="post-note-text">
+          <ol>
+            <li>The Sei/Fevvers exchange in Beats 9 and 15. The initial hostility was expected. The mutual recognition was not.</li>
+            <li>Yvain's tactical advocacy in Beat 16. His Low Game Savvy suggested he would not engage in strategic analysis.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="post-note"&gt;
+  &lt;div class="post-note-title"&gt;Title&lt;/div&gt;
+  &lt;div class="post-note-text"&gt;
+    Content with lists, paragraphs, etc.
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">A neutral analytical container. Cinzel title, EB Garamond body. Parchment-dark border and subtle parchment-wash background. Suitable for design commentary, session notes, and meta-analysis sections that step outside the narrative voice.</p>
+  </div>
+
+  <!-- ============================================================
+       SUMMARY
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Summary</h2>
+  <p class="section-sub">Proposed component index</p>
+
+  <div class="chain-section">
+    <div class="chain-step step-book">
+      <span class="chain-number">1.</span>
+      <div class="chain-body">
+        <div class="chain-title">Mission Brief Panel</div>
+        <div class="chain-text"><code>.mission-brief</code> &mdash; Double-border intelligence briefing. Extends the <code>.parchment-bg</code> inner-border pattern.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">2.</span>
+      <div class="chain-body">
+        <div class="chain-title">Character Sheet</div>
+        <div class="chain-text"><code>.character-sheet</code> &mdash; Full character card wrapper with name, role, quote, and sectioned content.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">3.</span>
+      <div class="chain-body">
+        <div class="chain-title">Stat Block</div>
+        <div class="chain-text"><code>.stat-grid</code> &mdash; Six-cell ability score display.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">4.</span>
+      <div class="chain-body">
+        <div class="chain-title">Trait Grid</div>
+        <div class="chain-text"><code>.trait-grid</code> &mdash; Game Savvy / Honesty / Verbosity / Sensitivity display.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">5.</span>
+      <div class="chain-body">
+        <div class="chain-title">Condition Block</div>
+        <div class="chain-text"><code>.condition</code> &mdash; Persistent state with duration/visibility/observability tags.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">6.</span>
+      <div class="chain-body">
+        <div class="chain-title">Reputation Block</div>
+        <div class="chain-text"><code>.reputation</code> &mdash; Organization knowledge with gold-accent source line.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">7.</span>
+      <div class="chain-body">
+        <div class="chain-title">Skill Block</div>
+        <div class="chain-text"><code>.skill-block</code> &mdash; Roll skill with trigger, mechanic, ranges, and cost.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">8.</span>
+      <div class="chain-body">
+        <div class="chain-title">Filter Block</div>
+        <div class="chain-text"><code>.filter-block</code> &mdash; Passive aura description in a gold-bordered panel.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">9.</span>
+      <div class="chain-body">
+        <div class="chain-title">Dice Roll (Inline)</div>
+        <div class="chain-text"><code>.dice-roll</code> &mdash; Mechanical intervention in the narrative flow.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">10.</span>
+      <div class="chain-body">
+        <div class="chain-title">Filter Trigger (Inline)</div>
+        <div class="chain-text"><code>.filter-trigger</code> &mdash; Filter activation in the narrative flow.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">11.</span>
+      <div class="chain-body">
+        <div class="chain-title">Relationship Deltas</div>
+        <div class="chain-text"><code>.relationships-block</code> &mdash; Beat-close affinity/aversion changes.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">12.</span>
+      <div class="chain-body">
+        <div class="chain-title">Assessment Block</div>
+        <div class="chain-text"><code>.assessment</code> &mdash; Handler's internal monologue.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">13.</span>
+      <div class="chain-body">
+        <div class="chain-title">Relationship Table</div>
+        <div class="chain-text"><code>.rel-table</code> &mdash; Cumulative summary with color-coded net scores.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">14.</span>
+      <div class="chain-body">
+        <div class="chain-title">Impact Table</div>
+        <div class="chain-text"><code>.impact-table</code> &mdash; Element impact ratings: Critical / High / Medium / Low.</div>
+      </div>
+    </div>
+    <div class="chain-step step-book">
+      <span class="chain-number">15.</span>
+      <div class="chain-body">
+        <div class="chain-title">Post-Encounter Note</div>
+        <div class="chain-text"><code>.post-note</code> &mdash; Analytical commentary container for design notes.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sg-note" style="text-align: center; margin-top: 30px;">All proposed components use only the existing eight color tokens, three font families, and follow the established patterns of left-border accents, badge-style metadata, and parchment-wash backgrounds. No new fonts, colors, or structural patterns are introduced.</p>
+
+  <p class="colophon">Proposed for the World of Guttenberg Style Guide.<br>Fifteen new components. Zero new tokens. Same parchment, same ink.</p>
+
+</div>
+</div>
+</body>
+</html>

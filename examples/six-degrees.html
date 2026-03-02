@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Degrees of Separation — World of Guttenberg</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f4e8c1;
+    --parchment-dark: #dac292;
+    --ink: #2a1a0a;
+    --ink-light: #5a3a1a;
+    --blood: #8b1a1a;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --shadow: rgba(42, 26, 10, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ink);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .parchment-bg {
+    background: var(--parchment);
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(218, 194, 146, 0.4) 0%, transparent 70%),
+      radial-gradient(ellipse at 80% 20%, rgba(184, 134, 11, 0.08) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    border: 2px solid var(--parchment-dark);
+    box-shadow:
+      0 0 60px rgba(42, 26, 10, 0.5),
+      inset 0 0 80px rgba(218, 194, 146, 0.3);
+    padding: 60px 50px;
+    position: relative;
+  }
+
+  .parchment-bg::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px solid var(--parchment-dark);
+    pointer-events: none;
+  }
+
+  .main-title {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 2.8em;
+    text-align: center;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+    text-shadow: 1px 1px 0 var(--parchment-dark);
+  }
+
+  .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    text-align: center;
+    color: var(--ink-light);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .epigraph {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1em;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 40px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  .divider {
+    text-align: center;
+    margin: 40px 0 30px;
+    color: var(--gold);
+    font-size: 1.4em;
+    letter-spacing: 0.5em;
+  }
+
+  .diagram-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    aspect-ratio: 1 / 1.55;
+  }
+
+  .diagram-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+  }
+
+  .node {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    cursor: default;
+    transition: transform 0.3s ease;
+  }
+
+  .node:hover { transform: translate(-50%, -50%) scale(1.05); }
+
+  .node-book { width: 160px; }
+  .node-link { width: 120px; }
+
+  .node-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6px;
+    border-radius: 50%;
+  }
+
+  .node-book .node-circle {
+    width: 88px; height: 88px;
+    background: var(--parchment);
+    border: 3px solid var(--ink);
+    box-shadow:
+      0 0 0 4px var(--parchment),
+      0 0 0 6px var(--gold),
+      0 4px 14px var(--shadow),
+      inset 0 0 16px rgba(218, 194, 146, 0.5);
+  }
+
+  .node-link .node-circle {
+    width: 48px; height: 48px;
+    background: var(--parchment);
+    border: 2px solid var(--ink-light);
+    box-shadow:
+      0 0 0 3px var(--parchment),
+      0 0 0 4px var(--parchment-dark),
+      0 2px 6px var(--shadow);
+  }
+
+  .node-icon { font-size: 2em; line-height: 1; filter: grayscale(20%); }
+  .node-book .node-icon { font-size: 2.1em; }
+  .node-link .node-icon { font-size: 1.2em; }
+
+  .node-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.74em;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 2px;
+  }
+
+  .node-book .node-title { font-size: 0.78em; }
+
+  .node-author {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.72em;
+    color: var(--ink-light);
+    line-height: 1.2;
+  }
+
+  .node-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.68em;
+    color: var(--ink-light);
+    line-height: 1.2;
+    font-style: italic;
+  }
+
+  .edge-label {
+    position: absolute;
+    z-index: 5;
+    transform: translate(-50%, -50%);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.7em;
+    font-style: italic;
+    color: var(--blood);
+    text-align: center;
+    max-width: 130px;
+    line-height: 1.25;
+    background: var(--parchment);
+    padding: 2px 5px;
+    border-radius: 2px;
+  }
+
+  .edge-label.ink { color: var(--ink-light); }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.85em;
+    color: var(--ink-light);
+  }
+
+  .legend-circle-big {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--parchment);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+
+  .legend-circle-small {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-light);
+    background: var(--parchment);
+    box-shadow: 0 0 0 1px var(--parchment-dark);
+  }
+
+  .legend-line { width: 30px; height: 2px; background: var(--ink-light); }
+
+  .chain-section { max-width: 640px; margin: 0 auto; }
+
+  .chain-step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    border-left: 2px solid var(--gold);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+
+  .chain-step:hover { background: rgba(218, 194, 146, 0.3); }
+
+  .chain-step::before {
+    content: '';
+    position: absolute;
+    left: -7px; top: 18px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--parchment);
+    border: 2px solid var(--gold);
+  }
+
+  .chain-step.step-book::before {
+    width: 14px; height: 14px;
+    left: -8px; top: 17px;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+
+  .chain-step.step-branch { border-left-style: dashed; border-left-color: var(--blood); }
+  .chain-step.step-branch::before { border-color: var(--blood); }
+  .chain-step.step-branch.step-book::before { border-color: var(--ink); box-shadow: 0 0 0 2px var(--blood); }
+
+  .chain-number {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--gold);
+    min-width: 22px;
+    padding-top: 2px;
+  }
+
+  .chain-step.step-branch .chain-number { color: var(--blood); }
+
+  .chain-body { flex: 1; }
+
+  .chain-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .chain-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  .chain-text em { color: var(--ink); }
+
+  .section-heading {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .section-subtitle {
+    font-style: italic;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 30px;
+    font-size: 0.92em;
+  }
+
+  .branch-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9em;
+    font-weight: 700;
+    color: var(--blood);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 30px 0 10px 18px;
+  }
+
+  .colophon {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--parchment-dark);
+    font-style: italic;
+    color: var(--ink-light);
+    text-align: center;
+    font-size: 0.9em;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .parchment-bg { padding: 30px 20px; }
+    .main-title { font-size: 2em; }
+    .node-book { width: 120px; }
+    .node-link { width: 95px; }
+    .node-book .node-circle { width: 68px; height: 68px; }
+    .node-link .node-circle { width: 40px; height: 40px; }
+    .node-book .node-icon { font-size: 1.6em; }
+    .node-link .node-icon { font-size: 1em; }
+    .node-title { font-size: 0.64em; }
+    .node-author, .node-desc { font-size: 0.58em; }
+    .edge-label { font-size: 0.58em; max-width: 100px; }
+    .legend { gap: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .parchment-bg { padding: 24px 14px; }
+    .main-title { font-size: 1.6em; }
+    .subtitle { font-size: 0.7em; letter-spacing: 0.15em; }
+    .node-book { width: 100px; }
+    .node-link { width: 80px; }
+    .node-book .node-circle { width: 54px; height: 54px; }
+    .node-link .node-circle { width: 34px; height: 34px; }
+    .node-title { font-size: 0.56em; }
+    .edge-label { font-size: 0.5em; max-width: 80px; }
+    .chain-step { padding: 10px 12px; }
+    .legend { flex-direction: column; align-items: center; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="parchment-bg">
+
+  <h1 class="main-title">Six Degrees of Separation</h1>
+  <p class="subtitle">A Study in Literary Connective Tissue</p>
+  <p class="epigraph">Every book is secretly about every other book. The threads between them are older than any single author, and they pull tighter the harder you look.</p>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-circle-big"></div>
+      <span>Book (major node)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-circle-small"></div>
+      <span>Connection (linking concept)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-line"></div>
+      <span>Degree of separation</span>
+    </div>
+  </div>
+
+  <!-- The Diagram -->
+  <div class="diagram-container" id="diagram">
+    <svg class="diagram-svg" viewBox="0 0 800 1160" preserveAspectRatio="xMidYMid meet">
+      <!-- Decorative: faint triangle outline -->
+      <path d="M 400,418 L 112,812 L 688,812 Z"
+            fill="none" stroke="#b8860b" stroke-width="0.5" stroke-opacity="0.12"
+            stroke-dasharray="8,6" />
+
+      <!-- === VERTICAL SPINE (spur chain, dashed red) === -->
+
+      <!-- Circe (400,35) → Book14 (400,116) -->
+      <path class="spine" d="M 400,35 C 402,58 398,92 400,116"
+            fill="none" stroke="#8b1a1a" stroke-width="2" stroke-opacity="0.45"
+            stroke-dasharray="6,4" stroke-linecap="round"/>
+      <!-- Book14 (400,116) → Metamorphoses (400,209) -->
+      <path class="spine" d="M 400,116 C 398,145 402,180 400,209"
+            fill="none" stroke="#8b1a1a" stroke-width="2" stroke-opacity="0.45"
+            stroke-dasharray="6,4" stroke-linecap="round"/>
+      <!-- Metamorphoses (400,209) → Pyramus (400,313) -->
+      <path class="spine" d="M 400,209 C 402,240 398,280 400,313"
+            fill="none" stroke="#8b1a1a" stroke-width="2" stroke-opacity="0.45"
+            stroke-dasharray="6,4" stroke-linecap="round"/>
+      <!-- Pyramus (400,313) → Midsummer (400,418) -->
+      <path class="spine" d="M 400,313 C 398,345 402,385 400,418"
+            fill="none" stroke="#8b1a1a" stroke-width="2" stroke-opacity="0.45"
+            stroke-dasharray="6,4" stroke-linecap="round"/>
+
+      <!-- === TRIANGLE (original chain, solid ink) === -->
+
+      <!-- LEFT ARM: Midsummer (400,418) → Theseus (256,557) → Pan (176,661) → Wind (112,812) -->
+      <path d="M 400,418 C 355,455 300,510 256,557"
+            fill="none" stroke="#5a3a1a" stroke-width="2" stroke-opacity="0.5"
+            stroke-linecap="round"/>
+      <path d="M 256,557 C 230,590 200,630 176,661"
+            fill="none" stroke="#5a3a1a" stroke-width="2" stroke-opacity="0.5"
+            stroke-linecap="round"/>
+      <path d="M 176,661 C 155,700 130,760 112,812"
+            fill="none" stroke="#5a3a1a" stroke-width="2" stroke-opacity="0.5"
+            stroke-linecap="round"/>
+
+      <!-- RIGHT ARM: Midsummer (400,418) → Shakespeare (544,557) → Monte Cristo (688,812) -->
+      <path d="M 400,418 C 445,455 500,510 544,557"
+            fill="none" stroke="#5a3a1a" stroke-width="2" stroke-opacity="0.5"
+            stroke-linecap="round"/>
+      <path d="M 544,557 C 590,630 640,730 688,812"
+            fill="none" stroke="#5a3a1a" stroke-width="2" stroke-opacity="0.5"
+            stroke-linecap="round"/>
+
+      <!-- BASE: Wind (112,812) → Prison (400,986) → Monte Cristo (688,812) -->
+      <path d="M 112,812 C 190,870 300,950 400,986"
+            fill="none" stroke="#5a3a1a" stroke-width="2" stroke-opacity="0.5"
+            stroke-linecap="round"/>
+      <path d="M 400,986 C 500,950 610,870 688,812"
+            fill="none" stroke="#5a3a1a" stroke-width="2" stroke-opacity="0.5"
+            stroke-linecap="round"/>
+
+      <!-- Degree markers -->
+      <circle cx="400" cy="76" r="2" fill="#8b1a1a" opacity="0.25"/>
+      <circle cx="400" cy="163" r="2" fill="#8b1a1a" opacity="0.25"/>
+      <circle cx="400" cy="261" r="2" fill="#8b1a1a" opacity="0.25"/>
+      <circle cx="400" cy="366" r="2" fill="#8b1a1a" opacity="0.25"/>
+      <circle cx="328" cy="488" r="2" fill="#5a3a1a" opacity="0.3"/>
+      <circle cx="216" cy="609" r="2" fill="#5a3a1a" opacity="0.3"/>
+      <circle cx="144" cy="737" r="2" fill="#5a3a1a" opacity="0.3"/>
+      <circle cx="472" cy="488" r="2" fill="#5a3a1a" opacity="0.3"/>
+      <circle cx="616" cy="685" r="2" fill="#5a3a1a" opacity="0.3"/>
+      <circle cx="256" cy="899" r="2" fill="#5a3a1a" opacity="0.3"/>
+      <circle cx="544" cy="899" r="2" fill="#5a3a1a" opacity="0.3"/>
+    </svg>
+
+    <!-- === BOOK NODES === -->
+
+    <!-- Circe (top of spine) -->
+    <div class="node node-book" style="left: 50%; top: 3%;">
+      <div class="node-circle">
+        <span class="node-icon">&#128300;</span>
+      </div>
+      <div class="node-title">Circe</div>
+      <div class="node-author">Madeline Miller, 2018</div>
+    </div>
+
+    <!-- Metamorphoses -->
+    <div class="node node-book" style="left: 50%; top: 18%;">
+      <div class="node-circle">
+        <span class="node-icon">&#127800;</span>
+      </div>
+      <div class="node-title">Metamorphoses</div>
+      <div class="node-author">Ovid, 8 AD</div>
+    </div>
+
+    <!-- A Midsummer Night's Dream (center hub) -->
+    <div class="node node-book" style="left: 50%; top: 36%;">
+      <div class="node-circle">
+        <span class="node-icon">&#127769;</span>
+      </div>
+      <div class="node-title">A Midsummer Night's Dream</div>
+      <div class="node-author">William Shakespeare, c. 1596</div>
+    </div>
+
+    <!-- Wind in the Willows (bottom-left) -->
+    <div class="node node-book" style="left: 14%; top: 70%;">
+      <div class="node-circle">
+        <span class="node-icon">&#127811;</span>
+      </div>
+      <div class="node-title">The Wind in the Willows</div>
+      <div class="node-author">Kenneth Grahame, 1908</div>
+    </div>
+
+    <!-- The Count of Monte Cristo (bottom-right) -->
+    <div class="node node-book" style="left: 86%; top: 70%;">
+      <div class="node-circle">
+        <span class="node-icon">&#9876;</span>
+      </div>
+      <div class="node-title">The Count of Monte Cristo</div>
+      <div class="node-author">Alexandre Dumas, 1844</div>
+    </div>
+
+    <!-- === LINKING NODES === -->
+
+    <!-- Book 14 (spine) -->
+    <div class="node node-link" style="left: 50%; top: 10%;">
+      <div class="node-circle">
+        <span class="node-icon">&#10025;</span>
+      </div>
+      <div class="node-title">Book 14</div>
+      <div class="node-desc">The sorceress who transforms</div>
+    </div>
+
+    <!-- Pyramus & Thisbe (spine) -->
+    <div class="node node-link" style="left: 50%; top: 27%;">
+      <div class="node-circle">
+        <span class="node-icon">&#128148;</span>
+      </div>
+      <div class="node-title">Pyramus & Thisbe</div>
+      <div class="node-desc">The play within the play</div>
+    </div>
+
+    <!-- Theseus (left arm) -->
+    <div class="node node-link" style="left: 32%; top: 48%;">
+      <div class="node-circle">
+        <span class="node-icon">&#9096;</span>
+      </div>
+      <div class="node-title">Theseus</div>
+      <div class="node-desc">Duke of Athens</div>
+    </div>
+
+    <!-- Pan (left arm) -->
+    <div class="node node-link" style="left: 22%; top: 57%;">
+      <div class="node-circle">
+        <span class="node-icon">&#127932;</span>
+      </div>
+      <div class="node-title">Pan</div>
+      <div class="node-desc">Greek god of the wild</div>
+    </div>
+
+    <!-- Shakespeare & Dumas (right arm) -->
+    <div class="node node-link" style="left: 68%; top: 48%;">
+      <div class="node-circle">
+        <span class="node-icon">&#9998;</span>
+      </div>
+      <div class="node-title">Shakespeare & Dumas</div>
+      <div class="node-desc">A lifelong obsession</div>
+    </div>
+
+    <!-- Prison Escape (base) -->
+    <div class="node node-link" style="left: 50%; top: 85%;">
+      <div class="node-circle">
+        <span class="node-icon">&#128273;</span>
+      </div>
+      <div class="node-title">Prison Escape</div>
+      <div class="node-desc">The body in the sack</div>
+    </div>
+
+    <!-- === EDGE LABELS === -->
+
+    <!-- Spine labels (pushed well to alternating sides) -->
+    <div class="edge-label" style="left: 64%; top: 6.5%;">
+      Miller retells her story
+    </div>
+    <div class="edge-label" style="left: 36%; top: 14%;">
+      Ovid's sorceress
+    </div>
+    <div class="edge-label" style="left: 64%; top: 22.5%;">
+      The original doomed lovers
+    </div>
+    <div class="edge-label" style="left: 36%; top: 31.5%;">
+      A mangled Ovid
+    </div>
+
+    <!-- Left arm labels -->
+    <div class="edge-label ink" style="left: 34%; top: 42%;">
+      Speaks the first line
+    </div>
+    <div class="edge-label ink" style="left: 20%; top: 52.5%;">
+      Greek mythology
+    </div>
+    <div class="edge-label ink" style="left: 11%; top: 63.5%;">
+      Ch. 7: Pan on the river
+    </div>
+
+    <!-- Right arm labels -->
+    <div class="edge-label ink" style="left: 66%; top: 42%;">
+      Adapted for the French stage
+    </div>
+    <div class="edge-label ink" style="left: 83%; top: 59%;">
+      Dumas wrote the great escape
+    </div>
+
+    <!-- Base labels -->
+    <div class="edge-label ink" style="left: 27%; top: 78%;">
+      Toad's escape echoes Dant&egrave;s
+    </div>
+    <div class="edge-label ink" style="left: 73%; top: 78%;">
+      Dant&egrave;s in a burial sack
+    </div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <h2 class="section-heading">The Chain</h2>
+  <p class="section-subtitle">Six links. Three books. One circle.</p>
+
+  <div class="chain-section">
+
+    <div class="chain-step step-book">
+      <span class="chain-number">I.</span>
+      <div class="chain-body">
+        <div class="chain-title">The Wind in the Willows</div>
+        <div class="chain-text">In Chapter 7, <em>"The Piper at the Gates of Dawn,"</em> Rat and Mole travel upriver at dawn and encounter the god Pan on a small island, guarding a lost baby otter. The god of the wild, standing in an English river, playing his pipes.</div>
+      </div>
+    </div>
+
+    <div class="chain-step">
+      <span class="chain-number">II.</span>
+      <div class="chain-body">
+        <div class="chain-title">Pan &amp; Greek Mythology</div>
+        <div class="chain-text">Pan is a figure from Greek mythology, the half-goat god of shepherds, wild places, and panic. The same tradition gives us the hero Theseus, slayer of the Minotaur, who became Duke of Athens.</div>
+      </div>
+    </div>
+
+    <div class="chain-step step-book">
+      <span class="chain-number">III.</span>
+      <div class="chain-body">
+        <div class="chain-title">A Midsummer Night's Dream</div>
+        <div class="chain-text">Theseus is literally the first character to speak in Shakespeare's play. <em>"Now, fair Hippolyta, our nuptial hour draws on apace."</em> He is the frame around which the entire dream unfolds.</div>
+      </div>
+    </div>
+
+    <div class="chain-step">
+      <span class="chain-number">IV.</span>
+      <div class="chain-body">
+        <div class="chain-title">Shakespeare &amp; Dumas</div>
+        <div class="chain-text">Shakespeare was a lifelong obsession of Alexandre Dumas, who adapted <em>Hamlet</em> and other plays for the French stage.</div>
+      </div>
+    </div>
+
+    <div class="chain-step step-book">
+      <span class="chain-number">V.</span>
+      <div class="chain-body">
+        <div class="chain-title">The Count of Monte Cristo</div>
+        <div class="chain-text">Dumas's great hero, Edmond Dant&egrave;s, escapes the Ch&acirc;teau d'If by taking the place of a dead man in a burial sack. He enters the water as a prisoner and surfaces as a ghost.</div>
+      </div>
+    </div>
+
+    <div class="chain-step step-book">
+      <span class="chain-number">VI.</span>
+      <div class="chain-body">
+        <div class="chain-title">The Wind in the Willows &mdash; Again</div>
+        <div class="chain-text">Toad of Toad Hall escapes prison disguised as a washerwoman. It is Dant&egrave;s by way of English comedy: the same desperate substitution, the same improbable freedom, but gentler and funnier.</div>
+      </div>
+    </div>
+
+    <div class="branch-label">&#8593; The spine &mdash; branching upward from Midsummer</div>
+
+    <div class="chain-step step-branch">
+      <span class="chain-number">&#8226;</span>
+      <div class="chain-body">
+        <div class="chain-title">Pyramus &amp; Thisbe</div>
+        <div class="chain-text">In Act V, Bottom and the mechanicals perform a catastrophically bad play-within-a-play. The story they mangle &mdash; two lovers separated by a wall &mdash; is not Shakespeare's invention. He lifted it wholesale.</div>
+      </div>
+    </div>
+
+    <div class="chain-step step-branch step-book">
+      <span class="chain-number">&#8226;</span>
+      <div class="chain-body">
+        <div class="chain-title">Metamorphoses</div>
+        <div class="chain-text">Ovid told the story of Pyramus and Thisbe in Book IV, two thousand years ago. Shakespeare read it, loved it, and handed it to the worst actors in Athens.</div>
+      </div>
+    </div>
+
+    <div class="chain-step step-branch">
+      <span class="chain-number">&#8226;</span>
+      <div class="chain-body">
+        <div class="chain-title">Book 14 &mdash; The Sorceress</div>
+        <div class="chain-text">In Book XIV, Ovid tells of Circe: the goddess who transforms Scylla into a monster, who turns Odysseus's men to pigs. She is Ovid's study in what transformation costs.</div>
+      </div>
+    </div>
+
+    <div class="chain-step step-branch step-book">
+      <span class="chain-number">&#8226;</span>
+      <div class="chain-body">
+        <div class="chain-title">Circe</div>
+        <div class="chain-text">Madeline Miller, in 2018, retold it from Circe's perspective. The novel is <em>about</em> metamorphosis &mdash; its title is Ovid's title. Two thousand and ten years separate the two books. The thread held.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="colophon">Five books. Two millennia from Ovid to Miller. Nine degrees.<br>Every node you add reveals connections that were always there. The web only grows.</p>
+
+</div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var svg = document.querySelector('.diagram-svg');
+
+    // Solid triangle paths: draw-in animation
+    var solidPaths = svg.querySelectorAll('path[fill="none"][stroke="#5a3a1a"]');
+    solidPaths.forEach(function(path, index) {
+      var length = path.getTotalLength();
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+      path.style.transition = 'stroke-dashoffset 1.2s ease ' + (0.4 + index * 0.12) + 's';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          path.style.strokeDashoffset = '0';
+        });
+      });
+    });
+
+    // Dashed spine paths: fade-in (preserves dash pattern)
+    var spinePaths = svg.querySelectorAll('path.spine');
+    spinePaths.forEach(function(path, index) {
+      path.style.opacity = '0';
+      path.style.transition = 'opacity 0.8s ease ' + (index * 0.15) + 's';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          path.style.opacity = '1';
+        });
+      });
+    });
+
+    var nodes = document.querySelectorAll('.node');
+    nodes.forEach(function(node, index) {
+      node.style.opacity = '0';
+      node.style.transition = 'opacity 0.6s ease ' + (0.3 + index * 0.1) + 's';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          node.style.opacity = '1';
+        });
+      });
+    });
+
+    var labels = document.querySelectorAll('.edge-label');
+    labels.forEach(function(label, index) {
+      label.style.opacity = '0';
+      label.style.transition = 'opacity 0.5s ease ' + (1.0 + index * 0.08) + 's';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          label.style.opacity = '1';
+        });
+      });
+    });
+  });
+</script>
+</body>
+</html>

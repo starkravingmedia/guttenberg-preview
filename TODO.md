@@ -7,6 +7,7 @@
 
 ## Game Design Document (GDD)
 
+- [ ] Reconcile DESIGN.md to current state — document is way out of date and needs to reflect Ginsfeld-era mechanics, current terminology, and everything that's evolved since last major update
 - [ ] Create a formal taxonomy of game terms (skills, abilities, powers, talents, conditions, filters, etc.) — lives in the GDD
 - [ ] Define fixed entities that exist between book worlds and their functions
 - [ ] Separate and define meta-story-level elements — tease out from existing docs (The Marginalia, etc.)
@@ -51,6 +52,7 @@
 
 - [ ] Character knowledge bleed — LLMs tend to give characters omniscient knowledge of other characters/books they shouldn't know about. Characters knowing they're characters is OK, but Oliver Twist characters shouldn't know Tom Clancy. Need guardrails or prompting patterns to enforce knowledge boundaries per book world.
 - [ ] Instruction forward-leak / false randomness — when given a multi-step instruction list, the LLM reads the entire list before starting step 1, so "random" outputs in early steps get reverse-engineered to serve later steps. E.g., "create 5 random songs" followed by "create 5 random characters" results in songs that are suspiciously tailored to characters that haven't been created yet. Sometimes helpful, often breaks intended randomness. Need strategies to isolate steps (separate calls, seeded randomness, explicit "do not anticipate future steps" instructions, etc.).
+- [ ] Sympathy bias / premature bonding — LLMs default toward resolution, warmth, and cooperation. Characters reconcile too easily, find common ground too fast, and encounters trend toward group love even when the fiction doesn't earn it. Partly a real effect (shared adversity bonds people), partly the model's "helpful assistant" instinct bleeding into narration. Need to test with adversarial pairings, zero-sum scenarios, and post-encounter attitude checks. May need prompt-level guardrails like "characters should not resolve deep conflicts within a single encounter."
 
 ## Legal & IP
 
@@ -65,10 +67,20 @@
 
 ## Taxonomy Enforcement
 
+- [x] Create `taxonomy/taxonomy.md` — initial taxonomy file with first term (Headless Session)
+- [ ] Add remaining terms as they're defined (ongoing)
 - [ ] Build a taxonomy linter — a system that checks all content going into the game against the taxonomy, flags reserved words used incorrectly, and prompts for verification
 - [ ] Auto-link taxonomy terms in HTML game documents — any taxonomically reserved word should be automatically underlined and linked to its taxonomy reference entry
 - [ ] Make the taxonomy easily extensible — ability to add new terms at any point during development
 - [ ] Create a taxonomy cheat sheet / quick-reference card for working sessions
+
+## Sheet Generation
+
+Character profiles (.md) are the source of truth. HTML sheets are rendered from them. This section tracks profiles that need sheets generated or rebuilt.
+
+- [x] Faust — sheet exists at `characters/sample/sheets/faust-sheet.html`
+- [x] Scheherazade — sheet exists at `characters/sample/sheets/scheherazade-sheet.html`
+- [ ] True-up: Rebuild existing sheets to use formalized CSS classes from `styles/guttenberg.css` (sections 14-30) instead of inline styles
 
 ## Learning & Tooling
 
