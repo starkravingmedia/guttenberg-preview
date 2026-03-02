@@ -47,6 +47,10 @@
 - [ ] Research Claude-friendly art engine integration (Midjourney, etc.) for on-the-fly generation
 - [ ] Create fixed style instructions so generated art stays within a consistent design philosophy (documentation, encounters, scene settings)
 
+## LLM Gotchas & Known Issues
+
+- [ ] Character knowledge bleed — LLMs tend to give characters omniscient knowledge of other characters/books they shouldn't know about. Characters knowing they're characters is OK, but Oliver Twist characters shouldn't know Tom Clancy. Need guardrails or prompting patterns to enforce knowledge boundaries per book world.
+
 ## Research & Exploration
 
 - [ ] Explore downloading texts from Project Gutenberg and processing them with a local model — assess utility for the game (content sourcing, world-building raw material, NLP pipelines, etc.)
