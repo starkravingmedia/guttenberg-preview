@@ -20,6 +20,11 @@
 - [ ] Flesh out the mechanics behind a book's immune system — how does a book world detect, resist, or respond to foreign elements/players/intrusions?
 - [ ] Define party size / how many characters can go on a mission. Also clarify the taxonomy of mission vs. quest vs. other structured goal types — what distinguishes them mechanically and narratively?
 
+## Architecture & Design Philosophy
+
+- [ ] Define the layered architecture model — OS-like layers of game functionality where each layer depends on layers below it. Changing something at layer N means you know layers N+1 and above might break. Formalize which mechanics live at which layers, what the dependency rules are, and what testing is required when a layer is modified.
+  - [ ] Find and consolidate the existing chat discussion on this topic
+
 ## Player's Guide
 
 - [ ] Build Player's Guide as a separate document, developed synchronously with the GDD
