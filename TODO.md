@@ -47,6 +47,8 @@
 
 - [ ] Build a taxonomy linter — a system that checks all content going into the game against the taxonomy, flags reserved words used incorrectly, and prompts for verification
 - [ ] Auto-link taxonomy terms in HTML game documents — any taxonomically reserved word should be automatically underlined and linked to its taxonomy reference entry
+- [ ] Make the taxonomy easily extensible — ability to add new terms at any point during development
+- [ ] Create a taxonomy cheat sheet / quick-reference card for working sessions
 
 ## Learning & Tooling
 
