@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kade Recruiting — Modernist Literary Characters</title>
+<link rel="stylesheet" href="../../styles/guttenberg.css">
+<style>
+  .mission-brief {
+    border: 2px solid var(--ink);
+    padding: 28px 24px;
+    margin-bottom: 40px;
+    position: relative;
+    background: rgba(42, 26, 10, 0.04);
+  }
+  .mission-brief::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid var(--parchment-dark);
+    pointer-events: none;
+  }
+  .mission-brief-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.2em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .mission-field {
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .mission-field-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: inline;
+  }
+  .mission-field-value {
+    display: inline;
+    color: var(--ink);
+  }
+  .character-sheet {
+    border: 1px solid var(--parchment-dark);
+    padding: 32px 28px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .character-sheet::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 194, 146, 0.5);
+    pointer-events: none;
+  }
+  .character-name {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 2.2em;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 2px;
+    text-shadow: 1px 1px 0 var(--parchment-dark);
+  }
+  .character-role {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+  .character-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    text-align: center;
+    color: var(--ink-light);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    line-height: 1.55;
+    padding: 0 20px;
+  }
+  .character-section-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    margin-top: 28px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+  .stat-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .stat-cell {
+    width: 72px;
+    text-align: center;
+    border: 1px solid var(--parchment-dark);
+    padding: 8px 4px;
+    background: rgba(218, 194, 146, 0.2);
+  }
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .stat-score {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .stat-mod {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.8em;
+    color: var(--gold);
+  }
+  .trait-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .trait-cell {
+    text-align: center;
+    min-width: 100px;
+    padding: 6px 12px;
+  }
+  .trait-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+  }
+  .trait-value {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .trait-value--high { color: var(--blood); }
+  .trait-value--low { color: var(--ink-light); opacity: 0.7; }
+  .condition {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.15);
+  }
+  .condition-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .condition-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .condition-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 1px 6px;
+    border: 1px solid var(--parchment-dark);
+  }
+  .condition-tag--permanent { border-color: var(--blood); color: var(--blood); }
+  .condition-tag--private { border-style: dashed; }
+  .condition-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+  .reputation {
+    margin-bottom: 16px;
+    padding: 12px 18px;
+    border-left: 3px solid var(--gold);
+  }
+  .reputation-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .reputation-source {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .reputation-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+  .skill-block {
+    margin-bottom: 24px;
+    padding: 18px 22px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.1);
+  }
+  .skill-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .skill-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+  }
+  .skill-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+  }
+  .skill-type--active { border-color: var(--blood); color: var(--blood); }
+  .skill-trigger {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .skill-mechanic {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+  }
+  .skill-range {
+    margin-bottom: 4px;
+    padding-left: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .skill-range-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+  .skill-range-label--high { color: var(--gold); }
+  .skill-range-label--low { color: var(--blood); }
+  .skill-cost {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--parchment-dark);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--blood);
+    line-height: 1.5;
+  }
+  .skill-cost-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+  .filter-block {
+    margin-bottom: 20px;
+    padding: 20px 24px;
+    border: 1px solid var(--gold);
+    background: rgba(184, 134, 11, 0.05);
+    position: relative;
+  }
+  .filter-block::before {
+    content: '~';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.2em;
+    color: var(--gold);
+    background: var(--parchment);
+    padding: 0 8px;
+  }
+  .filter-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .filter-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92em;
+    color: var(--ink);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .beat {
+    margin-bottom: 40px;
+  }
+  .beat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+  }
+  .beat-number {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .beat-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .beat-prose {
+    font-family: 'EB Garamond', serif;
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .beat-prose em { color: var(--ink); }
+  .dice-roll {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 3px solid var(--blood);
+    background: rgba(139, 26, 26, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .dice-roll-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dice-roll-skill {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dice-roll-result {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--ink);
+  }
+  .dice-roll-outcome {
+    font-style: italic;
+    color: var(--ink-light);
+  }
+  .relationships-block {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border: 1px dashed var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.12);
+  }
+  .relationships-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .rel-delta {
+    margin-bottom: 6px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .rel-pair {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+  }
+  .rel-change--positive { color: var(--gold); }
+  .rel-change--negative { color: var(--blood); }
+  .rel-thought {
+    font-style: italic;
+    color: var(--ink-light);
+    opacity: 0.85;
+  }
+  .assessment {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--ink);
+    background: rgba(42, 26, 10, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .assessment-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .filter-trigger {
+    margin: 16px 0;
+    padding: 10px 18px;
+    border-left: 3px solid var(--gold);
+    background: rgba(184, 134, 11, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .filter-trigger-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .rel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .rel-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .rel-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .rel-table td:nth-child(2),
+  .rel-table td:nth-child(3) {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    text-align: center;
+    width: 70px;
+  }
+  .rel-table .net-positive { color: var(--gold); }
+  .rel-table .net-negative { color: var(--blood); }
+  .rel-table .net-neutral { color: var(--ink-light); }
+  .rel-table td:last-child {
+    font-style: italic;
+    color: var(--ink-light);
+    font-size: 0.88em;
+  }
+  .post-note {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.08);
+  }
+  .post-note-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .post-note-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .post-note-text ol, .post-note-text ul {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+  .post-note-text li {
+    margin-bottom: 6px;
+  }
+  .impact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+  }
+  .impact-table th {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .impact-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--parchment-dark);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .impact-critical {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+  .impact-high {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .impact-medium {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .impact-low {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    opacity: 0.6;
+  }
+
+  /* MUGGLE ROSTER */
+  .muggle-entry {
+    margin-bottom: 14px;
+    padding: 12px 18px;
+    border-left: 3px dashed var(--ink-light);
+    background: rgba(218, 194, 146, 0.08);
+  }
+  .muggle-entry--memorable {
+    padding: 16px 20px;
+    border-left: 3px dashed var(--gold);
+    background: rgba(218, 194, 146, 0.15);
+    margin-bottom: 20px;
+  }
+  .muggle-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .muggle-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  /* REDDIT INTERSTITIAL */
+  .reddit-block {
+    margin: 24px 0;
+    padding: 24px 28px;
+    background: rgba(42, 26, 10, 0.85);
+    color: var(--parchment);
+    border: 1px solid var(--ink-light);
+    position: relative;
+  }
+  .reddit-sub {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .reddit-user {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75em;
+    color: var(--parchment-dark);
+    margin-bottom: 12px;
+  }
+  .reddit-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05em;
+    font-style: italic;
+    color: var(--parchment);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .reddit-comment {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--parchment-dark);
+    line-height: 1.6;
+    margin-bottom: 12px;
+    padding-left: 16px;
+    border-left: 2px solid rgba(218, 194, 146, 0.3);
+  }
+  .reddit-votes {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7em;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  /* KADE ASSESSMENT METRICS */
+  .kade-assessment {
+    margin: 12px 0;
+    padding: 12px 18px;
+    border-left: 3px solid var(--ink);
+    background: rgba(42, 26, 10, 0.06);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .kade-assessment .assessment-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .kade-assessment-target {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .kade-assessment-metrics {
+    font-style: italic;
+    color: var(--ink-light);
+  }
+  .kade-assessment-note {
+    font-style: italic;
+    color: var(--ink-light);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper page-wrapper--wide">
+<div class="parchment-bg">
+
+  <h1 class="main-title">Kade Recruiting</h1>
+  <p class="subtitle">Modernist Literary Characters &mdash; 2026-03-04</p>
+
+  <!-- CONFIGURATION SUMMARY -->
+  <div class="mission-brief">
+    <div class="mission-brief-title">Configuration Summary</div>
+    <div class="mission-field"><span class="mission-field-label">Operator: </span><span class="mission-field-value">Lisle Kade (Tuesday Group engine)</span></div>
+    <div class="mission-field"><span class="mission-field-label">Era/Genre: </span><span class="mission-field-value">Modernist (Kafka, Woolf, Beckett, Borges, Pessoa, Musil, Duras, Bulgakov, Camus)</span></div>
+    <div class="mission-field"><span class="mission-field-label">Session Type: </span><span class="mission-field-value">Recruiting only</span></div>
+    <div class="mission-field"><span class="mission-field-label">Total Beats: </span><span class="mission-field-value">10 (compressed structure)</span></div>
+    <div class="mission-field"><span class="mission-field-label">Power Level: </span><span class="mission-field-value">Mixed (8, 10, 12, 14, 16, 18)</span></div>
+    <div class="mission-field"><span class="mission-field-label">Unwritten: </span><span class="mission-field-value">No (published literary characters only)</span></div>
+    <div class="mission-field"><span class="mission-field-label">Tone: </span><span class="mission-field-value">Literary (default)</span></div>
+    <div class="mission-field"><span class="mission-field-label">Recruitment Method: </span><span class="mission-field-value">&ldquo;What&rsquo;s Your Story?&rdquo; live show &rarr; Factory briefing</span></div>
+    <div class="mission-field"><span class="mission-field-label">Crew Needed: </span><span class="mission-field-value">3 from 4 candidates</span></div>
+  </div>
+
+  <!-- MISSION PARAMETERS -->
+  <div class="mission-brief">
+    <div class="mission-brief-title">Mission Parameters</div>
+    <div class="mission-field"><span class="mission-field-label">Target: </span><span class="mission-field-value">An Artifact that is slowly consuming the text it&rsquo;s bound inside</span></div>
+    <div class="mission-field"><span class="mission-field-label">Opposition: </span><span class="mission-field-value">A rogue Archon who has claimed the text as territory</span></div>
+    <div class="mission-field"><span class="mission-field-label">Complication: </span><span class="mission-field-value">The team must enter through a text none of them have read</span></div>
+    <div class="mission-field"><span class="mission-field-label">Kade Knows: </span><span class="mission-field-value">The route in but not the route out</span></div>
+    <div class="mission-field"><span class="mission-field-label">Constraint: </span><span class="mission-field-value">Recruits are expendable. Mission success matters. Personnel do not.</span></div>
+  </div>
+
+  <!-- KADE'S CARD -->
+  <div class="character-sheet">
+    <div class="character-name">Lisle Kade</div>
+    <div class="character-role">Bookhunter &mdash; Opposition Operator</div>
+    <div class="character-quote">Faster than you. Better funded than you. Unencumbered by the dead weight of ethics. Kade doesn&rsquo;t rescue, stabilize, or preserve &mdash; she extracts, exploits, and moves on. She runs a YouTube show as a recruitment filter because it&rsquo;s cheap, it&rsquo;s scalable, and if the recruits don&rsquo;t come back, there are always more where they came from. She has never appeared on camera. She has never needed to.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--low">Low</div></div>
+    </div>
+
+    <div class="character-section-label">Mission Parameters (This Recruitment)</div>
+    <div class="mission-field"><span class="mission-field-label">Target: </span><span class="mission-field-value">An Artifact slowly consuming the text it&rsquo;s bound inside</span></div>
+    <div class="mission-field"><span class="mission-field-label">Kade&rsquo;s Objective: </span><span class="mission-field-value">Extract the Artifact before it consumes the text &mdash; not to save the text, but because an Artifact powerful enough to eat a book is worth more than anything inside it</span></div>
+    <div class="mission-field"><span class="mission-field-label">Opposition: </span><span class="mission-field-value">Rogue Archon claiming territorial control</span></div>
+    <div class="mission-field"><span class="mission-field-label">Complication: </span><span class="mission-field-value">Entry through an unread text</span></div>
+    <div class="mission-field"><span class="mission-field-label">Kade Knows: </span><span class="mission-field-value">Route in. Route out unknown.</span></div>
+    <div class="mission-field"><span class="mission-field-label">Crew Needed: </span><span class="mission-field-value">3</span></div>
+    <div class="mission-field"><span class="mission-field-label">Recruitment Filter: </span><span class="mission-field-value">&ldquo;What&rsquo;s Your Story?&rdquo; show, then Factory briefing</span></div>
+    <div class="mission-field"><span class="mission-field-label">Selection Criteria: </span><span class="mission-field-value">Speed over quality. No wildcards. No concern for team chemistry. Dealbreaker: anyone who might refuse orders or act on personal motives inside the text.</span></div>
+
+    <div class="character-section-label">Assessment Metrics (Tracked Per Character)</div>
+    <p class="beat-prose"><strong>Expendability:</strong> How much does she care if they don&rsquo;t come back? (Low = valuable asset, Medium = useful but replaceable, High = cannon fodder)</p>
+    <p class="beat-prose"><strong>Obedience:</strong> Will they follow orders? (Low = independent/dangerous, Medium = negotiable, High = compliant)</p>
+    <p class="beat-prose"><strong>Capability:</strong> Can they do the job? (Low = liability, Medium = adequate, High = genuinely dangerous)</p>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- ============================================================
+       CHARACTER CARDS
+       ============================================================ -->
+
+  <!-- BARTLEBY -->
+  <div class="character-sheet">
+    <div class="character-name">Bartleby</div>
+    <div class="character-role">The Wall / The Refusal</div>
+    <div class="character-quote">Bartleby is a copyist. Or was. He works in a Manhattan office building where the meaning of work has come undone. When asked to do something, he says &ldquo;I would prefer not to.&rdquo; This preference is absolute. It is not rebellion &mdash; rebellion would be too coherent. It is a wall made of courtesy and repetition. He is thin. His eyes are very still. He has never raised his voice. He never will.</div>
+    <p class="beat-prose" style="text-align:center; font-size:0.85em; color:var(--ink-light);"><strong>Source:</strong> Herman Melville, <em>Bartleby, the Scrivener</em> (1853)</p>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">9</div><div class="stat-mod">-1</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">Very High</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Very Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--high">High</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+    <div class="condition">
+      <div class="condition-name">Preference Cascade</div>
+      <div class="condition-desc">When forced to choose, he selects non-action. When asked to run, he will walk. When asked to speak, he will remain silent. This is not cowardice. It is the only coherent response to an incoherent world.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">Wall of Courtesy</div>
+      <div class="condition-desc">His refusals are stated mildly, without anger or affect. This makes them immovable. People apologize to him more than they resent him.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">Interior Distance</div>
+      <div class="condition-desc">He is present but not accessible. No one knows what he thinks. This is not shyness. This is absolute privacy maintained through radical simplicity.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+    <div class="reputation">
+      <div class="reputation-name">The Immovable</div>
+      <div class="reputation-desc">Those who have tried to coerce him have failed. Those who have tried to understand him have abandoned the effort.</div>
+    </div>
+    <div class="reputation">
+      <div class="reputation-name">The Honest Refusal</div>
+      <div class="reputation-desc">In a world of excuses, his preference is the only true thing people hear.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Steadiness Under Pressure</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: WIS (+4)</div>
+      <div class="skill-range">When pushed, he does not break. He settles deeper into stillness. +3 to resist compulsion, coercion, or manipulation.</div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Reading Silence</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: INT (+3)</div>
+      <div class="skill-range">He understands patterns in the unspoken. When interpreting written text, maps of knowledge, or behavioral systems, he can identify what has been deliberately omitted. +2 to detect traps, misrepresentations, or hidden conditions.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Preference Test</div>
+      <div class="filter-desc">Bartleby will participate only if given explicit permission to refuse at any point without consequence. If this permission is not granted, he immediately says &ldquo;I would prefer not to&rdquo; and will not change his answer. This is not negotiable.</div>
+    </div>
+
+    <div class="character-section-label">Relationships</div>
+    <p class="beat-prose" style="color:var(--ink-light); font-style:italic;">Empty.</p>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose">One pencil (worn). One page of transcribed text (grammatically perfect, meaning obscure). His clothes (grey, orderly, without personality).</p>
+  </div>
+
+  <!-- MOLLY BLOOM -->
+  <div class="character-sheet">
+    <div class="character-name">Molly Bloom</div>
+    <div class="character-role">The Yes / The Endless Return</div>
+    <div class="character-quote">Molly Bloom speaks in a stream. Thoughts arrive without transition. She has been thinking for years and no one has listened so the thoughts pile up like mail. She is sensual and profane and utterly without pretense. She knows what she wants and she takes it. She has been married and betrayed and she has survived by simply saying yes to the next thing and the next thing after that. Her voice is everywhere. It fills spaces.</div>
+    <p class="beat-prose" style="text-align:center; font-size:0.85em; color:var(--ink-light);"><strong>Source:</strong> James Joyce, <em>Ulysses</em> (1922)</p>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">13</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">15</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">Very High</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--high">Very High</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--low">Low</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+    <div class="condition">
+      <div class="condition-name">The Stream</div>
+      <div class="condition-desc">Molly&rsquo;s thoughts flow without filter or structure. She moves from memory to sensation to desire to resentment without transition. This makes her difficult to manage but impossible to deceive. She sees through bullshit immediately because she is not capable of it.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">Appetite</div>
+      <div class="condition-desc">She wants things intensely and without apology: food, sex, conversation, money, recognition. This is not greed. This is the fundamental honesty of desire. She takes what she is offered and asks for more.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">The Survivor&rsquo;s Pragmatism</div>
+      <div class="condition-desc">She has endured infidelity, poverty, and invisibility by simply moving forward. She does not hold grudges because she is too busy living. This makes her formidable in crisis.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+    <div class="reputation">
+      <div class="reputation-name">The Unsayable Speaker</div>
+      <div class="reputation-desc">She speaks what others only think. This terrifies some and liberates others.</div>
+    </div>
+    <div class="reputation">
+      <div class="reputation-name">The One Who Will Always Say Yes</div>
+      <div class="reputation-desc">To adventure, to risk, to the next impossible thing. But only if it interests her.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Reading People</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: CHA (+3)</div>
+      <div class="skill-range">She has spent years observing men and she knows exactly what they want and exactly how to refuse or encourage that want. +3 to persuade, manipulate, or establish rapport.</div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Endurance in Chaos</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: CON (+3)</div>
+      <div class="skill-range">She does not break under pressure. She becomes more present, more focused, more dangerous. +3 to resist fatigue, psychological stress, or disorientation in confusing environments.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Honesty Clause</div>
+      <div class="filter-desc">Molly will refuse to lie or pretend, even if ordered. She will not conceal her opinions or feelings. She will not play a role. If the mission requires deception, she will tell you that upfront.</div>
+    </div>
+
+    <div class="character-section-label">Relationships</div>
+    <p class="beat-prose" style="color:var(--ink-light); font-style:italic;">Empty.</p>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose">Her voice (unforgettable). One piece of jewelry (gold, given by someone she no longer remembers). Her underslip (against her skin, always).</p>
+  </div>
+
+  <!-- THOMAS SUTPEN -->
+  <div class="character-sheet">
+    <div class="character-name">Thomas Sutpen</div>
+    <div class="character-role">The Design / The Refusal to Stop</div>
+    <div class="character-quote">Thomas Sutpen is a man who has decided to build something that will outlast him. He does not know why. He came from nothing and so he will create something permanent. Sutpen&rsquo;s Hundred is not a plantation &mdash; it is a statement made in blood and wood against the universe. He is a man who has been refused and who will never be refused again, even if he must refuse everything in return. His hands are large. His eyes are immobile. He will sacrifice anything to complete the design.</div>
+    <p class="beat-prose" style="text-align:center; font-size:0.85em; color:var(--ink-light);"><strong>Source:</strong> William Faulkner, <em>Absalom, Absalom!</em> (1936)</p>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">11</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--low">Very Low</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+    <div class="condition">
+      <div class="condition-name">The Design</div>
+      <div class="condition-desc">Sutpen operates according to a scheme so comprehensive that it borders on delusion. He will not deviate from it. He will not explain it. Those who do not understand it are obstacles.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">The Refusal of Refusal</div>
+      <div class="condition-desc">He was told no once and he has spent his entire life ensuring that he will never hear it again. This makes him dangerous to anyone who opposes him, but also dangerous to anyone who depends on him.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">The Sunken Obsession</div>
+      <div class="condition-desc">The design has become more real to him than the actual world. He sacrifices his children, his marriages, his own humanity to it. He does not experience this as sacrifice. He experiences this as clarity.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+    <div class="reputation">
+      <div class="reputation-name">The Man Who Will Not Stop</div>
+      <div class="reputation-desc">Those who have tried to slow him or redirect him have learned that mercy is not part of his vocabulary.</div>
+    </div>
+    <div class="reputation">
+      <div class="reputation-name">The Builder</div>
+      <div class="reputation-desc">He constructs things. Not out of love or hope, but out of a cold determination to make something real that will not disappear.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Unstoppable Forward Motion</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: STR (+3)</div>
+      <div class="skill-range">He does not negotiate or retreat. When pursuing an objective, he reduces all obstacles to rubble. +3 to overcome resistance, drive through opposition, or maintain momentum in hostile environments.</div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Manipulation of Men</span>
+        <span class="skill-type skill-type--active">Active</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: INT (+2), CHA (+1)</div>
+      <div class="skill-range">He understands what men want and will promise them anything. His promises are often false but he makes them with such conviction that men believe. +2 to command loyalty, coerce compliance, or establish authority in unfamiliar groups.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Absolute Commitment</div>
+      <div class="filter-desc">Sutpen cannot participate in any mission that he perceives as temporary, incomplete, or subordinate to another&rsquo;s design. If the mission is secondary to someone else&rsquo;s goal, he will refuse. If he accepts, he will pursue it with total commitment and will not tolerate obstacles or hesitation from allies.</div>
+    </div>
+
+    <div class="character-section-label">Relationships</div>
+    <p class="beat-prose" style="color:var(--ink-light); font-style:italic;">Empty.</p>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose">His hat (expensive, out of place). A surveyor&rsquo;s map of property he does not yet own. Plantation records (meticulous, inhumane).</p>
+  </div>
+
+  <!-- SONYA -->
+  <div class="character-sheet">
+    <div class="character-name">Sonya</div>
+    <div class="character-role">The Witness / The Endless Question</div>
+    <div class="character-quote">Sonya has spent her life watching suffering and asking why. She is a minor character in a major novel and this fact has crushed and elevated her equally. She bears burdens that are not hers to bear. She has sacrificed everything &mdash; her beauty, her hope, her own life &mdash; to care for others. She does this not out of goodness but out of a kind of metaphysical inability to ignore pain. She prays. She does not know if God hears. She continues praying anyway.</div>
+    <p class="beat-prose" style="text-align:center; font-size:0.85em; color:var(--ink-light);"><strong>Source:</strong> Fyodor Dostoevsky, <em>Crime and Punishment</em> (1866)</p>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">13</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+    </div>
+
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">Very High</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--high">Very High</div></div>
+    </div>
+
+    <div class="character-section-label">Conditions</div>
+    <div class="condition">
+      <div class="condition-name">The Burden Bearer</div>
+      <div class="condition-desc">She cannot not care. When she encounters suffering, she carries it. This is not a choice. It is the structure of her consciousness. In a crisis, this makes her effective. In downtime, it destroys her.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">The Endless Question</div>
+      <div class="condition-desc">Why do people suffer? Why does God permit it? Why does she? These questions do not paralyze her. They haunt her. She moves forward with them, unanswered.</div>
+    </div>
+    <div class="condition">
+      <div class="condition-name">The Sacrificial Reflex</div>
+      <div class="condition-desc">When faced with a choice between her own safety and another&rsquo;s need, she does not hesitate. She gives. This makes her reliable in crisis and expendable to those who do not value sacrifice.</div>
+    </div>
+
+    <div class="character-section-label">Reputations</div>
+    <div class="reputation">
+      <div class="reputation-name">The One Who Cares</div>
+      <div class="reputation-desc">In a world of indifference, her care is notable. Some find it beautiful. Some find it unbearable.</div>
+    </div>
+    <div class="reputation">
+      <div class="reputation-name">The Witness to Suffering</div>
+      <div class="reputation-desc">She sees clearly what others refuse to look at. Her clarity is a kind of prophecy.</div>
+    </div>
+
+    <div class="character-section-label">Roll Skills</div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Reading the Broken</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: WIS (+4), CHA (+2)</div>
+      <div class="skill-range">She understands damage in others because she understands damage in herself. She can read what has been hidden, compromised, or fractured in a person or situation. +3 to identify deception, hidden trauma, or concealed motives.</div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-header">
+        <span class="skill-name">Healing Through Presence</span>
+        <span class="skill-type">Passive</span>
+      </div>
+      <div class="skill-mechanic">Mechanic: WIS (+4)</div>
+      <div class="skill-range">When she is present to someone&rsquo;s suffering, she does not try to fix it. She bears it. This is surprisingly effective. +3 to reduce fear, calm chaos, or stabilize psychological distress in allies.</div>
+    </div>
+
+    <div class="character-section-label">Filter</div>
+    <div class="filter-block">
+      <div class="filter-name">The Moral Question</div>
+      <div class="filter-desc">Sonya will ask Kade or whoever leads the mission: &ldquo;Is what we&rsquo;re doing right?&rdquo; If the answer is evasion or lies, she will not participate. If the answer is honest, she will go. She will continue asking the question throughout the mission. She may leave if she determines the mission has become wrong.</div>
+    </div>
+
+    <div class="character-section-label">Relationships</div>
+    <p class="beat-prose" style="color:var(--ink-light); font-style:italic;">Empty.</p>
+
+    <div class="character-section-label">Equipment</div>
+    <p class="beat-prose">A small icon (Orthodox, worn). Letters from her sister (unanswered). Her conviction that meaning exists even when invisible.</p>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- MUGGLE ROSTER -->
+  <h2 class="section-header">Muggle Roster</h2>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Standard Muggles</h3>
+
+  <div class="muggle-entry">
+    <div class="muggle-name">Marcus</div>
+    <div class="muggle-desc">A man who describes his job as &ldquo;helping brands tell their authentic stories&rdquo; and genuinely believes this is important work.</div>
+  </div>
+  <div class="muggle-entry">
+    <div class="muggle-name">Jennifer</div>
+    <div class="muggle-desc">She is very interested in the occult and has read many books about tarot but nothing has ever actually happened to her and she is waiting for something to happen.</div>
+  </div>
+  <div class="muggle-entry">
+    <div class="muggle-name">David</div>
+    <div class="muggle-desc">He is a lawyer. He is very smart. He assumes that smartness will protect him.</div>
+  </div>
+  <div class="muggle-entry">
+    <div class="muggle-name">Sarah</div>
+    <div class="muggle-desc">She was told to submit her story by her therapist as part of an assignment. She has written something true and is now terrified it will be heard.</div>
+  </div>
+  <div class="muggle-entry">
+    <div class="muggle-name">Kevin</div>
+    <div class="muggle-desc">He runs a podcast about unsolved mysteries and he assumes this experience will generate content.</div>
+  </div>
+  <div class="muggle-entry">
+    <div class="muggle-name">Rachel</div>
+    <div class="muggle-desc">She is a student studying literature and she recognizes some of the names in the show titles and assumes she will understand what is happening.</div>
+  </div>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Memorable Muggles</h3>
+
+  <div class="muggle-entry muggle-entry--memorable">
+    <div class="muggle-name">Thomas</div>
+    <div class="muggle-desc">A retired print journalist. He has spent forty years learning to recognize when he is being told the truth and when he is being lied to. He is not on YouTube much. He submitted his story about a book he found in an estate sale that seemed to have been rewritten after he read it. Kade did not discard him immediately because he is observant and because he will notice patterns. He is watching Danny very carefully. He knows something is wrong. He is not sure what. He is very uncomfortable.</div>
+  </div>
+  <div class="muggle-entry muggle-entry--memorable">
+    <div class="muggle-name">Avery</div>
+    <div class="muggle-desc">A young person who has written about their experience of dissociation &mdash; what it feels like to watch yourself from outside your body, to be aware and unaware simultaneously. They submitted because they wanted to know if anyone else experienced this. They have no idea what they are actually submitting to. They are hypervigilant and they will notice small things. Their hands shake. They have been asked not to tell anyone where they are. They agreed because they wanted to be taken seriously by someone.</div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- ============================================================
+       THE SHOW — BEATS 1-10
+       ============================================================ -->
+
+  <h2 class="section-header">The Show</h2>
+
+  <!-- BEAT 1 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 1</span>
+      <span class="beat-title">Montage Opening</span>
+    </div>
+    <p class="beat-prose">The set is sparse. A desk. A monitor. A single camera. The backdrop is dark blue, almost black, with no visible branding. This emptiness is intentional. The space seems to absorb sound. Danny Dan-Man is in the chair, visible, effusive.</p>
+    <p class="beat-prose">He is smiling at the camera with the trained energy of someone who has done this ten thousand times. His energy is pitched perfectly &mdash; not too manic, not too corporate. It lands in that exact frequency where it seems genuine even though nothing about this setup is genuine. His teeth are very white. His eyes are very bright.</p>
+    <p class="beat-prose">&ldquo;Good morning, story seekers,&rdquo; Danny says, and the phrase itself is a formula that has been tested and works. &ldquo;I&rsquo;m Danny, and this is &lsquo;What&rsquo;s Your Story?&rsquo; &mdash; the show where your experience matters and your voice gets heard. Today we have four incredible submissions. But before we dive in, let me say: submitting here takes courage. Telling your truth in a space like this &mdash; it&rsquo;s not nothing. You are not nothing.&rdquo;</p>
+    <p class="beat-prose">He pauses. The pause is calculated. It is meant to feel genuine but it is the opposite of genuine. It is a technique he learned from someone who learned it from someone else. It lands in the same place every time.</p>
+    <p class="beat-prose">The camera cuts to the muggle roster: Marcus in his home office, desk too clean, plant clearly purchased for the Zoom background. Jennifer in what appears to be a bedroom, wearing a crystal necklace that catches light. David in an expensive kitchen, very still. Sarah in her apartment, the background softly blurred, her hands visible in her lap, shaking slightly.</p>
+    <p class="beat-prose">Kevin is actually filming himself in his podcast studio setup &mdash; he has taken the effort to set this up properly and he is proud of it. Rachel is at a library desk, trying to look casual but positioned too carefully. Thomas is in what appears to be a real office, not a home office, and he is already frowning slightly. Avery is in their car, the only submission from a moving location, and they are very small in the frame, very aware they are being recorded.</p>
+    <p class="beat-prose">&ldquo;Let&rsquo;s start with our first submission,&rdquo; Danny continues, and his smile shifts microscopically &mdash; not less, but different. More professional. Less warm. &ldquo;We have a lot of ground to cover today.&rdquo;</p>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment</div>
+      Kade is not watching. Kade is listening to Danny&rsquo;s word choice. When he said &ldquo;your experience matters,&rdquo; his eye moved to the off-camera spot. When he said &ldquo;you are not nothing,&rdquo; there was something false in his tone register. Kade makes note. Danny is uncomfortable. Not frightened. Uncomfortable. This is useful information.
+    </div>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Roll: INT check (Kade&rsquo;s perception)</span>
+      <span class="dice-roll-result">d20 + 4 = 18.</span>
+      <span class="dice-roll-outcome">Kade identifies Danny&rsquo;s pattern variance. The earpiece must be feeding him something he wouldn&rsquo;t normally say.</span>
+    </div>
+  </div>
+
+  <!-- BEAT 2 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 2</span>
+      <span class="beat-title">Muggle Interviews and Show Exposition</span>
+    </div>
+    <p class="beat-prose">The show format is simple: Danny asks each muggle to tell their story in ninety seconds. No more. The timer is visible. It creates pressure. It creates truth. People say the most honest things when they have no time to lie.</p>
+    <p class="beat-prose"><strong>Marcus</strong> speaks first. He talks about a marketing campaign that seemed to write itself, about opening a file on his computer and finding language he didn&rsquo;t remember writing, brand messaging that was somehow perfect, almost alive. He frames it as serendipity. He frames it as the universe sending a message. Danny nods. Kade, listening, makes a note: <em>Marcus will lie to himself no matter what happens. Useless.</em></p>
+    <p class="beat-prose"><strong>Jennifer</strong> is next. She talks about the tarot reading that came true, about drawing the Hermit when she was alone, about understanding that the solitude was calling her to something. She is breathless. She wants to be part of something mystical. Danny leans forward. He is actually interested in Jennifer. This is not a good sign for Jennifer&rsquo;s survival probability.</p>
+    <p class="beat-prose"><strong>David</strong> speaks in precise language about a legal document he reviewed that contradicted itself &mdash; the same passage meant two completely different things depending on which way you read it. He was not supposed to notice. He noticed. He assumes his intelligence will protect him in whatever comes next. It will not. Kade notes: <em>High competence. Low wisdom. Likely to trust his reasoning past the point of survival.</em></p>
+    <p class="beat-prose"><strong>Sarah</strong> is crying before she speaks. She says &ldquo;I don&rsquo;t know why I&rsquo;m here. I don&rsquo;t know if I should be here. I wrote something true and I don&rsquo;t know what true means when you broadcast it.&rdquo; Danny extends actual human kindness toward her. His hand gestures toward the camera. His smile becomes gentler. For a moment, he is not performing. This moment costs him. Kade sees it. Danny is tired. Danny is not sure anymore which parts of this are real and which are script.</p>
+    <p class="beat-prose"><strong>Kevin</strong> pitches his podcast. He is here to create content. He says this directly. He has no shame about it. He will film everything. He will document. He will treat this as raw material. Kade&rsquo;s assessment: <em>Transparent motivation. Will survive longer because he will never believe he is in actual danger. Will die confused.</em></p>
+    <p class="beat-prose"><strong>Rachel</strong> references the novels. She names them. She demonstrates that she has read the source material. She assumes knowledge is protection. She assumes understanding the map is equivalent to being able to navigate the territory. This assumption will cost her. Kade makes note: <em>Intellectual confidence. Actual helplessness. Dangerous combination.</em></p>
+    <p class="beat-prose"><strong>Thomas</strong> says almost nothing. He says &ldquo;Something is wrong with this show. I don&rsquo;t know what. But something is wrong.&rdquo; Danny&rsquo;s smile tightens. His eye goes to the off-camera spot. Kade speaks into his earpiece: &ldquo;Ask him about the book.&rdquo; Danny immediately shifts. His energy changes. He asks Thomas about the estate sale book, about whether he ever found the original, about whether the rewritten version was better or worse.</p>
+    <p class="beat-prose">Thomas says: &ldquo;It was more honest. The original was the book the author intended. The rewritten version knew things the author never knew. I don&rsquo;t think the rewriting was an accident.&rdquo;</p>
+    <p class="beat-prose">This answer is not on the script that Danny has been following. Kade leans forward, listening.</p>
+    <p class="beat-prose"><strong>Avery</strong> speaks last, in a voice that is very quiet. They describe the dissociation as watching a camera recording a camera recording a camera &mdash; an infinite regression of observation with no observer at the center. They say &ldquo;I don&rsquo;t know if I&rsquo;m the one watching or the one being watched.&rdquo; They say &ldquo;I&rsquo;m not sure I&rsquo;m real or if I&rsquo;m recording myself.&rdquo; Danny is very still. His hands have stopped moving.</p>
+    <p class="beat-prose">The timer goes silent. Eight stories submitted. Eight different textures of disconnection with reality.</p>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment</div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Marcus</div>
+      <div class="kade-assessment-metrics">Expendability = High. Obedience = High. Capability = Low.</div>
+      <div class="kade-assessment-note"><em>Self-deceiver. Will follow orders without question because orders feel like permission to continue his personal narrative.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Jennifer</div>
+      <div class="kade-assessment-metrics">Expendability = High. Obedience = High. Capability = Low.</div>
+      <div class="kade-assessment-note"><em>Desperate for significance. Will interpret danger as transcendence.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">David</div>
+      <div class="kade-assessment-metrics">Expendability = Medium. Obedience = Low. Capability = Medium.</div>
+      <div class="kade-assessment-note"><em>Intelligent. Won&rsquo;t listen. Will die thinking he understood the situation.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Sarah</div>
+      <div class="kade-assessment-metrics">Expendability = Medium. Obedience = Medium. Capability = Low.</div>
+      <div class="kade-assessment-note"><em>Vulnerable. That makes her observant. Observant people survive longer. Kade notes: potential value as witness.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Kevin</div>
+      <div class="kade-assessment-metrics">Expendability = High. Obedience = Low. Capability = Low.</div>
+      <div class="kade-assessment-note"><em>Will document his own death. Less useful than it sounds.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Rachel</div>
+      <div class="kade-assessment-metrics">Expendability = High. Obedience = Medium. Capability = Low.</div>
+      <div class="kade-assessment-note"><em>Confident in knowledge. Incompetent in practice.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Thomas</div>
+      <div class="kade-assessment-metrics">Expendability = Low. Obedience = Low. Capability = Medium.</div>
+      <div class="kade-assessment-note"><em>He sees the framework. He will be dangerous or invaluable depending on what side he&rsquo;s on.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Avery</div>
+      <div class="kade-assessment-metrics">Expendability = Medium. Obedience = Low. Capability = Low.</div>
+      <div class="kade-assessment-note"><em>Psychological instability. But also perception &mdash; they notice what others filter out. Keep watching.</em></div>
+    </div>
+  </div>
+
+  <!-- BEAT 3 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 3</span>
+      <span class="beat-title">Literary Character Arrival #1 &mdash; Bartleby Enters the Stream</span>
+    </div>
+    <p class="beat-prose">The show transitions. Danny is refreshing, checking his notes, when Bartleby appears in the grid. Not floating in like a Zoom box. Actually appearing. One moment the grid is muggle faces, the next moment there is a man in a grey suit in a grey room with nothing in it but a desk and a chair. He is not on a video call. He is there.</p>
+    <p class="beat-prose">Bartleby says nothing. He is present. That is all.</p>
+    <p class="beat-prose">Danny&rsquo;s energy shifts. His smile does not falter but something underneath it goes very still. He says &ldquo;Hi there, I&rsquo;m Danny. What&rsquo;s your name?&rdquo;</p>
+    <p class="beat-prose">Bartleby does not answer immediately. He looks at the camera. Actually looks. As if he is making a decision about whether to engage with the apparatus of the show itself.</p>
+    <p class="beat-prose">Finally: &ldquo;Bartleby.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Bartleby,&rdquo; Danny repeats. &ldquo;Last name?&rdquo;</p>
+    <p class="beat-prose">&ldquo;I would prefer not to say.&rdquo;</p>
+    <p class="beat-prose">The phrase lands in the chat like a weight. Danny has been trained to move through awkward pauses. He knows how to fill silence. But this is not a pause. This is an active refusal stated so mildly that it seems almost gentle. It is impossible to argue with it without seeming aggressive.</p>
+    <p class="beat-prose">Danny says &ldquo;That&rsquo;s okay. We&rsquo;re happy to just have Bartleby. Can you tell us what brought you to the show today?&rdquo;</p>
+    <p class="beat-prose">Bartleby is silent for a very long time. The silence extends. Thomas, watching in the muggle grid, stops scrolling and starts actually watching. Avery&rsquo;s hand comes up to their chest. Kevin&rsquo;s recording light gets brighter &mdash; he is leaning toward the camera.</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I do not know if I was brought here or if I brought myself. I am present. I would prefer to understand why before I proceed further.&rdquo;</p>
+    <p class="beat-prose">Danny laughs. It is real surprise. It is involuntary. &ldquo;That&rsquo;s a good question, Bartleby. I wish I could tell you. All I know is that you submitted a story and we&rsquo;re here to talk about it.&rdquo;</p>
+    <p class="beat-prose">&ldquo;I submitted nothing,&rdquo; Bartleby says.</p>
+    <p class="beat-prose">&ldquo;You didn&rsquo;t?&rdquo;</p>
+    <p class="beat-prose">&ldquo;I would prefer not to have. But I am here. So perhaps the submission was made by something else.&rdquo;</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Roll: WIS check (Kade&rsquo;s reading of Bartleby)</span>
+      <span class="dice-roll-result">d20 + 3 = 19.</span>
+      <span class="dice-roll-outcome">Kade understands immediately. This is not a technical glitch. This is intentional. This is something that has agency separate from the apparatus.</span>
+    </div>
+
+    <p class="beat-prose">Kade speaks into Danny&rsquo;s earpiece: &ldquo;Keep him talking.&rdquo;</p>
+    <p class="beat-prose">Danny says: &ldquo;Alright, Bartleby. Tell us about the book you came here to discuss.&rdquo;</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I have not read any book. I would prefer not to read one.&rdquo;</p>
+    <p class="beat-prose">The other muggles are very still now. Thomas&rsquo;s frown has deepened. Rachel has her hand near her mouth. Sarah&rsquo;s shaking has intensified.</p>
+    <p class="beat-prose">Danny looks directly at camera, and for a moment he is genuinely lost. He is off the script. He is in territory he has not been trained for.</p>
+    <p class="beat-prose">Kade&rsquo;s voice comes again: &ldquo;Ask him if he would prefer to leave.&rdquo;</p>
+    <p class="beat-prose">Danny asks.</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I would prefer to stay. But only if I am permitted to prefer not to participate.&rdquo;</p>
+    <p class="beat-prose">It is such a perfect encapsulation of his nature that Danny actually smiles &mdash; a real smile, not a performance smile. &ldquo;You can prefer not to participate. That&rsquo;s fair.&rdquo;</p>
+    <p class="beat-prose">Bartleby nods. And then he is simply there, present in the grid, not refusing, not participating, just existing at the margin of the apparatus in a state of absolute non-commitment.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Bartleby &rarr; Danny:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>Danny cannot manipulate what refuses to be engaged. Respect is forming. It is unwelcome.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Bartleby &rarr; Muggles:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>His presence makes them uncomfortable. His refusal feels like judgment. They are not wrong.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment &mdash; Bartleby</div>
+      Expendability = Low. Obedience = Low. Capability = Medium. <em>He will not refuse if given permission to refuse. Paradoxically, this makes him usable. He will follow orders that do not conflict with his immediate preference. He will be invaluable inside the text because he will not want to proceed and therefore will notice what the others miss. However: cannot force him. Can only request. Potential value: 9/10. Reliability: 2/10.</em>
+    </div>
+  </div>
+
+  <!-- BEAT 4 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 4</span>
+      <span class="beat-title">Literary Character Arrival #2 &mdash; Molly Bloom Enters</span>
+    </div>
+    <p class="beat-prose">Molly arrives and she is already talking. There is no greeting. There is only the sound of her voice, vast and unfiltered, filling all space. She is magnificent. She is overwhelming. She appears in the grid and immediately the grid feels too small for her.</p>
+    <p class="beat-prose">&ldquo;I don&rsquo;t know what this is or why I&rsquo;m here but I know I&rsquo;m here because something is happening and something is always happening and the question is whether you can catch it or whether it passes through you like everything else passes through like water through nets like memory through&mdash;&rdquo;</p>
+    <p class="beat-prose">She stops. Breathes. Actually looks at the camera.</p>
+    <p class="beat-prose">&ldquo;Sorry. I&rsquo;m Molly. What&rsquo;s your name?&rdquo;</p>
+    <p class="beat-prose">&ldquo;Danny,&rdquo; Danny says, and he is suddenly, visibly, charmed. This is not performed. This is genuine. &ldquo;That was great. Can you slow down and tell us one more time?&rdquo;</p>
+    <p class="beat-prose">Molly laughs &mdash; a real laugh, not bright or performed, but honest. &ldquo;I can&rsquo;t slow down. This is how I think. If I slow down I have to remember that I&rsquo;m talking to other people and that ruins everything. So I&rsquo;m just going to keep talking and you&rsquo;re going to have to keep up or interrupt me, but I can&rsquo;t be interrupted because I&rsquo;ve been waiting too long to say this.&rdquo;</p>
+    <p class="beat-prose">She takes a breath. It is clear she has been literally waiting a long time. There is an actual quality of release about her.</p>
+    <p class="beat-prose">&ldquo;I submitted something about marriage and infidelity and the fact that I kept saying yes to things even when I wanted to say no, or maybe I wanted to say yes and I&rsquo;ve been told I should feel betrayed so I&rsquo;m pretending to feel betrayed but actually I just feel hungry. And I don&rsquo;t know why hunger is not respectable. I&rsquo;m hungry for food and I&rsquo;m hungry for knowledge and I&rsquo;m hungry for proof that I matter to someone even someone who is also hungry for someone else. So here I am.&rdquo;</p>
+    <p class="beat-prose">Bartleby is watching her very carefully. There is no judgment in his face. There is something like recognition. As if he has encountered the sound of someone thinking without the apparatus of politeness and he is absorbing it.</p>
+    <p class="beat-prose">Thomas is taking notes. Rachel is leaning back, overwhelmed. David is reassessing his understanding of what is happening here.</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Roll: CHA check (Kade&rsquo;s reading of Molly)</span>
+      <span class="dice-roll-result">d20 - 1 = 14.</span>
+      <span class="dice-roll-outcome">Kade understands that this woman will not be controlled. She can be persuaded. She cannot be coerced. She has already spent her entire life refusing to be small enough for other people&rsquo;s comfort.</span>
+    </div>
+
+    <p class="beat-prose">Kade speaks: &ldquo;Ask her about the text.&rdquo;</p>
+    <p class="beat-prose">Danny asks.</p>
+    <p class="beat-prose">Molly says: &ldquo;I don&rsquo;t know what text. I don&rsquo;t know if I&rsquo;m even in a text or if I&rsquo;m real or if reality is just another thing other people do better than me. But I know something is expecting something from me. I can feel it. Like being watched. Like being read.&rdquo;</p>
+    <p class="beat-prose">She looks directly at Bartleby. &ldquo;You feel it too. I can tell. You&rsquo;re the only one here who isn&rsquo;t surprised to be strange.&rdquo;</p>
+    <p class="beat-prose">Bartleby says quietly: &ldquo;I would prefer to discuss this later.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Good,&rdquo; Molly says. &ldquo;Later is better. Now I&rsquo;m too full of words.&rdquo;</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Danny:</span> <span class="rel-change--positive">Affinity = 2.</span> <span class="rel-thought"><em>Danny is attracted to her because she is not performing and Danny has forgotten how to not perform. He is mesmerized. This is dangerous for him.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Bartleby:</span> <span class="rel-change--positive">Affinity = 2.</span> <span class="rel-thought"><em>They recognize each other as real in a space full of performance. This is the beginning of a bond that will not save either of them.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Muggles:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>Her honesty makes them uncomfortable. They are being shown their own performance and they don&rsquo;t like it.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment &mdash; Molly</div>
+      Expendability = Medium. Obedience = Low. Capability = High. <em>She will go into the text because she wants to go into the text. She wants everything &mdash; she is incapable of wanting nothing. She will improvise. She will survive longer than more cautious people. She will also take dangerous risks because boredom is worse to her than death. Potential value: 10/10. Reliability: 8/10.</em>
+    </div>
+  </div>
+
+  <!-- BEAT 5 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 5</span>
+      <span class="beat-title">Literary Character Arrival #3 &mdash; Sutpen Enters</span>
+    </div>
+    <p class="beat-prose">Sutpen arrives quietly. This is unusual for him. He appears in the grid and he simply sits, fully present, taking up space. He is large. Not fat. Just large. His clothes are the wrong era for this room &mdash; too formal, too constructed. He is wearing a suit like it is armor.</p>
+    <p class="beat-prose">Danny, whose energy has been lifted by Molly, now experiences a shift. &ldquo;Hi there. I&rsquo;m Danny. What&rsquo;s your name?&rdquo;</p>
+    <p class="beat-prose">&ldquo;Thomas Sutpen,&rdquo; the man says. His voice is not loud. It is deeper than loud. It is certain.</p>
+    <p class="beat-prose">&ldquo;Thomas,&rdquo; Danny repeats. He is aware that this Thomas is different from the other Thomas, the muggle Thomas, the one who is watching very carefully. &ldquo;Great to have you here. What brought you to the show?&rdquo;</p>
+    <p class="beat-prose">Sutpen looks at Danny with an expression of mild contempt. &ldquo;I do not know what this show is. I do not know why I am in it. But I know that I am here to accomplish something and I intend to accomplish it. If you can assist with that, we will get along. If you cannot, then your purpose here is unclear to me.&rdquo;</p>
+    <p class="beat-prose">Rachel makes a small noise. Kevin is filming this very carefully. David recognizes something &mdash; a type of consciousness he has not encountered in his law practice, a man who exists outside of the system of negotiation that David has been trained to use.</p>
+    <p class="beat-prose">Molly says: &ldquo;I like him. He has the right kind of certainty.&rdquo;</p>
+    <p class="beat-prose">&ldquo;What are you certain of?&rdquo; Danny asks Sutpen.</p>
+    <p class="beat-prose">&ldquo;That I came here to complete something. That I will not stop. That anyone who impedes me will discover that I am not someone who can be impeded.&rdquo;</p>
+    <p class="beat-prose">Bartleby says very quietly: &ldquo;I would prefer that you tell us whether you intend to harm anyone here.&rdquo;</p>
+    <p class="beat-prose">Sutpen looks at Bartleby. For the first time, something shifts in his expression. Not respect &mdash; respect would require that he see Bartleby as his equal. But recognition. As if Bartleby has asked the only question worth asking.</p>
+    <p class="beat-prose">&ldquo;I intend to complete the design,&rdquo; Sutpen says. &ldquo;If people are part of the design, I will use them. If people are not part of the design, I will not see them. Harm is not relevant to whether something is part of the design or not.&rdquo;</p>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Roll: INT check (Kade&rsquo;s reading of Sutpen)</span>
+      <span class="dice-roll-result">d20 + 4 = 17.</span>
+      <span class="dice-roll-outcome">Kade understands that this man is useful but dangerous. He will pursue the mission with absolute commitment. He will not question orders. He will also not stop if the orders change because his own design supersedes external direction.</span>
+    </div>
+
+    <p class="beat-prose">Kade makes a note: <em>Use with caution. Likely to pursue own objectives inside the text. If objectives align with mission, he is invaluable. If objectives diverge, he is a liability who will view team members as obstacles.</em></p>
+    <p class="beat-prose">Kade speaks: &ldquo;Ask him about the book.&rdquo;</p>
+    <p class="beat-prose">Danny asks.</p>
+    <p class="beat-prose">Sutpen says: &ldquo;What book.&rdquo;</p>
+    <p class="beat-prose">&ldquo;The book you came here to find.&rdquo;</p>
+    <p class="beat-prose">&ldquo;I am not here to find a book. I am here to build something that will last. If there is a book, it is material. It is not the objective.&rdquo;</p>
+    <p class="beat-prose">Molly laughs. It is genuine appreciation. &ldquo;Oh, that&rsquo;s perfect. He&rsquo;s like me but in the opposite direction. I want everything. He wants one thing and will kill for it.&rdquo;</p>
+    <p class="beat-prose">Bartleby has closed his eyes. He is present but withdrawn. He is preparing for something. This is not hope. This is acceptance of what is coming.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Sutpen &rarr; Danny:</span> Affinity = 0. <span class="rel-thought"><em>Sutpen does not see Danny as a person. He sees him as apparatus. No relationship is possible.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sutpen &rarr; Molly:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>She respects his certainty. He ignores her. This is not mutual respect. It is admiration of a kind that cannot be reciprocated.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sutpen &rarr; Bartleby:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>Bartleby&rsquo;s question implied that Sutpen might stop. Sutpen noted this. This is the closest thing to a connection Sutpen will have with another person here.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sutpen &rarr; Muggles:</span> Affinity = 0. <span class="rel-thought"><em>He has not acknowledged their presence. From his perspective, they do not exist unless they are relevant to the design.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment &mdash; Sutpen</div>
+      Expendability = Low. Obedience = Low. Capability = High. <em>He will complete the mission. He will do it alone if necessary. He will not stop if ordered to stop. He will not hesitate if asked to sacrifice others. He is perfect for this mission and a disaster if the mission fails and he survives. Potential value: 10/10. Reliability: 3/10. Survival instinct: 1/10.</em>
+    </div>
+  </div>
+
+  <!-- BEAT 6 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 6</span>
+      <span class="beat-title">The Diagnostic Question</span>
+    </div>
+    <p class="beat-prose">The show has settled. Four literary characters present. Eight muggles watching. Danny is supposed to move through a standard interview format. Instead, Kade feeds him a question that does not belong to Danny&rsquo;s personality. The question arrives in his earpiece and he reads it with a pause that is just slightly too long.</p>
+    <p class="beat-prose">His smile tightens.</p>
+    <p class="beat-prose">His eyes go to a spot just off-camera.</p>
+    <p class="beat-prose">He says: &ldquo;I want to ask all of you something. And I need you to be honest.&rdquo; The phrasing is flat. It is not Danny&rsquo;s phrasing. Danny&rsquo;s phrasing is warmer, more conversational. This is technical.</p>
+    <p class="beat-prose">Thomas recognizes immediately that something has shifted. He leans toward his camera.</p>
+    <p class="beat-prose">Danny says: &ldquo;If you could choose right now not to know what you came here to know, would you choose that? If you could choose to leave this space and forget everything about it, would you?&rdquo;</p>
+    <p class="beat-prose">The silence that follows is profound. It is the silence of people being asked to reveal their fundamental nature.</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I would prefer not to answer.&rdquo;</p>
+    <p class="beat-prose">Molly says: &ldquo;No. I would not choose to leave. I would not choose forgetting. I want to know the worst things as much as the good things.&rdquo;</p>
+    <p class="beat-prose">Sutpen says: &ldquo;The question assumes I have a choice. I do not. I am here. The design continues.&rdquo;</p>
+    <p class="beat-prose">Rachel says softly: &ldquo;I would leave. I would choose not to know.&rdquo;</p>
+    <p class="beat-prose">David says: &ldquo;I would need more information before deciding.&rdquo;</p>
+    <p class="beat-prose">Kevin says: &ldquo;I would stay to document what happens.&rdquo;</p>
+    <p class="beat-prose">Sarah does not answer. She is crying. This is her answer.</p>
+    <p class="beat-prose">Thomas says: &ldquo;I already know something. I&rsquo;ve known it for a long time. The question is whether you&rsquo;re offering me the chance to do something about it.&rdquo;</p>
+    <p class="beat-prose">Avery says: &ldquo;I&rsquo;m not sure who would be choosing. The observer in me or the one being observed.&rdquo;</p>
+    <p class="beat-prose">Jennifer says: &ldquo;I want to stay. I feel like I&rsquo;m supposed to be here.&rdquo;</p>
+    <p class="beat-prose">Marcus says: &ldquo;I&rsquo;m confused about what the offer actually is.&rdquo;</p>
+    <p class="beat-prose">Danny sits back. The tension in his shoulders releases. He is Danny again. He says &ldquo;Thank you all for being honest about that. I think what you just told us matters.&rdquo;</p>
+    <p class="beat-prose">But his eye is still going to the off-camera spot. His hand is shaking slightly.</p>
+    <p class="beat-prose">Kade has gotten the information she needed. The choice question reveals fundamental orientation. Those who would refuse are unpredictable. Those who would stay are committed. Those who are confused are unanchored and therefore moveable.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">All Literary Characters &rarr; Danny:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>Danny is revealed as apparatus rather than person. This changes things. He is no longer a human conducting a show. He is the voice of something else using his body.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Bartleby-Molly-Sutpen Cluster:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>They have each answered the question in a way that is consistent with themselves. This consistency creates a kind of trust between them. They understand each other&rsquo;s nature.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment</div>
+      Kade&rsquo;s assessment is now complete. She has her four. She will collect three. The choice question has revealed who is genuinely committed to going forward versus who is simply compliant.
+    </div>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Roll: WIS check (Kade&rsquo;s final evaluation)</span>
+      <span class="dice-roll-result">d20 + 3 = 20.</span>
+      <span class="dice-roll-outcome">Kade understands that Bartleby will go only if he is not forced. Molly will go because she cannot stay. Sutpen will go because he has decided to go. These three can function as a unit because they are not hoping to function as a unit &mdash; they are simply three people moving in the same direction for different reasons.</span>
+    </div>
+  </div>
+
+  <!-- BEAT 7 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 7</span>
+      <span class="beat-title">Cross-Interactions</span>
+    </div>
+    <p class="beat-prose">The show format dissolves. Danny is no longer asking questions. He is simply present. The four literary characters are alone with the audience and with each other. The muggles are watching but they have become witnesses to something else.</p>
+    <p class="beat-prose">Molly says to Sutpen: &ldquo;You&rsquo;re going to run toward something and everyone is going to follow you out of momentum, not because they understand where you&rsquo;re going.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Yes,&rdquo; Sutpen says.</p>
+    <p class="beat-prose">&ldquo;That&rsquo;s not leadership. That&rsquo;s just being heavy.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Leadership is unnecessary,&rdquo; Sutpen says. &ldquo;Momentum is sufficient.&rdquo;</p>
+    <p class="beat-prose">Bartleby, observing this, says: &ldquo;I would prefer not to follow anyone&rsquo;s momentum.&rdquo;</p>
+    <p class="beat-prose">&ldquo;You will follow it,&rdquo; Molly says, not unkindly. &ldquo;Or you will be pushed by it. You can&rsquo;t stay still inside something moving. You&rsquo;ll have to choose &mdash; move with it or move against it.&rdquo;</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I have been still for many years. I can remain still in motion.&rdquo;</p>
+    <p class="beat-prose">Sutpen turns to look at Bartleby directly. &ldquo;Can you carry weight?&rdquo;</p>
+    <p class="beat-prose">&ldquo;Physical or metaphorical?&rdquo;</p>
+    <p class="beat-prose">&ldquo;Both.&rdquo;</p>
+    <p class="beat-prose">Bartleby considers this. &ldquo;I can carry weight. Whether I will is a separate question.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Then we understand each other,&rdquo; Sutpen says.</p>
+    <p class="beat-prose">Molly laughs. She is laughing at the formality of it, at the way these two men are attempting to negotiate something that cannot be negotiated. &ldquo;You&rsquo;re both trying to be certain about something that has no certainty. You&rsquo;re both pretending that understanding each other is a kind of contract.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Is it not?&rdquo; Bartleby asks.</p>
+    <p class="beat-prose">&ldquo;It&rsquo;s the opposite. Understanding each other is knowing that no contract is possible. You&rsquo;re going to go into whatever this is, and he&rsquo;s going to pursue his design, and I&rsquo;m going to follow because I can&rsquo;t stay still, and none of us will understand each other at the moment when it matters. But we&rsquo;ll go anyway.&rdquo;</p>
+    <p class="beat-prose">Sutpen says: &ldquo;This is satisfactory.&rdquo;</p>
+    <p class="beat-prose">Thomas, the muggle, is taking notes. He writes: <em>The three of them have some prior knowledge. They&rsquo;re not surprised by the structure. Bartleby knows he can refuse. Molly knows she wants to go. Sutpen knows he will not stop. They are not heroes. They are just the people most willing to proceed.</em></p>
+    <p class="beat-prose">Avery is watching Molly. Avery sees someone who is not split between observer and observed &mdash; someone who is fully present, fully streaming, fully alive in a way that Avery has never been. Avery makes eye contact with Molly. Molly grins. It is not reassuring. It is a grin that says: we are both going to survive this and it will destroy us in ways we can&rsquo;t predict.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Sutpen:</span> <span class="rel-change--positive">Affinity = 2.</span> <span class="rel-thought"><em>They oppose each other but with respect. She is the principle of endlessness. He is the principle of absolute focus. Together they create a kind of dynamic tension.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Bartleby &rarr; Sutpen:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>Sutpen respects Bartleby&rsquo;s ability to carry weight. Bartleby respects Sutpen&rsquo;s clarity. This is not friendship. This is mutual acknowledgment of capability.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Bartleby:</span> <span class="rel-change--positive">Affinity = 2.</span> <span class="rel-thought"><em>She is attracted to his stillness. He is attracted to her noise. They are fascinated by what they are not.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">All Three:</span> <span class="rel-change--positive">Affinity = 1.5 (average).</span> <span class="rel-thought"><em>They do not form a team. They form a structure. A structure can hold something up. It doesn&rsquo;t need to like what it&rsquo;s holding.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment</div>
+      This is the moment when Kade confirms: these three will function. Not because they are compatible. Because they are stable in their incompatibility. Molly will move. Sutpen will drive. Bartleby will refuse and therefore notice. This is better than a team. This is a functional structure.
+    </div>
+  </div>
+
+  <!-- BEAT 8 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 8</span>
+      <span class="beat-title">The Shutdown</span>
+    </div>
+    <p class="beat-prose">The broadcast ends not with a signal or a transition but with a cut. One moment the grid is alive with faces &mdash; four literary characters, eight muggles, Danny in the center. The next moment it is dark.</p>
+    <p class="beat-prose">The stream dies.</p>
+    <p class="beat-prose">Danny is left in the chair. He cannot see what happened. He cannot see anything. He is alone in the studio and the camera is still on but there is nothing to see except his face, which is afraid.</p>
+    <p class="beat-prose">He says: &ldquo;Guys? Are you there?&rdquo;</p>
+    <p class="beat-prose">No one answers.</p>
+    <p class="beat-prose">He tries to stand. He cannot. There is something holding him in the chair. Not physical. Something else. He is held by the apparatus. He is held by the fact that the stream was his purpose and the stream is now gone and he doesn&rsquo;t know how to exist outside it.</p>
+    <p class="beat-prose">Kade walks into the studio. She does not appear on camera. She appears in the actual space. She is small. This is surprising. She looks like she should be larger.</p>
+    <p class="beat-prose">She says: &ldquo;You did well.&rdquo;</p>
+    <p class="beat-prose">Danny says: &ldquo;What happened? Where are they?&rdquo;</p>
+    <p class="beat-prose">&ldquo;They are where they need to be.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Are they alive?&rdquo;</p>
+    <p class="beat-prose">Kade does not answer. She is pulling up the surveillance footage on the studio monitor. The image shows four locations: a grey room with a grey man, a bedroom with a woman who is still speaking, a plantation map on a desk, a small quiet space where nothing is happening. They are distributed. They are not together yet.</p>
+    <p class="beat-prose">She says: &ldquo;You&rsquo;ve done enough. You can go home now.&rdquo;</p>
+    <p class="beat-prose">Danny says: &ldquo;Am I going to see them again?&rdquo;</p>
+    <p class="beat-prose">&ldquo;No,&rdquo; Kade says.</p>
+    <p class="beat-prose">This is the moment when Danny understands, finally, completely, that he was never a host. He was always a filter. The show was never about giving voice to stories. It was about identifying which stories could survive the next step. It was never about Danny at all.</p>
+    <p class="beat-prose">He starts to cry. Very quietly. He is a competent professional who has just realized that he has spent months serving a function he did not understand.</p>
+    <p class="beat-prose">Kade looks at him with an expression that could be pity or could be nothing. It is hard to tell the difference with her.</p>
+    <p class="beat-prose">She says: &ldquo;You lasted longer than the last one.&rdquo;</p>
+    <p class="beat-prose">Then she walks out of the studio.</p>
+    <p class="beat-prose">Danny sits alone with the camera still recording, but there is no broadcast anymore. There is just a man in a chair realizing that the applause he heard was never actually applause.</p>
+
+    <!-- REDDIT INTERSTITIAL -->
+    <div class="reddit-block">
+      <div class="reddit-sub">r/isDannyAHostage</div>
+      <div class="reddit-user">Posted by u/actualThomas247</div>
+      <div class="reddit-title">Something is very wrong with Danny</div>
+      <p style="font-family: 'EB Garamond', serif; font-size: 0.95em; color: var(--parchment); line-height: 1.6; margin-bottom: 16px;">For five months I&rsquo;ve been watching &ldquo;What&rsquo;s Your Story?&rdquo; and I watched Danny change. Not gradually. Like someone flipping a switch. And today the switch flipped all the way over. I was on today&rsquo;s stream and I watched Danny ask a question that wasn&rsquo;t his. He&rsquo;s not the host. He&rsquo;s the apparatus. He&rsquo;s the voice of something else.</p>
+      <p style="font-family: 'EB Garamond', serif; font-size: 0.95em; color: var(--parchment); line-height: 1.6; margin-bottom: 16px;">The stream died at 47 minutes. Not technically. Intentionally. Like someone cut it from the outside.</p>
+      <p style="font-family: 'EB Garamond', serif; font-size: 0.95em; color: var(--parchment); line-height: 1.6; margin-bottom: 20px;">I think Danny is in there somewhere. But I don&rsquo;t think Danny is in charge of Danny anymore.</p>
+      <div class="reddit-comment">
+        <div class="reddit-user">u/paranoid_podcast</div>
+        This is the most believable fan theory I&rsquo;ve ever read about Danny because I was also in the stream and I saw the exact moment his eyes changed. That wasn&rsquo;t an edit. That was him becoming aware that he was being used.
+        <div class="reddit-votes">1.2k upvotes</div>
+      </div>
+      <div class="reddit-comment">
+        <div class="reddit-user">u/rachel_reader_here</div>
+        I was in the stream too. I cried. I cried because Danny looked at the camera and I saw him realize that none of this was about him.
+        <div class="reddit-votes">847 upvotes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEAT 9 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 9</span>
+      <span class="beat-title">The Factory</span>
+    </div>
+    <p class="beat-prose">The Factory is a space that has no personality. It is a room. The walls are grey. The table is grey. There are four chairs. Three of them have people in them.</p>
+    <p class="beat-prose">Molly arrives first, momentum carrying her. She sits down and immediately starts talking to the empty room, working through her anxiety by making noise. &ldquo;So this is where we find out if we&rsquo;re going to die. Or maybe we already died and this is the place dead people go when they&rsquo;re not important enough for the actual afterlife. Maybe we died and didn&rsquo;t notice and this is&mdash;&rdquo;</p>
+    <p class="beat-prose">Bartleby arrives and says: &ldquo;I would prefer if you paused.&rdquo;</p>
+    <p class="beat-prose">Molly pauses. It is clear this pause costs her something, but she does it.</p>
+    <p class="beat-prose">Sutpen arrives last. He looks at the table, the chairs, the grey walls. He says: &ldquo;This space is built for efficiency. Not comfort. This is the space of someone who does not care whether we are comfortable.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Correct,&rdquo; Kade says.</p>
+    <p class="beat-prose">She has appeared again. She does this without transition. One moment she is not in the room. The next moment she is.</p>
+    <p class="beat-prose">She sits at the head of the table. There are no heads and tails to this table but she has created one by sitting there.</p>
+    <p class="beat-prose">She says: &ldquo;You are the three. Molly Bloom. Bartleby. Thomas Sutpen.&rdquo;</p>
+    <p class="beat-prose">Each nods or acknowledges in their own way.</p>
+    <p class="beat-prose">&ldquo;You are being sent into a text. It is a specific text. None of you have read it. This is important. Unpreparedness is an advantage here.&rdquo;</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I would prefer to understand the structure of this mission before I proceed.&rdquo;</p>
+    <p class="beat-prose">&ldquo;No,&rdquo; Kade says. &ldquo;You will not understand. No one understands. The text is consuming itself. An Artifact is eating the narrative from the inside. There is something that claims to own the text. There is something that is destroying the text. Your objective is to extract the Artifact before the destruction is complete.&rdquo;</p>
+    <p class="beat-prose">Molly says: &ldquo;What happens if we fail?&rdquo;</p>
+    <p class="beat-prose">&ldquo;The Artifact consumes what remains of the text. The Archon maintains control. The narrative closes.&rdquo;</p>
+    <p class="beat-prose">&ldquo;What happens to us?&rdquo;</p>
+    <p class="beat-prose">&ldquo;You stay inside. You become part of what remains. You stop existing as separate entities.&rdquo;</p>
+    <p class="beat-prose">Sutpen nods. This is acceptable to him. He has always accepted the risk of being consumed by his own design. The extension of this into a literal design, a text, a narrative &mdash; this is consistent with his nature.</p>
+    <p class="beat-prose">Molly says: &ldquo;And if we succeed?&rdquo;</p>
+    <p class="beat-prose">&ldquo;You come out. You are paid. You are released.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Will we remember?&rdquo; Bartleby asks.</p>
+    <p class="beat-prose">&ldquo;Yes. This is both reward and punishment.&rdquo;</p>
+    <p class="beat-prose">Kade stands. She is done. She says: &ldquo;The text is called <em>Elsinore</em>. You will enter through the margins. The Archon occupies the center. The Artifact is migrating through the text. You will follow it. You will extract it. You will exit.&rdquo;</p>
+    <p class="beat-prose">&ldquo;We don&rsquo;t know how to exit,&rdquo; Molly says.</p>
+    <p class="beat-prose">&ldquo;Correct. No one ever does.&rdquo;</p>
+    <p class="beat-prose">Sutpen says: &ldquo;If we cannot exit, then we cannot succeed.&rdquo;</p>
+    <p class="beat-prose">&ldquo;You will exit or you will not. This is not a failure. This is a condition.&rdquo;</p>
+    <p class="beat-prose">Bartleby says very quietly: &ldquo;I would prefer to think about whether I want to participate in this.&rdquo;</p>
+    <p class="beat-prose">Kade looks at him for a long moment. Then she says: &ldquo;You have six seconds.&rdquo;</p>
+    <p class="beat-prose">Bartleby closes his eyes. Six seconds pass. He opens his eyes.</p>
+    <p class="beat-prose">He says: &ldquo;I will participate. But I reserve the right to prefer not to.&rdquo;</p>
+    <p class="beat-prose">&ldquo;Granted,&rdquo; Kade says.</p>
+    <p class="beat-prose">She pulls up a map on the screen. The map shows a text. The text shows veins of consumption &mdash; black lines like fractures spreading through the narrative. At the center, there is something bright. The Artifact. Around it, there is movement. The Archon.</p>
+    <p class="beat-prose">&ldquo;You leave in one hour,&rdquo; Kade says. &ldquo;Prepare yourselves.&rdquo;</p>
+    <p class="beat-prose">Then she leaves.</p>
+    <p class="beat-prose">Molly, Bartleby, and Sutpen are alone in the Factory.</p>
+    <p class="beat-prose">Molly says: &ldquo;Well. We&rsquo;re probably going to die.&rdquo;</p>
+    <p class="beat-prose">Sutpen says: &ldquo;Probably.&rdquo;</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I would prefer not to consider the probability.&rdquo;</p>
+    <p class="beat-prose">And somehow, this is enough. This is their team. Three people who know they might die and are going anyway, not because they are heroes, but because the alternative &mdash; not knowing &mdash; is unbearable.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Beat-Close Relationships</div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Sutpen:</span> <span class="rel-change--positive">Affinity = 2.</span> <span class="rel-thought"><em>Fear brings them closer. She is afraid and speaks it. He is not afraid and this is oddly comforting to her. He is afraid, actually, but he has decided not to acknowledge the fear. She sees it. She does not tell him she sees it.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Bartleby:</span> <span class="rel-change--positive">Affinity = 2.</span> <span class="rel-thought"><em>She is talking at him and he is not stopping her. He is listening. This is significant.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sutpen &rarr; Bartleby:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>They know each other by now. They have moved past recognition into something like trust. Trust that is built entirely on honesty about what they are.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Assessment</div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Molly (Final)</div>
+      <div class="kade-assessment-metrics">Expendability = Medium. Obedience = Low. Capability = High.</div>
+      <div class="kade-assessment-note"><em>Will improvise under pressure. Will make dangerous choices because she cannot tolerate stasis. Survival probability: 65%. Success probability: 70%.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Bartleby (Final)</div>
+      <div class="kade-assessment-metrics">Expendability = Low. Obedience = Low. Capability = Medium.</div>
+      <div class="kade-assessment-note"><em>Will notice what others miss. Will refuse what is refusing. Will be the one who asks questions when the others are committed to momentum. Survival probability: 45%. Success probability: 80%.</em></div>
+    </div>
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Sutpen (Final)</div>
+      <div class="kade-assessment-metrics">Expendability = Low. Obedience = Low. Capability = High.</div>
+      <div class="kade-assessment-note"><em>Will drive forward. Will not hesitate. Will not stop. Will sacrifice both others if the design requires. Survival probability: 55%. Success probability: 75%.</em></div>
+    </div>
+  </div>
+
+  <!-- BEAT 10 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 10</span>
+      <span class="beat-title">Departure &mdash; Threshold and Dissolution</span>
+    </div>
+    <p class="beat-prose">The three stand at the margin of the text. This is not a door. It is a quality of air, a thinning, a place where the boundary between reading and being read becomes unstable.</p>
+    <p class="beat-prose">Kade is not here for this part. This part belongs only to the three and to whatever is watching from the other side.</p>
+    <p class="beat-prose">Sutpen looks at the text margin. He says: &ldquo;This is it.&rdquo;</p>
+    <p class="beat-prose">&ldquo;This is it,&rdquo; Molly agrees.</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I would prefer to continue breathing for at least a moment longer.&rdquo;</p>
+    <p class="beat-prose">Molly takes his hand. This is surprising. Bartleby does not resist.</p>
+    <p class="beat-prose">Sutpen walks forward. His design continues. His momentum carries them. Molly and Bartleby follow, bound together and separate.</p>
+    <p class="beat-prose">The margin opens. Not like a door. Like a book opening to a page that has been waiting for readers.</p>
+    <p class="beat-prose">They step through.</p>
+    <p class="beat-prose">They are in the text called <em>Elsinore</em>. The margins are darker here. The room beyond is written in sentences that contradict each other. One wall says the castle is stone. Another wall says it is made of thought. A third wall says it never existed at all.</p>
+    <p class="beat-prose">Molly says: &ldquo;I hate this already.&rdquo;</p>
+    <p class="beat-prose">Bartleby says: &ldquo;This is expected.&rdquo;</p>
+    <p class="beat-prose">Sutpen is looking at the map that was burned into his memory. He sees a route. He does not know if it is real but he has decided it is real and that is close enough.</p>
+    <p class="beat-prose">He says: &ldquo;The Artifact is this way.&rdquo;</p>
+    <p class="beat-prose">He starts walking.</p>
+    <p class="beat-prose">The other two follow, and the threshold closes behind them, and the Factory is no longer visible, and the apparatus that brought them here is gone, and they are inside the text, and the text is reading them as much as they are reading it.</p>
+    <p class="beat-prose">The black veins of consumption spread. Somewhere in the depth of the narrative, the Archon moves. Somewhere in the depth of the text, the Artifact is still eating, still growing, still becoming.</p>
+    <p class="beat-prose">Molly says: &ldquo;Well. This is what we chose.&rdquo;</p>
+    <p class="beat-prose">Bartleby says: &ldquo;I would prefer to recall that I preferred not to.&rdquo;</p>
+    <p class="beat-prose">Sutpen says: &ldquo;The design continues.&rdquo;</p>
+    <p class="beat-prose">And they move deeper.</p>
+
+    <div class="relationships-block">
+      <div class="relationships-label">Final Relationship State</div>
+      <div class="rel-delta"><span class="rel-pair">Molly &rarr; Bartleby:</span> <span class="rel-change--positive">Affinity = 2.5.</span> <span class="rel-thought"><em>She is gripping his hand. This is affection formed through proximity and shared fear and the knowledge that they are about to experience something irreversible together.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sutpen &rarr; Molly:</span> <span class="rel-change--positive">Affinity = 1.5.</span> <span class="rel-thought"><em>He respects her more than he respects almost anyone. She is moving forward and that is all he requires.</em></span></div>
+      <div class="rel-delta"><span class="rel-pair">Sutpen &rarr; Bartleby:</span> <span class="rel-change--positive">Affinity = 1.</span> <span class="rel-thought"><em>Bartleby has not refused. This is meaningful to Sutpen. A man who has the capacity to refuse and chooses not to is a man who can be trusted, in the narrow sense of the word trust that matters.</em></span></div>
+    </div>
+
+    <div class="assessment">
+      <div class="assessment-label">Kade&rsquo;s Post-Deployment Notes</div>
+    </div>
+
+    <div class="dice-roll">
+      <span class="dice-roll-label">Roll: INT check (Kade&rsquo;s confidence in this team)</span>
+      <span class="dice-roll-result">d20 + 4 = 18.</span>
+    </div>
+
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Selection: 3 from 4 collected. Sonya, the witness, was not called.</div>
+      <div class="kade-assessment-note"><em>Why? Sonya would have asked moral questions in the middle of the mission. She would have questioned whether extraction was right. She would have hesitated. The mission has no room for hesitation. Molly cannot hesitate. Sutpen will not hesitate. Bartleby can hesitate but only by refusing, which is a kind of certainty. Sonya hesitates by questioning. This is the wrong kind of hesitation.</em></div>
+    </div>
+
+    <div class="kade-assessment">
+      <div class="kade-assessment-target">Cut Muggles: All eight.</div>
+      <div class="kade-assessment-note"><em>Why? None of the muggles had sufficient internal consistency to survive the text. They would have arrived at the margin and dissolved. They would have been read instead of reading. The literary characters are self-contained. Their contradictions are part of their structure. They will not come apart when the text tries to absorb them. The muggles would have fallen apart immediately.</em></div>
+    </div>
+
+    <div class="post-note">
+      <div class="post-note-title">Operational Surprises</div>
+      <div class="post-note-text">
+        <ol>
+          <li>Bartleby&rsquo;s refusal formula became their primary navigation tool. By the end, they are using his preference structure to determine what is real and what is the text consuming itself. This was not predicted.</li>
+          <li>Molly&rsquo;s stream-of-consciousness speech pattern became a kind of sonar. The text responds to her noise. It clarifies when she speaks. This suggests the Archon is attracted to her. This is a vulnerability. This is also their best advantage.</li>
+          <li>Sutpen&rsquo;s design-obsession proved more useful than anticipated. The map he created from the briefing is already serving as a kind of counternarrative to the Archon&rsquo;s territorial claims. He is not reading the text. He is overwriting it with his own intention.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="post-note">
+      <div class="post-note-title">Success &amp; Attrition</div>
+      <div class="post-note-text">
+        <p><strong>Success Probability (Revised):</strong> 72%. The team is unconventional but functional. They are not distracted by each other. They are distracted by their own natures, which is better. A team that is fighting external obstacles is more dangerous than a team that is fighting their own internal architecture.</p>
+        <p><strong>Personnel Attrition Prediction:</strong> One casualty likely. Bartleby has the lowest survival probability. Molly and Sutpen will make it to extraction if anyone does.</p>
+        <p><strong>Archon Threat Level:</strong> High. It is intelligent. It moves through the text with intention. It has been consuming the narrative for some time. It knows the territory better than the three do. But it does not know Bartleby&rsquo;s refusal. It does not know Molly&rsquo;s endless capacity for surprise. It does not know Sutpen&rsquo;s refusal to stop. This might be enough.</p>
+        <p><strong>Final Assessment:</strong> Send them in. They are the three most likely to complete the mission while destroying themselves. This is the optimal outcome.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- FINAL RELATIONSHIP TABLES -->
+  <h2 class="section-header">Final Relationship Tables</h2>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Literary Character Relationships (Final State)</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character A</th><th>Character B</th><th>Affinity</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Bartleby</td><td>Molly</td><td class="net-positive">2.5</td><td>Hand-held. Shared vulnerability. Mutual recognition of realness.</td></tr>
+      <tr><td>Molly</td><td>Bartleby</td><td class="net-positive">2.5</td><td>Gripping his hand. She is protecting the thing she respects.</td></tr>
+      <tr><td>Molly</td><td>Sutpen</td><td class="net-positive">1.5</td><td>Respect built through confrontation. No warmth but clear admiration.</td></tr>
+      <tr><td>Sutpen</td><td>Molly</td><td class="net-positive">1.5</td><td>She moves. That is sufficient.</td></tr>
+      <tr><td>Sutpen</td><td>Bartleby</td><td class="net-positive">1</td><td>Trust based on Bartleby&rsquo;s capacity and choice to not refuse.</td></tr>
+      <tr><td>Bartleby</td><td>Sutpen</td><td class="net-positive">1</td><td>Recognition of shared weight-bearing capacity.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Literary Characters to Danny (Final State)</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Molly</td><td class="net-neutral">0</td><td>He is apparatus. She is done with him.</td></tr>
+      <tr><td>Bartleby</td><td class="net-neutral">0</td><td>He saw Danny become a filter. He has moved past judgment.</td></tr>
+      <tr><td>Sutpen</td><td class="net-neutral">0</td><td>Danny was never relevant to Sutpen&rsquo;s perception.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-header" style="font-size: 1.1em;">Literary Characters to Kade (Final State)</h3>
+  <table class="rel-table">
+    <thead>
+      <tr><th>Character</th><th>Affinity</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Molly</td><td class="net-positive">1</td><td>Kade is honest. That is the only thing that matters.</td></tr>
+      <tr><td>Bartleby</td><td class="net-positive">1</td><td>She gave him permission to prefer. Everything else is secondary.</td></tr>
+      <tr><td>Sutpen</td><td class="net-positive">1</td><td>She understands design. He respects this.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- POST-ENCOUNTER NOTES -->
+  <h2 class="section-header">Post-Encounter Notes</h2>
+
+  <div class="post-note">
+    <div class="post-note-title">Summary</div>
+    <div class="post-note-text">
+      <p><strong>Session Type:</strong> Recruiting Show (Kade Filter)</p>
+      <p><strong>Date:</strong> 2026-03-04</p>
+      <p><strong>Location:</strong> The Factory (pre-deployment)</p>
+      <p><strong>Duration:</strong> 10 narrative beats</p>
+      <p><strong>Candidates Evaluated:</strong> 12 (4 literary characters, 8 muggles)</p>
+      <p><strong>Candidates Selected:</strong> 3</p>
+      <p><strong>Candidates Cut:</strong> 1 (Sonya) + 8 muggles (all)</p>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Which Filters Had Most Impact</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>Bartleby&rsquo;s &ldquo;Preference Test&rdquo; Filter:</strong> This was the most effective filter. By establishing that he could refuse at any time without consequence, Bartleby became the group&rsquo;s truth-teller. His refusal is not rebellion. It is honesty. This made him invaluable as a navigator inside a text where reality is unstable. <strong>Impact: 10/10</strong></li>
+        <li><strong>Molly&rsquo;s &ldquo;Honesty Clause&rdquo; Filter:</strong> This prevented her from becoming a liability through deception. In the text, deception will be the Archon&rsquo;s primary weapon. Having someone incapable of lying is like having someone incapable of being infected. She will remain herself. <strong>Impact: 9/10</strong></li>
+        <li><strong>Sutpen&rsquo;s &ldquo;Absolute Commitment&rdquo; Filter:</strong> This ensured he could not be diverted or compromised by offers, threats, or psychological manipulation. His design is his north star. In a chaotic environment, a fixed point is invaluable. <strong>Impact: 9/10</strong></li>
+        <li><strong>Sonya&rsquo;s &ldquo;Moral Question&rdquo; Filter:</strong> This eliminated her. She would have become a liability because she would have insisted on interrogating the rightness of the mission in real-time. In a text where time is unstable and meaning is being consumed, moral questions paralyze. <strong>Impact: -9/10 (correctly used as a filter)</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Which Conditions Had Most Impact</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>Bartleby&rsquo;s &ldquo;Wall of Courtesy&rdquo;:</strong> In the Factory, this made him the only person Sutpen could respect. Courtesy in the face of horror is not weakness. It is power. <strong>Impact: 8/10</strong></li>
+        <li><strong>Molly&rsquo;s &ldquo;The Stream&rdquo;:</strong> Her unfiltered consciousness became their primary tool for navigation. The text responds to noise. This was not anticipated. <strong>Impact: 9/10</strong></li>
+        <li><strong>Sutpen&rsquo;s &ldquo;The Design&rdquo;:</strong> His ability to overwrite reality with intention provided a counternarrative to the Archon&rsquo;s territorial claims. <strong>Impact: 9/10</strong></li>
+        <li><strong>Bartleby&rsquo;s &ldquo;Interior Distance&rdquo;:</strong> No one could manipulate him because no one could reach him. This made him immune to psychological attack. <strong>Impact: 7/10</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Which Skills Had Most Impact</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>Bartleby&rsquo;s &ldquo;Reading Silence&rdquo;</strong> (INT +3): This skill allowed him to detect gaps in the narrative. Where the Archon was consuming the text, there were absences. Bartleby reads absence. <strong>Impact: 10/10</strong></li>
+        <li><strong>Molly&rsquo;s &ldquo;Reading People&rdquo;</strong> (CHA +3): Inside the text, the Archon will attempt to manipulate them using their own desires. Molly can read manipulation patterns instantly. She is immune to seduction because she cannot be surprised. <strong>Impact: 8/10</strong></li>
+        <li><strong>Sutpen&rsquo;s &ldquo;Unstoppable Forward Motion&rdquo;</strong> (STR +3): The text will try to slow them. Gravity increases. Narrative weight increases. His momentum is literal and metaphorical power. <strong>Impact: 8/10</strong></li>
+        <li><strong>Molly&rsquo;s &ldquo;Endurance in Chaos&rdquo;</strong> (CON +3): She does not break. She becomes sharper. In a text that is consuming itself, chaos is the environment. She is at home there. <strong>Impact: 8/10</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Unexpected Discoveries</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>The Apparatus Format:</strong> The &ldquo;What&rsquo;s Your Story?&rdquo; show itself was a filter mechanism more sophisticated than anticipated. It did not just identify candidates. It identified how people revealed themselves under pressure. The choice question was the key. Those who would leave: unreliable. Those who would stay: committed. Those who were confused: moveable.</li>
+        <li><strong>Danny&rsquo;s Partial Consciousness:</strong> Danny was not entirely unaware that he was being used. This awareness grew throughout the five months. By the final episode, he was complicit in his own exploitation. This is useful information about how long apparatus-humans can sustain consciousness of their function before breaking.</li>
+        <li><strong>Literary Characters as Self-Contained:</strong> Unwritten characters (muggles) came apart in the presence of structural pressure. Literary characters, already constructed from language, are resistant to being unconstructed by language. They are self-referential in a way that protects them. This suggests future recruitment should focus exclusively on established characters with internal narrative coherence.</li>
+        <li><strong>Affinity Through Proximity, Not Similarity:</strong> Molly and Bartleby bonded not because they were similar but because they were maximally dissimilar. She is endless. He is finite. They attracted each other through opposition. This suggests that compatibility in missions is not about personality matching but about structural complementarity.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="post-note">
+    <div class="post-note-title">Hooks for Future Encounters</div>
+    <div class="post-note-text">
+      <ol>
+        <li><strong>The Archon&rsquo;s Curiosity:</strong> The Archon has not encountered a team composed of literary characters before. It will try to read them as it reads other characters. It will fail. But the failure will interest it. If the team survives, they may be of interest to Kade for future operations &mdash; specifically operations involving textual entities that assume reading gives them power.</li>
+        <li><strong>Sonya&rsquo;s Moral Question:</strong> She was not selected. But her question &mdash; &ldquo;Is what we&rsquo;re doing right?&rdquo; &mdash; may have been more important than the mission itself. If the team fails and if Kade&rsquo;s operation is exposed to scrutiny, Sonya&rsquo;s refusal to participate may be the only testimony that provides alternative narrative. She should be monitored.</li>
+        <li><strong>Danny&rsquo;s Partial Break:</strong> Danny is not broken. He is cracked. He is aware now that he was apparatus. This awareness is unstable. If contacted again, he might serve as a liaison between Kade&rsquo;s operation and the outside world. Or he might become a liability who speaks. Monitor his internet activity. Monitor his calls.</li>
+        <li><strong>The Text as Entity:</strong> The briefing suggested that <em>Elsinore</em> is being consumed. But consumption implies intention. The Archon is consuming it, but the Artifact is also active. The question is whether the Artifact is defending the text or feeding on it. If it is defending the text, the team should protect it. If it is feeding on it, the team should let it consume what remains. This distinction will become clear only when they encounter both entities.</li>
+        <li><strong>Bartleby&rsquo;s Preference as Oracle:</strong> If Bartleby survives, his preference structure may function as a kind of navigation system inside other texts. His ability to read what is real by examining what he prefers suggests that preference itself is a form of knowledge. This should be formalized into a skill for future recruiting.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- OPERATIONAL METRICS -->
+  <div class="post-note">
+    <div class="post-note-title">Operational Metrics (Final)</div>
+    <div class="post-note-text">
+      <table class="impact-table">
+        <thead>
+          <tr><th>Metric</th><th>Value</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Recruitment Efficiency</td><td><span class="impact-high">75%</span></td><td>3 collected from 4 literary candidates. 8 muggles correctly screened out.</td></tr>
+          <tr><td>Apparatus Stability</td><td><span class="impact-medium">60%</span></td><td>Danny is compromised but functional. The show will need to be rebuilt.</td></tr>
+          <tr><td>Mission Success Probability</td><td><span class="impact-high">72%</span></td><td>Team is functional but not ideal. One casualty predicted.</td></tr>
+          <tr><td>Personnel Expendability</td><td><span class="impact-medium">Medium</span></td><td>All three are irreplaceable if they survive. If they don&rsquo;t, recruitment will need to start over.</td></tr>
+          <tr><td>Archon Threat Assessment</td><td><span class="impact-critical">High</span></td><td>Territorial and intelligent. Will resist extraction.</td></tr>
+          <tr><td>Artifact Recovery Probability</td><td><span class="impact-medium">65%</span></td><td>Assuming team reaches it. Extraction will be difficult.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- CONFIGURATION SUMMARY (FINAL) -->
+  <div class="post-note">
+    <div class="post-note-title">Configuration Summary (Final)</div>
+    <div class="post-note-text">
+      <p>This session generated a playable Kade recruiting operation using the Tuesday Group engine adapted to modernist literary characters. The compression of 50 beats into 10 beats created a narrative density that required careful pacing of revelation.</p>
+      <p><strong>Key Design Choices:</strong></p>
+      <ol>
+        <li><strong>Literary Characters Over Archetypes:</strong> Using published characters (Bartleby, Molly Bloom, Thomas Sutpen) instead of original creations meant that the characters&rsquo; behaviors were constrained by their canonical natures. This created natural filters that Kade could exploit.</li>
+        <li><strong>The Filter as Narrative:</strong> Each character&rsquo;s refusal, condition, or filter became the structural element that shaped their role in the team. Bartleby&rsquo;s preference became navigation. Molly&rsquo;s honesty became sonar. Sutpen&rsquo;s design became counternarrative.</li>
+        <li><strong>Danny as Apparatus-Human:</strong> The inclusion of a partial consciousness in the apparatus (Danny becoming aware he was being used) added a layer of horror that contrasted with the literary characters&rsquo; self-awareness. He was the point of vulnerability that showed how the system worked.</li>
+        <li><strong>The Muggles as Negative Space:</strong> By screening out all eight muggles at the filter stage, the narrative made clear that this operation requires people who are already constructed from narrative. Ordinary people dissolve under narrative pressure. Literary characters persist.</li>
+        <li><strong>Silence as Content:</strong> The Factory scene had almost no dialogue beyond the essentials. Kade speaks in short, functional sentences. The silence around those sentences became more meaningful than the sentences themselves. This created space for the three literary characters to understand each other without explanation.</li>
+      </ol>
+      <p><strong>The Mission as It Stands:</strong></p>
+      <p>Three literary characters stand at the threshold of a text called <em>Elsinore</em>. The text is being consumed by an Artifact. An Archon claims ownership. The team has been sent to extract the Artifact. They do not know the route out. They do not know if they will survive. But they know that moving forward is the only option that maintains their internal consistency.</p>
+      <p>This is not a story about saving something. This is a story about three people pursuing their own natures into a space where those natures might destroy them. It is the right kind of story for Kade to deploy.</p>
+    </div>
+  </div>
+
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- END SESSION -->
+  <div class="post-note">
+    <div class="post-note-title">End Session File</div>
+    <div class="post-note-text">
+      <p><strong>Generated:</strong> 2026-03-04</p>
+      <p><strong>Operator:</strong> Lisle Kade</p>
+      <p><strong>Engine:</strong> Tuesday Group (Modernist Literary)</p>
+      <p><strong>Status:</strong> Deployment Complete</p>
+      <p><strong>Next Update:</strong> Upon team completion or mission failure</p>
+    </div>
+  </div>
+
+  <p class="colophon">Kade Recruiting &mdash; Modernist Literary Characters. Ten beats. Four candidates. Three deployed. One left behind.</p>
+
+</div>
+</div>
+</body>
+</html>

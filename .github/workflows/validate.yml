@@ -1,0 +1,35 @@
+name: Validate Profiles
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'characters/**/profiles/**'
+      - 'npcs/**/profiles/**'
+      - 'characters/_template.md'
+      - 'scripts/**'
+
+  push:
+    branches: [main]
+    paths:
+      - 'characters/**/profiles/**'
+      - 'npcs/**/profiles/**'
+
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Character Profiles
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run profile validation
+        run: node scripts/validate.js
