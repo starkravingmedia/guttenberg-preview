@@ -60,6 +60,12 @@
     z-index: 1;
   }
 
+  .scenario-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
   .scenario-header {
     padding: 28px 32px 24px;
     cursor: pointer;
@@ -116,25 +122,6 @@
     color: var(--blood);
   }
 
-  .scenario-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.6s ease;
-    padding: 0 32px;
-  }
-
-  .scenario-panel.open .scenario-body {
-    max-height: none;
-    padding: 0 32px 40px;
-  }
-
-  .scenario-panel.open .scenario-toggle::after {
-    content: 'Close';
-  }
-
-  .scenario-panel:not(.open) .scenario-toggle::after {
-    content: 'Read';
-  }
 
   /* === Scene blocks === */
 
@@ -413,6 +400,69 @@
     line-height: 1.55;
   }
 
+  /* === Inline images === */
+
+  .inline-image {
+    width: 100%;
+    margin: 24px 0;
+    text-align: center;
+  }
+
+  .inline-image img {
+    max-width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    width: 100%;
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0 rgba(42, 26, 10, 0.15);
+  }
+
+  .inline-image figcaption {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-top: 8px;
+  }
+
+  .operator-portrait {
+    max-width: 280px;
+    margin: 0 auto 16px;
+  }
+
+  .operator-portrait img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    object-position: top;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 rgba(42, 26, 10, 0.15);
+  }
+
+  .operator-portrait figcaption {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55em;
+    letter-spacing: 0.06em;
+    color: var(--ink-light);
+    margin-top: 6px;
+    text-align: center;
+  }
+
+  .scenario-image {
+    width: 100%;
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .scenario-image img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    width: 100%;
+    border-bottom: 2px solid var(--parchment-dark);
+  }
+
   /* === Responsive === */
 
   @media (max-width: 768px) {
@@ -444,7 +494,7 @@
 <p class="epigraph">
   In 1440, Gutenberg built a machine that could speak in pages.<br>
   In 1822, Babbage built a machine that could think in numbers.<br>
-  This is both machines at once — and the thing it computes is story.
+  In 2027, you will build a machine to merge them together.
 </p>
 
 <div class="divider">~ ~ ~</div>
@@ -455,7 +505,7 @@
 <p class="section-sub">A game where books are alive</p>
 
 <p class="intro-prose">
-  World of Guttenberg is a game where books are alive — not just collectible resources, but living worlds with borders, immune systems, and inhabitants who don't know they're being watched. Players navigate the <em>literary web</em> — the invisible network connecting every book ever written — recruiting characters, forming squads, and waging faction warfare across a map that IS human literature.
+  The Guttenberg Engine is a game where books are alive — not just collectible resources, but living worlds with borders, immune systems, and inhabitants who don't know they're being watched. Players navigate the <em>literary web</em> — the invisible network connecting every book ever written — recruiting characters, forming squads, and waging faction warfare across a map that IS human literature.
 </p>
 
 <p class="intro-prose">
@@ -463,11 +513,11 @@
 </p>
 
 <p class="intro-prose">
-  The game uses three card types — <strong>Actors</strong> (characters with voices, grudges, and agendas), <strong>Artifacts</strong> (objects that survived their owners), and <strong>Ideas</strong> (thoughts that outlived their thinkers). Each Actor carries stats, conditions, skills, filters, and reputations that accumulate across every encounter. The characters remember. The parchment doesn't reset. It accretes.
+  You choose your squad from the vast, teeming universe of human literature — characters who carry voices, grudges, agendas, and histories older than most nations. Then you explore that universe together. But be careful: the literary web is not a museum. It is a living ecology, and every expedition erodes it. Every character you pull from a text leaves a wound in the narrative. Every mission frays the fabric a little more. The parchment doesn't reset. It scars.
 </p>
 
 <p class="intro-callout">
-  We've playtested it. It works. What follows are two sessions — two different operators recruiting from the same pool of literary characters for the same mission, using opposite methods. One recruits through intimacy. The other recruits through spectacle.
+  What follows are two completely machine-generated playtest sessions — preambles to the action, where two teams competing for the same objective are recruited by Bookhunters with very different aims and methods.
 </p>
 
 <div class="divider">~ ~ ~</div>
@@ -476,6 +526,11 @@
 
 <h2 class="section-header">The Mission</h2>
 <p class="section-sub">What both sessions are about</p>
+
+<figure class="inline-image">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Edwaert_Collier_-_Vanitas_-_Still_Life_with_Books_and_Manuscripts_and_a_Skull_-_Google_Art_Project.jpg" alt="Still life with books, manuscripts, and a skull — Edwaert Collier, 1663" loading="lazy">
+  <figcaption>Edwaert Collier — <em>Vanitas: Still Life with Books and Manuscripts</em>, 1663</figcaption>
+</figure>
 
 <div class="mission-brief">
   <div class="mission-brief-title">Shared Mission Brief</div>
@@ -511,6 +566,10 @@
 <div style="display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 40px;">
 
   <div class="char-mini" style="flex: 1; min-width: 280px; border-left: 4px solid var(--ink);">
+    <figure class="operator-portrait">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/06/Rembrandt_-_A_Scholar_Seated_at_a_Desk.JPG" alt="A scholar seated at a desk — Rembrandt, 1634" loading="lazy">
+      <figcaption>Rembrandt — <em>A Scholar at His Desk</em>, 1634</figcaption>
+    </figure>
     <div class="char-mini-name">Dr. Donald Ginsfeld, PhD</div>
     <div class="char-mini-role">Bookhunter — Player Character</div>
     <div class="char-mini-quote">
@@ -522,6 +581,10 @@
   </div>
 
   <div class="char-mini" style="flex: 1; min-width: 280px; border-left: 4px solid var(--blood);">
+    <figure class="operator-portrait">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/Medea_-_Frederick_Sandys_-_Google_Cultural_Institute.jpg" alt="Medea — Frederick Sandys, 1868" loading="lazy">
+      <figcaption>Frederick Sandys — <em>Medea</em>, 1868</figcaption>
+    </figure>
     <div class="char-mini-name">Lisle Kade</div>
     <div class="char-mini-role">Bookhunter — Opposition Operator</div>
     <div class="char-mini-quote">
@@ -534,275 +597,27 @@
 
 </div>
 
-<p class="intro-prose" style="text-align: center; font-style: italic; color: var(--ink-light);">
-  Click either scenario below to read the session.
-</p>
-
-<div class="divider">~ ~ ~</div>
-
 <!-- ============================================================ -->
 <!-- SCENARIO 1 — THE WEDNESDAY GROUP (GINSFELD)                   -->
 <!-- ============================================================ -->
 
 <div class="scenario">
-  <div class="scenario-panel" id="scenario-ginsfeld">
-
-    <div class="scenario-header" onclick="toggleScenario('scenario-ginsfeld')">
-      <div class="scenario-label">Scenario I</div>
-      <div class="scenario-title">The Wednesday Group</div>
-      <div class="scenario-subtitle">
-        Dr. Ginsfeld's support group meets in a basement beneath the Metro Library. Four literary characters. Folding chairs. Terrible coffee. Only three can go on the mission. The therapy is the audition.
+  <a href="playtests/The Ginsfeld Sessions/wednesday_group_1.html" class="scenario-link">
+    <div class="scenario-panel">
+      <figure class="scenario-image">
+        <img src="https://images.pexels.com/photos/5711169/pexels-photo-5711169.jpeg" alt="The Wednesday Group" loading="lazy">
+      </figure>
+      <div class="scenario-header">
+        <div class="scenario-label">Scenario I</div>
+        <div class="scenario-title">The Wednesday Group</div>
+        <div class="scenario-subtitle">
+          Dr. Ginsfeld's support group meets in a basement beneath the Metro Library. Four literary characters. Folding chairs. Terrible coffee. Only three can go on the mission. The therapy is the audition.
+        </div>
+        <div class="scenario-toggle" style="position: absolute; right: 32px; top: 50%; transform: translateY(-50%);">Read</div>
       </div>
-      <div class="scenario-toggle"></div>
     </div>
-
-    <div class="scenario-body">
-
-      <!-- Setting -->
-      <div class="scene">
-        <div class="scene-header">The Setting</div>
-        <p class="scene-prose">
-          A basement room beneath the Metro Library. Fluorescent lights, one flickering near the back corner. Six folding chairs arranged in a rough circle on linoleum that was once cream-colored and is now the yellow of old paperbacks. A card table by the wall holds a coffee urn with a cracked plastic spigot, a sleeve of Styrofoam cups, a jar of powdered creamer, and a dish of sugar packets — half torn open and empty.
-        </p>
-        <p class="scene-prose">
-          A hand-lettered sign on the door reads: <em>"Feel like you are a character without a plot? We meet every third Wednesday at 9:00 PM sharp. Bring an open mind. No weapons. Free coffee. — Donald Ginsfeld, PhD, Antiquities."</em>
-        </p>
-        <p class="scene-prose">
-          The room smells like mildew and institutional coffee. A heating vent rattles arrhythmically. A water stain on the ceiling looks like a question mark or a hook, depending on where you stand.
-        </p>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Cast -->
-      <div class="scene">
-        <div class="scene-header">The Cast</div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Jean Valjean</div>
-          <div class="char-mini-role">Actor — Les Mis&eacute;rables</div>
-          <div class="char-mini-quote">
-            Convict 24601. Stole bread. Served nineteen years. Was shown mercy by a bishop who gave him silver candlesticks and told him to become an honest man. He did. He is the strongest man in any room and the gentlest, and the distance between those two things is where his whole life happens.
-          </div>
-        </div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Scheherazade</div>
-          <div class="char-mini-role">Actor — One Thousand and One Nights</div>
-          <div class="char-mini-quote">
-            The woman who told one thousand and one stories to stay alive. Every night the Sultan could have killed her. Every night she gave him a reason not to — a cliffhanger, a question, a thread left dangling that demanded morning. She survived not through strength or cunning but through narrative.
-          </div>
-        </div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Jay Gatsby</div>
-          <div class="char-mini-role">Actor — The Great Gatsby</div>
-          <div class="char-mini-quote">
-            Self-invented man. Threw parties for a woman who never came, built a fortune to buy a past that was already sold. He believed in the green light at the end of the dock — the promise that you could repeat the past, that wanting something badly enough made it real. He was wrong. He still believes it.
-          </div>
-        </div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Lady Macbeth</div>
-          <div class="char-mini-role">Actor — Macbeth</div>
-          <div class="char-mini-quote">
-            Queen without a kingdom. The woman who held the knife's handle while her husband held the blade. She washed her hands once and the water ran red and she has been washing them ever since. She does not regret what she did. She regrets that it wasn't enough.
-          </div>
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- Arrivals -->
-      <div class="scene">
-        <div class="scene-header">The Arrivals</div>
-
-        <p class="scene-prose">
-          <strong>Valjean</strong> arrives first. Dense. Broad across the shoulders in a way that makes the door frame seem like it was designed for someone else. Heavy coat, buttoned to the throat despite the warmth. He picks up the clipboard and the pen looks like a matchstick in his fingers. NAME: <em>Jean Valjean.</em> ONE WORD: <em>Grateful.</em>
-        </p>
-        <p class="scene-prose">
-          His coat clinks faintly as he sits. Ginsfeld hears the metallic sound. Notes it. Can't identify it.
-        </p>
-
-        <p class="scene-prose">
-          <strong>Scheherazade</strong> enters and makes the room feel like it has an audience. Her voice fills the space — not with volume, with texture. "What a marvelous room. It has the exact proportions of a story that wants to be told but hasn't found its narrator yet." NAME: <em>Scheherazade.</em> ONE WORD: <em>Listening.</em>
-        </p>
-
-        <div class="mechanic-note">Passive Skill — Story Sense: d20 + 4 = 16. DC 14 met — she reads the architecture of the situation.</div>
-
-        <p class="scene-prose">
-          Her eyes move from the sign-in sheet to the chairs to the coffee to Ginsfeld's posture. The structure reveals itself: this is not a support group. It has the shape of an audition. She doesn't say anything about it. She sits. She listens. Her expression says she'll wait to see what kind of story this is before deciding what role to play in it.
-        </p>
-
-        <p class="scene-prose">
-          <strong>Gatsby</strong> enters and looks like the best version of the evening. Cream suit, no wrinkle. Pocket square folded with geometric precision. Hair combed in a way that suggests it has never considered doing otherwise. "Good evening, old sport," he says, extending a hand. The smile — bright, practiced — never quite reaches his eyes. NAME: <em>Jay Gatsby.</em> ONE WORD: <em>Hopeful.</em>
-        </p>
-
-        <p class="scene-prose">
-          His filter hits the room. Valjean feels it first — a sudden, vivid memory of Cosette as a child, small and cold, and the silver candlesticks heavy in his pockets. His hand goes to his coat. Scheherazade feels it — the one thousand and first night, when the Sultan said she could live and she realized she didn't remember what living without a story felt like. Gatsby straightens the sugar packets on the table — absently, compulsively — and sits between Scheherazade and the door.
-        </p>
-
-        <p class="scene-prose">
-          <strong>Lady Macbeth</strong> is last. No hesitation. She walks in as if she already owns the room and is deciding whether to keep it. Dark dress, no jewelry. She carries her authority in her spine, her gaze, the way she pauses two steps inside and lets the room come to her. Her hands are at her sides. Not still — moving. Thumb rubbing against palm. NAME: <em>Lady Macbeth.</em> ONE WORD: <em>Ready.</em>
-        </p>
-
-        <div class="ginsfeld-note">
-          <span class="ginsfeld-note-label">Ginsfeld's Internal Assessment</span>
-          All four present. First-pass sorting: Lady Macbeth is the Operator — Game Savvy High, and she's already running tactical assessment on everyone in the room. Scheherazade is the Persuader — if anyone can talk Andrei out of his escape, it's a woman who kept herself alive for a thousand nights through narrative. Valjean is the Shield — STR 18, CON 16, moral bedrock. And Gatsby... Gatsby is still looking for the right story. The war epic will see him coming.
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Probing -->
-      <div class="scene">
-        <div class="scene-header">The Probing</div>
-
-        <p class="scene-prose">
-          Ginsfeld opens with a diagnostic: "Have you ever been in a story that wasn't yours? A situation where you knew — in your bones — that you were in the wrong narrative?"
-        </p>
-
-        <div class="dialogue">
-          <div class="dialogue-speaker">Scheherazade</div>
-          <div class="dialogue-text">"Every story I told was mine and none of them were. I lived inside my own tales — I was the sailor, the merchant, the jinni. For a thousand and one nights I was everyone except Scheherazade. The wrong narrative was my own."</div>
-        </div>
-
-        <div class="dialogue">
-          <div class="dialogue-speaker">Valjean</div>
-          <div class="dialogue-text">"I was 24601 for nineteen years. Then I was Jean Valjean again. Then I was Monsieur Madeleine, a mayor. Then I was a father. Every name was a story someone else wrote for me. The wrong one was the first. The number. But the number never left."</div>
-        </div>
-
-        <div class="dialogue">
-          <div class="dialogue-speaker">Gatsby</div>
-          <div class="dialogue-text">"I was James Gatz of North Dakota, old sport. A boy with nothing and nobody. That was the wrong story, so I wrote a better one. Jay Gatsby of West Egg. Parties. Fortune. Everything a man could want. The wrong narrative? All of them. None of them. I'm still looking for the right one."</div>
-        </div>
-
-        <div class="dialogue">
-          <div class="dialogue-speaker">Lady Macbeth</div>
-          <div class="dialogue-text">"I was the wrong narrative. Not trapped in one — I was the wrong story happening to other people. I decided what my husband should become. I decided how. I decided the cost. It wasn't enough. It's never enough. Being the wrong story is worse than being in one."</div>
-        </div>
-
-        <p class="scene-prose" style="margin-top: 20px;">
-          Ginsfeld pushes harder: "Has anyone here ever stayed in a bad situation — a dangerous one, an unjust one — because leaving felt like a betrayal? Not of another person. Of yourself."
-        </p>
-
-        <p class="scene-prose">
-          Gatsby: "I never left. Not once. Not when the money ran out, not when the parties stopped, not when she —" He stops. Resets the smile. "I never left because leaving would mean that the story I built was just a story. And if it was just a story, then I was still Gatz. And Gatz had nothing."
-        </p>
-
-        <div class="mechanic-note">Passive Skill — Hope Against Evidence: d20 + 4 = 8. DC 8 met — barely. He refuses to accept the hopelessness of his own answer.</div>
-
-        <p class="scene-prose">
-          Even as he says it — the admission that his entire life was constructed to avoid a truth — his posture doesn't collapse. The smile stays. The hope stays. It's irrational and it's heartbreaking.
-        </p>
-
-        <p class="scene-prose">
-          Scheherazade looks at Gatsby. "You haven't done that yet." It lands. Gatsby's smile flickers.
-        </p>
-
-        <div class="ginsfeld-note">
-          <span class="ginsfeld-note-label">Ginsfeld's Internal Assessment</span>
-          The resonance test is conclusive. Gatsby never left. He can't leave. His entire identity is built on not-leaving a constructed reality. The war epic won't just resonate with him — it will recognize him as a native speaker. A man who'd rather die in a beautiful lie than live in an ugly truth is exactly the character the text needs to replace Andrei. He's the resonance target. And I can't bring him.
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Cut -->
-      <div class="scene">
-        <div class="scene-header">The Cut</div>
-
-        <p class="scene-prose">
-          Ginsfeld reveals the mission. Not all of it — enough. A young soldier trying to escape his own story. A breach that will collapse two texts. A rival operator in the field.
-        </p>
-
-        <p class="scene-prose">
-          Then he turns to Gatsby.
-        </p>
-
-        <div class="dialogue">
-          <div class="dialogue-speaker">Ginsfeld</div>
-          <div class="dialogue-text">"The text would offer you everything you've ever wanted, and you'd believe it. Not because you're naive — because you're incapable of not believing. Your hope is your greatest quality and your fatal flaw, and inside a text that rewards commitment with belonging, it would consume you."</div>
-        </div>
-
-        <p class="scene-prose">
-          Valjean stands. His intervention transforms the cut from rejection into mercy:
-        </p>
-
-        <div class="dialogue">
-          <div class="dialogue-speaker">Valjean</div>
-          <div class="dialogue-text">"He can change. Any man can. I am proof. But not today. And not inside that story. He needs time that the mission doesn't have."</div>
-        </div>
-
-        <div class="ginsfeld-note">
-          <span class="ginsfeld-note-label">Team Composition — Final</span>
-          <strong>Scheherazade</strong> — The Persuader. Convince Andrei to return to Chapter 41.<br>
-          <strong>Lady Macbeth</strong> — The Operator. Neutralize Kade's team.<br>
-          <strong>Valjean</strong> — The Shield. Resist the war epic's attempt to recruit a replacement.<br>
-          <strong style="color: var(--ink-light);">Gatsby</strong> — <em style="color: var(--ink-light);">Cut. Not for incompetence — for vulnerability.</em>
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Beautiful Lie -->
-      <div class="scene">
-        <div class="scene-header">The Beautiful Lie</div>
-
-        <div class="mechanic-note">Active Skill — The Beautiful Lie: d20 + 4 = 24. Natural 20. DC 20 exceeded.</div>
-
-        <p class="scene-prose">
-          Rather than accept the cut quietly, Gatsby delivers his exit speech. At DC 20, the lie becomes functionally indistinguishable from truth — and for the duration of the scene, reality and Gatsby's constructed reality dissolve into each other:
-        </p>
-
-        <div class="dialogue">
-          <div class="dialogue-speaker">Gatsby</div>
-          <div class="dialogue-text">"You three are going into a story about a man who doesn't want to die. I understand him better than any of you. I've spent my entire life reaching for a light that isn't there, and the reaching is the POINT, not the catching... possibility is the only thing worth dying for."</div>
-        </div>
-
-        <p class="scene-prose">
-          The room believes. Everyone feels the green light as real — not a metaphor, not a delusion, but a genuine, shimmering presence at the edge of perception. It lasts only a moment. But in that moment, Gatsby is the most alive person in the room. Then it passes, and he is the most alone.
-        </p>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Exit Gifts -->
-      <div class="scene">
-        <div class="scene-header">The Exit Gifts</div>
-
-        <p class="scene-prose">
-          Gatsby doesn't simply leave. The DC 20 gave him a moment of temporary omniscience — the kind that comes from believing so hard the universe briefly agrees. He gives each person a parting truth:
-        </p>
-
-        <div class="exit-gift">
-          <div class="exit-gift-to">To Valjean</div>
-          <div class="exit-gift-text">"Change. When you're ready. There's no deadline on it, old sport. The Bishop knew that."</div>
-        </div>
-
-        <div class="exit-gift">
-          <div class="exit-gift-to">To Lady Macbeth</div>
-          <div class="exit-gift-text">"The crown was worth it. Not the cost — the reaching."</div>
-        </div>
-
-        <div class="exit-gift">
-          <div class="exit-gift-to">To Scheherazade</div>
-          <div class="exit-gift-text">"Finish the story. The one you've been telling yourself. Not the ones you tell other people. Your story deserves a last page."</div>
-        </div>
-
-        <div class="exit-gift">
-          <div class="exit-gift-to">To Ginsfeld</div>
-          <div class="exit-gift-text">"You'll lose someone in there. Not because you chose wrong. Because the story demands it. That's how war epics work, old sport. Someone always stays behind."</div>
-        </div>
-
-        <p class="scene-prose" style="margin-top: 24px;">
-          The door closes. On the sign-in sheet, under Gatsby's line, Ginsfeld writes: <em>"We'll find you another room."</em>
-        </p>
-      </div>
-
-    </div><!-- /scenario-body -->
-  </div><!-- /scenario-panel -->
-</div><!-- /scenario -->
+  </a>
+</div>
 
 
 <!-- ============================================================ -->
@@ -810,296 +625,22 @@
 <!-- ============================================================ -->
 
 <div class="scenario">
-  <div class="scenario-panel" id="scenario-kade">
-
-    <div class="scenario-header" onclick="toggleScenario('scenario-kade')">
-      <div class="scenario-label">Scenario II</div>
-      <div class="scenario-title">The Tuesday Group</div>
-      <div class="scenario-subtitle">
-        Kade's recruitment filter is a chaotic YouTube/Zoom show called "What's Your Story?" Five faces in a grid. A chat sidebar scrolling too fast to read. And somewhere offscreen, Lisle Kade watches with the patience of a spider who built her web across the only door in the room.
+  <a href="playtests/The Kade Sessions/tuesday_group_1.html" class="scenario-link">
+    <div class="scenario-panel">
+      <figure class="scenario-image">
+        <img src="https://images.pexels.com/photos/5711169/pexels-photo-5711169.jpeg" alt="The Tuesday Group" loading="lazy">
+      </figure>
+      <div class="scenario-header">
+        <div class="scenario-label">Scenario II</div>
+        <div class="scenario-title">The Tuesday Group</div>
+        <div class="scenario-subtitle">
+          Kade's recruitment filter is a chaotic YouTube/Zoom show called "What's Your Story?" Five faces in a grid. A chat sidebar scrolling too fast to read. And somewhere offscreen, Lisle Kade watches with the patience of a spider who built her web across the only door in the room.
+        </div>
+        <div class="scenario-toggle" style="position: absolute; right: 32px; top: 50%; transform: translateY(-50%);">Read</div>
       </div>
-      <div class="scenario-toggle"></div>
     </div>
-
-    <div class="scenario-body">
-
-      <!-- The Show -->
-      <div class="scene">
-        <div class="scene-header">The Show</div>
-
-        <p class="scene-prose">
-          A Zoom call. Five faces in a grid. A chat sidebar scrolling too fast to read. A viewer count in the corner that fluctuates between 400 and 12,000 depending on who's on. Danny in the center square, ring light reflecting in his eyes, headphones slightly too large for his head. A backdrop that says "WHAT'S YOUR STORY?" in hand-painted letters that someone clearly made at 3am.
-        </p>
-
-        <p class="scene-prose">
-          The show runs every Tuesday. All day. It never stops. People call in, tell their story, get judged, get voted off or survive. New callers replace the fallen. It's a perpetual machine of human spectacle, and somewhere offscreen, Lisle Kade watches with the patience of a spider who built her web across the only door in the room.
-        </p>
-
-        <div class="show-format">
-          <div class="show-format-title">Show Format</div>
-          <div class="show-format-text">
-            <ol>
-              <li><strong>Story time:</strong> Each of the 5 guests tells their story — one minute, uninterrupted.</li>
-              <li><strong>Reactions:</strong> After each story, the other 4 guests can make one statement or ask one question.</li>
-              <li><strong>Danny reacts last.</strong> Usually a witty comment. Sometimes — when Kade is in his ear — a question that doesn't fit.</li>
-              <li><strong>The vote:</strong> The internet votes on who to eliminate. The lowest vote-getter is dropped. A new caller takes the empty seat.</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- Danny -->
-      <div class="scene">
-        <div class="scene-header">The Host</div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Danny "The Dan-Man"</div>
-          <div class="char-mini-role">Host — Not a character. Atmosphere.</div>
-          <div class="char-mini-quote">
-            A perpetually upbeat Zoom host with the energy of a morning radio DJ who knows, somewhere behind the smile, that his career peaked in 2019 and the only reason he still has a show is that something very frightening is standing behind the camera.
-          </div>
-        </div>
-
-        <p class="scene-prose">
-          Danny is terrified of Kade. He hides it behind banter, catchphrases, and the manic energy of a man who never stops talking because silence is when she gives him instructions. When Kade feeds him a question through his earpiece, his demeanor shifts — the question doesn't match his personality and the audience can tell. His eyes go to a spot just off-camera. His smile tightens. He asks the question in a voice that isn't quite his.
-        </p>
-
-        <p class="scene-prose">
-          The internet has noticed.
-        </p>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Subreddits -->
-      <div class="scene">
-        <div class="scene-header">The Subreddits</div>
-
-        <div class="reddit-block">
-          <div class="reddit-sub">r/isDannyAHostage</div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/zoom_detective_99:</span> Did anyone else see Danny's face at 2:47:33? He looked like someone just told him his dog died. Then he asked that question about "what would you sacrifice to go home" and his voice did THE THING.
-          </div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/itsjustabitsurely:</span> You guys are insane. He's doing a bit. It's content.
-          </div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/notabot_justconcerned:</span> I've been tracking his eye movements for six months. He looks off-camera to the same spot every single time before he asks one of The Questions. There's someone there.
-          </div>
-        </div>
-
-        <div class="reddit-block">
-          <div class="reddit-sub">r/FreeTheDan-Man</div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/free_danny_2024:</span> This is not a bit. Real people don't do that with their eyes. I've started a GoFundMe for an intervention. Link in bio.
-          </div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/map_truther:</span> I've tracked the show's IP address to a building that doesn't appear on Google Maps.
-          </div>
-        </div>
-
-        <div class="reddit-block">
-          <div class="reddit-sub">r/MyStoryIsThatIGotToMeetDan-ManAndIWokeUpInCanterburryWTF</div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/still_confused_tbh:</span> OK so I was on the show for three rounds? And then the screen went black and I woke up in what I think was Canterbury but the buildings were wrong? Like wrong-century wrong? Has this happened to anyone else? I'm not joking. I still have chalk dust on my shoes.
-          </div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/definitely_an_ARG:</span> This is clearly a viral marketing campaign. You're all falling for it.
-          </div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/chalk_shoes_guy:</span> If this is marketing can someone tell me who to invoice for the therapy.
-          </div>
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Filter -->
-      <div class="scene">
-        <div class="scene-header">Kade's Filter</div>
-
-        <p class="scene-prose">
-          Kade watches from offscreen. She is looking for <strong>characters, not muggles</strong>. Literary characters who ended up on the show because they heard a rumor it was "a way back" — some kind of nexus. They don't know how it works. They just showed up.
-        </p>
-
-        <p class="scene-prose">
-          She watches for signs of fictionality: details in a story that are too perfect, too structured, too literary. A man describing his childhood and it sounds like a novel because it IS a novel. She feeds Danny diagnostic questions — things that would mean nothing to a muggle but everything to a character. She watches the reaction. A flinch, a recognition, a moment of "how did he know that?" confirms the target.
-        </p>
-
-        <p class="scene-prose">
-          When Kade identifies a literary character she wants to keep on the show, she rigs the internet vote. The character survives regardless of audience preference.
-        </p>
-
-        <div class="kade-note">
-          <span class="kade-note-label">Kade's Assessment Protocol</span>
-          For each literary character, she privately rates:<br>
-          <strong>Expendability</strong> — How much does she care if they don't come back?<br>
-          <strong>Obedience</strong> — Will they follow orders?<br>
-          <strong>Capability</strong> — Can they do the job?<br><br>
-          She doesn't build teams. She assembles disposable task forces.
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Characters (Kade) -->
-      <div class="scene">
-        <div class="scene-header">The Characters Who Called In</div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Sun Wukong</div>
-          <div class="char-mini-role">Actor — Journey to the West</div>
-          <div class="char-mini-quote">
-            The Monkey King. Born from a stone, crowned himself king of the monkeys, stole immortality three times over, challenged all of heaven, and lost — not to any god but to the Buddha's palm. He does not follow rules. He follows whoever earns the right to hold the leash, and even then he pulls.
-          </div>
-          <p class="scene-prose" style="margin-top: 8px; font-size: 0.88em;">
-            On camera, his skin has a faintly mineral quality — smoother than human, slightly luminous. The chat is obsessed with his skincare routine. He does not have a skincare routine. He was born from a rock. His edges shimmer when he's emotional. The audience blames his WiFi. It's not his WiFi.
-          </p>
-        </div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Nastasya Filippovna</div>
-          <div class="char-mini-role">Actor — The Idiot</div>
-          <div class="char-mini-quote">
-            The most beautiful woman in Petersburg and the most dangerous thing in any room she enters. Totsky took her childhood. Society called her ruined. She lit one hundred thousand roubles on fire to watch a man crawl. Prince Myshkin offered to save her. She ran. She always runs from the thing she wants most.
-          </div>
-          <p class="scene-prose" style="margin-top: 8px; font-size: 0.88em;">
-            Her beauty is the kind that makes people stop talking. On Zoom, it reads as the face the camera was invented for, but there is something in her eyes that makes viewers look at the chat instead of at her. She is beautiful the way a fire is beautiful.
-          </p>
-        </div>
-
-        <div class="char-mini">
-          <div class="char-mini-name">Bartleby</div>
-          <div class="char-mini-role">Actor — Bartleby, the Scrivener</div>
-          <div class="char-mini-quote">
-            A scrivener. A copyist. A man who sat at a desk facing a wall and one day simply stopped. "I would prefer not to." Not defiance. Not protest. Something else — a withdrawal so total it became its own philosophy.
-          </div>
-          <p class="scene-prose" style="margin-top: 8px; font-size: 0.88em;">
-            His camera shows nothing behind him — no room, no window, no bookshelf. Just wall. Cream-colored, featureless, close. Someone in the chat calls it "the scariest background on the internet" and the phrase sticks. Danny asks him to tell his story. "I would prefer not to." The chat explodes.
-          </p>
-        </div>
-
-        <div class="char-mini" style="border-left: 3px solid var(--blood);">
-          <div class="char-mini-name">Jay Gatsby <span style="font-family: 'Cinzel', serif; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blood); border: 1px solid var(--blood); padding: 1px 6px; margin-left: 8px; vertical-align: middle;">Ginsfeld's Reject</span></div>
-          <div class="char-mini-role">Actor — The Great Gatsby — Cut from the Wednesday Group</div>
-          <div class="char-mini-quote">
-            He was recently evaluated for a mission by Dr. Donald Ginsfeld and cut from the team. The rejection confirmed what he already knew: that the world sees his hope as a liability. He heard about "What's Your Story?" from a rumor that circled the literary web like smoke — that the show was a way back, a nexus, a party where someone might finally let him in.
-          </div>
-          <p class="scene-prose" style="margin-top: 8px; font-size: 0.88em;">
-            He carries a new condition: <strong>The Cut</strong>. His WIS, already low, has eroded further. He is more susceptible to offers of purpose, more desperate for belonging, and more willing to follow someone who tells him his hope has value.
-          </p>
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Muggles -->
-      <div class="scene">
-        <div class="scene-header">The Muggles</div>
-
-        <p class="scene-prose">
-          The show is mostly regular internet callers. They cycle through, get voted off, and provide the texture of human spectacle against which the literary characters shine without understanding why.
-        </p>
-
-        <div class="muggle">
-          <span class="muggle-name">Derek from Tulsa</span> — IT support specialist who calls in every Tuesday to complain about his HOA. Has survived four rounds on meme value alone.
-        </div>
-
-        <div class="muggle">
-          <span class="muggle-name">Marcus "Big Poppa" Williams</span> — 58, retired postal worker from Detroit. A Tuesday institution. Has survived 11 consecutive rounds on pure warmth. The chat has a Marcus protection society.
-        </div>
-
-        <div class="muggle">
-          <span class="muggle-name">Linda Chen</span> — Dental hygienist from San Jose. Every story loops back to teeth. She once described Italy entirely through European dental care. The chat calls her "Tooth Linda."
-        </div>
-
-        <div class="muggle">
-          <span class="muggle-name">Karen (Not That Kind of Karen)</span> — 45, kindergarten teacher. Prefaces every appearance with "I know my name is Karen but I'm not THAT kind of Karen." By the fourth week it was a hostage situation.
-        </div>
-
-        <div class="muggle--memorable muggle">
-          <span class="muggle-name">Anonymous</span> — Never gives a name. Camera shows only her hands and a desk covered in printed documents. She speaks in precise, clipped sentences and refuses Danny's banter with the patience of someone explaining gravity to a child. Her stories are about a tech company she claims is monitoring something she won't name. Kade watches her for three full rounds before concluding — reluctantly — that she is human. The tell is the documents: a fictional character's paranoia has structure. Anonymous's paranoia has staples and coffee stains and pages in the wrong order.
-        </div>
-
-        <div class="muggle--memorable muggle">
-          <span class="muggle-name">Old Jim</span> — Nobody knows how old Jim is. His video quality is from 2008. He tells stories about "the war" but the details match no specific war — a bridge that collapsed "when the horses came through," a woman who "kept the lanterns lit until the ships stopped looking for the harbor." His connection drops every few minutes. His stories are fragmentary, delivered in a voice that sounds like AM radio filtered through cigarette smoke. The audience oscillates between thinking he's a literary character, a method actor, or the last interesting man alive.
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Shutdown & Factory -->
-      <div class="scene">
-        <div class="scene-header">The Shutdown</div>
-
-        <p class="scene-prose">
-          When Kade has accumulated enough literary characters, she kills the show. The Zoom call glitches. Freezes. Danny's face pixelates. The viewer count drops to zero.
-        </p>
-
-        <p class="scene-prose">
-          From the audience's perspective: technical malfunction. The show has crashed before.
-        </p>
-
-        <p class="scene-prose">
-          Danny's reaction: a moment of confusion, then something that looks like relief, then something that looks like fear. He knows what happens next.
-        </p>
-
-        <p class="scene-prose">
-          The literary characters' screens go dark. Then a message appears — not from Danny, not from the show's interface. A text message, or an email, or a notification from an app they don't remember installing. It contains an address.
-        </p>
-
-        <div class="reddit-block">
-          <div class="reddit-sub">r/isDannyAHostage</div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/zoom_detective_99:</span> THE SHOW JUST WENT DOWN. Mid-round. Right after Danny asked that question about sacrifice. Same pattern as last time. I'm telling you — she pulls the plug when she has what she needs.
-          </div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/itsjustabitsurely:</span> Server issues. Happens to every stream.
-          </div>
-          <div class="reddit-post">
-            <span class="reddit-user">u/notabot_justconcerned:</span> Then explain why four of the guests haven't posted on social media since it went down. Four. Check their accounts. Nothing. It's been six hours.
-          </div>
-        </div>
-      </div>
-
-      <div class="scene-divider">* * *</div>
-
-      <!-- The Factory -->
-      <div class="scene">
-        <div class="scene-header">The Factory</div>
-
-        <p class="scene-prose">
-          The Factory is wherever Kade operates. A repurposed industrial space, or a storage facility, or the back office of a logistics company that doesn't appear to ship anything. Fluorescent lighting that makes everyone look slightly worse than they are. No coffee. No chairs arranged in a circle. Folding tables. The smell of concrete and printer toner.
-        </p>
-
-        <p class="scene-prose">
-          The characters arrive — collected by Kade's agents. They didn't choose to come here. The address brought them. The door they came through doesn't appear to lead back to where they came from.
-        </p>
-
-        <p class="scene-prose">
-          Kade appears in person for the first time. Not what they expected. Smaller than her reputation. Still. Quiet in a way that makes other people's quiet look like noise. She doesn't introduce herself. She doesn't ask their names. She already knows.
-        </p>
-
-        <p class="scene-prose">
-          She explains the mission. Terse. No context they don't need. She does NOT ask if they want to go. She tells them what the job is and watches their faces.
-        </p>
-
-        <div class="kade-note">
-          <span class="kade-note-label">Kade's Method vs. Ginsfeld's Method</span>
-          Ginsfeld recruits through intimacy. Therapy as audition. He cares about team chemistry, about who his people are, about whether they'll come back. He gave Gatsby exit gifts. He promised Valjean he'd find Gatsby another room.<br><br>
-          Kade recruits through spectacle. A Zoom show as filter. She doesn't care about chemistry, about wellbeing, about return. The promise is always a lie. The recruits are expendable. The mission is everything.
-        </div>
-
-        <p class="scene-prose">
-          The contrast between the two operations is the game's hidden thesis: <em>the same literary characters, evaluated by different operators, become different assets for different reasons.</em> Gatsby was a liability in Ginsfeld's calculation — too vulnerable to the text's emotional pull. In Kade's calculation, that vulnerability might be exactly what she exploits. She doesn't care if he survives. She cares if he's useful on the way in.
-        </p>
-      </div>
-
-    </div><!-- /scenario-body -->
-  </div><!-- /scenario-panel -->
-</div><!-- /scenario -->
+  </a>
+</div>
 
 <!-- ===== CLOSING ===== -->
 
@@ -1108,59 +649,31 @@
 <h2 class="section-header">What the Engine Computes</h2>
 
 <p class="intro-prose">
-  These two sessions — one intimate, one spectacular — emerged from the same game system. The same character cards, the same stat blocks, the same conditions and filters and roll skills. But the stories they generated are entirely different, because the operator changed, the method changed, and the characters responded accordingly.
+  These two sessions emerged from the same system — the same characters, the same mechanics, the same literary web stretching across seventy thousand books. But the stories they generated are entirely different, because the operator changed, the method changed, and the characters responded accordingly. One session is a quiet basement therapy circle. The other is a chaotic internet spectacle. Both are recruitment drives for the same mission. The contrast is the point.
 </p>
 
 <p class="intro-prose">
-  Gatsby carries his exit gifts from the Wednesday Group into the Tuesday Group. His new condition — <strong>The Cut</strong> — makes him more vulnerable, more desperate, more useful to someone like Kade. The parchment remembers. The cards accumulate history like scar tissue.
+  What makes this compelling is the emergence. Nobody wrote these stories. They arose — from the collision of characters who carry persistent memory, operators with incompatible philosophies, and a literary universe that reacts to being explored. A character who appears in one session carries the consequences into the next. Reputations shift. Alliances form across narrative boundaries. The stories generated by The Guttenberg Engine are not authored — they are <em>computed</em>, and they surprise even the people running the game.
 </p>
 
 <p class="intro-prose">
-  This is what the Guttenberg Engine computes: emergent literary narrative from the collision of game mechanics and human writing. Not scripted. Not pre-authored. Generated — by the interaction of characters who remember everything they've been through, operators who want different things from them, and a literary web that connects every book ever written.
+  This is what makes the engine fascinating to engage with: every session is unrepeatable. The same squad entering the same text on different nights will produce different outcomes, because the characters have changed since last time, the text has scarred from the last expedition, and the operator has learned something they can't unlearn. The parchment accumulates. The web erodes. The stories get stranger and more personal the deeper you go.
 </p>
 
 <p class="intro-callout">
-  One machine computed. The other published. This one does both — and the raw material is every book ever written.
+  The raw material is every book ever written. The engine computes what happens when you send the characters back in.
 </p>
 
 <!-- ===== COLOPHON ===== -->
 
 <div class="colophon">
-  World of Guttenberg — Draft Documentation<br>
+  The Guttenberg Engine — Draft Documentation<br>
   All source texts via <a href="https://www.gutenberg.org/">Project Gutenberg</a>
 </div>
 
 </div><!-- /parchment-bg -->
 </div><!-- /page-wrapper -->
 
-<script>
-function toggleScenario(id) {
-  const panel = document.getElementById(id);
-  const isOpen = panel.classList.contains('open');
-
-  if (isOpen) {
-    // Collapse
-    const body = panel.querySelector('.scenario-body');
-    body.style.maxHeight = body.scrollHeight + 'px';
-    requestAnimationFrame(() => {
-      body.style.maxHeight = '0';
-    });
-    panel.classList.remove('open');
-  } else {
-    // Expand
-    panel.classList.add('open');
-    const body = panel.querySelector('.scenario-body');
-    body.style.maxHeight = body.scrollHeight + 'px';
-    // After transition, remove max-height constraint so content can grow
-    body.addEventListener('transitionend', function handler() {
-      if (panel.classList.contains('open')) {
-        body.style.maxHeight = 'none';
-      }
-      body.removeEventListener('transitionend', handler);
-    });
-  }
-}
-</script>
 
 </body>
 </html>
