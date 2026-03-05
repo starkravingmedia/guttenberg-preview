@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World of Guttenberg — Style Guide</title>
+<link rel="stylesheet" href="styles/guttenberg.css">
+<style>
+  /* Styleguide-specific additions */
+  .sg-example {
+    margin-bottom: 40px;
+  }
+
+  .sg-example-render {
+    margin-bottom: 16px;
+  }
+
+  .sg-code {
+    background: rgba(42, 26, 10, 0.06);
+    border: 1px solid var(--parchment-dark);
+    padding: 16px 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.78em;
+    line-height: 1.55;
+    color: var(--ink-light);
+    overflow-x: auto;
+    white-space: pre;
+    border-radius: 2px;
+    tab-size: 2;
+  }
+
+  .sg-code-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    opacity: 0.6;
+  }
+
+  .sg-note {
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* Color swatches */
+  .sg-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .sg-swatch {
+    text-align: center;
+    min-width: 100px;
+  }
+
+  .sg-swatch-color {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    border: 2px solid var(--parchment-dark);
+    box-shadow: 2px 2px 8px var(--shadow);
+  }
+
+  .sg-swatch-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75em;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .sg-swatch-value {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7em;
+    color: var(--ink-light);
+  }
+
+  .sg-swatch-var {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65em;
+    color: var(--ink-light);
+    opacity: 0.7;
+  }
+
+  /* Typography specimens */
+  .sg-type-row {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+
+  .sg-type-row:last-child { border-bottom: none; }
+
+  .sg-type-meta {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7em;
+    color: var(--ink-light);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+
+  /* Inline badge showcase */
+  .sg-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 16px;
+    font-family: 'Cinzel', serif;
+    font-size: 1em;
+  }
+
+  .sg-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .sg-badge-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65em;
+    color: var(--ink-light);
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* Responsive note blocks */
+  .sg-breakpoint {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-left: 3px solid var(--gold);
+    background: rgba(218, 194, 146, 0.2);
+  }
+
+  .sg-bp-value {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--gold);
+    min-width: 80px;
+    padding-top: 2px;
+  }
+
+  .sg-bp-desc {
+    font-size: 0.9em;
+    color: var(--ink-light);
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="parchment-bg">
+
+  <h1 class="main-title">World of Guttenberg</h1>
+  <p class="subtitle">Style Guide</p>
+  <p class="epigraph">A visual language of parchment, ink, and intention. Everything here is meant to feel like it was printed before electricity, then somehow loaded in a browser.</p>
+
+  <!-- ============================================================
+       USAGE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Usage</h2>
+  <p class="section-sub">Link the stylesheet. Everything follows.</p>
+
+  <div class="sg-example">
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;link rel="stylesheet" href="styles/guttenberg.css"&gt;</pre>
+    <p class="sg-note">The stylesheet imports Google Fonts (UnifrakturCook, Cinzel, EB Garamond) automatically via <code>@import</code>. No additional font links needed.</p>
+  </div>
+
+  <!-- ============================================================
+       COLORS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Color Palette</h2>
+  <p class="section-sub">Eight tokens. Warm, brown-based, never blue.</p>
+
+  <div class="sg-example">
+    <div class="sg-swatches">
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: #f4e8c1;"></div>
+        <div class="sg-swatch-name">Parchment</div>
+        <div class="sg-swatch-value">#f4e8c1</div>
+        <div class="sg-swatch-var">--parchment</div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: #dac292;"></div>
+        <div class="sg-swatch-name">Parchment Dark</div>
+        <div class="sg-swatch-value">#dac292</div>
+        <div class="sg-swatch-var">--parchment-dark</div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: #2a1a0a;"></div>
+        <div class="sg-swatch-name">Ink</div>
+        <div class="sg-swatch-value">#2a1a0a</div>
+        <div class="sg-swatch-var">--ink</div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: #5a3a1a;"></div>
+        <div class="sg-swatch-name">Ink Light</div>
+        <div class="sg-swatch-value">#5a3a1a</div>
+        <div class="sg-swatch-var">--ink-light</div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: #8b1a1a;"></div>
+        <div class="sg-swatch-name">Blood</div>
+        <div class="sg-swatch-value">#8b1a1a</div>
+        <div class="sg-swatch-var">--blood</div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: #b8860b;"></div>
+        <div class="sg-swatch-name">Gold</div>
+        <div class="sg-swatch-value">#b8860b</div>
+        <div class="sg-swatch-var">--gold</div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: #d4a843;"></div>
+        <div class="sg-swatch-name">Gold Light</div>
+        <div class="sg-swatch-value">#d4a843</div>
+        <div class="sg-swatch-var">--gold-light</div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch-color" style="background: rgba(42, 26, 10, 0.3); border-color: #2a1a0a;"></div>
+        <div class="sg-swatch-name">Shadow</div>
+        <div class="sg-swatch-value">rgba(42,26,10,0.3)</div>
+        <div class="sg-swatch-var">--shadow</div>
+      </div>
+    </div>
+    <p class="sg-note">Use <code>--ink</code> for primary text, <code>--ink-light</code> for secondary. <code>--blood</code> marks danger, descent, or the Descenders team. <code>--gold</code> marks accents, dividers, and the Unsilenced team.</p>
+  </div>
+
+  <!-- ============================================================
+       TYPOGRAPHY
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Typography</h2>
+  <p class="section-sub">Three faces. Each with a purpose.</p>
+
+  <div class="sg-example">
+    <div class="sg-type-row">
+      <div style="font-family: 'UnifrakturCook', cursive; font-size: 2.4em; text-shadow: 1px 1px 0 var(--parchment-dark);">UnifrakturCook</div>
+      <div class="sg-type-meta">Display only. Page titles. One weight (700). Use sparingly.</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div style="font-family: 'Cinzel', serif; font-size: 1.6em; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Cinzel Bold</div>
+      <div style="font-family: 'Cinzel', serif; font-size: 1.1em; font-weight: 400; letter-spacing: 0.08em; margin-top: 4px;">Cinzel Regular</div>
+      <div class="sg-type-meta">Section headers, card titles, badges, team names, numbers. The workhorse serif. Weights 400 and 700.</div>
+    </div>
+
+    <div class="sg-type-row">
+      <div style="font-family: 'EB Garamond', serif; font-size: 1.2em;">EB Garamond &mdash; the body speaks here, in sentences that breathe.</div>
+      <div style="font-family: 'EB Garamond', serif; font-size: 1.2em; font-style: italic; color: var(--ink-light); margin-top: 4px;">EB Garamond Italic &mdash; for the quieter voice, the aside, the thought.</div>
+      <div style="font-family: 'EB Garamond', serif; font-size: 1.2em; font-weight: 600; margin-top: 4px;">EB Garamond SemiBold &mdash; emphasis within body text.</div>
+      <div class="sg-type-meta">Body text, descriptions, subtitles, epigraphs, notes. Base size: 18px, line-height: 1.6.</div>
+    </div>
+
+    <div class="sg-code-label">Hierarchy</div>
+    <pre class="sg-code">Main Title    UnifrakturCook 700   3em      .main-title
+Subtitle      Cinzel 400           0.95em   .subtitle      uppercase, letter-spaced
+Section Head  Cinzel 700           1.5em    .section-header uppercase, letter-spaced
+Section Sub   EB Garamond italic   0.95em   .section-sub
+Card Title    Cinzel 700           1.05em   .card-title
+Card Desc     EB Garamond 400      0.95em   .card-desc
+Body          EB Garamond 400      18px     body</pre>
+  </div>
+
+  <!-- ============================================================
+       PAGE STRUCTURE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Page Structure</h2>
+  <p class="section-sub">Every page is parchment floating in ink</p>
+
+  <div class="sg-example">
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;body&gt;
+&lt;div class="page-wrapper"&gt;
+  &lt;div class="parchment-bg"&gt;
+
+    &lt;h1 class="main-title"&gt;Page Title&lt;/h1&gt;
+    &lt;p class="subtitle"&gt;A Subtitle in Small Caps&lt;/p&gt;
+
+    &lt;!-- content here --&gt;
+
+    &lt;p class="colophon"&gt;Footer text, italicized.&lt;/p&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;</pre>
+    <p class="sg-note">The body background is <code>--ink</code> (near-black brown). The <code>.parchment-bg</code> provides the textured cream surface with a double-border frame (outer 2px solid + inner 1px via <code>::before</code>). Use <code>.page-wrapper--wide</code> for 1000px max-width instead of 900px.</p>
+  </div>
+
+  <!-- ============================================================
+       DIVIDERS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Dividers</h2>
+  <p class="section-sub">Ornamental breaks between sections</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="divider">&#10038; &#10038; &#10038;</div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="divider"&gt;&amp;#10038; &amp;#10038; &amp;#10038;&lt;/div&gt;</pre>
+    <p class="sg-note">Gold-colored, centered, with wide letter-spacing. Use <code>&amp;#10038;</code> (&#10038;) or any ornamental Unicode character.</p>
+  </div>
+
+  <!-- ============================================================
+       SECTION HEADERS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Section Headers</h2>
+  <p class="section-sub">Cinzel bold, uppercase, letter-spaced, always with a subtitle</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <h2 class="section-header">Actors</h2>
+      <p class="section-sub">Eight faces drawn from ink and argument</p>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;h2 class="section-header"&gt;Actors&lt;/h2&gt;
+&lt;p class="section-sub"&gt;Eight faces drawn from ink and argument&lt;/p&gt;</pre>
+  </div>
+
+  <!-- ============================================================
+       EPIGRAPH & DRAFT MARK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Epigraph &amp; Draft Mark</h2>
+  <p class="section-sub">Opening quotations and edition markers</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <p class="epigraph">Every book is secretly about every other book. The threads between them are older than any single author.</p>
+      <p class="draft-mark">— Draft Edition — 24 Cards —</p>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;p class="epigraph"&gt;Every book is secretly about every other book.&lt;/p&gt;
+&lt;p class="draft-mark"&gt;&amp;mdash; Draft Edition &amp;mdash; 24 Cards &amp;mdash;&lt;/p&gt;</pre>
+    <p class="sg-note"><code>.epigraph</code> is centered italic with a max-width of 520px. <code>.draft-mark</code> is blood-colored at reduced opacity.</p>
+  </div>
+
+  <!-- ============================================================
+       CARDS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Cards</h2>
+  <p class="section-sub">The primary content unit</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="card">
+        <span class="card-number">I.</span>
+        <div class="card-image-wrap"><div class="placeholder">No image.<br>The card<br>resists.</div></div>
+        <div class="card-body">
+          <div class="card-title"><a href="#">Scheherazade</a> <span class="badge badge--battle-tested">Battle-Tested</span> <span class="badge badge--gold">Unsilenced</span></div>
+          <div class="card-desc">The woman who fights with unfinished sentences. Defensive nightmare. Weak against opponents who don't care how the story ends.</div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="card"&gt;
+  &lt;span class="card-number"&gt;I.&lt;/span&gt;
+  &lt;div class="card-image-wrap"&gt;
+    &lt;div class="placeholder"&gt;No image.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="card-body"&gt;
+    &lt;div class="card-title"&gt;
+      &lt;a href="#"&gt;Scheherazade&lt;/a&gt;
+      &lt;span class="badge badge--battle-tested"&gt;Battle-Tested&lt;/span&gt;
+      &lt;span class="badge badge--gold"&gt;Unsilenced&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="card-desc"&gt;Description text here.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Cards highlight on hover with a warm parchment wash. The <code>.card-image-wrap</code> is 90&times;110px with a sepia filter on images. Use <code>.placeholder</code> or <code>.loading</code> for empty states.</p>
+  </div>
+
+  <!-- ============================================================
+       BADGES
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Badges</h2>
+  <p class="section-sub">Inline status markers, small and purposeful</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="sg-badge-row">
+        <div class="sg-badge-item">
+          <span>Title</span><span class="badge badge--battle-tested">Battle-Tested</span>
+          <span class="sg-badge-label">.badge--battle-tested</span>
+        </div>
+        <div class="sg-badge-item">
+          <span>Title</span><span class="badge badge--blood">Descenders</span>
+          <span class="sg-badge-label">.badge--blood</span>
+        </div>
+        <div class="sg-badge-item">
+          <span>Title</span><span class="badge badge--gold">Unsilenced</span>
+          <span class="sg-badge-label">.badge--gold</span>
+        </div>
+        <div class="sg-badge-item">
+          <span>Title</span><span class="badge badge--sidelined">Sidelined</span>
+          <span class="sg-badge-label">.badge--sidelined</span>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;span class="badge badge--battle-tested"&gt;Battle-Tested&lt;/span&gt;
+&lt;span class="badge badge--blood"&gt;Descenders&lt;/span&gt;
+&lt;span class="badge badge--gold"&gt;Unsilenced&lt;/span&gt;
+&lt;span class="badge badge--sidelined"&gt;Sidelined&lt;/span&gt;</pre>
+    <p class="sg-note">All badges use Cinzel uppercase at ~0.55em. Combine <code>.badge</code> with a modifier. <code>--sidelined</code> uses a dashed border and reduced opacity.</p>
+  </div>
+
+  <!-- ============================================================
+       TEAM BLOCKS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Team Blocks</h2>
+  <p class="section-sub">Roster displays with color-coded borders</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="team-block team-descenders">
+        <div class="team-header">
+          <div class="team-name">The Descenders</div>
+          <div class="team-motto">Those who go down. Into Hell, into the ocean, into the bargain.</div>
+        </div>
+        <div class="team-roster">
+          <div class="team-member captain">
+            <div class="role-badge">Captain</div>
+            <div class="member-name">VII. Virgil</div>
+            <div class="member-role">The Guide</div>
+          </div>
+          <div class="team-member">
+            <div class="member-name">VI. Faust</div>
+            <div class="member-role">The Power</div>
+          </div>
+          <div class="team-member">
+            <div class="member-name">III. Captain Ahab</div>
+            <div class="member-role">The Drive</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="team-block team-descenders"&gt;
+  &lt;div class="team-header"&gt;
+    &lt;div class="team-name"&gt;The Descenders&lt;/div&gt;
+    &lt;div class="team-motto"&gt;Motto text here.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="team-roster"&gt;
+    &lt;div class="team-member captain"&gt;
+      &lt;div class="role-badge"&gt;Captain&lt;/div&gt;
+      &lt;div class="member-name"&gt;VII. Virgil&lt;/div&gt;
+      &lt;div class="member-role"&gt;The Guide&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="team-member"&gt;
+      &lt;div class="member-name"&gt;VI. Faust&lt;/div&gt;
+      &lt;div class="member-role"&gt;The Power&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Use <code>.team-descenders</code> (blood left-border) or <code>.team-unsilenced</code> (gold left-border). Add <code>.captain</code> to a <code>.team-member</code> for a thicker, color-matched border.</p>
+  </div>
+
+  <!-- ============================================================
+       SIDELINED BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Sidelined Block</h2>
+  <p class="section-sub">For things set apart, unclaimed, waiting</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="sidelined-block">
+        <div class="sidelined-header">Sidelined</div>
+        <div class="sidelined-names">I. Hamlet &nbsp;&middot;&nbsp; V. Don Quixote</div>
+        <div class="sidelined-note">The prince who cannot choose. The knight who cannot see.<br>They wait on the margins of the parchment, unclaimed.</div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="sidelined-block"&gt;
+  &lt;div class="sidelined-header"&gt;Sidelined&lt;/div&gt;
+  &lt;div class="sidelined-names"&gt;I. Hamlet &amp;middot; V. Don Quixote&lt;/div&gt;
+  &lt;div class="sidelined-note"&gt;Explanatory text here.&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Dashed border, reduced opacity (0.6). For items that exist but are not yet placed.</p>
+  </div>
+
+  <!-- ============================================================
+       CHAIN / TIMELINE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Chain / Timeline</h2>
+  <p class="section-sub">Vertical sequences with circle markers</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="chain-section">
+        <div class="chain-step step-book">
+          <span class="chain-number">I.</span>
+          <div class="chain-body">
+            <div class="chain-title">The Wind in the Willows</div>
+            <div class="chain-text">A book node. Larger marker, double-ringed in gold. Use <code>.step-book</code> for primary entries.</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <span class="chain-number">II.</span>
+          <div class="chain-body">
+            <div class="chain-title">Pan &amp; Greek Mythology</div>
+            <div class="chain-text">A linking node. Standard marker. The connection between two books.</div>
+          </div>
+        </div>
+        <div class="chain-step step-book">
+          <span class="chain-number">III.</span>
+          <div class="chain-body">
+            <div class="chain-title">A Midsummer Night's Dream</div>
+            <div class="chain-text">Another book node. The chain continues, <em>each link revealing the next.</em></div>
+          </div>
+        </div>
+
+        <div class="branch-label">&#8593; A branch &mdash; diverging from the main chain</div>
+
+        <div class="chain-step step-branch">
+          <span class="chain-number">&#8226;</span>
+          <div class="chain-body">
+            <div class="chain-title">Pyramus &amp; Thisbe</div>
+            <div class="chain-text">A branch node. Dashed blood-colored border, bullet marker. Use <code>.step-branch</code>.</div>
+          </div>
+        </div>
+        <div class="chain-step step-branch step-book">
+          <span class="chain-number">&#8226;</span>
+          <div class="chain-body">
+            <div class="chain-title">Metamorphoses</div>
+            <div class="chain-text">A branch book node. Combine <code>.step-branch</code> and <code>.step-book</code>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="chain-section"&gt;
+
+  &lt;!-- Book node (main chain) --&gt;
+  &lt;div class="chain-step step-book"&gt;
+    &lt;span class="chain-number"&gt;I.&lt;/span&gt;
+    &lt;div class="chain-body"&gt;
+      &lt;div class="chain-title"&gt;Title&lt;/div&gt;
+      &lt;div class="chain-text"&gt;Description.&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Linking node (main chain) --&gt;
+  &lt;div class="chain-step"&gt;
+    &lt;span class="chain-number"&gt;II.&lt;/span&gt;
+    &lt;div class="chain-body"&gt;
+      &lt;div class="chain-title"&gt;Connection&lt;/div&gt;
+      &lt;div class="chain-text"&gt;Description.&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Branch label --&gt;
+  &lt;div class="branch-label"&gt;&amp;#8593; A branch&lt;/div&gt;
+
+  &lt;!-- Branch node --&gt;
+  &lt;div class="chain-step step-branch"&gt;
+    &lt;span class="chain-number"&gt;&amp;#8226;&lt;/span&gt;
+    &lt;div class="chain-body"&gt;
+      &lt;div class="chain-title"&gt;Branch item&lt;/div&gt;
+      &lt;div class="chain-text"&gt;Description.&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;</pre>
+    <p class="sg-note">The chain section is max-width 640px. <code>.step-book</code> gets a larger, double-ringed marker. <code>.step-branch</code> switches to dashed blood-colored border. Combine both for branch book nodes.</p>
+  </div>
+
+  <!-- ============================================================
+       COLOPHON
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Colophon</h2>
+  <p class="section-sub">The last word on every page</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <p class="colophon">Twenty-four cards. Eight faces, eight objects, eight thoughts.<br>Enough for a war. Enough for a library. Probably the same thing.</p>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;p class="colophon"&gt;Footer text here.&lt;/p&gt;</pre>
+    <p class="sg-note">Italicized, secondary color, separated by a 1px border-top. Always the last element inside <code>.parchment-bg</code>.</p>
+  </div>
+
+  <!-- ============================================================
+       LINKS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Links</h2>
+  <p class="section-sub">Gold underline, blood on hover</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <p>Here is <a href="#">a link to something</a> within body text. Links use a gold bottom-border that turns blood-red on hover.</p>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;a href="#"&gt;a link to something&lt;/a&gt;</pre>
+    <p class="sg-note">All <code>&lt;a&gt;</code> elements are styled globally. No additional classes needed.</p>
+  </div>
+
+  <!-- ============================================================
+       RESPONSIVE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Responsive Breakpoints</h2>
+  <p class="section-sub">Three thresholds, graceful reduction</p>
+
+  <div class="sg-example">
+    <div class="sg-breakpoint">
+      <div class="sg-bp-value">768px</div>
+      <div class="sg-bp-desc">Parchment padding reduces. Title drops to 2em. Diagram nodes and labels shrink. Legend tightens.</div>
+    </div>
+    <div class="sg-breakpoint">
+      <div class="sg-bp-value">640px</div>
+      <div class="sg-bp-desc">Cards stack vertically (flex-direction: column). Card images go full-width at 160px height.</div>
+    </div>
+    <div class="sg-breakpoint">
+      <div class="sg-bp-value">480px</div>
+      <div class="sg-bp-desc">Title drops to 1.6em. Subtitle letter-spacing tightens. Chain steps and legend compress. Padding minimizes.</div>
+    </div>
+    <p class="sg-note">The design degrades gracefully. Nothing breaks &mdash; it just gets quieter.</p>
+  </div>
+
+  <!-- ============================================================
+       CSS VARIABLES REFERENCE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">CSS Variables Reference</h2>
+  <p class="section-sub">The complete token set</p>
+
+  <div class="sg-example">
+    <pre class="sg-code">:root {
+  --parchment:      #f4e8c1;           /* Primary background surface     */
+  --parchment-dark: #dac292;           /* Borders, frames, depth         */
+  --ink:            #2a1a0a;           /* Primary text, strong borders   */
+  --ink-light:      #5a3a1a;           /* Secondary text, descriptions   */
+  --blood:          #8b1a1a;           /* Danger, descent, Descenders    */
+  --gold:           #b8860b;           /* Accents, dividers, Unsilenced  */
+  --gold-light:     #d4a843;           /* Lighter accent variant         */
+  --shadow:         rgba(42,26,10,0.3) /* Warm brown shadow              */
+}</pre>
+  </div>
+
+  <!-- ============================================================
+       MISSION BRIEF PANEL
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Mission Brief Panel</h2>
+  <p class="section-sub">Structured intelligence briefing with double-border frame</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="mission-brief">
+        <div class="mission-brief-title">Mission Brief</div>
+        <div class="mission-field">
+          <span class="mission-field-label">Target: </span>
+          <span class="mission-field-value">A character trapped inside a book who is trying to escape into the wrong story.</span>
+        </div>
+        <div class="mission-field">
+          <span class="mission-field-label">Opposition: </span>
+          <span class="mission-field-value">The Redactors. Three-person strike team. 72-hour window.</span>
+        </div>
+        <div class="mission-field">
+          <span class="mission-field-label">Complication: </span>
+          <span class="mission-field-value">One member of the team will be recognized by inhabitants of the target text.</span>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="mission-brief"&gt;
+  &lt;div class="mission-brief-title"&gt;Mission Brief&lt;/div&gt;
+  &lt;div class="mission-field"&gt;
+    &lt;span class="mission-field-label"&gt;Target: &lt;/span&gt;
+    &lt;span class="mission-field-value"&gt;Description...&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Double-border frame echoes <code>.parchment-bg</code>. Labels are <code>--blood</code> in Cinzel uppercase. Reuses the <code>::before</code> inner-border pattern from the page structure.</p>
+  </div>
+
+  <!-- ============================================================
+       CHARACTER SHEET
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Character Sheet</h2>
+  <p class="section-sub">Full character card with name, role, quote, and internal sections</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="character-sheet">
+        <div class="character-name">Sei Sh&#333;nagon</div>
+        <div class="character-role">Actor &mdash; Unaffiliated</div>
+        <div class="character-quote">Lady-in-waiting to Empress Teishi, diarist of the Heian court, compiler of the world's most devastating lists.</div>
+        <div class="character-section-label">Stats</div>
+        <p style="font-style: italic; font-size: 0.85em; color: var(--ink-light); text-align: center;">(See Stat Block below)</p>
+        <div class="character-section-label">Conditions</div>
+        <p style="font-style: italic; font-size: 0.85em; color: var(--ink-light); text-align: center;">(See Condition Block below)</p>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="character-sheet"&gt;
+  &lt;div class="character-name"&gt;Sei Sh&#333;nagon&lt;/div&gt;
+  &lt;div class="character-role"&gt;Actor &amp;mdash; Unaffiliated&lt;/div&gt;
+  &lt;div class="character-quote"&gt;Description...&lt;/div&gt;
+  &lt;div class="character-section-label"&gt;Stats&lt;/div&gt;
+  &lt;!-- stat block, conditions, skills, etc. --&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Uses UnifrakturCook for the name (same as page titles), Cinzel for role/section labels, EB Garamond for the quote. Inner <code>::before</code> border provides the manuscript feel. Section labels use <code>--gold</code> with a bottom border.</p>
+  </div>
+
+  <!-- ============================================================
+       STAT BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Stat Block</h2>
+  <p class="section-sub">D&amp;D-style ability scores in a compact grid</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <div class="stat-label">STR</div>
+          <div class="stat-score">8</div>
+          <div class="stat-mod">-1</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">DEX</div>
+          <div class="stat-score">12</div>
+          <div class="stat-mod">+1</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">CON</div>
+          <div class="stat-score">10</div>
+          <div class="stat-mod">+0</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">INT</div>
+          <div class="stat-score">18</div>
+          <div class="stat-mod">+4</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">WIS</div>
+          <div class="stat-score">14</div>
+          <div class="stat-mod">+2</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">CHA</div>
+          <div class="stat-score">16</div>
+          <div class="stat-mod">+3</div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="stat-grid"&gt;
+  &lt;div class="stat-cell"&gt;
+    &lt;div class="stat-label"&gt;STR&lt;/div&gt;
+    &lt;div class="stat-score"&gt;8&lt;/div&gt;
+    &lt;div class="stat-mod"&gt;-1&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- repeat for each stat --&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Six cells in a centered flex row. Modifiers use <code>--gold</code>. Labels are Cinzel uppercase, scores are Cinzel bold, modifiers are EB Garamond. Parchment-wash background on each cell.</p>
+  </div>
+
+  <!-- ============================================================
+       TRAIT GRID
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Trait Grid</h2>
+  <p class="section-sub">Game traits at a glance: Game Savvy, Honesty, Verbosity, Sensitivity</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="trait-grid">
+        <div class="trait-cell">
+          <div class="trait-name">Game Savvy</div>
+          <div class="trait-value trait-value--high">High</div>
+        </div>
+        <div class="trait-cell">
+          <div class="trait-name">Honesty</div>
+          <div class="trait-value">Medium</div>
+        </div>
+        <div class="trait-cell">
+          <div class="trait-name">Verbosity</div>
+          <div class="trait-value trait-value--high">High</div>
+        </div>
+        <div class="trait-cell">
+          <div class="trait-name">Sensitivity</div>
+          <div class="trait-value trait-value--high">High</div>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="trait-grid"&gt;
+  &lt;div class="trait-cell"&gt;
+    &lt;div class="trait-name"&gt;Game Savvy&lt;/div&gt;
+    &lt;div class="trait-value trait-value--high"&gt;High&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- repeat --&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Flex row, centered. <code>--high</code> modifier colors the value <code>--blood</code>. <code>--low</code> reduces opacity. Medium is default <code>--ink</code>.</p>
+  </div>
+
+  <!-- ============================================================
+       CONDITION BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Condition Block</h2>
+  <p class="section-sub">Persistent states with duration, visibility, and observability metadata</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="condition">
+        <div class="condition-name">The List-Maker's Compulsion</div>
+        <div class="condition-meta">
+          <span class="condition-tag condition-tag--permanent">Permanent</span>
+          <span class="condition-tag">Semi-Private</span>
+          <span class="condition-tag">o2o</span>
+        </div>
+        <div class="condition-desc">She categorizes everything she encounters &mdash; people, rooms, feelings, the quality of light. Others notice her eyes moving, cataloguing. Her fingers twitch as though writing.</div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="condition"&gt;
+  &lt;div class="condition-name"&gt;Name&lt;/div&gt;
+  &lt;div class="condition-meta"&gt;
+    &lt;span class="condition-tag condition-tag--permanent"&gt;Permanent&lt;/span&gt;
+    &lt;span class="condition-tag"&gt;Semi-Private&lt;/span&gt;
+    &lt;span class="condition-tag"&gt;o2o&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="condition-desc"&gt;Description...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Left-border accent, parchment-wash background. Metadata tags are badge-like (Cinzel uppercase). <code>--permanent</code> modifier uses <code>--blood</code> border. <code>--private</code> uses dashed border.</p>
+  </div>
+
+  <!-- ============================================================
+       REPUTATION BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Reputation Block</h2>
+  <p class="section-sub">What organizations know about a character</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="reputation">
+        <div class="reputation-name">"The Cataloguer"</div>
+        <div class="reputation-source">Source: The Lamplighters</div>
+        <div class="reputation-desc">The Lamplighters know that Sei Sh&#333;nagon has been documenting everything she encounters with terrifying precision.</div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="reputation"&gt;
+  &lt;div class="reputation-name"&gt;"The Cataloguer"&lt;/div&gt;
+  &lt;div class="reputation-source"&gt;Source: The Lamplighters&lt;/div&gt;
+  &lt;div class="reputation-desc"&gt;Description...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Gold left-border. Source line in Cinzel gold uppercase. Mirrors the chain timeline's visual language of information flowing from authoritative sources.</p>
+  </div>
+
+  <!-- ============================================================
+       SKILL BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Skill Block</h2>
+  <p class="section-sub">Roll skills with trigger, mechanic, ranges, and cost</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="skill-block">
+        <div class="skill-header">
+          <span class="skill-name">Devastating Observation</span>
+          <span class="skill-type skill-type--active">Active</span>
+        </div>
+        <div class="skill-trigger">Trigger: Sei chooses to study a person or situation closely and deliver her assessment</div>
+        <div class="skill-mechanic">d20 + CHA (+3)</div>
+        <div class="skill-range">
+          <span class="skill-range-label skill-range-label--high">18+</span>
+          She identifies not just what someone is hiding, but WHY &mdash; the emotional architecture beneath the mask.
+        </div>
+        <div class="skill-range">
+          <span class="skill-range-label">10&ndash;17</span>
+          She reads the surface accurately &mdash; posture, tells, inconsistencies.
+        </div>
+        <div class="skill-range">
+          <span class="skill-range-label skill-range-label--low">1&ndash;9</span>
+          She projects her own biases onto the target and misreads them.
+        </div>
+        <div class="skill-cost">
+          <span class="skill-cost-label">Cost: </span>
+          The target always knows they've been observed. High-success observations leave the target feeling exposed.
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="skill-block"&gt;
+  &lt;div class="skill-header"&gt;
+    &lt;span class="skill-name"&gt;Name&lt;/span&gt;
+    &lt;span class="skill-type skill-type--active"&gt;Active&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="skill-trigger"&gt;Trigger: ...&lt;/div&gt;
+  &lt;div class="skill-mechanic"&gt;d20 + STAT (+mod)&lt;/div&gt;
+  &lt;div class="skill-range"&gt;
+    &lt;span class="skill-range-label skill-range-label--high"&gt;18+&lt;/span&gt;
+    High success description.
+  &lt;/div&gt;
+  &lt;div class="skill-range"&gt;
+    &lt;span class="skill-range-label"&gt;10&amp;ndash;17&lt;/span&gt;
+    Medium success description.
+  &lt;/div&gt;
+  &lt;div class="skill-range"&gt;
+    &lt;span class="skill-range-label skill-range-label--low"&gt;1&amp;ndash;9&lt;/span&gt;
+    Failure description.
+  &lt;/div&gt;
+  &lt;div class="skill-cost"&gt;
+    &lt;span class="skill-cost-label"&gt;Cost: &lt;/span&gt;
+    Always-paid cost.
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Active/Passive type badges follow the <code>.badge</code> convention. Active uses <code>--blood</code>, Passive uses <code>--gold</code>. Range labels use gold (high), ink (medium), blood (low). Cost is italicized with a blood-colored label.</p>
+  </div>
+
+  <!-- ============================================================
+       FILTER BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Filter Block</h2>
+  <p class="section-sub">Passive aura that changes the social environment</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="filter-block">
+        <div class="filter-name">"Things That Lose by Being Painted"</div>
+        <div class="filter-desc">The world presents itself to Sei in hierarchies of elegance. When she enters a room, everyone present becomes subtly aware of whether they are being found pleasing or wanting.</div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="filter-block"&gt;
+  &lt;div class="filter-name"&gt;"Filter Name"&lt;/div&gt;
+  &lt;div class="filter-desc"&gt;Description...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Gold border and centered text distinguish filters from conditions and skills. The <code>~</code> symbol in the <code>::before</code> pseudo-element suggests a wave or aura. Italic EB Garamond for the always-on quality of filters.</p>
+  </div>
+
+  <!-- ============================================================
+       BEAT NARRATIVE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Beat Narrative</h2>
+  <p class="section-sub">Numbered narrative beats with title and prose</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="beat">
+        <div class="beat-header">
+          <span class="beat-number">Beat 1</span>
+          <span class="beat-title">The Room Before the Room</span>
+        </div>
+        <div class="beat-prose">The chairs are arranged in a circle. Not a boardroom rectangle, not a classroom grid &mdash; a circle, which means this is either group therapy or a conspiracy. <em>Ginsfeld prefers both.</em></div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="beat"&gt;
+  &lt;div class="beat-header"&gt;
+    &lt;span class="beat-number"&gt;Beat 1&lt;/span&gt;
+    &lt;span class="beat-title"&gt;Title&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="beat-prose"&gt;Narrative text...&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Gold-colored beat number, ink-colored title, separated by a 2px ink bottom-border. Prose uses EB Garamond at generous 1.7 line-height. Combine with dice rolls, filter triggers, relationships, and assessments within each beat.</p>
+  </div>
+
+  <!-- ============================================================
+       DICE ROLL (INLINE)
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Dice Roll (Inline)</h2>
+  <p class="section-sub">Skill triggers within the narrative flow</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="dice-roll">
+        <span class="dice-roll-label">Passive Skill Trigger: Aesthetic Resonance</span>
+        <span class="dice-roll-skill">Roll:</span> d20(11) + WIS(+2) = <span class="dice-roll-result">13</span>.
+        <span class="dice-roll-outcome">Medium success.</span>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="dice-roll"&gt;
+  &lt;span class="dice-roll-label"&gt;Passive Skill Trigger: Name&lt;/span&gt;
+  &lt;span class="dice-roll-skill"&gt;Roll:&lt;/span&gt; d20(11) + WIS(+2) =
+  &lt;span class="dice-roll-result"&gt;13&lt;/span&gt;.
+  &lt;span class="dice-roll-outcome"&gt;Medium success.&lt;/span&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Blood left-border distinguishes mechanical interventions from narrative. The label is Cinzel uppercase in blood. Result is Cinzel bold. Outcome is italic.</p>
+  </div>
+
+  <!-- ============================================================
+       FILTER TRIGGER (INLINE)
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Filter Trigger (Inline)</h2>
+  <p class="section-sub">Filter activations within the narrative flow</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="filter-trigger">
+        <span class="filter-trigger-label">Filter: The Oath That Echoes</span>
+        The room's moral gravity shifts slightly. Ginsfeld feels a brief, unwelcome prickle at the base of his skull.
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="filter-trigger"&gt;
+  &lt;span class="filter-trigger-label"&gt;Filter: Name&lt;/span&gt;
+  Narrative description of the filter's effect.
+&lt;/div&gt;</pre>
+    <p class="sg-note">Gold left-border (vs. blood for dice rolls). Same structural pattern as the dice roll block, differentiated by color. Gold signals passive/environmental effects while blood signals active mechanical interventions.</p>
+  </div>
+
+  <!-- ============================================================
+       RELATIONSHIP DELTAS
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Relationship Deltas</h2>
+  <p class="section-sub">Beat-close affinity and aversion changes with internal thoughts</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="relationships-block">
+        <div class="relationships-label">Beat-Close Relationships</div>
+        <div class="rel-delta">
+          <span class="rel-pair">Ginsfeld &rarr; Sei:</span>
+          <span class="rel-change--positive">Affinity +2</span>
+          <span class="rel-thought">&mdash; She's early, observant, chose the strategic chair. She's already reading the room.</span>
+        </div>
+        <div class="rel-delta">
+          <span class="rel-pair">Sei &rarr; Ginsfeld:</span>
+          <span class="rel-change--negative">Aversion +1</span>
+          <span class="rel-thought">&mdash; A man who arranges folding chairs with this much care is arranging something else.</span>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="relationships-block"&gt;
+  &lt;div class="relationships-label"&gt;Beat-Close Relationships&lt;/div&gt;
+  &lt;div class="rel-delta"&gt;
+    &lt;span class="rel-pair"&gt;Ginsfeld &amp;rarr; Sei:&lt;/span&gt;
+    &lt;span class="rel-change--positive"&gt;Affinity +2&lt;/span&gt;
+    &lt;span class="rel-thought"&gt;&amp;mdash; Internal thought.&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">Dashed border and parchment-wash background echo the <code>.sidelined-block</code> pattern. Gold for positive changes, blood for negative. Thoughts are italic EB Garamond.</p>
+  </div>
+
+  <!-- ============================================================
+       ASSESSMENT BLOCK
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Assessment Block</h2>
+  <p class="section-sub">Ginsfeld's internal monologue at the end of each beat</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="assessment">
+        <div class="assessment-label">Ginsfeld's Assessment</div>
+        Smart. Dangerously smart. She'll figure out what this is before the coffee gets cold. I need to decide early whether that's an asset or a problem.
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="assessment"&gt;
+  &lt;div class="assessment-label"&gt;Ginsfeld's Assessment&lt;/div&gt;
+  Italic internal monologue text.
+&lt;/div&gt;</pre>
+    <p class="sg-note">Ink left-border (darker than conditions or filters) signals a different voice &mdash; the handler's private calculus. Italic EB Garamond throughout.</p>
+  </div>
+
+  <!-- ============================================================
+       RELATIONSHIP TABLE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Relationship Table</h2>
+  <p class="section-sub">Cumulative affinity/aversion summary</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <table class="rel-table">
+        <thead>
+          <tr>
+            <th>Character</th>
+            <th>Affinity</th>
+            <th>Aversion</th>
+            <th>Net</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700;">Sei</td>
+            <td>10</td>
+            <td>3</td>
+            <td class="net-positive">+7</td>
+            <td>Deep respect. She solved his hardest problem.</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700;">Yvain</td>
+            <td>9</td>
+            <td>2</td>
+            <td class="net-positive">+7</td>
+            <td>The Shield. Reliable, principled, protective.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;table class="rel-table"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Character&lt;/th&gt;&lt;th&gt;Affinity&lt;/th&gt;
+    &lt;th&gt;Aversion&lt;/th&gt;&lt;th&gt;Net&lt;/th&gt;&lt;th&gt;Summary&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Name&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;
+      &lt;td class="net-positive"&gt;+7&lt;/td&gt;
+      &lt;td&gt;Summary text.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+    <p class="sg-note">Cinzel headers, EB Garamond body. Net score colored: <code>.net-positive</code> (gold), <code>.net-negative</code> (blood), <code>.net-neutral</code> (ink-light). Character names are Cinzel bold. Summary column is italic.</p>
+  </div>
+
+  <!-- ============================================================
+       IMPACT TABLE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Impact Table</h2>
+  <p class="section-sub">Filters, conditions, and skills rated by impact level</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <table class="impact-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Impact</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.88em;">The Oath That Echoes</td>
+            <td><span class="impact-critical">Critical</span></td>
+            <td>Shaped Ginsfeld's behavior throughout; forced genuine commitments.</td>
+          </tr>
+          <tr>
+            <td style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.88em;">Forest Sense</td>
+            <td><span class="impact-low">Low&ndash;Medium</span></td>
+            <td>Provided tactical awareness but no major narrative impact.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;table class="impact-table"&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Name&lt;/td&gt;
+    &lt;td&gt;&lt;span class="impact-critical"&gt;Critical&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;Notes...&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+    <p class="sg-note">Impact levels: <code>.impact-critical</code> (blood), <code>.impact-high</code> (gold), <code>.impact-medium</code> (ink-light), <code>.impact-low</code> (ink-light at 0.6 opacity). All in Cinzel uppercase.</p>
+  </div>
+
+  <!-- ============================================================
+       POST-ENCOUNTER NOTE
+       ============================================================ -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <h2 class="section-header">Post-Encounter Note</h2>
+  <p class="section-sub">Analysis blocks for design commentary</p>
+
+  <div class="sg-example">
+    <div class="sg-example-render">
+      <div class="post-note">
+        <div class="post-note-title">What Surprised the Simulation</div>
+        <div class="post-note-text">
+          <ol>
+            <li>The Sei/Fevvers exchange in Beats 9 and 15. The initial hostility was expected. The mutual recognition was not.</li>
+            <li>Yvain's tactical advocacy in Beat 16. His Low Game Savvy suggested he would not engage in strategic analysis.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="sg-code-label">HTML</div>
+    <pre class="sg-code">&lt;div class="post-note"&gt;
+  &lt;div class="post-note-title"&gt;Title&lt;/div&gt;
+  &lt;div class="post-note-text"&gt;
+    Content with lists, paragraphs, etc.
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+    <p class="sg-note">A neutral analytical container. Cinzel title, EB Garamond body. Parchment-dark border and subtle parchment-wash background. For design commentary, session notes, and meta-analysis.</p>
+  </div>
+
+  <p class="colophon">World of Guttenberg Style Guide. Parchment, ink, and intention.<br>Link <code>styles/guttenberg.css</code> and build from here.</p>
+
+</div>
+</div>
+</body>
+</html>

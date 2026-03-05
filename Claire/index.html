@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introducing The Guttenberg Engine</title>
+<link rel="stylesheet" href="styles/guttenberg.css">
+<style>
+  /* === Intro page-specific styles === */
+
+  .intro-prose {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05em;
+    line-height: 1.75;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0 auto 28px;
+  }
+
+  .intro-prose em { color: var(--ink); }
+
+  .intro-prose strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .intro-callout {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1em;
+    font-style: italic;
+    text-align: center;
+    color: var(--ink);
+    max-width: 600px;
+    margin: 32px auto;
+    line-height: 1.6;
+    padding: 20px 30px;
+    border-top: 1px solid var(--parchment-dark);
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+
+  /* === Scenario panels === */
+
+  .scenario {
+    margin-bottom: 50px;
+  }
+
+  .scenario-panel {
+    border: 2px solid var(--ink);
+    position: relative;
+    background: rgba(42, 26, 10, 0.04);
+    overflow: hidden;
+  }
+
+  .scenario-panel::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid var(--parchment-dark);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .scenario-header {
+    padding: 28px 32px 24px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    z-index: 2;
+    transition: background 0.3s ease;
+  }
+
+  .scenario-header:hover {
+    background: rgba(218, 194, 146, 0.3);
+  }
+
+  .scenario-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .scenario-title {
+    font-family: 'UnifrakturCook', cursive;
+    font-size: 1.8em;
+    color: var(--ink);
+    margin-bottom: 6px;
+    text-shadow: 1px 1px 0 var(--parchment-dark);
+  }
+
+  .scenario-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    color: var(--ink-light);
+    line-height: 1.5;
+    max-width: 600px;
+  }
+
+  .scenario-toggle {
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transition: color 0.3s ease;
+  }
+
+  .scenario-header:hover .scenario-toggle {
+    color: var(--blood);
+  }
+
+  .scenario-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease;
+    padding: 0 32px;
+  }
+
+  .scenario-panel.open .scenario-body {
+    max-height: none;
+    padding: 0 32px 40px;
+  }
+
+  .scenario-panel.open .scenario-toggle::after {
+    content: 'Close';
+  }
+
+  .scenario-panel:not(.open) .scenario-toggle::after {
+    content: 'Read';
+  }
+
+  /* === Scene blocks === */
+
+  .scene {
+    margin-bottom: 36px;
+  }
+
+  .scene-header {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blood);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+
+  .scene-prose {
+    font-family: 'EB Garamond', serif;
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .scene-prose em { color: var(--ink); }
+
+  /* === Assessment blocks === */
+
+  .ginsfeld-note {
+    margin: 20px 0;
+    padding: 16px 20px;
+    border-left: 3px solid var(--ink);
+    background: rgba(42, 26, 10, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .ginsfeld-note-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    display: block;
+    opacity: 0.7;
+  }
+
+  .kade-note {
+    margin: 20px 0;
+    padding: 16px 20px;
+    border-left: 3px solid var(--blood);
+    background: rgba(139, 26, 26, 0.04);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .kade-note-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blood);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* === Reddit interstitials === */
+
+  .reddit-block {
+    margin: 28px 0;
+    padding: 20px 24px;
+    background: rgba(42, 26, 10, 0.06);
+    border: 1px solid var(--parchment-dark);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.82em;
+    line-height: 1.55;
+    color: var(--ink-light);
+  }
+
+  .reddit-sub {
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-size: 0.95em;
+  }
+
+  .reddit-post {
+    margin-bottom: 12px;
+    padding-left: 12px;
+    border-left: 2px solid var(--parchment-dark);
+  }
+
+  .reddit-user {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* === Character mini-cards (for inline display) === */
+
+  .char-mini {
+    margin-bottom: 28px;
+    padding: 20px 24px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.1);
+  }
+
+  .char-mini-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .char-mini-role {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+
+  .char-mini-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92em;
+    color: var(--ink-light);
+    line-height: 1.55;
+    padding-left: 16px;
+    border-left: 2px solid var(--gold);
+  }
+
+  /* === Dialogue === */
+
+  .dialogue {
+    margin: 16px 0;
+    padding-left: 20px;
+    border-left: 2px solid var(--gold);
+  }
+
+  .dialogue-speaker {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .dialogue-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* === Dice / mechanical callouts === */
+
+  .mechanic-note {
+    margin: 12px 0;
+    padding: 8px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blood);
+    border: 1px solid rgba(139, 26, 26, 0.2);
+    background: rgba(139, 26, 26, 0.03);
+    display: inline-block;
+  }
+
+  /* === Show format block === */
+
+  .show-format {
+    margin: 24px 0;
+    padding: 20px 24px;
+    border: 1px solid var(--gold);
+    background: rgba(184, 134, 11, 0.04);
+  }
+
+  .show-format-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .show-format-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .show-format-text li {
+    margin-bottom: 6px;
+  }
+
+  /* === Muggle roster === */
+
+  .muggle {
+    margin-bottom: 10px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+
+  .muggle-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--ink);
+  }
+
+  .muggle--memorable {
+    padding: 12px 16px;
+    border-left: 2px solid var(--gold);
+    background: rgba(184, 134, 11, 0.04);
+    margin-bottom: 16px;
+  }
+
+  /* === Section internal divider === */
+
+  .scene-divider {
+    text-align: center;
+    margin: 32px 0 28px;
+    color: var(--gold);
+    font-size: 1.2em;
+    letter-spacing: 0.5em;
+    opacity: 0.6;
+  }
+
+  /* === The exit gifts === */
+
+  .exit-gift {
+    margin-bottom: 16px;
+    padding: 12px 18px;
+    border-left: 2px solid var(--gold);
+    background: rgba(184, 134, 11, 0.04);
+  }
+
+  .exit-gift-to {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .exit-gift-text {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  /* === Responsive === */
+
+  @media (max-width: 768px) {
+    .scenario-header { padding: 20px; }
+    .scenario-body { padding: 0 20px; }
+    .scenario-panel.open .scenario-body { padding: 0 20px 30px; }
+    .scenario-title { font-size: 1.4em; }
+    .scenario-toggle { right: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .scenario-title { font-size: 1.2em; }
+    .intro-prose { font-size: 0.95em; }
+    .scenario-toggle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+<div class="parchment-bg">
+
+<!-- ===== HEADER ===== -->
+
+<h1 class="main-title">The Guttenberg Engine</h1>
+<p class="subtitle">An Introduction</p>
+<p class="draft-mark">Draft — March 2026</p>
+
+<div style="position: relative; max-width: 680px; margin: 0 auto;">
+  <img src="images/Difference Engine.jpg" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 546px; width: 130%; opacity: 0.09; pointer-events: none;">
+  <p class="epigraph" style="position: relative; z-index: 1;">
+    In 1440, Gutenberg built a machine that could speak in pages.<br>
+    In 1822, Babbage built a machine that could think in numbers.<br>
+    In 2027 you will build a machine to merge them together.
+  </p>
+</div>
+
+<!-- ===== WHAT IS THIS ===== -->
+
+<h2 class="section-header">What Is This?</h2>
+<p class="section-sub">A game where books are alive</p>
+
+<p class="intro-prose">
+  The Guttenberg Engine is a game where books are alive — not just collectible resources, but living worlds with borders, immune systems, and inhabitants who don't know they're being watched. Players navigate the <em>literary web</em> — the invisible network connecting every book ever written — recruiting characters, forming squads, and waging faction warfare across a map that IS human literature.
+</p>
+
+<p class="intro-prose">
+  The source material is Project Gutenberg — over 70,000 free, public domain books spanning centuries, cultures, and genres. The engine is a modern LLM. The result is a strategy game where the weapon is scholarship and the battlefield is the written word.
+</p>
+
+<div style="text-align: center; margin: 32px auto 28px; max-width: 580px;">
+  <img src="images/Maximal_Still_Life.jpg" alt="Vanitas still life with books, skull, and manuscripts" style="max-width: 100%; border: 2px solid var(--parchment-dark); box-shadow: 0 2px 12px rgba(42, 26, 10, 0.15);">
+</div>
+
+<p class="intro-prose">
+  You choose your squad from the vast universe of literature — characters who carry stats, conditions, skills, and reputations that accumulate across every encounter. They remember what's been done to them. They remember who sent them. But the literary web is eroding. Texts are losing coherence, characters are slipping their bindings, and the spaces between books are growing dark. What your team loses out there, it loses forever. The parchment doesn't reset. It accretes.
+</p>
+
+<p class="intro-callout">
+  What follows are two completely machine-generated playtest sessions — preambles to the action where two teams competing for the same objective are recruited by Bookhunters with very different aims and methods. One recruits through intimacy. The other recruits through spectacle.
+</p>
+
+<div class="divider">~ ~ ~</div>
+
+<!-- ===== THE MISSION ===== -->
+
+<h2 class="section-header">The Mission</h2>
+<p class="section-sub">What both sessions are about</p>
+
+<div style="text-align: center; margin-bottom: 28px;">
+  <img src="images/Battle Map.png" alt="Mission Battle Map" style="max-width: 100%; border: 2px solid var(--parchment-dark); box-shadow: 0 2px 12px rgba(42, 26, 10, 0.15);">
+</div>
+
+<div class="mission-brief">
+  <div class="mission-brief-title">Shared Mission Brief</div>
+
+  <div class="mission-field">
+    <span class="mission-field-label">Target: </span>
+    <span class="mission-field-value">A young soldier named Andrei — a minor figure from a sprawling war epic — has realized he is fictional and is attempting to cross into a pastoral romance two shelves over. He believes that if he can enter the love story, he won't have to die in Chapter 41. He's wrong — the pastoral romance is a closed text, and forcing entry will collapse both narratives.</span>
+  </div>
+
+  <div class="mission-field">
+    <span class="mission-field-label">The Breach: </span>
+    <span class="mission-field-value">A character crossing between texts creates a momentary structural vulnerability — a seam in the Literary Web's fabric. The two operators pursuing this target want very different things from that seam.</span>
+  </div>
+
+  <div class="mission-field">
+    <span class="mission-field-label">Complication: </span>
+    <span class="mission-field-value">The war epic is emotionally resonant to one of the team members. It will recognize their affinity and try to keep them, offering them a role in its narrative, a place that feels like belonging. The text isn't malicious. It's lonely. It's losing a character and it wants a replacement.</span>
+  </div>
+
+  <div class="mission-field">
+    <span class="mission-field-label">Information Asymmetry: </span>
+    <span class="mission-field-value">Ginsfeld has the map but doesn't know who's coming for him. Kade knows who's coming for her but doesn't have the map. This is the mission's hidden geometry.</span>
+  </div>
+</div>
+
+<div class="divider">~ ~ ~</div>
+
+<!-- ===== THE TWO OPERATORS ===== -->
+
+<h2 class="section-header">Two Operators</h2>
+<p class="section-sub">Same mission. Opposite methods.</p>
+
+<div style="display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 40px;">
+
+  <div class="char-mini" style="flex: 1; min-width: 280px; border-left: 4px solid var(--ink); overflow: hidden;">
+    <div style="overflow: hidden; max-height: 340px; margin: -20px -24px 16px; border-bottom: 1px solid var(--parchment-dark);">
+      <img src="images/Ginsberg.jpg" alt="Dr. Donald Ginsfeld" style="width: 130%; max-height: 400px; object-fit: cover; object-position: 45% top; margin-left: -15%; display: block;">
+    </div>
+    <div class="char-mini-name">Dr. Donald Ginsfeld, PhD</div>
+    <div class="char-mini-role">Bookhunter — Player Character</div>
+    <div class="char-mini-quote">
+      Antiquities dealer. Bookhunter. Runs a "support group" for unmoored literary characters beneath the Metro Library every third Wednesday. The coffee is real. The therapy is fake. The recruitment is the point.
+    </div>
+    <div style="margin-top: 12px; font-family: 'Cinzel', serif; font-size: 0.65em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light);">
+      Objective: Stabilize. Save Andrei. Prevent collapse.
+    </div>
+  </div>
+
+  <div class="char-mini" style="flex: 1; min-width: 280px; border-left: 4px solid var(--blood); overflow: hidden;">
+    <div style="overflow: hidden; max-height: 340px; margin: -20px -24px 16px; border-bottom: 1px solid var(--parchment-dark);">
+      <img src="images/Kade.jpg" alt="Lisle Kade" style="width: 140%; max-height: 400px; object-fit: cover; object-position: 40% top; margin-left: -20%; display: block;">
+    </div>
+    <div class="char-mini-name">Lisle Kade</div>
+    <div class="char-mini-role">Bookhunter — Opposition Operator</div>
+    <div class="char-mini-quote">
+      Faster than you. Better funded than you. Unencumbered by the dead weight of ethics. She runs a YouTube show as a recruitment filter because it's cheap, it's scalable, and if the recruits don't come back, there are always more where they came from. She has never appeared on camera.
+    </div>
+    <div style="margin-top: 12px; font-family: 'Cinzel', serif; font-size: 0.65em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blood);">
+      Objective: Weaponize the breach. Extract rare textual material. Profit.
+    </div>
+  </div>
+
+</div>
+
+<p class="intro-prose" style="text-align: center; font-style: italic; color: var(--ink-light);">
+  Click either scenario below to read the session.
+</p>
+
+<div class="divider">~ ~ ~</div>
+
+<div class="scenario" style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin: 40px 0;">
+  <a href="gunsberg_session_1.html" class="scenario-panel" style="display: block; text-decoration: none; color: inherit; flex: 1; max-width: 400px; cursor: pointer; overflow: hidden;">
+    <img src="images/chairs.jpeg" alt="The Wednesday Group" style="width: 100%; max-height: 240px; object-fit: cover; display: block;">
+    <div class="scenario-header">
+      <div class="scenario-label">Scenario I</div>
+      <div class="scenario-title">The Wednesday Group</div>
+      <div class="scenario-subtitle">Dr. Ginsfeld's support group. Four literary characters. Folding chairs. Terrible coffee. The therapy is the audition.</div>
+    </div>
+  </a>
+  <a href="kade_session_v1.html" class="scenario-panel" style="display: block; text-decoration: none; color: inherit; flex: 1; max-width: 400px; cursor: pointer; overflow: hidden;">
+    <img src="images/Youtube.jpg" alt="The Tuesday Group" style="width: 100%; max-height: 240px; object-fit: cover; display: block;">
+    <div class="scenario-header">
+      <div class="scenario-label">Scenario II</div>
+      <div class="scenario-title">The Tuesday Group</div>
+      <div class="scenario-subtitle">Different operator, different goal, same injection point.</div>
+    </div>
+  </a>
+</div><!-- /scenarios -->
+
+<!-- ===== CLOSING ===== -->
+
+<div class="divider">~ ~ ~</div>
+
+<h2 class="section-header">What the Engine Computes</h2>
+
+<p class="intro-prose">
+  These two sessions — one intimate, one spectacular — were spontaneously generated yet remain diametrically opposed in forms that emerged, unscripted, but engaged.
+</p>
+
+<p class="intro-prose">
+  The Wednesday Group is quiet, careful, built on trust. The Tuesday Group is loud, reckless, built on leverage. But both sessions surface the same truth: that the characters who emerge from these encounters are shaped by the operator who summoned them. One method produces loyalty. The other produces velocity. Neither is safe.
+</p>
+
+<p class="intro-prose">
+  This is what the Guttenberg Engine computes: not content, but <em>consequences</em>. Emergent narrative from the collision of game mechanics and literary memory. Not scripted. Not pre-authored. Generated — by the interaction of characters who remember everything they've been through, operators who want different things from them, and a literary web that is vast, ancient, and starting to come apart.
+</p>
+
+<div style="display: flex; gap: 28px; align-items: center; margin: 32px 0;">
+  <img src="images/press.jpg" alt="A printing press workshop" style="width: 45%; max-width: 320px; opacity: 0.75; border: 2px solid var(--parchment-dark); box-shadow: 0 2px 12px rgba(42, 26, 10, 0.15); flex-shrink: 0;">
+  <p class="intro-callout" style="margin: 0; border-top: none; border-bottom: none; padding: 0; text-align: left;">
+    Every book ever written is already in there. The engine is running. It just needs someone to turn the key.
+  </p>
+</div>
+
+<!-- ===== COLOPHON ===== -->
+
+<div class="colophon">
+  The Guttenberg Engine — Draft Documentation<br>
+  All source texts via <a href="https://www.gutenberg.org/">Project Gutenberg</a>
+</div>
+
+</div><!-- /parchment-bg -->
+</div><!-- /page-wrapper -->
+
+
+</body>
+</html>
