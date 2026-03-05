@@ -1167,10 +1167,10 @@ code {
 }
 
 /* ------------------------------------------------------------
-   21. FILTER BLOCK (Subreddit Rule / AutoMod)
+   21. AURA BLOCK (Subreddit Rule / AutoMod)
    ------------------------------------------------------------ */
 
-.filter-block {
+.aura-block {
   margin-bottom: 16px;
   padding: 16px 20px;
   border: 1px solid var(--gold-award);
@@ -1179,7 +1179,7 @@ code {
   position: relative;
 }
 
-.filter-block::before {
+.aura-block::before {
   content: '⚡';
   position: absolute;
   top: -12px;
@@ -1190,7 +1190,7 @@ code {
   padding: 0 6px;
 }
 
-.filter-name {
+.aura-name {
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 700;
   font-size: 0.9em;
@@ -1199,7 +1199,7 @@ code {
   margin-bottom: 8px;
 }
 
-.filter-desc {
+.aura-desc {
   font-style: italic;
   font-size: 0.88em;
   color: var(--text);
@@ -1372,10 +1372,10 @@ code {
 }
 
 /* ------------------------------------------------------------
-   26. FILTER TRIGGER (INLINE)
+   26. AURA TRIGGER (INLINE)
    ------------------------------------------------------------ */
 
-.filter-trigger {
+.aura-trigger {
   margin: 12px 0;
   padding: 10px 14px;
   border-left: 3px solid var(--gold-award);
@@ -1385,7 +1385,7 @@ code {
   border-radius: 0 4px 4px 0;
 }
 
-.filter-trigger-label {
+.aura-trigger-label {
   font-family: 'IBM Plex Mono', monospace;
   font-weight: 700;
   font-size: 0.7em;

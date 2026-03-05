@@ -3,489 +3,347 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Wednesday Group — Session Interface</title>
+<title>The Wednesday Group — Iteration 3</title>
 <link rel="stylesheet" href="styles/guttenberg.css">
 <style>
-  /* ========== CSS VARIABLES ========== */
-  :root {
-    --walnut: #1a0e06;
-    --walnut-light: #2d1a0b;
-    --walnut-border: #3a2210;
-    --parchment: #f4e8c1;
-    --parchment-dark: #dac292;
-    --ink: #2a1a0a;
-    --ink-light: #5a3a1a;
-    --blood: #8b1a1a;
-    --gold: #b8860b;
-    --shadow: rgba(26, 14, 6, 0.25);
+  .mission-brief {
+    border: 2px solid var(--ink);
+    padding: 28px 24px;
+    margin-bottom: 40px;
+    position: relative;
+    background: rgba(42, 26, 10, 0.04);
   }
-
-  /* ========== APP GRID ========== */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { overflow: hidden; background: var(--walnut); }
-
-  #app {
-    display: grid;
-    grid-template-rows: 52px 1fr 80px;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
+  .mission-brief::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid var(--parchment-dark);
+    pointer-events: none;
   }
-
-  /* ========== TOP BAR ========== */
-  #top-bar {
-    background: var(--walnut);
-    border-bottom: 1px solid var(--walnut-border);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    gap: 16px;
-    z-index: 10;
-  }
-  .top-back {
+  .mission-brief-title {
     font-family: 'Cinzel', serif;
-    font-size: 0.75em;
+    font-weight: 700;
+    font-size: 1.2em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  .mission-field {
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .mission-field-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--blood);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color 0.2s;
+    display: inline;
   }
-  .top-back:hover { color: var(--gold); }
-  .top-title {
+  .mission-field-value {
+    display: inline;
+    color: var(--ink);
+  }
+  .character-sheet {
+    border: 1px solid var(--parchment-dark);
+    padding: 32px 28px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .character-sheet::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(218, 194, 146, 0.5);
+    pointer-events: none;
+  }
+  .character-name {
     font-family: 'UnifrakturCook', cursive;
-    font-size: 1.4em;
-    color: var(--parchment);
-    white-space: nowrap;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+    font-size: 2.2em;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 2px;
+    text-shadow: 1px 1px 0 var(--parchment-dark);
   }
-  .progress-wrapper {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-  }
-  .progress-track {
-    flex: 1;
-    height: 4px;
-    background: var(--walnut-light);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--gold);
-    border-radius: 2px;
-    transition: width 0.4s ease;
-    box-shadow: 0 0 6px rgba(184, 134, 11, 0.4);
-    width: 0%;
-  }
-  .beat-label {
+  .character-role {
     font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+  .character-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.95em;
+    text-align: center;
+    color: var(--ink-light);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    line-height: 1.55;
+    padding: 0 20px;
+  }
+  .character-section-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    margin-top: 28px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--parchment-dark);
+  }
+  .stat-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .stat-cell {
+    width: 72px;
+    text-align: center;
+    border: 1px solid var(--parchment-dark);
+    padding: 8px 4px;
+    background: rgba(218, 194, 146, 0.2);
+  }
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
     font-size: 0.65em;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--parchment-dark);
-    white-space: nowrap;
-  }
-  .nav-arrows {
-    display: flex;
-    gap: 6px;
-  }
-  .nav-btn {
-    background: var(--walnut-light);
-    border: 1px solid var(--walnut-border);
-    color: var(--parchment-dark);
-    font-family: 'Cinzel', serif;
-    font-size: 0.85em;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    border-radius: 2px;
-  }
-  .nav-btn:hover:not(:disabled) { background: var(--walnut-border); color: var(--parchment); }
-  .nav-btn:disabled { opacity: 0.3; cursor: default; }
-
-  /* ========== MAIN GRID ========== */
-  #main-grid {
-    display: grid;
-    grid-template-columns: 260px 1fr 240px;
-    overflow: hidden;
-    transition: grid-template-columns 0.3s ease;
-  }
-  #main-grid.left-collapsed { grid-template-columns: 0px 1fr 240px; }
-  #main-grid.right-collapsed { grid-template-columns: 260px 1fr 0px; }
-  #main-grid.left-collapsed.right-collapsed { grid-template-columns: 0px 1fr 0px; }
-
-  /* ========== LEFT PANEL ========== */
-  #panel-left {
-    background: var(--walnut);
-    border-right: 1px solid var(--walnut-border);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 16px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--walnut-border) transparent;
-    transition: padding 0.3s, opacity 0.3s;
-  }
-  #main-grid.left-collapsed #panel-left { padding: 0; opacity: 0; overflow: hidden; }
-  .panel-header {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.7em;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--walnut-border);
-  }
-  .dossier-section {
-    margin-bottom: 4px;
-  }
-  .dossier-section summary {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.72em;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--parchment);
-    cursor: pointer;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--walnut-border);
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .dossier-section summary::before {
-    content: '\25B6';
-    font-size: 0.6em;
-    color: var(--gold);
-    transition: transform 0.2s;
-  }
-  .dossier-section[open] summary::before { transform: rotate(90deg); }
-  .dossier-section summary:hover { color: var(--gold); }
-  .dossier-body {
-    font-family: 'EB Garamond', serif;
-    font-size: 0.82em;
-    color: var(--parchment-dark);
-    line-height: 1.6;
-    padding: 10px 0 10px 6px;
-  }
-  .dossier-body .mission-field {
-    margin-bottom: 8px;
-    line-height: 1.5;
-  }
-  .dossier-body .mission-field-label {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.8em;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--blood);
-    display: block;
+    color: var(--ink-light);
     margin-bottom: 2px;
   }
-  .collapse-toggle {
+  .stat-score {
     font-family: 'Cinzel', serif;
-    font-size: 0.6em;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--parchment-dark);
-    background: var(--walnut-light);
-    border: 1px solid var(--walnut-border);
-    padding: 4px 10px;
-    cursor: pointer;
-    display: block;
-    margin-top: 12px;
-    transition: color 0.2s;
-  }
-  .collapse-toggle:hover { color: var(--gold); }
-
-  /* Edge tabs to re-expand collapsed panels */
-  .expand-tab {
-    display: none;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20;
-    background: var(--walnut);
-    border: 1px solid var(--walnut-border);
-    color: var(--parchment-dark);
-    font-family: 'Cinzel', serif;
-    font-size: 0.55em;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    padding: 12px 4px;
-    writing-mode: vertical-lr;
-    transition: color 0.2s, background 0.2s;
-  }
-  .expand-tab:hover { color: var(--gold); background: var(--walnut-light); }
-  .expand-tab--left { left: 0; border-left: none; border-radius: 0 4px 4px 0; }
-  .expand-tab--right { right: 0; border-right: none; border-radius: 4px 0 0 4px; }
-  #main-grid.left-collapsed .expand-tab--left { display: block; }
-  #main-grid.right-collapsed .expand-tab--right { display: block; }
-
-  /* ========== CENTER STAGE ========== */
-  #center-stage {
-    background: var(--parchment);
-    position: relative;
-    overflow: hidden;
-  }
-  .center-inner {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    border: 6px solid transparent;
-    box-shadow: inset 0 0 0 1px var(--parchment-dark);
-  }
-  #center-stage::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(ellipse at center, transparent 50%, rgba(26,14,6,0.15) 100%);
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  /* ========== BEAT PAGES ========== */
-  .beat-page {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    padding: 40px 50px;
-    overflow-y: auto;
-    opacity: 0;
-    transform: translateX(30px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    pointer-events: none;
-    z-index: 1;
-    scrollbar-width: thin;
-    scrollbar-color: var(--parchment-dark) transparent;
-  }
-  .beat-page.active {
-    opacity: 1;
-    transform: translateX(0);
-    pointer-events: auto;
-  }
-  .beat-page.exit-left {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  .beat-page.exit-right {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  .beat-page.active .beat-number {
-    text-shadow: 0 0 8px rgba(184, 134, 11, 0.4);
-  }
-
-  /* ========== RIGHT PANEL ========== */
-  #panel-right {
-    background: var(--walnut);
-    border-left: 1px solid var(--walnut-border);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 16px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--walnut-border) transparent;
-    transition: padding 0.3s, opacity 0.3s;
-  }
-  #main-grid.right-collapsed #panel-right { padding: 0; opacity: 0; overflow: hidden; }
-  .operator-name {
-    font-family: 'UnifrakturCook', cursive;
+    font-weight: 700;
     font-size: 1.3em;
-    color: var(--parchment);
-    text-align: center;
-    margin-bottom: 2px;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
-  }
-  .operator-role {
-    font-family: 'Cinzel', serif;
-    font-size: 0.6em;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--parchment-dark);
-    text-align: center;
-    margin-bottom: 12px;
-  }
-  .op-section-label {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.6em;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-top: 14px;
-    margin-bottom: 6px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--walnut-border);
-  }
-  .op-stat-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-    margin-bottom: 4px;
-  }
-  .op-stat-cell {
-    text-align: center;
-    padding: 4px 2px;
-    border: 1px solid var(--walnut-border);
-    background: rgba(45, 26, 11, 0.5);
-  }
-  .op-stat-label {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.55em;
-    letter-spacing: 0.08em;
-    color: var(--parchment-dark);
-  }
-  .op-stat-score {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 1.1em;
-    color: var(--parchment);
+    color: var(--ink);
     line-height: 1.2;
   }
-  .op-stat-mod {
+  .stat-mod {
     font-family: 'EB Garamond', serif;
-    font-size: 0.7em;
+    font-size: 0.8em;
     color: var(--gold);
   }
-  .op-trait-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
+  .trait-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
   }
-  .op-trait-cell { text-align: center; padding: 4px; }
-  .op-trait-name {
+  .trait-cell {
+    text-align: center;
+    min-width: 100px;
+    padding: 6px 12px;
+  }
+  .trait-name {
     font-family: 'Cinzel', serif;
-    font-size: 0.55em;
-    letter-spacing: 0.06em;
+    font-size: 0.7em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--parchment-dark);
+    color: var(--ink-light);
+    margin-bottom: 2px;
   }
-  .op-trait-value {
+  .trait-value {
     font-family: 'EB Garamond', serif;
-    font-size: 0.85em;
-    color: var(--parchment);
+    font-weight: 600;
+    font-size: 0.95em;
+    color: var(--ink);
   }
-  .op-trait-high { color: var(--blood); }
-  .op-trait-low { color: var(--parchment-dark); opacity: 0.6; }
-  .op-objectives {
-    margin-bottom: 4px;
+  .trait-value--high { color: var(--blood); }
+  .trait-value--low { color: var(--ink-light); opacity: 0.7; }
+  .condition {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.15);
   }
-  .op-objectives summary {
+  .condition-name {
     font-family: 'Cinzel', serif;
     font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .condition-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .condition-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 1px 6px;
+    border: 1px solid var(--parchment-dark);
+  }
+  .condition-tag--permanent { border-color: var(--blood); color: var(--blood); }
+  .condition-tag--private { border-style: dashed; }
+  .condition-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+  .reputation {
+    margin-bottom: 16px;
+    padding: 12px 18px;
+    border-left: 3px solid var(--gold);
+  }
+  .reputation-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .reputation-source {
+    font-family: 'Cinzel', serif;
     font-size: 0.6em;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--parchment);
-    cursor: pointer;
-    padding: 6px 0;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .op-objectives summary::before {
-    content: '\25B6';
-    font-size: 0.55em;
     color: var(--gold);
-    transition: transform 0.2s;
+    margin-bottom: 6px;
   }
-  .op-objectives[open] summary::before { transform: rotate(90deg); }
-  .op-obj-list {
+  .reputation-desc {
     font-family: 'EB Garamond', serif;
-    font-size: 0.8em;
-    color: var(--parchment-dark);
-    line-height: 1.5;
-    padding: 6px 0 6px 8px;
-    list-style: none;
+    font-size: 0.9em;
+    color: var(--ink-light);
+    line-height: 1.55;
   }
-  .op-obj-list li { margin-bottom: 6px; }
-  .op-obj-list li strong {
+  .skill-block {
+    margin-bottom: 24px;
+    padding: 18px 22px;
+    border: 1px solid var(--parchment-dark);
+    background: rgba(218, 194, 146, 0.1);
+  }
+  .skill-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .skill-name {
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    font-size: 0.85em;
-    color: var(--parchment);
+    font-size: 0.95em;
+    color: var(--ink);
   }
-  .op-decision {
-    font-family: 'EB Garamond', serif;
-    font-size: 0.78em;
-    font-style: italic;
-    color: var(--parchment-dark);
-    line-height: 1.5;
-    padding-top: 8px;
-  }
-
-  /* ========== BOTTOM BAR ========== */
-  #bottom-bar {
-    background: var(--walnut);
-    border-top: 1px solid var(--walnut-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    padding: 0 20px;
-    z-index: 10;
-    overflow: visible;
-    position: relative;
-  }
-  .char-thumb {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.3s ease;
-    position: relative;
-  }
-  .char-thumb:hover { transform: translateY(-6px); }
-  .char-thumb-img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid var(--walnut-border);
-    object-fit: cover;
-    filter: sepia(0.25) contrast(1.05);
-    transition: border-color 0.3s;
-  }
-  .char-thumb:hover .char-thumb-img { border-color: var(--gold); }
-  .char-thumb-name {
+  .skill-type {
     font-family: 'Cinzel', serif;
     font-size: 0.55em;
-    letter-spacing: 0.06em;
-    color: var(--parchment-dark);
-    margin-top: 3px;
-    white-space: nowrap;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
   }
-  #thumb-tooltip {
-    position: fixed;
-    z-index: 300;
+  .skill-type--active { border-color: var(--blood); color: var(--blood); }
+  .skill-trigger {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .skill-mechanic {
     font-family: 'Cinzel', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.06em;
-    color: var(--parchment);
-    background: var(--walnut);
-    border: 1px solid var(--walnut-border);
-    padding: 5px 12px;
-    white-space: pre;
-    text-align: center;
-    pointer-events: none;
-    display: none;
+    font-size: 0.75em;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    margin-bottom: 8px;
   }
-  #thumb-tooltip.visible { display: block; }
-
-  /* ========== COMPONENT STYLES FROM ORIGINAL ========== */
-  .beat { margin-bottom: 40px; }
+  .skill-range {
+    margin-bottom: 4px;
+    padding-left: 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--ink-light);
+  }
+  .skill-range-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+  .skill-range-label--high { color: var(--gold); }
+  .skill-range-label--low { color: var(--blood); }
+  .skill-cost {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--parchment-dark);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: var(--blood);
+    line-height: 1.5;
+  }
+  .skill-cost-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+  }
+  .aura-block {
+    margin-bottom: 20px;
+    padding: 20px 24px;
+    border: 1px solid var(--gold);
+    background: rgba(184, 134, 11, 0.05);
+    position: relative;
+  }
+  .aura-block::before {
+    content: '~';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.2em;
+    color: var(--gold);
+    background: var(--parchment);
+    padding: 0 8px;
+  }
+  .aura-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .aura-desc {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92em;
+    color: var(--ink);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .beat {
+    margin-bottom: 40px;
+  }
   .beat-header {
     display: flex;
     align-items: baseline;
@@ -535,14 +393,20 @@
     display: block;
     margin-bottom: 4px;
   }
-  .dice-roll-skill { font-weight: 600; color: var(--ink); }
+  .dice-roll-skill {
+    font-weight: 600;
+    color: var(--ink);
+  }
   .dice-roll-result {
     font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 0.85em;
     color: var(--ink);
   }
-  .dice-roll-outcome { font-style: italic; color: var(--ink-light); }
+  .dice-roll-outcome {
+    font-style: italic;
+    color: var(--ink-light);
+  }
   .relationships-block {
     margin: 16px 0;
     padding: 14px 18px;
@@ -573,7 +437,11 @@
   }
   .rel-change--positive { color: var(--gold); }
   .rel-change--negative { color: var(--blood); }
-  .rel-thought { font-style: italic; color: var(--ink-light); opacity: 0.85; }
+  .rel-thought {
+    font-style: italic;
+    color: var(--ink-light);
+    opacity: 0.85;
+  }
   .assessment {
     margin: 16px 0;
     padding: 14px 18px;
@@ -596,7 +464,7 @@
     margin-bottom: 6px;
     opacity: 0.7;
   }
-  .filter-trigger {
+  .aura-trigger {
     margin: 16px 0;
     padding: 10px 18px;
     border-left: 3px solid var(--gold);
@@ -605,7 +473,7 @@
     font-size: 0.9em;
     line-height: 1.55;
   }
-  .filter-trigger-label {
+  .aura-trigger-label {
     font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 0.7em;
@@ -615,197 +483,6 @@
     display: block;
     margin-bottom: 4px;
   }
-  .tip {
-    position: relative;
-    border-bottom: 1px dotted var(--gold);
-    cursor: help;
-  }
-  .tip .tip-text {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 320px;
-    padding: 14px 16px;
-    background: var(--parchment);
-    border: 1px solid var(--parchment-dark);
-    box-shadow: 3px 3px 12px var(--shadow);
-    font-family: 'EB Garamond', serif;
-    font-size: 0.85rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--ink);
-    text-transform: none;
-    letter-spacing: normal;
-    text-align: left;
-    z-index: 100;
-    transition: opacity 0.2s ease;
-    pointer-events: none;
-  }
-  .tip .tip-text::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--parchment-dark);
-  }
-  .tip:hover .tip-text { visibility: visible; opacity: 1; }
-  .tip-title {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.8em;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 4px;
-    display: block;
-  }
-  .tip-type {
-    font-family: 'Cinzel', serif;
-    font-size: 0.65em;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    margin-bottom: 6px;
-    display: block;
-  }
-  .tip-left .tip-text { left: 0; transform: none; }
-  .tip-left .tip-text::after { left: 24px; transform: none; }
-
-  /* ========== CHARACTER MINI-CARD TOOLTIPS ========== */
-  .char-tip {
-    border-bottom: 1px dotted var(--blood);
-    cursor: pointer;
-    position: relative;
-  }
-  .char-tip:hover { color: var(--blood); }
-  #char-card {
-    position: fixed;
-    z-index: 200;
-    width: 280px;
-    background: var(--parchment);
-    border: 1px solid var(--parchment-dark);
-    box-shadow: 3px 3px 14px var(--shadow);
-    padding: 0;
-    display: none;
-    pointer-events: none;
-    font-family: 'EB Garamond', serif;
-    font-size: 0.85rem;
-    color: var(--ink);
-    line-height: 1.4;
-  }
-  #char-card.visible { display: block; }
-  #char-card::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--parchment-dark);
-  }
-  .cc-header {
-    display: flex;
-    gap: 10px;
-    padding: 10px 12px 8px;
-    border-bottom: 1px solid var(--parchment-dark);
-  }
-  .cc-portrait {
-    width: 56px;
-    height: 70px;
-    object-fit: cover;
-    border: 1px solid var(--parchment-dark);
-    filter: sepia(0.25) contrast(1.05);
-    flex-shrink: 0;
-  }
-  .cc-info { flex: 1; min-width: 0; }
-  .cc-name {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.78em;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink);
-    margin-bottom: 2px;
-  }
-  .cc-role {
-    font-family: 'Cinzel', serif;
-    font-size: 0.58em;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    margin-bottom: 4px;
-  }
-  .cc-filter {
-    font-style: italic;
-    font-size: 0.8em;
-    color: var(--blood);
-  }
-  .cc-stats {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 0;
-    padding: 6px 12px;
-    border-bottom: 1px solid var(--parchment-dark);
-    text-align: center;
-  }
-  .cc-stat-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.5em;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-  }
-  .cc-stat-val {
-    font-size: 0.95em;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .cc-stat-mod {
-    font-size: 0.65em;
-    color: var(--ink-light);
-  }
-  .cc-traits {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px 8px;
-    padding: 6px 12px 8px;
-    font-size: 0.75em;
-  }
-  .cc-trait-name {
-    font-family: 'Cinzel', serif;
-    font-size: 0.85em;
-    letter-spacing: 0.04em;
-    color: var(--ink-light);
-  }
-  .cc-trait-val { font-weight: 600; }
-  .cc-trait-high { color: var(--blood); }
-  .cc-trait-low { color: var(--ink-light); opacity: 0.6; }
-
-  /* Section headers for epilogue */
-  .section-header {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 1.3em;
-    color: var(--ink);
-    text-align: center;
-    margin-bottom: 8px;
-  }
-  .section-sub {
-    font-family: 'EB Garamond', serif;
-    font-style: italic;
-    text-align: center;
-    color: var(--ink-light);
-    margin-bottom: 24px;
-  }
-
-  /* Relationship tables */
   .rel-table {
     width: 100%;
     border-collapse: collapse;
@@ -847,16 +524,6 @@
     color: var(--ink-light);
     font-size: 0.88em;
   }
-  .rel-table-header {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 1em;
-    color: var(--ink);
-    margin-top: 20px;
-    margin-bottom: 8px;
-  }
-
-  /* Post notes */
   .post-note {
     margin-bottom: 20px;
     padding: 16px 20px;
@@ -882,9 +549,9 @@
     padding-left: 20px;
     margin-top: 8px;
   }
-  .post-note-text li { margin-bottom: 6px; }
-
-  /* Impact table */
+  .post-note-text li {
+    margin-bottom: 6px;
+  }
   .impact-table {
     width: 100%;
     border-collapse: collapse;
@@ -940,155 +607,433 @@
     color: var(--ink-light);
     opacity: 0.6;
   }
-
-  .colophon {
+  /* CHARACTER PORTRAITS */
+  .character-portrait {
+    text-align: center;
+    margin: 12px auto 16px;
+    max-width: 200px;
+  }
+  .character-portrait img {
+    max-width: 100%;
+    height: auto;
+    max-height: 260px;
+    border: 1px solid var(--parchment-dark);
+    padding: 4px;
+    background: var(--parchment);
+    box-shadow: 2px 2px 8px var(--shadow);
+    filter: sepia(0.2) contrast(1.05);
+  }
+  .character-portrait-caption {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.72em;
+    font-style: italic;
+    color: var(--ink-light);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+  /* HOVER TOOLTIPS */
+  .tip {
+    position: relative;
+    border-bottom: 1px dotted var(--gold);
+    cursor: help;
+  }
+  .tip .tip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    padding: 14px 16px;
+    background: var(--parchment);
+    border: 1px solid var(--parchment-dark);
+    box-shadow: 3px 3px 12px var(--shadow);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.85rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: normal;
+    text-align: left;
+    z-index: 100;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .tip .tip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--parchment-dark);
+  }
+  .tip:hover .tip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  .tip-title {
     font-family: 'Cinzel', serif;
-    font-size: 0.75em;
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 0.8em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .tip-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--ink-light);
-    text-align: center;
-    margin-top: 40px;
-    opacity: 0.6;
+    margin-bottom: 6px;
+    display: block;
   }
-  .divider {
-    text-align: center;
-    color: var(--ink-light);
-    font-size: 0.8em;
-    letter-spacing: 0.4em;
-    margin: 30px 0;
-    opacity: 0.5;
+  /* Keep tooltips within viewport on edges */
+  .tip-left .tip-text {
+    left: 0;
+    transform: none;
+  }
+  .tip-left .tip-text::after {
+    left: 24px;
+    transform: none;
   }
 
-  /* Dice roll pulse animation */
-  @keyframes pulse-blood {
-    0%, 100% { border-left-color: var(--blood); }
-    50% { border-left-color: rgba(139, 26, 26, 0.6); }
+  /* Portrait Gallery */
+  .portrait-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+    margin: 10px 0 40px;
   }
-  .beat-page.active .dice-roll {
-    animation: pulse-blood 3s ease-in-out infinite;
+  .portrait-card {
+    position: relative;
+    flex: 1 1 0;
+    max-width: 200px;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border-bottom: none;
+  }
+  .portrait-card:hover {
+    transform: translateY(-4px);
+    border-bottom: none;
+  }
+  .portrait-frame {
+    width: 100%;
+    height: 200px;
+    margin: 0 auto 12px;
+    border: 2px solid var(--parchment-dark);
+    box-shadow: 3px 3px 12px var(--shadow);
+    overflow: hidden;
+    background: var(--parchment-dark);
+  }
+  .portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.25) contrast(1.05);
+    transition: filter 0.3s ease;
+  }
+  .portrait-card:hover .portrait-frame {
+    border-color: var(--gold);
+    box-shadow: 3px 3px 16px var(--shadow), 0 0 0 1px var(--gold);
+  }
+  .portrait-card:hover .portrait-frame img {
+    filter: sepia(0.1) contrast(1.1);
+  }
+  .portrait-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .portrait-role {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .portrait-hover {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    padding: 18px 20px;
+    background: var(--parchment);
+    border: 1px solid var(--parchment-dark);
+    box-shadow: 3px 3px 16px var(--shadow);
+    z-index: 100;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    text-align: left;
+    pointer-events: none;
+  }
+  .portrait-hover::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: var(--parchment-dark);
+  }
+  .portrait-card:hover .portrait-hover {
+    visibility: visible;
+    opacity: 1;
+  }
+  .portrait-hover-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .portrait-hover-epithet {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .portrait-hover-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.85em;
+    color: var(--ink-light);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .portrait-hover-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.05em;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .portrait-hover-cta {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blood);
+    text-align: right;
+  }
+  @media (max-width: 640px) {
+    .portrait-gallery { flex-wrap: wrap; gap: 16px; }
+    .portrait-card { flex: 0 0 42%; max-width: 160px; }
+    .portrait-frame { height: 170px; }
+    .portrait-hover { width: 260px; }
   }
 </style>
 </head>
 <body>
-<div id="app">
+<div class="page-wrapper page-wrapper--wide">
+<div class="parchment-bg">
 
-  <!-- TOP BAR -->
-  <div id="top-bar">
-    <a href="index.html" class="top-back">&larr; Claire</a>
-    <div class="top-title">The Wednesday Group</div>
-    <div class="progress-wrapper">
-      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-      <span class="beat-label" id="beat-label">Beat 1 of 22</span>
+  <nav style="margin-bottom: 24px;">
+    <a href="index.html" style="font-family: 'Cinzel', serif; font-size: 0.85em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blood); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;"
+       onmouseover="this.style.borderBottomColor='var(--blood)'" onmouseout="this.style.borderBottomColor='transparent'">&larr; Back to Claire</a>
+  </nav>
+
+  <h1 class="main-title">The Wednesday Group</h1>
+  <p class="subtitle">Iteration 3</p>
+
+  <!-- MISSION BRIEF -->
+  <div class="mission-brief">
+    <div class="mission-brief-title">Mission Brief</div>
+    <div class="mission-field">
+      <span class="mission-field-label">Target (Roll: 3): </span>
+      <span class="mission-field-value">A character trapped inside a book who is trying to escape into the wrong story. The character is a young soldier named Andrei &mdash; a minor figure from a sprawling war epic &mdash; who has realized he is fictional and is attempting to cross into a pastoral romance two shelves over. He believes that if he can enter the love story, he won't have to die in Chapter 41. He's wrong &mdash; the pastoral romance is a closed text, and forcing entry will collapse both narratives.</span>
     </div>
-    <div class="nav-arrows">
-      <button class="nav-btn" id="btn-prev" onclick="prevPage()" disabled>&larr;</button>
-      <button class="nav-btn" id="btn-next" onclick="nextPage()">&rarr;</button>
+    <div class="mission-field">
+      <span class="mission-field-label">Opposition (Roll: 1): </span>
+      <span class="mission-field-value">Lisle Kade &mdash; depublisher, private extraction. She doesn't want to save Andrei or stabilize the texts. When a character crosses between texts, it creates a momentary structural vulnerability &mdash; a seam in the Literary Web's fabric &mdash; and any bookburner can swoop in and extract rare material from both texts simultaneously, if they are fast and prepared. Kade is monitoring Ginsfeld. She knows he's planning an operation. She is already circling.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Complication (Roll: 6): </span>
+      <span class="mission-field-value">The target text &mdash; the war epic &mdash; is emotionally resonant to one of the team members. It will recognize their affinity and try to keep them, offering them a role in its narrative, a place that feels like belonging. The text isn't malicious. It's lonely. It's losing a character and it wants a replacement.</span>
+    </div>
+    <div class="mission-field">
+      <span class="mission-field-label">Ginsfeld Knows (Roll: 1): </span>
+      <span class="mission-field-value">Everything about the target &mdash; Andrei's location, his motivation, the structural damage his escape attempt is causing, the timeline before collapse. Almost nothing about the opposition &mdash; he knows Kade exists, knows she's in the field, but doesn't know her team composition, her timeline, or her extraction method.</span>
     </div>
   </div>
 
-  <!-- MAIN GRID -->
-  <div id="main-grid">
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
 
-    <!-- LEFT PANEL: MISSION DOSSIER -->
-    <div id="panel-left">
-      <div class="panel-header">Mission Dossier</div>
+  <!-- THE WEDNESDAY GROUP — PORTRAIT GALLERY -->
+  <h2 class="section-header">The Wednesday Group</h2>
+  <p class="section-sub">Four actors. Four folding chairs. One audition disguised as therapy.</p>
 
-      <details class="dossier-section" open>
-        <summary>Target</summary>
-        <div class="dossier-body">
-          A character trapped inside a book who is trying to escape into the wrong story. The character is a young soldier named Andrei &mdash; a minor figure from a sprawling war epic &mdash; who has realized he is fictional and is attempting to cross into a pastoral romance two shelves over. He believes that if he can enter the love story, he won't have to die in Chapter 41. He's wrong &mdash; the pastoral romance is a closed text, and forcing entry will collapse both narratives.
+  <div class="portrait-gallery">
+
+    <a href="characters/lady-macbeth.html" class="portrait-card">
+      <div class="portrait-frame">
+        <img src="images/Lady_Macbeth_Cattermole.jpg" alt="Lady Macbeth" loading="lazy">
+      </div>
+      <div class="portrait-name">Lady Macbeth</div>
+      <div class="portrait-role">Actor</div>
+      <div class="portrait-hover">
+        <div class="portrait-hover-name">Lady Macbeth</div>
+        <div class="portrait-hover-epithet">The Sharpening</div>
+        <div class="portrait-hover-quote">Queen without a kingdom. The woman who held the knife's handle while her husband held the blade.</div>
+        <div class="portrait-hover-stats">
+          <span>STR 8</span><span>DEX 12</span><span>CON 10</span>
+          <span>INT 16</span><span>WIS 14</span><span>CHA 18</span>
         </div>
-      </details>
+        <div class="portrait-hover-cta">View full sheet &rarr;</div>
+      </div>
+    </a>
 
-      <details class="dossier-section">
-        <summary>Opposition</summary>
-        <div class="dossier-body">
-          A rival bookhunter named Lisle Kade &mdash; faster, better funded, and operating without ethical constraints. Kade doesn't want to save Andrei or stabilize the texts. She wants to weaponize the breach point &mdash; a character crossing between texts creates a momentary structural vulnerability that Kade can exploit to extract rare textual material from both books simultaneously. She has a three-person team already in position.
+    <a href="characters/jay-gatsby.html" class="portrait-card">
+      <div class="portrait-frame">
+        <img src="images/gatsby-warner-baxter.jpg" alt="Jay Gatsby" loading="lazy">
+      </div>
+      <div class="portrait-name">Jay Gatsby</div>
+      <div class="portrait-role">Actor</div>
+      <div class="portrait-hover">
+        <div class="portrait-hover-name">Jay Gatsby</div>
+        <div class="portrait-hover-epithet">The Lost Thing</div>
+        <div class="portrait-hover-quote">Self-invented man. Threw parties for a woman who never came, built a fortune to buy a past that was already sold.</div>
+        <div class="portrait-hover-stats">
+          <span>STR 12</span><span>DEX 14</span><span>CON 10</span>
+          <span>INT 16</span><span>WIS 8</span><span>CHA 18</span>
         </div>
-      </details>
+        <div class="portrait-hover-cta">View full sheet &rarr;</div>
+      </div>
+    </a>
 
-      <details class="dossier-section">
-        <summary>Complication</summary>
-        <div class="dossier-body">
-          The target text &mdash; the war epic &mdash; is emotionally resonant to one of the team members. It will recognize their affinity and try to keep them, offering them a role in its narrative, a place that feels like belonging. The text isn't malicious. It's lonely. It's losing a character and it wants a replacement.
+    <a href="characters/jean-valjean.html" class="portrait-card">
+      <div class="portrait-frame">
+        <img src="images/valjean-gustave-brion.jpg" alt="Jean Valjean" loading="lazy">
+      </div>
+      <div class="portrait-name">Jean Valjean</div>
+      <div class="portrait-role">Actor</div>
+      <div class="portrait-hover">
+        <div class="portrait-hover-name">Jean Valjean</div>
+        <div class="portrait-hover-epithet">The Test of Goodness</div>
+        <div class="portrait-hover-quote">Convict 24601. The strongest man in any room and the gentlest, and the distance between those two things is where his whole life happens.</div>
+        <div class="portrait-hover-stats">
+          <span>STR 18</span><span>DEX 10</span><span>CON 16</span>
+          <span>INT 12</span><span>WIS 14</span><span>CHA 8</span>
         </div>
-      </details>
+        <div class="portrait-hover-cta">View full sheet &rarr;</div>
+      </div>
+    </a>
 
-      <details class="dossier-section">
-        <summary>Parameters</summary>
-        <div class="dossier-body">
-          <div class="mission-field"><span class="mission-field-label">Ginsfeld Knows:</span> Everything about the target. Almost nothing about Kade &mdash; existence confirmed, team composition and methods unknown.</div>
-          <div class="mission-field"><span class="mission-field-label">Crew Needed:</span> 3 of 4 attendees</div>
-          <div class="mission-field"><span class="mission-field-label">Cover:</span> Group therapy / support group for unmoored characters</div>
-          <div class="mission-field"><span class="mission-field-label">Constraint:</span> Cannot reveal the mission until crew chosen</div>
-          <div class="mission-field"><span class="mission-field-label">Method:</span> Group therapy as audition</div>
+    <a href="characters/scheherazade.html" class="portrait-card">
+      <div class="portrait-frame">
+        <img src="images/scheherazade-anderson.jpg" alt="Scheherazade" loading="lazy">
+      </div>
+      <div class="portrait-name">Scheherazade</div>
+      <div class="portrait-role">Actor</div>
+      <div class="portrait-hover">
+        <div class="portrait-hover-name">Scheherazade</div>
+        <div class="portrait-hover-epithet">The Compulsion to Listen</div>
+        <div class="portrait-hover-quote">The woman who told one thousand and one stories to stay alive. Every night the Sultan could have killed her. Every night she gave him a reason not to.</div>
+        <div class="portrait-hover-stats">
+          <span>STR 8</span><span>DEX 10</span><span>CON 14</span>
+          <span>INT 18</span><span>WIS 16</span><span>CHA 12</span>
         </div>
-      </details>
+        <div class="portrait-hover-cta">View full sheet &rarr;</div>
+      </div>
+    </a>
 
-      <button class="collapse-toggle" id="toggle-left" onclick="toggleLeft()">Collapse Panel</button>
+  </div>
+
+  <!-- DR. GINSFELD -->
+  <div class="character-sheet">
+    <div class="character-name">Dr. Donald Ginsfeld, PhD</div>
+    <div class="character-role">Bookhunter &mdash; Player Character</div>
+    <div class="character-quote">Antiquities dealer. Bookhunter. Runs a "support group" for unmoored literary characters beneath the Metro Library every third Wednesday. The coffee is real. The therapy is fake. The recruitment is the point.</div>
+
+    <div class="character-section-label">Stats</div>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
     </div>
 
-    <!-- CENTER STAGE -->
-    <div id="center-stage">
-      <button class="expand-tab expand-tab--left" onclick="toggleLeft()" title="Show Mission Dossier">Dossier</button>
-      <button class="expand-tab expand-tab--right" onclick="toggleRight()" title="Show Operator">Operator</button>
-      <div class="center-inner">
+    <div class="character-section-label">Game Traits</div>
+    <div class="trait-grid">
+      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
+      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value">Medium</div></div>
+      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value">Medium</div></div>
+    </div>
 
-<!-- BEAT 1 -->
-<div class="beat-page active" data-beat="0">
-<div class="beat">
-  <div class="beat-header">
-    <span class="beat-number">Beat 0</span>
-    <span class="beat-title">The Setup</span>
-  </div>
-  <img src="images/chairs.jpeg" alt="Five folding chairs in a basement" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--parchment-dark); box-shadow:2px 2px 10px var(--shadow); filter:sepia(0.15) contrast(1.05);">
-  <p class="beat-prose">Five folding chairs in the basement of the Metro Library. A coffee urn that hasn&rsquo;t been cleaned since the Clinton administration. A hand-lettered sign taped to the door: <em>Wednesday Support Group &mdash; All Welcome</em>.</p>
-  <p class="beat-prose" style="clear:both;">
-  <img src="images/Andrei.jpg" alt="Andrei" style="float:right; width:35%; max-width:160px; margin:4px 0 10px 16px; border:2px solid var(--parchment-dark); box-shadow:2px 2px 10px var(--shadow); filter:sepia(0.2) contrast(1.05);">
-  You are about to play a session of the Guttenberg Engine &mdash; a game set inside the literary web, the vast interconnected network of every text ever written. Somewhere in that web, a young soldier named Andrei has realized he is fictional. He is trapped in a war epic that will kill him in Chapter 41, and he is trying to escape into a pastoral romance two shelves over. He believes the love story will save him. He is wrong.</p>
-  <p class="beat-prose">Tonight, an operator named Dr. Donald Ginsfeld will audition four literary characters for a three-person extraction team. One will be cut. The audition is disguised as group therapy. The coffee is terrible. The stakes are structural &mdash; if Andrei crosses without intervention, both texts collapse.</p>
-  <p class="beat-prose">There is also Lisle Kade. Another operator, faster and better funded, who wants the breach point to stay open. She has a team already in position. Ginsfeld doesn&rsquo;t know her timeline.</p>
-  <p class="beat-prose">What follows is twenty beats of conversation, deception, dice rolls, and difficult choices &mdash; played out in real time between characters who remember everything they&rsquo;ve ever been through and an operator who is lying to all of them about why they&rsquo;re really here.</p>
-  <div class="assessment">
-    <div class="assessment-label">How to Read This Session</div>
-    <strong>The Mission Dossier</strong> (left panel) contains the briefing. <strong>The Operator Card</strong> (right panel) shows Ginsfeld&rsquo;s stats and objectives. <strong>The character portraits</strong> (bottom) link to full character sheets. Hover any <span style="border-bottom:1px dotted var(--blood);">character name</span> in the text to see their mini-card. Use the arrows or keyboard to advance through beats.
-  </div>
-</div>
-</div>
+    <div class="character-section-label">Mission Parameters</div>
+    <div class="mission-field"><span class="mission-field-label">Target: </span><span class="mission-field-value">Andrei &mdash; a young soldier from a war epic, attempting to cross into a pastoral romance to escape his death in Chapter 41</span></div>
+    <div class="mission-field"><span class="mission-field-label">Opposition: </span><span class="mission-field-value">Lisle Kade &mdash; depublisher, private extraction. Monitoring Ginsfeld. Wants to weaponize the breach point for dual extraction.</span></div>
+    <div class="mission-field"><span class="mission-field-label">Complication: </span><span class="mission-field-value">The war epic will emotionally resonate with one team member and try to absorb them as a replacement character</span></div>
+    <div class="mission-field"><span class="mission-field-label">Ginsfeld Knows: </span><span class="mission-field-value">Everything about Andrei &mdash; location, motivation, structural damage, timeline. Almost nothing about Kade &mdash; existence confirmed, team composition and methods unknown.</span></div>
+    <div class="mission-field"><span class="mission-field-label">Crew needed: </span><span class="mission-field-value">3 of 4 attendees</span></div>
+    <div class="mission-field"><span class="mission-field-label">Cover: </span><span class="mission-field-value">Group therapy / support group for unmoored characters</span></div>
+    <div class="mission-field"><span class="mission-field-label">Constraint: </span><span class="mission-field-value">Cannot reveal the mission until he's chosen the crew</span></div>
+    <div class="mission-field"><span class="mission-field-label">Method: </span><span class="mission-field-value">Group therapy as audition</span></div>
 
-<!-- BEAT 1 -->
-<div class="beat-page" data-beat="1">
-<div class="beat">
-  <div class="beat-header">
-    <span class="beat-number">Beat 1</span>
-    <span class="beat-title">The Room Before</span>
-  </div>
-  <img src="images/Ginsberg.jpg" alt="Dr. Ginsfeld" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--parchment-dark); box-shadow:2px 2px 10px var(--shadow); filter:sepia(0.2) contrast(1.05);">
-  <p class="beat-prose">Ginsfeld arrives early. He sets out five folding chairs in the basement beneath the Metro Library, tests the coffee urn, adjusts the hand-lettered sign that reads <em>Wednesday Support Group &mdash; All Welcome</em>. The fluorescent light buzzes its familiar rhythm. He sits in his chair and opens his notebook.</p>
-  <p class="beat-prose">He reviews what he knows. Andrei &mdash; young soldier, war epic, minor figure, Chapter 41 death sentence. The boy has realized he is fictional. He is trying to cross into a pastoral romance two shelves over. He believes the love story will save him. He is wrong. The pastoral romance is a closed text. Forcing entry will collapse both narratives.</p>
-  <p class="beat-prose">Then there is Kade. Lisle Kade. He knows the name. He knows she's faster, better funded, and that she operates without ethical constraints. He knows she has a three-person team already in position. He does not know her timeline, her method, or her team composition. He knows she wants to weaponize the breach point &mdash; the moment Andrei crosses, both texts become structurally vulnerable, and Kade can extract rare material from both simultaneously.</p>
-  <p class="beat-prose">He needs speed, persuasion, and someone who can handle a hostile operator. He needs three people out of the four who are coming tonight. He needs to figure out which three before the coffee gets cold.</p>
-  <div class="assessment">
-    <div class="assessment-label">Ginsfeld's Assessment</div>
-    Setup. Four chairs, four candidates, one cut. I know the target inside and out. I know almost nothing about Kade. That asymmetry is dangerous. I need a Persuader who can reach Andrei, a Shield who can handle Kade's team, and an Operator who can manage the tactical picture. The complication &mdash; the war epic trying to absorb a team member &mdash; means I also need to identify who's most vulnerable to emotional resonance and either cut them or shield them from it.
-  </div>
-</div>
-</div>
+    <div class="character-section-label">What He's Looking For</div>
+    <div class="beat-prose">
+      <p><strong>1. The Persuader</strong> &mdash; someone who can reach Andrei, talk him down from his escape attempt, or convince him there's another way. Needs narrative intelligence, empathy, and the ability to enter someone else's story without breaking it.</p>
+      <p><strong>2. The Shield</strong> &mdash; someone who can handle Kade's team when they arrive. Physical capability, judgment under fire, willingness to stand ground. Not just muscle &mdash; the war epic's emotional pull means the Shield needs to be someone who can resist the text's seduction.</p>
+      <p><strong>3. The Operator</strong> &mdash; someone who can manage the tactical situation &mdash; Kade's team, the structural instability, the timeline. Needs to think three moves ahead and act without hesitation when the plan breaks.</p>
+    </div>
 
+    <div class="character-section-label">Decision Criteria</div>
+    <p class="beat-prose">Competence, emotional stability under pressure, resistance to the complication. The war epic will try to keep someone &mdash; Ginsfeld needs to identify who's most vulnerable and either cut them or position them where the text can't reach. Wildcard tolerance: low. This mission has too many unknowns about Kade to afford an unpredictable team member.</p>
+  </div>
 
-<!-- BEAT 2 -->
-<div class="beat-page" data-beat="2">
-<div class="beat">
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <!-- BEAT 1 -->
+  <div class="beat">
+    <div class="beat-header">
+      <span class="beat-number">Beat 1</span>
+      <span class="beat-title">The Room Before</span>
+    </div>
+    <p class="beat-prose">Ginsfeld arrives early. He sets out five folding chairs in the basement beneath the Metro Library, tests the coffee urn, adjusts the hand-lettered sign that reads <em>Wednesday Support Group &mdash; All Welcome</em>. The fluorescent light buzzes its familiar rhythm. He sits in his chair and opens his notebook.</p>
+    <p class="beat-prose">He reviews what he knows. Andrei &mdash; young soldier, war epic, minor figure, Chapter 41 death sentence. The boy has realized he is fictional. He is trying to cross into a pastoral romance two shelves over. He believes the love story will save him. He is wrong. The pastoral romance is a closed text. Forcing entry will collapse both narratives.</p>
+    <p class="beat-prose">Then there is Kade. Lisle Kade. He knows the name. He knows she's faster, better funded, and that she operates without ethical constraints. He knows she has a three-person team already in position. He does not know her timeline, her method, or her team composition. He knows she wants to weaponize the breach point &mdash; the moment Andrei crosses, both texts become structurally vulnerable, and Kade can extract rare material from both simultaneously.</p>
+    <p class="beat-prose">He needs speed, persuasion, and someone who can handle a hostile operator. He needs three people out of the four who are coming tonight. He needs to figure out which three before the coffee gets cold.</p>
+
+    <div class="assessment">
+      <div class="assessment-label">Ginsfeld's Assessment</div>
+      Setup. Four chairs, four candidates, one cut. I know the target inside and out. I know almost nothing about Kade. That asymmetry is dangerous. I need a Persuader who can reach Andrei, a Shield who can handle Kade's team, and an Operator who can manage the tactical picture. The complication &mdash; the war epic trying to absorb a team member &mdash; means I also need to identify who's most vulnerable to emotional resonance and either cut them or shield them from it.
+    </div>
+  </div>
+
+  <!-- BEAT 2 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 2</span>
       <span class="beat-title">Valjean Arrives</span>
     </div>
-    <img src="images/valjean-gustave-brion.jpg" alt="Jean Valjean" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--parchment-dark); box-shadow:2px 2px 10px var(--shadow); filter:sepia(0.2) contrast(1.05);">
     <p class="beat-prose">The door opens and a large man descends the stairs. Not merely tall &mdash; <em>dense</em>. Broad shoulders, hands like shovels, the kind of physical presence that rearranges the geometry of a room simply by entering it. He wears a heavy coat despite the warmth of the basement, buttoned to the collar. His face is weathered, patient, watchful.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">Strength of the Condemned<span class="tip-text"><span class="tip-title">Strength of the Condemned</span><span class="tip-type">Condition — Jean Valjean — Permanent, Public</span>His physical power is unmistakable. The dense musculature of two decades at hard labor. He moves furniture like cardboard. The strength frightens people before he says a word.</span></span> (o2o) &mdash; immediately visible</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">Strength of the Condemned<span class="tip-text"><span class="tip-title">Strength of the Condemned</span><span class="tip-type">Condition — Jean Valjean — Permanent, Public</span>His physical power is unmistakable. The dense musculature of two decades at hard labor. He moves furniture like cardboard. The strength frightens people before he says a word.</span></span> (o2o) &mdash; immediately visible</span>
       His physical power is unmistakable. Two decades of hard labor wrote themselves into his musculature, his posture, the way he holds his hands &mdash; slightly curled, as though still gripping something heavy. Everyone in the room would see it. There is only Ginsfeld.
     </div>
 
@@ -1096,13 +1041,13 @@
     <p class="beat-prose">"Welcome," Ginsfeld says. "Coffee?"</p>
     <p class="beat-prose">"Thank you." Valjean takes a cup, sits in the chair nearest the wall. As he settles, something metallic shifts inside his coat &mdash; a faint clink, quickly stilled by a hand pressed to his chest.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">The Candlesticks<span class="tip-text"><span class="tip-title">The Candlesticks</span><span class="tip-type">Condition — Jean Valjean — Permanent, Semi-private</span>Two silver candlesticks in his coat. The Bishop's gift — the mercy that made him human. He will not part with them. He will not explain them.</span></span> (semi-private) &mdash; Ginsfeld hears the sound</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">The Candlesticks<span class="tip-text"><span class="tip-title">The Candlesticks</span><span class="tip-type">Condition — Jean Valjean — Permanent, Semi-private</span>Two silver candlesticks in his coat. The Bishop's gift — the mercy that made him human. He will not part with them. He will not explain them.</span></span> (semi-private) &mdash; Ginsfeld hears the sound</span>
       A metallic clink from inside the coat. Not keys &mdash; heavier, more resonant. Ginsfeld notes it without comment.
     </div>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; activates on Ginsfeld</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Aura — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; activates on Ginsfeld</span>
       Ginsfeld feels the urge to probe. To test this man. To find the crack, the limit, the point where the gentleness gives way to what built those shoulders. The urge is subtle but persistent &mdash; the specific gravity of an authority figure in the presence of someone who has been tested by authority his entire life.
     </div>
 
@@ -1117,25 +1062,22 @@
       STR through the roof. The contrast between "grateful" and the physical power is fascinating. Possible Shield material &mdash; the body says yes, the temperament says maybe. But the complication nags at me. The war epic will try to absorb someone emotionally resonant. A man who served nineteen years, who carries hidden objects against his chest, who speaks quietly despite being able to break this room in half &mdash; that's a man with deep emotional channels. He could be vulnerable to the text's pull. Need to test.
     </div>
   </div>
-</div>
 
-<!-- BEAT 3 -->
-<div class="beat-page" data-beat="3">
-<div class="beat">
+  <!-- BEAT 3 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 3</span>
       <span class="beat-title">Scheherazade Arrives</span>
     </div>
-    <img src="images/scheherazade-anderson.jpg" alt="Scheherazade" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--parchment-dark); box-shadow:2px 2px 10px var(--shadow); filter:sepia(0.2) contrast(1.05);">
     <p class="beat-prose">She enters and the room feels like it has an audience. Not because she's loud &mdash; she isn't. She moves quietly, almost deferentially, a woman of medium height in layered silks that whisper when she walks. But something about her presence suggests that a story has begun, and everyone else is now a character in it.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">Thread Voice<span class="tip-text"><span class="tip-title">Thread Voice</span><span class="tip-type">Condition — Scheherazade — Permanent, Public</span>Her voice has a quality that makes people lean in. Not loudness — texture. A cadence that carries narrative even in casual speech. When she says 'and then,' the room goes still.</span></span> (o2o) &mdash; immediately apparent</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">Thread Voice<span class="tip-text"><span class="tip-title">Thread Voice</span><span class="tip-type">Condition — Scheherazade — Permanent, Public</span>Her voice has a quality that makes people lean in. Not loudness — texture. A cadence that carries narrative even in casual speech. When she says 'and then,' the room goes still.</span></span> (o2o) &mdash; immediately apparent</span>
       Her voice has a quality that makes people lean in. Not loudness &mdash; texture. When she says "Good evening," both Ginsfeld and Valjean tilt slightly forward without realizing it.
     </div>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Compulsion to Listen<span class="tip-text"><span class="tip-title">The Compulsion to Listen</span><span class="tip-type">Filter — Scheherazade</span>In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</span></span> &mdash; activates on entry</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Compulsion to Listen<span class="tip-text"><span class="tip-title">The Compulsion to Listen</span><span class="tip-type">Aura — Scheherazade</span>In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</span></span> &mdash; activates on entry</span>
       The room settles. Valjean, who had been shifting in his chair, goes still. Ginsfeld, who had been writing notes, puts down his pen. Neither chose to do this. Interrupting her feels like tearing a page from a book.
     </div>
 
@@ -1161,39 +1103,36 @@
       High Game Savvy confirmed. INT confirmed. She read my setup immediately &mdash; this is an audition, not therapy, and she knows it. Possible Persuader. Storytellers are collaborators until they decide they're authors. Need to see how she handles the other candidates before I commit.
     </div>
   </div>
-</div>
 
-<!-- BEAT 4 -->
-<div class="beat-page" data-beat="4">
-<div class="beat">
+  <!-- BEAT 4 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 4</span>
       <span class="beat-title">Gatsby Arrives</span>
     </div>
-    <img src="images/gatsby-warner-baxter.jpg" alt="Jay Gatsby" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--parchment-dark); box-shadow:2px 2px 10px var(--shadow); filter:sepia(0.2) contrast(1.05);">
     <p class="beat-prose">The door opens and a man enters who looks like he was assembled from the idea of what a man should be. Impeccable suit, immaculate hair, a smile that arrives before his words do. He radiates polish &mdash; the specific, slightly excessive polish of someone who built himself from scratch and overcompensated at every stage.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">The Self-Made Man<span class="tip-text"><span class="tip-title">The Self-Made Man</span><span class="tip-type">Condition — Jay Gatsby — Permanent, Public</span>Everything about Gatsby is slightly too polished. The suit, the smile, the gestures — rehearsed to the point of elegance. A masterpiece of self-construction, seams visible if you look.</span></span> (o2o) &mdash; immediately visible</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">The Self-Made Man<span class="tip-text"><span class="tip-title">The Self-Made Man</span><span class="tip-type">Condition — Jay Gatsby — Permanent, Public</span>Everything about Gatsby is slightly too polished. The suit, the smile, the gestures — rehearsed to the point of elegance. A masterpiece of self-construction, seams visible if you look.</span></span> (o2o) &mdash; immediately visible</span>
       Everything about Gatsby is slightly too perfect. The suit fits too well. The smile arrives too promptly. His gestures are rehearsed to the point of elegance. The performance is so thorough it has become indistinguishable from identity &mdash; but the seams are there for anyone looking.
     </div>
 
     <p class="beat-prose">"Good evening, old sport," he says to Ginsfeld, extending a hand. The handshake is firm, warm, calibrated.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">Old Sport<span class="tip-text"><span class="tip-title">Old Sport</span><span class="tip-type">Condition — Jay Gatsby — Permanent, Public</span>The verbal tic. He says it to everyone — a verbal handshake, a class marker borrowed from people who were born with it. It's the seam most people find first.</span></span> (o2o) &mdash; the verbal tic</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">Old Sport<span class="tip-text"><span class="tip-title">Old Sport</span><span class="tip-type">Condition — Jay Gatsby — Permanent, Public</span>The verbal tic. He says it to everyone — a verbal handshake, a class marker borrowed from people who were born with it. It's the seam most people find first.</span></span> (o2o) &mdash; the verbal tic</span>
       He says it to everyone &mdash; a verbal handshake, a class marker borrowed from people who were born with it. Scheherazade's eyes narrow slightly. Valjean accepts it without reaction.
     </div>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; activates on entry</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Aura — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; activates on entry</span>
       The room shifts. Valjean's hand moves to his chest &mdash; the candlesticks &mdash; and his eyes go distant. He is remembering Cosette. Scheherazade's fingers still on her silks. She is remembering something she will not name. Ginsfeld feels it too: a specific, vivid memory of something gone. Everyone in Gatsby's presence remembers something they lost.
     </div>
 
     <p class="beat-prose">Gatsby surveys the room, takes the remaining chair between Scheherazade and the empty fifth seat, and begins unconsciously straightening the sugar packets on the card table, aligning them in neat rows.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">The Shirt Drawer<span class="tip-text"><span class="tip-title">The Shirt Drawer</span><span class="tip-type">Condition — Jay Gatsby — 3 Encounters, Private</span>He compulsively arranges his surroundings when anxious — straightening cups, aligning chairs. As if someone important is about to arrive. The someone never arrives.</span></span> (private) &mdash; anxiety response</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">The Shirt Drawer<span class="tip-text"><span class="tip-title">The Shirt Drawer</span><span class="tip-type">Condition — Jay Gatsby — 3 Encounters, Private</span>He compulsively arranges his surroundings when anxious — straightening cups, aligning chairs. As if someone important is about to arrive. The someone never arrives.</span></span> (private) &mdash; anxiety response</span>
       He arranges the sugar packets with practiced, barely visible precision. Scheherazade watches his hands. Ginsfeld watches Scheherazade watching.
     </div>
 
@@ -1212,37 +1151,34 @@
       "Hopeful." That's the word that writes itself next to his name. WIS 8 &mdash; the lowest in the room by a mile. The Lost Thing filter combined with the war epic is a catastrophe waiting to happen. Beautiful, hopeful, doomed liability. But I'm getting ahead of myself. Wait for Lady Macbeth.
     </div>
   </div>
-</div>
 
-<!-- BEAT 5 -->
-<div class="beat-page" data-beat="5">
-<div class="beat">
+  <!-- BEAT 5 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 5</span>
       <span class="beat-title">Lady Macbeth Arrives</span>
     </div>
-    <img src="images/Lady_Macbeth_Cattermole.jpg" alt="Lady Macbeth" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--parchment-dark); box-shadow:2px 2px 10px var(--shadow); filter:sepia(0.2) contrast(1.05);">
     <p class="beat-prose">The last to arrive. She descends the stairs with the carriage of someone who expects the room to reorganize itself around her &mdash; and it does. Straight spine, level gaze, the precise economy of movement that comes from years of being watched by an entire court.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">Eyes of the Court<span class="tip-text"><span class="tip-title">Eyes of the Court</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Public</span>She carries herself like royalty in exile. Straight spine, level gaze, the precise economy of movement from years of being watched. Even in a basement, she commands the room.</span></span> (o2o) &mdash; immediately visible</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">Eyes of the Court<span class="tip-text"><span class="tip-title">Eyes of the Court</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Public</span>She carries herself like royalty in exile. Straight spine, level gaze, the precise economy of movement from years of being watched. Even in a basement, she commands the room.</span></span> (o2o) &mdash; immediately visible</span>
       She carries herself like royalty in exile. Even in this basement, the folding chairs and fluorescent lights seem to acknowledge her as the room's new center of gravity.
     </div>
 
     <p class="beat-prose">She takes the remaining chair without asking which is hers. Her hands settle in her lap, and then &mdash; barely perceptible &mdash; her thumb begins moving against her palm. A small, circular motion, practiced to near-invisibility.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">The Spot<span class="tip-text"><span class="tip-title">The Spot</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Semi-private</span>She washes her hands. Constantly. Rubbing thumb against palm in a motion so practiced it's nearly invisible. In still moments, her hands move. People notice.</span></span> (o2o) &mdash; noticed by Scheherazade and Valjean</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">The Spot<span class="tip-text"><span class="tip-title">The Spot</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Semi-private</span>She washes her hands. Constantly. Rubbing thumb against palm in a motion so practiced it's nearly invisible. In still moments, her hands move. People notice.</span></span> (o2o) &mdash; noticed by Scheherazade and Valjean</span>
       Scheherazade's eyes track to the hands. She sees the motion &mdash; the compulsive rubbing, the way the thumb traces the same path over and over. She files it. Valjean sees it too and recognizes something &mdash; not the specific gesture, but the shape of it. A mark that won't wash off. He knows about those.
     </div>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; activates on entry</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Aura — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; activates on entry</span>
       The room's ambitions clarify. Ginsfeld feels his recruitment calculus sharpen &mdash; the categories become crisper, the assessments more decisive. Gatsby's green light burns brighter at the edge of his vision; his desire to be here, to be chosen, to be part of something intensifies. Scheherazade feels the pull of narrative completion &mdash; the story wants an ending. Valjean feels the old pull of duty, the Bishop's silver pressing against his chest.
     </div>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> (Gatsby) &mdash; hits Lady Macbeth</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Aura — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> (Gatsby) &mdash; hits Lady Macbeth</span>
       Lady Macbeth remembers the crown. Not the weight of it &mdash; the moment before. The moment when it was still possible, when the future was still a door and not a room. Her hands still for one breath, then resume their washing.
     </div>
 
@@ -1263,34 +1199,32 @@
       First-pass sorting. Lady Macbeth = Operator. Scheherazade = Persuader. Valjean = Shield. The assignments feel right, but the complication hasn't been tested yet. The war epic will try to absorb someone. Resonance candidates: Valjean (the soldier's desperation, the desire for redemption) or Gatsby (hope against evidence, the belief that you can escape your fate). I need one more round to confirm which one is the vulnerability. If it's Gatsby, he's the cut. If it's Valjean, I have a problem.
     </div>
   </div>
-</div>
 
-<!-- BEAT 6 -->
-<div class="beat-page" data-beat="6">
-<div class="beat">
+  <!-- BEAT 6 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 6</span>
       <span class="beat-title">Opening Round</span>
     </div>
     <p class="beat-prose">Ginsfeld sets down his clipboard. "Thank you all for coming. This group exists for people who find themselves... between stories. Displaced. Unmoored." He pauses. "I'd like to start with a question. Have you ever been in a story that wasn't yours?"</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Compulsion to Listen<span class="tip-text"><span class="tip-title">The Compulsion to Listen</span><span class="tip-type">Filter — Scheherazade</span>In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</span></span> &mdash; Scheherazade speaks first</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Compulsion to Listen<span class="tip-text"><span class="tip-title">The Compulsion to Listen</span><span class="tip-type">Aura — Scheherazade</span>In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</span></span> &mdash; Scheherazade speaks first</span>
       The room turns to her. Not because she demanded attention, but because her filter makes the silence after Ginsfeld's question feel like a page waiting to be turned. She is the one who turns it.
     </div>
 
     <p class="beat-prose">Scheherazade speaks first. "Every story I ever told was someone else's. I lived inside a thousand other lives to survive my own. The question isn't whether I've been in a story that wasn't mine. The question is whether I've ever been in one that was."</p>
     <p class="beat-prose">Valjean speaks next. Quietly. "I was given another man's name. Another man's life. I was a mayor. I ran a factory. I raised a daughter. None of it was mine. It was a good life, but the number never left." His hand presses his chest &mdash; the brand beneath the shirt.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">The Brand<span class="tip-text"><span class="tip-title">The Brand</span><span class="tip-type">Condition — Jean Valjean — Permanent, Private</span>Prisoner number 24601 inked into his chest. Buttoned collars, layered clothing in warm rooms. The number is his origin and his shame.</span></span> (private) &mdash; activated internally</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">The Brand<span class="tip-text"><span class="tip-title">The Brand</span><span class="tip-type">Condition — Jean Valjean — Permanent, Private</span>Prisoner number 24601 inked into his chest. Buttoned collars, layered clothing in warm rooms. The number is his origin and his shame.</span></span> (private) &mdash; activated internally</span>
       24601. He feels it against his skin when he speaks about the false life. The number that outlasts every alias.
     </div>
 
     <p class="beat-prose">Gatsby adjusts a sugar packet. "I'm still looking," he says. "For the right story. The one where things work out." He smiles, and the smile is the most practiced thing in the room.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; "I'm still looking"</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Aura — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; "I'm still looking"</span>
       The green light pulses at the edge of his vision. Everyone in the room feels the echo &mdash; the specific ache of still searching for something you lost, or something you never had.
     </div>
 
@@ -1313,11 +1247,9 @@
       The answers map to the mission. Scheherazade lived inside other stories &mdash; she can enter Andrei's. Valjean escaped his text's definition &mdash; he can model the alternative. Lady Macbeth identifies as miscast &mdash; she'll see the situation tactically. Gatsby is still searching &mdash; he'll identify with Andrei so completely he'll become a liability. G&rarr;Gat now Affinity 1, Aversion 2. The gap is widening.
     </div>
   </div>
-</div>
 
-<!-- BEAT 7 -->
-<div class="beat-page" data-beat="7">
-<div class="beat">
+  <!-- BEAT 7 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 7</span>
       <span class="beat-title">Ginsfeld Probes</span>
@@ -1325,15 +1257,15 @@
     <p class="beat-prose">"Second question," Ginsfeld says, leaning back in his chair. "Has anyone here stayed in a bad situation because leaving felt like a betrayal?"</p>
     <p class="beat-prose">Valjean answers immediately. "Yes. For nineteen years." Then: "But I did leave. I broke the law to leave. And a bishop gave me silver and told me to become a new man. Staying was not loyalty. It was despair wearing loyalty's clothes."</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; Valjean's candor triggers Ginsfeld's probe instinct</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Aura — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; Valjean's candor triggers Ginsfeld's probe instinct</span>
       The honesty is startling. Ginsfeld wants to push further &mdash; to find the edge where the reformation ends and the convict begins. The filter insists.
     </div>
 
     <p class="beat-prose">Lady Macbeth's answer is clinical. "I stayed because the investment was too great to abandon. The cost of the crown was everything. You do not walk away from everything." Her hands wash themselves. "But there is a difference between loyalty and sunk cost. I learned it too late."</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; Lady Macbeth's presence clarifies</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Aura — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; Lady Macbeth's presence clarifies</span>
       The room feels sharper. Ambitions and rationalizations become more visible. Gatsby's desire to be chosen intensifies.
     </div>
 
@@ -1363,11 +1295,9 @@
       Resonance test conclusive. Two candidates for the complication: Valjean and Gatsby. Key difference: Valjean LEFT. He broke free of his story. The war epic will pull at him, but he has the precedent of escape. Gatsby never left anything. He'll walk into the war epic and feel Andrei's hope like a mirror of his own and he will never come out. G&rarr;Gat: Affinity 1, Aversion 4. The decision is forming.
     </div>
   </div>
-</div>
 
-<!-- BEAT 8 -->
-<div class="beat-page" data-beat="8">
-<div class="beat">
+  <!-- BEAT 8 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 8</span>
       <span class="beat-title">Cross-Connections: Lady Macbeth and Scheherazade</span>
@@ -1379,13 +1309,13 @@
     <p class="beat-prose">A pause. Scheherazade asks: "Do you regret the act itself?"</p>
     <p class="beat-prose">"No." Lady Macbeth's voice is flat, certain. "I regret that it wasn't enough."</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">The Spot<span class="tip-text"><span class="tip-title">The Spot</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Semi-private</span>She washes her hands. Constantly. Rubbing thumb against palm in a motion so practiced it's nearly invisible. In still moments, her hands move. People notice.</span></span> (o2o) &mdash; Scheherazade sees the pause/start</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">The Spot<span class="tip-text"><span class="tip-title">The Spot</span><span class="tip-type">Condition — Lady Macbeth — Permanent, Semi-private</span>She washes her hands. Constantly. Rubbing thumb against palm in a motion so practiced it's nearly invisible. In still moments, her hands move. People notice.</span></span> (o2o) &mdash; Scheherazade sees the pause/start</span>
       When Lady Macbeth says "no," her hands stop washing for one heartbeat. Then resume, faster. Scheherazade sees the pause and the restart. She reads it like punctuation: the period of conviction, the comma of aftermath.
     </div>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; effect on Scheherazade</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Aura — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span> &mdash; effect on Scheherazade</span>
       In Lady Macbeth's presence, Scheherazade's own ambitions clarify. The desire to not just tell stories but to shape outcomes. The desire to be the architect, not just the narrator. The Sharpening makes these desires louder.
     </div>
 
@@ -1402,11 +1332,9 @@
       Lady Macbeth and Scheherazade as a tactical pair. One shapes narratives, the other shapes outcomes. LM&rarr;Sch: Affinity 3, Aversion 0. Sch&rarr;LM: Affinity 3, Aversion 0. That's the strongest mutual bond in the room. If I put them both on the team, they'll coordinate without needing to be told. That's rare. That's valuable.
     </div>
   </div>
-</div>
 
-<!-- BEAT 9 -->
-<div class="beat-page" data-beat="9">
-<div class="beat">
+  <!-- BEAT 9 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 9</span>
       <span class="beat-title">Cross-Connections: Gatsby and Valjean</span>
@@ -1419,8 +1347,8 @@
     <p class="beat-prose">"I am still becoming him."</p>
     <p class="beat-prose">Gatsby's composure fractures. Not dramatically &mdash; a hairline crack. His hand stops arranging the sugar packets. His eyes lose the practiced warmth and become, for a moment, simply young and afraid.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; ripples through the exchange</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Aura — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; ripples through the exchange</span>
       Valjean remembers Jean Valjean &mdash; the one before the Mayor, before the Bishop. The one who stole bread. Gatsby remembers James Gatz from North Dakota. The two lost selves shimmer in the air between them.
     </div>
 
@@ -1447,11 +1375,9 @@
       Valjean might be both Shield AND Persuader. That reshuffles the team. If he can do what he just did to Gatsby &mdash; cut through the performance to the person underneath &mdash; he might be able to reach Andrei. But I still need him as the Shield. Can one person do both? V&rarr;Gat: Affinity 3, Aversion 1. Gat&rarr;V: Affinity 3, Aversion 0. That's the deepest cross-character bond forming.
     </div>
   </div>
-</div>
 
-<!-- BEAT 10 -->
-<div class="beat-page" data-beat="10">
-<div class="beat">
+  <!-- BEAT 10 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 10</span>
       <span class="beat-title">Cross-Connections: Gatsby and Scheherazade</span>
@@ -1485,11 +1411,9 @@
       Scheherazade is the Persuader. Confirmed. Locked. G&rarr;Sch: Affinity 4, Aversion 1. She used the fisherman and the jinni as a precision instrument. If she can crack Gatsby's performance with a story, she can reach a soldier who is trying to escape his death by running into the wrong book. The team is taking shape: Scheherazade (Persuader), Lady Macbeth (Operator), Valjean (Shield). Gatsby is the cut.
     </div>
   </div>
-</div>
 
-<!-- BEAT 11 -->
-<div class="beat-page" data-beat="11">
-<div class="beat">
+  <!-- BEAT 11 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 11</span>
       <span class="beat-title">The Room Tightens</span>
@@ -1519,11 +1443,9 @@
       Gatsby is counting chairs. Lady Macbeth almost Sleepwalked &mdash; the condition fired but didn't meet threshold. Scheherazade caught it. Time to move toward the reveal. I want one more beat to confirm the resonance target before I show my hand.
     </div>
   </div>
-</div>
 
-<!-- BEAT 12 -->
-<div class="beat-page" data-beat="12">
-<div class="beat">
+  <!-- BEAT 12 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 12</span>
       <span class="beat-title">The Resonance Test</span>
@@ -1538,8 +1460,8 @@
     <p class="beat-prose">The room turns.</p>
     <p class="beat-prose">"I'd tell him to go," Gatsby repeats. "Because maybe it works. Maybe the love story takes him in. Maybe you can reach for something better and it reaches back."</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; Gatsby's answer activates his own filter at full force</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Aura — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; Gatsby's answer activates his own aura at full force</span>
       The green light. The dock. The reaching. Everyone in the room feels it &mdash; the ache of possibility, the beautiful lie that the door might open and the story might be kind.
     </div>
 
@@ -1566,11 +1488,9 @@
       The answers confirm the team. Lady Macbeth: Operator. Scheherazade: Persuader. Valjean: Shield. Gatsby: cut. G&rarr;V: Affinity 6, Aversion 1 &mdash; the strongest bond. G&rarr;Gat: Affinity 2, Aversion 6 &mdash; decided. The DC 20 on Hope Against Evidence is the cruelest thing I've seen all night. He found genuine truth in a hopeless scenario. He'd be magnificent inside that text. He'd also never come out. LM&rarr;Gat: Affinity 0, Aversion 4. The room has sorted itself.
     </div>
   </div>
-</div>
 
-<!-- BEAT 13 -->
-<div class="beat-page" data-beat="13">
-<div class="beat">
+  <!-- BEAT 13 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 13</span>
       <span class="beat-title">The Reveal</span>
@@ -1578,8 +1498,8 @@
     <p class="beat-prose">"This isn't a support group," Ginsfeld says. He puts down the clipboard. "It's a recruitment session."</p>
     <p class="beat-prose">Four different flavors of silence. Lady Macbeth's is the silence of confirmation &mdash; she suspected. Scheherazade's is the silence of a story reaching its turning point &mdash; she knew. Valjean's is the silence of betrayal, heavy and still. Gatsby's is the silence of a man processing information while maintaining his composure.</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; inverted</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Aura — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; inverted</span>
       Valjean's filter reverses its direction. Instead of Ginsfeld feeling compelled to test Valjean, Valjean now tests Ginsfeld. The authority figure has revealed himself as a deceiver. The convict who was shown mercy by a bishop now faces a man who offered therapy and delivered manipulation.
     </div>
 
@@ -1600,11 +1520,9 @@
       Valjean's reaction is the one I feared. "I am the same man in every room" was the best I had. I need to rebuild trust fast. The mission itself will help &mdash; saving Andrei is genuinely good work. Valjean's morality will respond to that. But the wound is real. Time to make the cut.
     </div>
   </div>
-</div>
 
-<!-- BEAT 14 -->
-<div class="beat-page" data-beat="14">
-<div class="beat">
+  <!-- BEAT 14 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 14</span>
       <span class="beat-title">Questions and Positioning</span>
@@ -1615,8 +1533,8 @@
     <p class="beat-prose">Scheherazade: "I changed my relationship to death every night for three years. If you need someone who can reach a boy who is afraid of dying, I am the one who speaks that language."</p>
     <p class="beat-prose">Then Gatsby asks about the war epic. His eyes change. The green light &mdash; the permanent condition that only he can see &mdash; flares. "A war epic," he says. "A soldier trying to escape. A love story on the other side."</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; amplified by mission details</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Aura — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; amplified by mission details</span>
       The war epic. The pastoral romance. The door between them. Gatsby sees himself in every word. The ache of the Lost Thing intensifies until it's almost visible &mdash; a shimmer in the air around him, the ghost of a green light reflected in his eyes.
     </div>
 
@@ -1635,11 +1553,9 @@
       Positions clear. Lady Macbeth = Operator (self-selected, correct). Scheherazade = Persuader (confirmed). Valjean = Shield (confirmed in Beat 12). Gatsby = the cut. G&rarr;Gat: Affinity 2, Aversion 7. "I want to go in." He wants to go in because it's HIS story. And that's exactly why the war epic would eat him alive. The team is set. The cut is Gatsby.
     </div>
   </div>
-</div>
 
-<!-- BEAT 15 -->
-<div class="beat-page" data-beat="15">
-<div class="beat">
+  <!-- BEAT 15 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 15</span>
       <span class="beat-title">The Cut</span>
@@ -1659,8 +1575,8 @@
 
     <p class="beat-prose">Lady Macbeth speaks. Two words. "Have you?"</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Filter — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span></span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Sharpening<span class="tip-text"><span class="tip-title">The Sharpening</span><span class="tip-type">Aura — Lady Macbeth</span>In Lady Macbeth's presence, ambitions clarify and moral hesitations soften. 'I shouldn't' becomes 'but what if I did?' The effect is subtle, persistent, and unconscious.</span></span></span>
       Lady Macbeth's filter strips away Gatsby's defenses. "Have you?" &mdash; have you ever come back from reaching for something that wasn't real? The question is surgical. The Sharpening makes it impossible to evade.
     </div>
 
@@ -1673,8 +1589,8 @@
       <span class="dice-roll-outcome">Valjean speaks. "He can change. Any man can." A pause, heavy as iron. "But not today." The words carry the weight of a man who took decades to change. The mercy is real. The limit is real. Both exist simultaneously.</span>
     </div>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Filter — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; loss of a possibility</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Lost Thing<span class="tip-text"><span class="tip-title">The Lost Thing</span><span class="tip-type">Aura — Jay Gatsby</span>In Gatsby's presence, everyone remembers something they lost. The memory is specific, unbidden, and vivid — a person, a place, a version of themselves that no longer exists.</span></span> &mdash; loss of a possibility</span>
       The room aches. Everyone feels it &mdash; the specific grief of a door closing. Not a door that was open, but a door that might have been. Gatsby's filter turns inward: he is now the lost thing.
     </div>
 
@@ -1694,11 +1610,9 @@
       Clean cut. Painful but clean. Team set: Lady Macbeth (Operator), Scheherazade (Persuader), Valjean (Shield). Gatsby is cut. Gat&rarr;V: Affinity 5, Aversion 0 &mdash; the deepest bond in the room. Valjean defended him AND told him the truth simultaneously. That's the Shield. That's the man who will stand between Andrei and the wrong door.
     </div>
   </div>
-</div>
 
-<!-- BEAT 16 -->
-<div class="beat-page" data-beat="16">
-<div class="beat">
+  <!-- BEAT 16 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 16</span>
       <span class="beat-title">Gatsby's Response</span>
@@ -1732,11 +1646,9 @@
       He left better than I deserved. DC 20 on The Beautiful Lie. Natural 20. The tragedy of Gatsby is that he is the perfect envoy for Andrei &mdash; the perfect voice to carry to a soldier reaching for the wrong door. But I can't afford beautiful. I need effective. I need people who will bring Andrei back, not people who understand why he's running. The cut stands.
     </div>
   </div>
-</div>
 
-<!-- BEAT 17 -->
-<div class="beat-page" data-beat="17">
-<div class="beat">
+  <!-- BEAT 17 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 17</span>
       <span class="beat-title">Gatsby Exits</span>
@@ -1746,8 +1658,8 @@
     <p class="beat-prose">To Lady Macbeth: "The crown was worth it. Not the cost &mdash; the reaching."</p>
     <p class="beat-prose">To Scheherazade: "Finish the story."</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Condition: <span class="tip">The Unfinished Story<span class="tip-text"><span class="tip-title">The Unfinished Story</span><span class="tip-type">Condition — Scheherazade — Permanent, Semi-private</span>She never finishes anything completely. A survival instinct from a thousand nights when completion meant death. If the story ends, the Sultan has no reason to let you live.</span></span> &mdash; flares</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Condition: <span class="tip">The Unfinished Story<span class="tip-text"><span class="tip-title">The Unfinished Story</span><span class="tip-type">Condition — Scheherazade — Permanent, Semi-private</span>She never finishes anything completely. A survival instinct from a thousand nights when completion meant death. If the story ends, the Sultan has no reason to let you live.</span></span> &mdash; flares</span>
       Scheherazade's condition activates. "Finish the story." The words land like a command and a plea. She never finishes anything. He knows. How does he know?
     </div>
 
@@ -1765,11 +1677,9 @@
       His exit speech. The DC 20 still echoing. He knew about the Bishop &mdash; he read Valjean that deeply. He knew about the Unfinished Story &mdash; he read Scheherazade that clearly. "You'll lose someone in there." That's either anger, prophecy, or the clearest-eyed tactical assessment anyone has made tonight. WIS 7 and he sees more than any of us. The tragedy compounds.
     </div>
   </div>
-</div>
 
-<!-- BEAT 18 -->
-<div class="beat-page" data-beat="18">
-<div class="beat">
+  <!-- BEAT 18 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 18</span>
       <span class="beat-title">The Team Assembles</span>
@@ -1795,11 +1705,9 @@
       Team briefed. G&rarr;V: Affinity 10, Aversion 1. "I have my purpose. It's in my pocket." The Shield carries his defense against the text's seduction in the form of two silver candlesticks given to him by a man who believed he could change. Mercy is heavier than fiction. That's not poetry &mdash; it's tactical reality.
     </div>
   </div>
-</div>
 
-<!-- BEAT 19 -->
-<div class="beat-page" data-beat="19">
-<div class="beat">
+  <!-- BEAT 19 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 19</span>
       <span class="beat-title">Last Preparations</span>
@@ -1808,8 +1716,8 @@
     <p class="beat-prose">Valjean looks at the empty chair.</p>
     <p class="beat-prose">"The young man," he says. "Gatsby. He'll be alone tonight."</p>
 
-    <div class="filter-trigger">
-      <span class="filter-trigger-label">Filter: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Filter — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; Ginsfeld feels the urge to defend himself</span>
+    <div class="aura-trigger">
+      <span class="aura-trigger-label">Aura: <span class="tip">The Test of Goodness<span class="tip-text"><span class="tip-title">The Test of Goodness</span><span class="tip-type">Aura — Jean Valjean</span>Authority figures feel compelled to test Valjean — to challenge his reformation, to verify the goodness is real. Javert's legacy: the suspicion that mercy is weakness.</span></span> &mdash; Ginsfeld feels the urge to defend himself</span>
       Valjean's words are not accusation. They are observation. But the filter presses: the authority figure who cut the vulnerable man must account for the cost. Ginsfeld feels the weight of it.
     </div>
 
@@ -1828,11 +1736,9 @@
       Valjean advocated for the cut man's welfare. "The young man. He'll be alone tonight." That's not sentimentality. That's moral intelligence. He shields EVERYONE &mdash; the team, the target, and the man who wasn't chosen. "Find him another room." Promise made. Promise kept, eventually.
     </div>
   </div>
-</div>
 
-<!-- BEAT 20 -->
-<div class="beat-page" data-beat="20">
-<div class="beat">
+  <!-- BEAT 20 -->
+  <div class="beat">
     <div class="beat-header">
       <span class="beat-number">Beat 20</span>
       <span class="beat-title">Last Coffee</span>
@@ -1867,11 +1773,11 @@
       Four names. Four words. Grateful. Listening. Hopeful. Ready. Under Gatsby's line: "We'll find you another room." The team is assembled. The mission begins tomorrow. Lady Macbeth stilled her hands for us. Scheherazade is already composing the story. Valjean carries his shield in his pocket. And somewhere above us, Gatsby walks alone through a city that will never be bright enough.
     </div>
   </div>
-</div>
 
-<!-- EPILOGUE: RELATIONSHIPS -->
-<div class="beat-page" data-beat="epilogue-relationships">
-<h2 class="section-header">Final Relationship Tables</h2>
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <h2 class="section-header">Final Relationship Tables</h2>
   <p class="section-sub">Cumulative Affinity/Aversion scores across all 20 beats.</p>
 
   <h3 class="section-header" style="font-size: 1.1em;">Ginsfeld</h3>
@@ -1938,11 +1844,11 @@
       <tr><td>Lady Macbeth</td><td>1</td><td>2</td><td class="net-negative">-1</td><td>"Have you?" Two words that stripped him bare. She is efficient in her cruelties. But "the crown was worth it &mdash; not the cost, the reaching" was his gift to her, and she took it.</td></tr>
     </tbody>
   </table>
-</div>
 
-<!-- EPILOGUE: POST-ENCOUNTER NOTES -->
-<div class="beat-page" data-beat="epilogue-notes">
-<h2 class="section-header">Post-Encounter Notes</h2>
+  <!-- DIVIDER -->
+  <div class="divider">&#10038; &#10038; &#10038;</div>
+
+  <h2 class="section-header">Post-Encounter Notes</h2>
 
   <div class="post-note">
     <div class="post-note-title">Who Was Chosen and Why</div>
@@ -2018,368 +1924,8 @@
   <div class="divider">&#10038; &#10038; &#10038;</div>
 
   <p class="colophon">The Wednesday Group &mdash; Iteration 3 &mdash; World of Guttenberg &mdash; The Ginsfeld Sessions</p>
+
 </div>
-
-</div><!-- end center-inner -->
-</div><!-- end center-stage -->
-
-    <!-- RIGHT PANEL: OPERATOR CARD -->
-    <div id="panel-right">
-      <div class="operator-name">Dr. Donald Ginsfeld, PhD</div>
-      <div class="operator-role">Bookhunter &mdash; Player Character</div>
-
-      <div class="op-section-label">Stats</div>
-      <div class="op-stat-grid">
-        <div class="op-stat-cell"><div class="op-stat-label">STR</div><div class="op-stat-score">8</div><div class="op-stat-mod">-1</div></div>
-        <div class="op-stat-cell"><div class="op-stat-label">DEX</div><div class="op-stat-score">10</div><div class="op-stat-mod">+0</div></div>
-        <div class="op-stat-cell"><div class="op-stat-label">CON</div><div class="op-stat-score">12</div><div class="op-stat-mod">+1</div></div>
-        <div class="op-stat-cell"><div class="op-stat-label">INT</div><div class="op-stat-score">18</div><div class="op-stat-mod">+4</div></div>
-        <div class="op-stat-cell"><div class="op-stat-label">WIS</div><div class="op-stat-score">16</div><div class="op-stat-mod">+3</div></div>
-        <div class="op-stat-cell"><div class="op-stat-label">CHA</div><div class="op-stat-score">16</div><div class="op-stat-mod">+3</div></div>
-      </div>
-
-      <div class="op-section-label">Game Traits</div>
-      <div class="op-trait-grid">
-        <div class="op-trait-cell"><div class="op-trait-name">Game Savvy</div><div class="op-trait-value op-trait-high">High</div></div>
-        <div class="op-trait-cell"><div class="op-trait-name">Honesty</div><div class="op-trait-value op-trait-low">Low</div></div>
-        <div class="op-trait-cell"><div class="op-trait-name">Verbosity</div><div class="op-trait-value">Med</div></div>
-        <div class="op-trait-cell"><div class="op-trait-name">Sensitivity</div><div class="op-trait-value">Med</div></div>
-      </div>
-
-      <details class="op-objectives" open>
-        <summary>Objectives</summary>
-        <ul class="op-obj-list">
-          <li><strong>1. The Persuader</strong> &mdash; reach Andrei, talk him down</li>
-          <li><strong>2. The Shield</strong> &mdash; handle Kade's team, resist the text's seduction</li>
-          <li><strong>3. The Operator</strong> &mdash; manage tactical picture, think three moves ahead</li>
-        </ul>
-      </details>
-
-      <div class="op-decision">Decision Criteria: Competence, emotional stability, resistance to the complication. Wildcard tolerance: low.</div>
-
-      <button class="collapse-toggle" id="toggle-right" onclick="toggleRight()" style="margin-top:12px;">Collapse Panel</button>
-    </div>
-
-  </div><!-- end main-grid -->
-
-  <!-- BOTTOM BAR -->
-  <div id="bottom-bar">
-    <a href="characters/lady-macbeth.html" class="char-thumb" data-name="Lady Macbeth" data-role="The Sharpening" data-source="Macbeth — William Shakespeare">
-      <img src="images/Lady_Macbeth_Cattermole.jpg" alt="Lady Macbeth" class="char-thumb-img">
-      <span class="char-thumb-name">Lady Macbeth</span>
-    </a>
-    <a href="characters/jay-gatsby.html" class="char-thumb" data-name="Jay Gatsby" data-role="The Lost Thing" data-source="The Great Gatsby — F. Scott Fitzgerald">
-      <img src="images/gatsby-warner-baxter.jpg" alt="Jay Gatsby" class="char-thumb-img">
-      <span class="char-thumb-name">Jay Gatsby</span>
-    </a>
-    <a href="characters/jean-valjean.html" class="char-thumb" data-name="Jean Valjean" data-role="The Test of Goodness" data-source="Les Misérables — Victor Hugo">
-      <img src="images/valjean-gustave-brion.jpg" alt="Jean Valjean" class="char-thumb-img">
-      <span class="char-thumb-name">Jean Valjean</span>
-    </a>
-    <a href="characters/scheherazade.html" class="char-thumb" data-name="Scheherazade" data-role="The Compulsion to Listen" data-source="One Thousand and One Nights">
-      <img src="images/scheherazade-anderson.jpg" alt="Scheherazade" class="char-thumb-img">
-      <span class="char-thumb-name">Scheherazade</span>
-    </a>
-  </div>
-
-</div><!-- end app -->
-
-<script>
-(function() {
-  var currentPage = 0;
-  var pages = document.querySelectorAll('.beat-page');
-  var totalPages = pages.length;
-  var btnPrev = document.getElementById('btn-prev');
-  var btnNext = document.getElementById('btn-next');
-  var progressFill = document.getElementById('progress-fill');
-  var beatLabel = document.getElementById('beat-label');
-
-  function getBeatLabel(idx) {
-    var page = pages[idx];
-    var beat = page.getAttribute('data-beat');
-    if (beat.indexOf('epilogue') === 0) {
-      return 'Epilogue (' + (idx - 20) + ' of 2)';
-    }
-    if (beat === '0') return 'The Setup';
-    return 'Beat ' + beat + ' of 20';
-  }
-
-  function updateUI() {
-    var pct = ((currentPage + 1) / totalPages) * 100;
-    progressFill.style.width = pct + '%';
-    beatLabel.textContent = getBeatLabel(currentPage);
-    btnPrev.disabled = currentPage === 0;
-    btnNext.disabled = currentPage === totalPages - 1;
-  }
-
-  function goToPage(index, dir) {
-    if (index < 0 || index >= totalPages || index === currentPage) return;
-    var oldPage = pages[currentPage];
-    var newPage = pages[index];
-    oldPage.classList.remove('active');
-    oldPage.classList.add(dir === 'forward' ? 'exit-left' : 'exit-right');
-    newPage.classList.remove('exit-left', 'exit-right');
-    newPage.classList.add('active');
-    setTimeout(function() {
-      oldPage.classList.remove('exit-left', 'exit-right');
-    }, 400);
-    newPage.scrollTop = 0;
-    currentPage = index;
-    updateUI();
-  }
-
-  window.nextPage = function() { goToPage(currentPage + 1, 'forward'); };
-  window.prevPage = function() { goToPage(currentPage - 1, 'backward'); };
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' || e.key === 'Right') { window.nextPage(); }
-    else if (e.key === 'ArrowLeft' || e.key === 'Left') { window.prevPage(); }
-  });
-
-  var leftCollapsed = false;
-  var rightCollapsed = false;
-  var grid = document.getElementById('main-grid');
-
-  window.toggleLeft = function() {
-    leftCollapsed = !leftCollapsed;
-    grid.classList.toggle('left-collapsed', leftCollapsed);
-    document.getElementById('toggle-left').textContent = leftCollapsed ? 'Show Panel' : 'Collapse Panel';
-  };
-  window.toggleRight = function() {
-    rightCollapsed = !rightCollapsed;
-    grid.classList.toggle('right-collapsed', rightCollapsed);
-    document.getElementById('toggle-right').textContent = rightCollapsed ? 'Show Panel' : 'Collapse Panel';
-  };
-
-  updateUI();
-
-  /* ========== CHARACTER MINI-CARD SYSTEM ========== */
-
-  var CHARACTERS = {
-    'Ginsfeld': {
-      full: 'Dr. Donald Ginsfeld, PhD', role: 'Bookhunter \u2014 Player Character',
-      img: null,
-      stats: {STR:[8,-1], DEX:[10,0], CON:[12,1], INT:[18,4], WIS:[16,3], CHA:[16,3]},
-      traits: {'Game Savvy':'High', Honesty:'Low', Verbosity:'Med', Sensitivity:'Med'},
-      filter: null
-    },
-    'Lady Macbeth': {
-      full: 'Lady Macbeth', role: 'Actor \u2014 Unaffiliated',
-      img: 'images/Lady_Macbeth_Cattermole.jpg',
-      stats: {STR:[8,-1], DEX:[12,1], CON:[10,0], INT:[16,3], WIS:[14,2], CHA:[18,4]},
-      traits: {'Game Savvy':'High', Honesty:'Low', Verbosity:'Med', Sensitivity:'Med'},
-      filter: 'The Sharpening'
-    },
-    'Gatsby': {
-      full: 'Jay Gatsby', role: 'Actor \u2014 Unaffiliated',
-      img: 'images/gatsby-warner-baxter.jpg',
-      stats: {STR:[12,1], DEX:[14,2], CON:[10,0], INT:[16,3], WIS:[8,-1], CHA:[18,4]},
-      traits: {'Game Savvy':'Med', Honesty:'Low', Verbosity:'Med', Sensitivity:'High'},
-      filter: 'The Lost Thing'
-    },
-    'Valjean': {
-      full: 'Jean Valjean', role: 'Actor \u2014 Unaffiliated',
-      img: 'images/valjean-gustave-brion.jpg',
-      stats: {STR:[18,4], DEX:[10,0], CON:[16,3], INT:[12,1], WIS:[14,2], CHA:[8,-1]},
-      traits: {'Game Savvy':'Low', Honesty:'High', Verbosity:'Low', Sensitivity:'Med'},
-      filter: 'The Test of Goodness'
-    },
-    'Scheherazade': {
-      full: 'Scheherazade', role: 'Actor \u2014 Unaffiliated',
-      img: 'images/scheherazade-anderson.jpg',
-      stats: {STR:[8,-1], DEX:[10,0], CON:[14,2], INT:[18,4], WIS:[16,3], CHA:[12,1]},
-      traits: {'Game Savvy':'High', Honesty:'Med', Verbosity:'High', Sensitivity:'High'},
-      filter: 'The Compulsion to Listen'
-    },
-    'Andrei': {
-      full: 'Andrei', role: 'NPC \u2014 Mission Target',
-      img: 'images/Andrei.jpg',
-      stats: {STR:[14,2], DEX:[12,1], CON:[13,1], INT:[10,0], WIS:[15,2], CHA:[8,-1]},
-      traits: {'Game Savvy':'Low', Honesty:'High', Verbosity:'Med', Sensitivity:'High'},
-      filter: 'The Weight of Minor Characters'
-    }
-  };
-
-  // Name variations → character key
-  var NAME_MAP = [
-    ['Dr. Ginsfeld', 'Ginsfeld'],
-    ['Lady Macbeth', 'Lady Macbeth'],
-    ['Jean Valjean', 'Valjean'],
-    ['Jay Gatsby', 'Gatsby'],
-    ['Scheherazade', 'Scheherazade'],
-    ['Ginsfeld', 'Ginsfeld'],
-    ['Macbeth', 'Lady Macbeth'],
-    ['Valjean', 'Valjean'],
-    ['Gatsby', 'Gatsby'],
-    ['Andrei', 'Andrei']
-  ];
-
-  // Build regex: longest names first to avoid partial matches
-  var namePattern = new RegExp('(' + NAME_MAP.map(function(n) {
-    return n[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }).join('|') + ')', 'g');
-
-  function wrapNamesInElement(el) {
-    var childNodes = Array.prototype.slice.call(el.childNodes);
-    childNodes.forEach(function(node) {
-      // Skip existing tip spans and char-tip spans
-      if (node.nodeType === 1) {
-        if (node.classList && (node.classList.contains('tip') || node.classList.contains('char-tip'))) return;
-        wrapNamesInElement(node);
-        return;
-      }
-      if (node.nodeType !== 3) return; // text nodes only
-      var text = node.textContent;
-      if (!namePattern.test(text)) return;
-      namePattern.lastIndex = 0;
-
-      var frag = document.createDocumentFragment();
-      var lastIdx = 0;
-      var match;
-      namePattern.lastIndex = 0;
-      while ((match = namePattern.exec(text)) !== null) {
-        if (match.index > lastIdx) {
-          frag.appendChild(document.createTextNode(text.slice(lastIdx, match.index)));
-        }
-        var span = document.createElement('span');
-        span.className = 'char-tip';
-        // Find the character key for this name
-        for (var i = 0; i < NAME_MAP.length; i++) {
-          if (NAME_MAP[i][0] === match[1]) {
-            span.setAttribute('data-char', NAME_MAP[i][1]);
-            break;
-          }
-        }
-        span.textContent = match[1];
-        frag.appendChild(span);
-        lastIdx = namePattern.lastIndex;
-      }
-      if (lastIdx < text.length) {
-        frag.appendChild(document.createTextNode(text.slice(lastIdx)));
-      }
-      node.parentNode.replaceChild(frag, node);
-    });
-  }
-
-  // Wrap names in beat prose only
-  document.querySelectorAll('.beat-page .beat-prose').forEach(function(p) {
-    wrapNamesInElement(p);
-  });
-  // Also wrap in assessment blocks
-  document.querySelectorAll('.beat-page .assessment').forEach(function(el) {
-    wrapNamesInElement(el);
-  });
-
-  // Create the single tooltip element
-  var charCard = document.createElement('div');
-  charCard.id = 'char-card';
-  document.body.appendChild(charCard);
-
-  function buildCardHTML(key) {
-    var c = CHARACTERS[key];
-    if (!c) return '';
-    var html = '<div class="cc-header">';
-    if (c.img) {
-      html += '<img class="cc-portrait" src="' + c.img + '" alt="' + c.full + '">';
-    }
-    html += '<div class="cc-info">';
-    html += '<div class="cc-name">' + c.full + '</div>';
-    html += '<div class="cc-role">' + c.role + '</div>';
-    if (c.filter) html += '<div class="cc-filter">' + c.filter + '</div>';
-    html += '</div></div>';
-    // Stats
-    html += '<div class="cc-stats">';
-    var statKeys = ['STR','DEX','CON','INT','WIS','CHA'];
-    statKeys.forEach(function(s) {
-      var mod = c.stats[s][1];
-      var modStr = mod >= 0 ? '+' + mod : '' + mod;
-      html += '<div><div class="cc-stat-label">' + s + '</div><div class="cc-stat-val">' + c.stats[s][0] + '</div><div class="cc-stat-mod">' + modStr + '</div></div>';
-    });
-    html += '</div>';
-    // Traits
-    html += '<div class="cc-traits">';
-    for (var t in c.traits) {
-      var v = c.traits[t];
-      var cls = 'cc-trait-val';
-      if (v === 'High') cls += ' cc-trait-high';
-      else if (v === 'Low') cls += ' cc-trait-low';
-      html += '<div><span class="cc-trait-name">' + t + ':</span> <span class="' + cls + '">' + v + '</span></div>';
-    }
-    html += '</div>';
-    return html;
-  }
-
-  var cardTimeout;
-  var activeCharTip = null;
-
-  document.addEventListener('mouseover', function(e) {
-    var tip = e.target.closest('.char-tip');
-    if (!tip) return;
-    if (tip === activeCharTip) return;
-    activeCharTip = tip;
-    clearTimeout(cardTimeout);
-    var key = tip.getAttribute('data-char');
-    charCard.innerHTML = buildCardHTML(key);
-
-    // Position above the hovered name using fixed positioning
-    var tipRect = tip.getBoundingClientRect();
-    var cardWidth = 280;
-    var left = tipRect.left + (tipRect.width / 2) - (cardWidth / 2);
-    // Clamp to viewport
-    left = Math.max(8, Math.min(left, window.innerWidth - cardWidth - 8));
-    charCard.style.left = left + 'px';
-    charCard.style.top = 'auto';
-    charCard.style.bottom = (window.innerHeight - tipRect.top + 10) + 'px';
-    // Force reflow then show
-    charCard.offsetHeight;
-    charCard.classList.add('visible');
-  });
-
-  document.addEventListener('mouseout', function(e) {
-    var tip = e.target.closest('.char-tip');
-    if (!tip) return;
-    // Check if we're moving to another element inside the same char-tip
-    var related = e.relatedTarget;
-    if (related && tip.contains(related)) return;
-    activeCharTip = null;
-    cardTimeout = setTimeout(function() {
-      charCard.classList.remove('visible');
-    }, 100);
-  });
-
-  /* ========== BOTTOM BAR SOURCE TOOLTIPS ========== */
-  var thumbTip = document.createElement('div');
-  thumbTip.id = 'thumb-tooltip';
-  document.body.appendChild(thumbTip);
-
-  document.addEventListener('mouseover', function(e) {
-    var thumb = e.target.closest('.char-thumb');
-    if (!thumb) return;
-    var name = thumb.getAttribute('data-name') || '';
-    var source = thumb.getAttribute('data-source') || '';
-    if (!name && !source) return;
-    thumbTip.textContent = name + '\n' + source;
-    var rect = thumb.getBoundingClientRect();
-    var tipWidth = thumbTip.offsetWidth || 160;
-    thumbTip.classList.add('visible');
-    tipWidth = thumbTip.offsetWidth;
-    var left = rect.left + (rect.width / 2) - (tipWidth / 2);
-    left = Math.max(8, Math.min(left, window.innerWidth - tipWidth - 8));
-    thumbTip.style.left = left + 'px';
-    thumbTip.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
-    thumbTip.style.top = 'auto';
-  });
-
-  document.addEventListener('mouseout', function(e) {
-    var thumb = e.target.closest('.char-thumb');
-    if (!thumb) return;
-    var related = e.relatedTarget;
-    if (related && thumb.contains(related)) return;
-    thumbTip.classList.remove('visible');
-  });
-
-})();
-</script>
-
+</div>
 </body>
 </html>

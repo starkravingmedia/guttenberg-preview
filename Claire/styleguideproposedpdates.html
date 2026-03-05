@@ -355,15 +355,15 @@
     color: var(--blood);
   }
 
-  /* 8. FILTER BLOCK */
-  .filter-block {
+  /* 8. AURA BLOCK */
+  .aura-block {
     margin-bottom: 20px;
     padding: 20px 24px;
     border: 1px solid var(--gold);
     background: rgba(184, 134, 11, 0.05);
     position: relative;
   }
-  .filter-block::before {
+  .aura-block::before {
     content: '~';
     position: absolute;
     top: -12px;
@@ -375,7 +375,7 @@
     background: var(--parchment);
     padding: 0 8px;
   }
-  .filter-name {
+  .aura-name {
     font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 0.9em;
@@ -383,7 +383,7 @@
     text-align: center;
     margin-bottom: 10px;
   }
-  .filter-desc {
+  .aura-desc {
     font-family: 'EB Garamond', serif;
     font-style: italic;
     font-size: 0.92em;
@@ -525,8 +525,8 @@
     opacity: 0.7;
   }
 
-  /* 13. FILTER INTERACTION (mid-narrative) */
-  .filter-trigger {
+  /* 13. AURA INTERACTION (mid-narrative) */
+  .aura-trigger {
     margin: 16px 0;
     padding: 10px 18px;
     border-left: 3px solid var(--gold);
@@ -535,7 +535,7 @@
     font-size: 0.9em;
     line-height: 1.55;
   }
-  .filter-trigger-label {
+  .aura-trigger-label {
     font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 0.7em;
@@ -964,23 +964,23 @@
   </div>
 
   <!-- ============================================================
-       8. FILTER BLOCK
+       8. AURA BLOCK
        ============================================================ -->
   <div class="divider">&#10038; &#10038; &#10038;</div>
-  <h2 class="section-header">Filter Block</h2>
+  <h2 class="section-header">Aura Block</h2>
   <p class="section-sub">Passive aura that changes the social environment</p>
 
   <div class="sg-example">
     <div class="sg-example-render">
-      <div class="filter-block">
-        <div class="filter-name">"Things That Lose by Being Painted"</div>
-        <div class="filter-desc">The world presents itself to Sei in hierarchies of elegance. When she enters a room, everyone present becomes subtly aware of whether they are being found pleasing or wanting.</div>
+      <div class="aura-block">
+        <div class="aura-name">"Things That Lose by Being Painted"</div>
+        <div class="aura-desc">The world presents itself to Sei in hierarchies of elegance. When she enters a room, everyone present becomes subtly aware of whether they are being found pleasing or wanting.</div>
       </div>
     </div>
     <div class="sg-code-label">HTML</div>
-    <pre class="sg-code">&lt;div class="filter-block"&gt;
-  &lt;div class="filter-name"&gt;"Filter Name"&lt;/div&gt;
-  &lt;div class="filter-desc"&gt;Description...&lt;/div&gt;
+    <pre class="sg-code">&lt;div class="aura-block"&gt;
+  &lt;div class="aura-name"&gt;"Filter Name"&lt;/div&gt;
+  &lt;div class="aura-desc"&gt;Description...&lt;/div&gt;
 &lt;/div&gt;</pre>
     <p class="sg-note">Gold border and centered text distinguish filters from conditions and skills. The <code>~</code> symbol in the <code>::before</code> pseudo-element suggests a wave or aura. Italic EB Garamond for the dreamy, always-on quality of filters.</p>
   </div>
@@ -1011,22 +1011,22 @@
   </div>
 
   <!-- ============================================================
-       10. FILTER TRIGGER (mid-narrative)
+       10. AURA TRIGGER (mid-narrative)
        ============================================================ -->
   <div class="divider">&#10038; &#10038; &#10038;</div>
-  <h2 class="section-header">Filter Trigger (Inline)</h2>
-  <p class="section-sub">Filter activations within the narrative flow</p>
+  <h2 class="section-header">Aura Trigger (Inline)</h2>
+  <p class="section-sub">Aura activations within the narrative flow</p>
 
   <div class="sg-example">
     <div class="sg-example-render">
-      <div class="filter-trigger">
-        <span class="filter-trigger-label">Filter: The Oath That Echoes</span>
+      <div class="aura-trigger">
+        <span class="aura-trigger-label">Aura: The Oath That Echoes</span>
         The room's moral gravity shifts slightly. Ginsfeld feels a brief, unwelcome prickle at the base of his skull.
       </div>
     </div>
     <div class="sg-code-label">HTML</div>
-    <pre class="sg-code">&lt;div class="filter-trigger"&gt;
-  &lt;span class="filter-trigger-label"&gt;Filter: Name&lt;/span&gt;
+    <pre class="sg-code">&lt;div class="aura-trigger"&gt;
+  &lt;span class="aura-trigger-label"&gt;Aura: Name&lt;/span&gt;
   Narrative description of the filter's effect.
 &lt;/div&gt;</pre>
     <p class="sg-note">Gold left-border (vs. blood for dice rolls). Same structural pattern as the dice roll block, differentiated by color. The gold signals passive/environmental effects while blood signals active mechanical interventions.</p>
@@ -1274,8 +1274,8 @@
     <div class="chain-step step-book">
       <span class="chain-number">8.</span>
       <div class="chain-body">
-        <div class="chain-title">Filter Block</div>
-        <div class="chain-text"><code>.filter-block</code> &mdash; Passive aura description in a gold-bordered panel.</div>
+        <div class="chain-title">Aura Block</div>
+        <div class="chain-text"><code>.aura-block</code> &mdash; Passive aura description in a gold-bordered panel.</div>
       </div>
     </div>
     <div class="chain-step step-book">
@@ -1288,8 +1288,8 @@
     <div class="chain-step step-book">
       <span class="chain-number">10.</span>
       <div class="chain-body">
-        <div class="chain-title">Filter Trigger (Inline)</div>
-        <div class="chain-text"><code>.filter-trigger</code> &mdash; Filter activation in the narrative flow.</div>
+        <div class="chain-title">Aura Trigger (Inline)</div>
+        <div class="chain-text"><code>.aura-trigger</code> &mdash; Aura activation in the narrative flow.</div>
       </div>
     </div>
     <div class="chain-step step-book">

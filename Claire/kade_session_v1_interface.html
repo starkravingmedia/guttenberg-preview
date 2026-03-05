@@ -3,139 +3,1065 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What&rsquo;s Your Story? &mdash; Iteration 1</title>
+<title>What&rsquo;s Your Story?</title>
 <link rel="stylesheet" href="styles/terminally-online.css">
 <style>
-/* Reddit Interlude */
-.reddit-interlude { margin: 24px 0; padding: 20px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-raised); border-top: 3px solid var(--upvote); }
-.reddit-sub { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 1em; color: var(--upvote); margin-bottom: 16px; }
-.reddit-sub::before { content: 'r/'; font-weight: 400; opacity: 0.6; }
-.reddit-post { margin-bottom: 16px; padding-left: 16px; border-left: 2px solid var(--border); }
-.reddit-post:last-child { margin-bottom: 0; }
-.reddit-user { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; font-weight: 600; color: var(--op); margin-bottom: 4px; }
-.reddit-user::before { content: 'u/'; font-weight: 400; color: var(--text-faint); }
-.reddit-text { font-size: 0.88em; color: var(--text-muted); line-height: 1.5; }
-.reddit-text ul { padding-left: 20px; margin-top: 6px; }
-.reddit-text li { margin-bottom: 4px; }
-/* Chat Messages */
-.chat-block { margin: 12px 0; padding: 10px 14px; background: var(--surface-raised); border-radius: 4px; border: 1px solid var(--border); }
-.chat-msg { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; color: var(--text-muted); line-height: 1.8; display: block; }
-/* Viewer Count */
-.viewer-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; color: var(--online); margin: 12px 0; }
-.viewer-count::before { content: '👁 '; }
-/* Kade Question */
-.kade-question { margin: 16px 0; padding: 12px 16px; border-left: 3px solid var(--mod); background: rgba(88, 214, 141, 0.04); border-radius: 0 4px 4px 0; }
-.kade-question-label { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mod); display: block; margin-bottom: 6px; }
-.kade-question-label::before { content: '🎧 '; }
-/* Vote Result */
-.vote-result { font-family: 'IBM Plex Mono', monospace; font-size: 0.75em; color: var(--text-faint); margin: 8px 0; padding: 4px 10px; border: 1px dashed var(--border); border-radius: 4px; display: inline-block; }
-/* Muggle Card */
-.muggle-card { margin-bottom: 4px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); transition: background 0.15s ease; }
-.muggle-card:hover { background: var(--surface-hover); }
-.muggle-name { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 0.9em; color: var(--text); }
-.muggle-tag { font-family: 'IBM Plex Sans', sans-serif; font-size: 0.65em; font-weight: 600; color: var(--void); background: var(--gold-award); padding: 2px 8px; border-radius: 12px; margin-left: 6px; vertical-align: middle; }
-.muggle-desc { font-size: 0.85em; color: var(--text-muted); line-height: 1.45; margin-top: 4px; }
-/* Running Totals */
-.running-totals { font-family: 'IBM Plex Mono', monospace; font-size: 0.72em; color: var(--text-faint); margin: 8px 0; padding: 6px 10px; background: var(--surface-raised); border-radius: 4px; }
+  /* ========== APP SHELL VARIABLES ========== */
+  :root {
+    --shell-bg: #030303;
+    --shell-surface: #1a1a1b;
+    --shell-border: #343536;
+    --stage-bg: #1a1a1b;
+  }
+
+  /* ========== APP GRID ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { overflow: hidden; background: var(--shell-bg); }
+
+  #app {
+    display: grid;
+    grid-template-rows: 52px 1fr 80px;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+
+  /* ========== TOP BAR ========== */
+  #top-bar {
+    background: var(--shell-bg);
+    border-bottom: 1px solid var(--shell-border);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    z-index: 10;
+  }
+  .top-back {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mod);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .top-back:hover { color: var(--gold-award); text-decoration: none; }
+  .top-title {
+    font-family: 'Bangers', Impact, sans-serif;
+    font-size: 1.6em;
+    color: var(--text);
+    white-space: nowrap;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+    letter-spacing: 0.02em;
+  }
+  .progress-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--shell-surface);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--upvote);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 6px rgba(255, 69, 0, 0.4);
+    width: 0%;
+  }
+  .beat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .nav-arrows { display: flex; gap: 6px; }
+  .nav-btn {
+    background: var(--shell-surface);
+    border: 1px solid var(--shell-border);
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85em;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-radius: 2px;
+  }
+  .nav-btn:hover:not(:disabled) { background: var(--surface-hover); color: var(--text); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  /* ========== MAIN GRID ========== */
+  #main-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr 240px;
+    overflow: hidden;
+    transition: grid-template-columns 0.3s ease;
+  }
+  #main-grid.left-collapsed { grid-template-columns: 0px 1fr 240px; }
+  #main-grid.right-collapsed { grid-template-columns: 260px 1fr 0px; }
+  #main-grid.left-collapsed.right-collapsed { grid-template-columns: 0px 1fr 0px; }
+
+  /* ========== LEFT PANEL ========== */
+  #panel-left {
+    background: var(--shell-bg);
+    border-right: 1px solid var(--shell-border);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--shell-border) transparent;
+    transition: padding 0.3s, opacity 0.3s;
+  }
+  #main-grid.left-collapsed #panel-left { padding: 0; opacity: 0; overflow: hidden; }
+  .panel-header {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--upvote);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--shell-border);
+  }
+  .dossier-section { margin-bottom: 4px; }
+  .dossier-section summary {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.72em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    cursor: pointer;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--shell-border);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dossier-section summary::before {
+    content: '\25B6';
+    font-size: 0.6em;
+    color: var(--upvote);
+    transition: transform 0.2s;
+  }
+  .dossier-section[open] summary::before { transform: rotate(90deg); }
+  .dossier-section summary:hover { color: var(--gold-award); }
+  .dossier-body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.78em;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: 10px 0 10px 6px;
+  }
+  .collapse-toggle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--shell-surface);
+    border: 1px solid var(--shell-border);
+    padding: 4px 10px;
+    cursor: pointer;
+    display: block;
+    margin-top: 12px;
+    transition: color 0.2s;
+  }
+  .collapse-toggle:hover { color: var(--gold-award); }
+
+  /* Edge tabs to re-expand collapsed panels */
+  .expand-tab {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    background: var(--shell-bg);
+    border: 1px solid var(--shell-border);
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 12px 4px;
+    writing-mode: vertical-lr;
+    transition: color 0.2s, background 0.2s;
+  }
+  .expand-tab:hover { color: var(--gold-award); background: var(--shell-surface); }
+  .expand-tab--left { left: 0; border-left: none; border-radius: 0 4px 4px 0; }
+  .expand-tab--right { right: 0; border-right: none; border-radius: 4px 0 0 4px; }
+  #main-grid.left-collapsed .expand-tab--left { display: block; }
+  #main-grid.right-collapsed .expand-tab--right { display: block; }
+
+  /* ========== CENTER STAGE ========== */
+  #center-stage {
+    background: var(--stage-bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .center-inner {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 6px solid transparent;
+    box-shadow: inset 0 0 0 1px var(--shell-border);
+  }
+  #center-stage::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.15) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ========== BEAT PAGES ========== */
+  .beat-page {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding: 40px 50px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--shell-border) transparent;
+  }
+  .beat-page.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .beat-page.exit-left {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  .beat-page.exit-right {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  /* ========== RIGHT PANEL ========== */
+  #panel-right {
+    background: var(--shell-bg);
+    border-left: 1px solid var(--shell-border);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--shell-border) transparent;
+    transition: padding 0.3s, opacity 0.3s;
+  }
+  #main-grid.right-collapsed #panel-right { padding: 0; opacity: 0; overflow: hidden; }
+  .operator-name {
+    font-family: 'Bangers', Impact, sans-serif;
+    font-size: 1.3em;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 2px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+  }
+  .operator-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .op-section-label {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.6em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--upvote);
+    margin-top: 14px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--shell-border);
+  }
+  .op-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+  .op-stat-cell {
+    text-align: center;
+    padding: 4px 2px;
+    border: 1px solid var(--shell-border);
+    background: rgba(26, 26, 27, 0.5);
+  }
+  .op-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.55em;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .op-stat-score {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .op-stat-mod {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7em;
+    color: var(--gold-award);
+  }
+  .op-trait-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .op-trait-cell { text-align: center; padding: 4px; }
+  .op-trait-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .op-trait-value {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.85em;
+    color: var(--text);
+  }
+  .op-trait-high { color: var(--upvote); }
+  .op-trait-low { color: var(--text-muted); opacity: 0.6; }
+  .op-objectives { margin-bottom: 4px; }
+  .op-objectives summary {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    cursor: pointer;
+    padding: 6px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .op-objectives summary::before {
+    content: '\25B6';
+    font-size: 0.55em;
+    color: var(--upvote);
+    transition: transform 0.2s;
+  }
+  .op-objectives[open] summary::before { transform: rotate(90deg); }
+  .op-obj-list {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.8em;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding: 6px 0 6px 8px;
+    list-style: none;
+  }
+  .op-obj-list li { margin-bottom: 6px; }
+  .op-obj-list li strong {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--text);
+  }
+  .op-decision {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.78em;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding-top: 8px;
+  }
+  .op-portrait {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    object-position: center top;
+    border: 1px solid var(--shell-border);
+    margin-bottom: 10px;
+    filter: contrast(1.05) brightness(0.9);
+  }
+
+  /* ========== BOTTOM BAR ========== */
+  #bottom-bar {
+    background: var(--shell-bg);
+    border-top: 1px solid var(--shell-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 0 20px;
+    z-index: 10;
+    overflow: visible;
+    position: relative;
+  }
+  .char-thumb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+  .char-thumb:hover { transform: translateY(-6px); }
+  .char-thumb-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--shell-border);
+    object-fit: cover;
+    filter: contrast(1.05) brightness(0.95);
+    transition: border-color 0.3s;
+  }
+  .char-thumb:hover .char-thumb-img { border-color: var(--gold-award); }
+  .char-thumb-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55em;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-top: 3px;
+    white-space: nowrap;
+  }
+  .char-thumb-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--shell-border);
+    background: var(--surface-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7em;
+    font-weight: 700;
+    color: var(--text-faint);
+    transition: border-color 0.3s;
+  }
+  .char-thumb:hover .char-thumb-placeholder { border-color: var(--gold-award); }
+  #thumb-tooltip {
+    position: fixed;
+    z-index: 300;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    background: var(--shell-bg);
+    border: 1px solid var(--shell-border);
+    padding: 5px 12px;
+    white-space: pre;
+    text-align: center;
+    pointer-events: none;
+    display: none;
+  }
+  #thumb-tooltip.visible { display: block; }
+
+  /* ========== BEAT CONTENT OVERRIDES ========== */
+  .beat { margin-bottom: 40px; }
+  .beat-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .beat-number {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--upvote);
+    white-space: nowrap;
+  }
+  .beat-title {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  /* Override beat prose for center stage context */
+  .beat-page .beat-prose {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.92em;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  /* Dice roll pulse animation */
+  @keyframes pulse-upvote {
+    0%, 100% { border-left-color: var(--upvote); }
+    50% { border-left-color: rgba(255, 69, 0, 0.4); }
+  }
+  .beat-page.active .dice-roll {
+    animation: pulse-upvote 3s ease-in-out infinite;
+  }
+
+  /* Assessment blocks override for the interface */
+  .beat-page .assessment {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--mod);
+    background: rgba(88, 214, 141, 0.04);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: italic;
+    font-size: 0.88em;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  .beat-page .assessment-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.65em;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mod);
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  /* Filter trigger override */
+  .beat-page .aura-trigger {
+    margin: 16px 0;
+    padding: 10px 18px;
+    border-left: 3px solid var(--gold-award);
+    background: rgba(255, 215, 0, 0.04);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.88em;
+    line-height: 1.55;
+  }
+  .beat-page .aura-trigger-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-award);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Relationship blocks override */
+  .beat-page .relationships-block {
+    margin: 16px 0;
+    padding: 14px 18px;
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    background: rgba(26, 26, 27, 0.5);
+  }
+  .beat-page .relationships-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .beat-page .rel-delta {
+    margin-bottom: 6px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.85em;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+  .beat-page .rel-pair {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--text);
+  }
+  .rel-change--positive { color: var(--gold-award); }
+  .rel-change--negative { color: var(--upvote); }
+  .rel-thought { font-style: italic; color: var(--text-muted); opacity: 0.85; }
+
+  /* Dice roll override */
+  .beat-page .dice-roll {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 3px solid var(--upvote);
+    background: rgba(255, 69, 0, 0.04);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.88em;
+    line-height: 1.55;
+  }
+  .beat-page .dice-roll-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--upvote);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .beat-page .dice-roll-result {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: var(--text);
+  }
+  .beat-page .dice-roll-outcome { font-style: italic; color: var(--text-muted); }
+
+  /* Tip/tooltip overrides for dark theme */
+  .beat-page .tip .tip-text {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    box-shadow: 3px 3px 12px rgba(0,0,0,0.5);
+    color: var(--text);
+  }
+  .beat-page .tip .tip-text::after {
+    border-top-color: var(--border);
+  }
+  .beat-page .tip-title { color: var(--gold-award); }
+  .beat-page .tip-type { color: var(--text-muted); }
+  .beat-page .tip { border-bottom-color: var(--gold-award); }
+
+  /* Character sheet overrides inside beat pages */
+  .beat-page .character-sheet {
+    border-color: var(--border);
+    margin-bottom: 40px;
+  }
+  .beat-page .character-name { color: var(--text); text-shadow: none; }
+  .beat-page .character-role { color: var(--text-muted); }
+  .beat-page .character-quote { color: var(--text-muted); }
+  .beat-page .character-section-label { color: var(--upvote); border-bottom-color: var(--border); }
+  .beat-page .stat-cell { border-color: var(--border); background: rgba(26,26,27,0.5); }
+  .beat-page .stat-label { color: var(--text-muted); }
+  .beat-page .stat-score { color: var(--text); }
+  .beat-page .stat-mod { color: var(--gold-award); }
+  .beat-page .condition { border-color: var(--border); }
+  .beat-page .condition-name { color: var(--text); }
+  .beat-page .condition-desc { color: var(--text-muted); }
+  .beat-page .condition-tag { border-color: var(--border); color: var(--text-faint); }
+  .beat-page .condition-tag--permanent { color: var(--upvote); border-color: var(--upvote); }
+  .beat-page .condition-tag--private { color: var(--mod); border-color: var(--mod); }
+  .beat-page .reputation { border-left-color: var(--border); }
+  .beat-page .reputation-name { color: var(--text); }
+  .beat-page .reputation-source { color: var(--text-faint); }
+  .beat-page .reputation-desc { color: var(--text-muted); }
+  .beat-page .skill-block { border-color: var(--border); }
+  .beat-page .skill-name { color: var(--text); }
+  .beat-page .skill-type { color: var(--text-faint); }
+  .beat-page .skill-type--active { color: var(--upvote); border-color: var(--upvote); }
+  .beat-page .skill-mechanic { color: var(--text-muted); }
+  .beat-page .skill-range { color: var(--text-muted); }
+  .beat-page .skill-range-label { color: var(--text-faint); }
+  .beat-page .skill-range-label--low { color: var(--mod); }
+  .beat-page .skill-range-label--high { color: var(--upvote); }
+  .beat-page .skill-cost { color: var(--text-faint); }
+  .beat-page .skill-cost-label { color: var(--upvote); }
+  .beat-page .aura-block { border-left-color: var(--gold-award); }
+  .beat-page .aura-name { color: var(--gold-award); }
+  .beat-page .aura-desc { color: var(--text-muted); }
+  .beat-page .section-header { color: var(--upvote); }
+
+  /* Kade-specific content styles from original */
+  .reddit-interlude { margin: 24px 0; padding: 20px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-raised); border-top: 3px solid var(--upvote); }
+  .reddit-sub { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 1em; color: var(--upvote); margin-bottom: 16px; }
+  .reddit-sub::before { content: 'r/'; font-weight: 400; opacity: 0.6; }
+  .reddit-post { margin-bottom: 16px; padding-left: 16px; border-left: 2px solid var(--border); }
+  .reddit-post:last-child { margin-bottom: 0; }
+  .reddit-user { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; font-weight: 600; color: var(--op); margin-bottom: 4px; }
+  .reddit-user::before { content: 'u/'; font-weight: 400; color: var(--text-faint); }
+  .reddit-text { font-size: 0.88em; color: var(--text-muted); line-height: 1.5; }
+  .reddit-text ul { padding-left: 20px; margin-top: 6px; }
+  .reddit-text li { margin-bottom: 4px; }
+  .chat-block { margin: 12px 0; padding: 10px 14px; background: var(--surface-raised); border-radius: 4px; border: 1px solid var(--border); }
+  .chat-msg { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; color: var(--text-muted); line-height: 1.8; display: block; }
+  .viewer-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; color: var(--online); margin: 12px 0; }
+  .viewer-count::before { content: '\1F441 '; }
+  .kade-question { margin: 16px 0; padding: 12px 16px; border-left: 3px solid var(--mod); background: rgba(88, 214, 141, 0.04); border-radius: 0 4px 4px 0; }
+  .kade-question-label { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mod); display: block; margin-bottom: 6px; }
+  .kade-question-label::before { content: '\1F3A7 '; }
+  .vote-result { font-family: 'IBM Plex Mono', monospace; font-size: 0.75em; color: var(--text-faint); margin: 8px 0; padding: 4px 10px; border: 1px dashed var(--border); border-radius: 4px; display: inline-block; }
+  .muggle-card { margin-bottom: 4px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); transition: background 0.15s ease; }
+  .muggle-card:has(.muggle-portrait) { display: flex; gap: 12px; align-items: flex-start; }
+  .muggle-card:hover { background: var(--surface-hover); }
+  .muggle-portrait { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); margin-top: 2px; }
+  .muggle-card-body { flex: 1; min-width: 0; }
+  .muggle-name { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 0.9em; color: var(--text); }
+  .muggle-tag { font-family: 'IBM Plex Sans', sans-serif; font-size: 0.65em; font-weight: 600; color: var(--void); background: var(--gold-award); padding: 2px 8px; border-radius: 12px; margin-left: 6px; vertical-align: middle; }
+  .muggle-desc { font-size: 0.85em; color: var(--text-muted); line-height: 1.45; margin-top: 4px; }
+  .dossier-portrait { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); vertical-align: middle; margin-right: 4px; }
+  .running-totals { font-family: 'IBM Plex Mono', monospace; font-size: 0.72em; color: var(--text-faint); margin: 8px 0; padding: 6px 10px; background: var(--surface-raised); border-radius: 4px; }
+
+  /* ========== CHARACTER MINI-CARD TOOLTIPS ========== */
+  .char-tip {
+    border-bottom: 1px dotted var(--upvote);
+    cursor: pointer;
+    position: relative;
+  }
+  .char-tip:hover { color: var(--upvote); }
+  #char-card {
+    position: fixed;
+    z-index: 200;
+    width: 280px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    box-shadow: 3px 3px 14px rgba(0,0,0,0.5);
+    padding: 0;
+    display: none;
+    pointer-events: none;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  #char-card.visible { display: block; }
+  #char-card::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--border);
+  }
+  .cc-header {
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cc-portrait {
+    width: 56px;
+    height: 70px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    filter: contrast(1.05) brightness(0.95);
+    flex-shrink: 0;
+  }
+  .cc-info { flex: 1; min-width: 0; }
+  .cc-name {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.78em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .cc-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .cc-aura {
+    font-style: italic;
+    font-size: 0.8em;
+    color: var(--upvote);
+  }
+  .cc-stats {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .cc-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 0.55em;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .cc-stat-val {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--text);
+  }
+  .cc-stat-mod {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65em;
+    color: var(--gold-award);
+  }
+  .cc-traits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 8px;
+    padding: 6px 12px 8px;
+    font-size: 0.75em;
+  }
+  .cc-trait-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85em;
+    color: var(--text-muted);
+  }
+  .cc-trait-val { color: var(--text); }
+  .cc-trait-high { color: var(--upvote); }
+  .cc-trait-low { color: var(--text-muted); opacity: 0.6; }
 </style>
 </head>
 <body>
-<div class="page-wrapper page-wrapper--wide">
-<div class="parchment-bg">
 
-  <nav style="margin-bottom: 24px;">
-    <a href="index.html" style="font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mod); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;"
-       onmouseover="this.style.borderBottomColor='var(--mod)'" onmouseout="this.style.borderBottomColor='transparent'">&larr; Back to Claire</a>
-  </nav>
+<div id="app">
 
-  <h1 class="main-title">THE TUESDAY GROUP</h1>
-  <p class="subtitle">Iteration 1 &mdash; Mode: REACTIVE (to wednesday_group_3.md)</p>
-
-  <!-- MISSION BRIEF -->
-  <div class="mission-brief">
-    <div class="mission-brief-title">Mission Brief</div>
-    <div class="mission-field">
-      <span class="mission-field-label">Source Mission: </span>
-      <span class="mission-field-value">Andrei &mdash; a young soldier from a sprawling war epic &mdash; has realized he is fictional and is attempting to cross into a pastoral romance two shelves over to escape his death in Chapter 41. The breach will collapse both texts.</span>
+  <!-- TOP BAR -->
+  <div id="top-bar">
+    <a href="index.html" class="top-back">&larr; Claire</a>
+    <div class="top-title">What&rsquo;s Your Story?</div>
+    <div class="progress-wrapper">
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <span class="beat-label" id="beat-label">The Setup</span>
     </div>
-    <div class="mission-field">
-      <span class="mission-field-label">Kade's Objective: </span>
-      <span class="mission-field-value">Weaponize the breach point. A character crossing between texts creates a momentary structural vulnerability &mdash; a seam in the Literary Web's fabric. Kade intends to exploit this seam to extract rare textual material from both the war epic and the pastoral romance simultaneously. She doesn't care about Andrei. She doesn't care about either text. She cares about the material &mdash; first editions, unwritten passages, narrative ore that the Auctioneers will pay six figures for.</span>
-    </div>
-    <div class="mission-field">
-      <span class="mission-field-label">Opposition: </span>
-      <span class="mission-field-value">Dr. Donald Ginsfeld &mdash; rival bookhunter. Slower, underfunded, burdened by ethics. He'll try to stabilize the situation, talk Andrei back into his narrative, prevent structural collapse. His team composition is unknown. Kade's intelligence (via the Lamplighters) indicates he recruited within the last 48 hours through his Wednesday night support group. Three recruits, probably literary characters with emotional baggage and a therapist's assessment of their usefulness. Kade considers this method quaint and inefficient.</span>
-    </div>
-    <div class="mission-field">
-      <span class="mission-field-label">Kade Knows: </span>
-      <span class="mission-field-value">Everything about the opposition. She knows Ginsfeld's patterns, his methods, his weakness for moral complexity. She knows he recruits through intimacy, which means his team will be personally invested &mdash; an advantage in loyalty, a liability in objectivity. She has Lamplighter surveillance on the Metro Library basement, though she doesn't yet know which specific characters he selected.</span>
-    </div>
-    <div class="mission-field">
-      <span class="mission-field-label">Kade Doesn't Know: </span>
-      <span class="mission-field-value">The precise mechanics of the breach. Ginsfeld has structural data &mdash; timeline, damage assessment, the architecture of both texts &mdash; that Kade doesn't have. She knows the breach is happening and approximately where. She doesn't know the rate of collapse or the exact extraction window. Ginsfeld is counting on this &mdash; it's his only real advantage. But the math cuts both ways. A depublisher who doesn't know the structural limits has no incentive to be careful. She'll come prepared for anything, bring more force than necessary, and treat both texts as acceptable losses. Ignorance doesn't slow Kade down. It just means she packs heavier.</span>
-    </div>
-    <div class="mission-field">
-      <span class="mission-field-label">Information Asymmetry: </span>
-      <span class="mission-field-value">Ginsfeld has the map but doesn't know who's coming for him. Kade doesn't have the map but has no reason to be subtle about it. She'll blow through the architecture and sort the wreckage later. This is the mission's hidden geometry: precision versus force, and force doesn't need to know what it's hitting.</span>
+    <div class="nav-arrows">
+      <button class="nav-btn" id="btn-prev" onclick="prevPage()" disabled>&larr;</button>
+      <button class="nav-btn" id="btn-next" onclick="nextPage()">&rarr;</button>
     </div>
   </div>
 
-  <!-- DIVIDER -->
-  <div class="divider">&#10038; &#10038; &#10038;</div>
+  <!-- MAIN GRID -->
+  <div id="main-grid">
 
-  <!-- KADE'S CARD -->
-  <div class="character-sheet">
-    <div class="character-name">LISLE KADE</div>
-    <div class="character-role">Depublisher &mdash; Private Extraction</div>
-    <div class="character-quote">Faster than you. Better funded than you. Unencumbered by the dead weight of ethics. Kade doesn't rescue, stabilize, or preserve &mdash; she extracts, exploits, and moves on. She runs a YouTube show as a recruitment filter because it's cheap, it's scalable, and if the recruits don't come back, there are always more where they came from. She has never appeared on camera. She has never needed to.</div>
+    <!-- EXPAND TABS (hidden by default, shown when panels collapsed) -->
+    <button class="expand-tab expand-tab--left" onclick="toggleLeft()">Dossier</button>
+    <button class="expand-tab expand-tab--right" onclick="toggleRight()">Operator</button>
 
-    <div class="character-section-label">Stats</div>
-    <div class="stat-grid">
-      <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
-      <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
-      <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
-      <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
-      <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
-      <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+    <!-- LEFT PANEL: MISSION DOSSIER -->
+    <div id="panel-left">
+      <div class="panel-header">Mission Dossier</div>
+
+    <details class="dossier-section">
+      <summary>Target</summary>
+      <div class="dossier-body">
+        <p>Andrei &mdash; a young soldier from a sprawling war epic &mdash; has realized he is fictional and is attempting to cross into a pastoral romance two shelves over to escape his death in Chapter 41. The breach will collapse both texts.</p>
+      </div>
+    </details>
+    <details class="dossier-section">
+      <summary>Objective</summary>
+      <div class="dossier-body">
+        <p>Weaponize the breach point. A character crossing between texts creates a momentary structural vulnerability &mdash; a seam in the Literary Web's fabric. Kade intends to exploit this seam to extract rare textual material from both the war epic and the pastoral romance simultaneously. She doesn't care about Andrei. She doesn't care about either text. She cares about the material &mdash; first editions, unwritten passages, narrative ore that the Auctioneers will pay six figures for.</p>
+      </div>
+    </details>
+    <details class="dossier-section">
+      <summary>Opposition</summary>
+      <div class="dossier-body">
+        <p>Dr. Donald Ginsfeld &mdash; rival bookhunter. Slower, underfunded, burdened by ethics. He'll try to stabilize the situation, talk Andrei back into his narrative, prevent structural collapse. His team composition is unknown. Kade's intelligence (via the Lamplighters) indicates he recruited within the last 48 hours through his Wednesday night support group. Three recruits, probably literary characters with emotional baggage and a therapist's assessment of their usefulness. Kade considers this method quaint and inefficient.</p>
+      </div>
+    </details>
+    <details class="dossier-section">
+      <summary>Kade Knows</summary>
+      <div class="dossier-body">
+        <p>Everything about the opposition. She knows Ginsfeld's patterns, his methods, his weakness for moral complexity. She knows he recruits through intimacy, which means his team will be personally invested &mdash; an advantage in loyalty, a liability in objectivity. She has Lamplighter surveillance on the Metro Library basement, though she doesn't yet know which specific characters he selected.</p>
+      </div>
+    </details>
+    <details class="dossier-section">
+      <summary>Kade Doesn't Know</summary>
+      <div class="dossier-body">
+        <p>The precise mechanics of the breach. Ginsfeld has structural data &mdash; timeline, damage assessment, the architecture of both texts &mdash; that Kade doesn't have. She knows the breach is happening and approximately where. She doesn't know the rate of collapse or the exact extraction window. Ginsfeld is counting on this &mdash; it's his only real advantage. But the math cuts both ways. A depublisher who doesn't know the structural limits has no incentive to be careful. She'll come prepared for anything, bring more force than necessary, and treat both texts as acceptable losses. Ignorance doesn't slow Kade down. It just means she packs heavier.</p>
+      </div>
+    </details>
+    <details class="dossier-section">
+      <summary>Information Asymmetry</summary>
+      <div class="dossier-body">
+        <p>Ginsfeld has the map but doesn't know who's coming for him. Kade doesn't have the map but has no reason to be subtle about it. She'll blow through the architecture and sort the wreckage later. This is the mission's hidden geometry: precision versus force, and force doesn't need to know what it's hitting.</p>
+      </div>
+    </details>
+
+      <!-- CALLERS -->
+      <details class="dossier-section">
+        <summary>Callers</summary>
+        <div class="dossier-body">
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">Derek from Tulsa</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">IT support specialist who calls in every Tuesday to complain about his HOA. Has ...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">Priya</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">22, claims to have astral projected into her cat during a guided meditation. Spe...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <img src="images/marcus.webp" alt="Marcus" class="dossier-portrait"><span style="font-weight:600; color:var(--text);">Marcus "Big Poppa" Williams</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">58, retired postal worker from Detroit. Calls in to tell dad jokes and flirt har...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">Linda Chen</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">Dental hygienist from San Jose. Every story she tells loops back to teeth. She o...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">Anonymous<span class="muggle-tag">MEMORABLE</span></span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">Never gives a name. Camera shows only her hands and a desk covered in printed do...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">Tom&aacute;s</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">30, bartender from Lisbon who calls in at 3am local time. His stories are always...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">Karen (Not That Kind of Karen)</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">45, kindergarten teacher who prefaces every appearance with "I know my name is K...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <img src="images/oldjim.jpg" alt="Old Jim" class="dossier-portrait"><span style="font-weight:600; color:var(--text);">Old Jim<span class="muggle-tag">MEMORABLE</span></span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">Nobody knows how old Jim is. His video quality is from 2008. His audio crackles....</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">@GameOverGaming_</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">A teenager who calls in exclusively to discuss Elden Ring lore with the convicti...</div>
+      </div>
+      <div style="margin-bottom:6px; padding:4px 0; border-bottom:1px solid var(--border); font-family:'IBM Plex Sans',sans-serif; font-size:0.75em;">
+        <span style="font-weight:600; color:var(--text);">Cheryl</span>
+        <span style="font-size:0.8em; color:var(--gold-award); background:var(--surface-raised); padding:1px 5px; border-radius:8px; margin-left:4px;"></span>
+        <div style="color:var(--text-faint); font-size:0.9em; margin-top:2px;">40s, accountant, Milwaukee. Her stories are about grocery shopping, waiting room...</div>
+      </div>
+
+        </div>
+      </details>
+
+      <button class="collapse-toggle" id="toggle-left" onclick="toggleLeft()">Collapse Panel</button>
     </div>
 
-    <div class="character-section-label">Game Traits</div>
-    <div class="trait-grid">
-      <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
-      <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--low">Low</div></div>
-      <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
-      <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--low">Low</div></div>
-    </div>
+    <!-- CENTER STAGE -->
+    <div id="center-stage">
+      <div class="center-inner">
 
-    <div class="character-section-label">Mission Parameters</div>
-    <p class="beat-prose"><strong>Target:</strong> The breach point between the war epic and the pastoral romance &mdash; created by Andrei's attempted crossing</p>
-    <p class="beat-prose"><strong>Kade's Objective:</strong> Extract rare textual material from both texts through the structural vulnerability. Weaponize the seam.</p>
-    <p class="beat-prose"><strong>Opposition:</strong> Dr. Donald Ginsfeld, bookhunter. Team of 3 literary characters. Personally invested. Likely to prioritize stabilization and Andrei's safe return.</p>
-    <p class="beat-prose"><strong>Complication:</strong> Kade's intelligence is secondhand &mdash; Lamplighter reports on Ginsfeld's operation, not on the breach itself. Her structural data has gaps.</p>
-    <p class="beat-prose"><strong>Kade Knows:</strong> The opposition. Ginsfeld's patterns, methods, recruitment style, moral constraints.</p>
-    <p class="beat-prose"><strong>Crew needed:</strong> 3</p>
-    <p class="beat-prose"><strong>Recruitment method:</strong> "What's Your Story?" show as filter &rarr; Factory briefing</p>
-    <p class="beat-prose"><strong>Constraint:</strong> Recruits are expendable. Mission success matters. Personnel do not.</p>
-    <p class="beat-prose"><strong>Method:</strong> Observe, identify, collect, brief, deploy</p>
 
-    <div class="character-section-label">Assessment Metrics</div>
-    <p class="beat-prose"><strong>Expendability</strong> &mdash; How much does she care if they don't come back? (Low = valuable asset, Medium = useful but replaceable, High = cannon fodder)</p>
-    <p class="beat-prose"><strong>Obedience</strong> &mdash; Will they follow orders? (Low = independent/dangerous, Medium = negotiable, High = compliant)</p>
-    <p class="beat-prose"><strong>Capability</strong> &mdash; Can they do the job? (Low = liability, Medium = adequate, High = genuinely dangerous)</p>
+<!-- PAGE 0: SETUP -->
+<div class="beat-page active" data-beat="0">
+<div class="beat">
+  <div class="beat-header">
+    <span class="beat-number">The Setup</span>
+    <span class="beat-title">What&rsquo;s Your Story?</span>
+  </div>
+  <p class="beat-prose">You are about to play a session of <em>The Guttenberg Engine</em> from the opposition&rsquo;s perspective. This is <strong><em>What&rsquo;s Your Story?</em></strong> &mdash; Lisle Kade&rsquo;s recruitment operation, running reactive to Dr. Ginsfeld&rsquo;s Wednesday night support group.</p>
+  <p class="beat-prose">Kade runs a YouTube show called <em>What&rsquo;s Your Story?</em> as a recruitment filter. It&rsquo;s cheap, it&rsquo;s scalable, and if the recruits don&rsquo;t come back, there are always more where they came from.</p>
 
-    <div class="character-section-label">Decision Criteria</div>
-    <p class="beat-prose">Speed over quality. She needs bodies in the field, not a dream team.</p>
-    <p class="beat-prose">No wildcard tolerance. Unpredictable recruits are liabilities, not assets.</p>
-    <p class="beat-prose">No concern for team chemistry. They don't need to like each other. They need to go in and get the thing.</p>
-    <p class="beat-prose">If a recruit asks what they'll get: Kade asks what they want, then implies it's possible. Maybe. But only if they go. She does not intend to deliver.</p>
-    <p class="beat-prose">Dealbreaker: anyone who might refuse to go, or who might compromise the operation by acting on personal motives inside the text.</p>
+  <div style="margin:24px 0; position:relative; border-radius:6px; overflow:hidden; border:1px solid var(--border);">
+    <img src="images/zoom.webp" alt="What's Your Story? — Live show gallery view" style="width:100%; display:block; filter:brightness(0.85) contrast(1.05);">
+    <div style="position:absolute; bottom:0; left:0; right:0; padding:10px 16px; background:linear-gradient(transparent, rgba(3,3,3,0.85)); font-family:'IBM Plex Mono',monospace; font-size:0.7em; color:var(--text-muted); letter-spacing:0.05em;">LIVE &mdash; What&rsquo;s Your Story? &mdash; Tuesday Night</div>
   </div>
 
-  <!-- CHARACTER CARDS -->
+  <div class="muggle-card" style="margin-bottom:20px; border-color:var(--upvote); border-width:2px;">
+    <img src="images/danny.webp" alt="Danny" class="muggle-portrait" style="border-color:var(--upvote);">
+    <div class="muggle-card-body">
+    <div class="muggle-name" style="color:var(--upvote);">Danny<span style="font-weight:400; color:var(--text-muted); font-size:0.85em; margin-left:6px;">Host &amp; Frontman</span></div>
+    <div class="muggle-desc">The face of <em>What&rsquo;s Your Story?</em> YouTube personality. Headset energy. Thinks he&rsquo;s running a talk show. Doesn&rsquo;t know Kade is running him. The questions he asks aren&rsquo;t his &mdash; they&rsquo;re diagnostic instruments fed through his earpiece. He&rsquo;s good at his job because he doesn&rsquo;t know what his job actually is.</div>
+    </div>
+  </div>
+
+  <p class="beat-prose" style="margin-top:20px;"><strong>How to read this interface:</strong></p>
+  <ul class="beat-prose" style="list-style:disc; padding-left:24px; line-height:1.8;">
+    <li><strong>Left panel</strong> &mdash; Mission dossier. Kade&rsquo;s intel, parameters, and a quick reference for the show&rsquo;s callers.</li>
+    <li><strong>Right panel</strong> &mdash; Kade&rsquo;s operator card. Stats, traits, objectives, assessment criteria.</li>
+    <li><strong>Bottom bar</strong> &mdash; Character portraits. Click for full sheets. Hover for quick stats.</li>
+    <li><strong>Character names</strong> in the text are interactive &mdash; hover for mini-cards.</li>
+    <li><strong>Arrow keys</strong> or the nav buttons to move between beats.</li>
+  </ul>
+
+  <div style="margin-top:30px;">
+    <div class="section-header" style="font-family:'IBM Plex Sans',sans-serif; font-weight:700; font-size:0.85em; letter-spacing:0.08em; text-transform:uppercase; color:var(--upvote); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border);">MUGGLE ROSTER</div>
+    <p class="beat-prose" style="margin-bottom:16px; font-style:italic; color:var(--text-muted);">Human callers who cycle through the show. Some are noise. Some are signal. Kade watches all of them.</p>
+<div class="muggle-card">
+    <div class="muggle-name">Derek from Tulsa</div>
+    <div class="muggle-desc">IT support specialist who calls in every Tuesday to complain about his HOA. Has been fighting to get his neighbor's fence moved three inches for two years. The audience loves him ironically. He has never won a round on merit but has survived four on meme value.</div>
+  </div>
+
+  <div class="muggle-card">
+    <div class="muggle-name">Priya</div>
+    <div class="muggle-desc">22, claims to have astral projected into her cat during a guided meditation. Speaks at 1.5x speed. Has 47 TikTok followers and mentions this in every sentence. Her camera has a ring light so bright it bleaches out half her face.</div>
+  </div>
+
+  <div class="muggle-card">
+    <img src="images/marcus.webp" alt="Marcus" class="muggle-portrait">
+    <div class="muggle-card-body">
+    <div class="muggle-name">Marcus "Big Poppa" Williams</div>
+    <div class="muggle-desc">58, retired postal worker from Detroit. Calls in to tell dad jokes and flirt harmlessly with every guest. A Tuesday institution. Has survived 11 consecutive rounds on pure warmth. The chat has a Marcus protection society. Danny genuinely likes him.</div>
+    </div>
+  </div>
+
+  <div class="muggle-card">
+    <div class="muggle-name">Linda Chen</div>
+    <div class="muggle-desc">Dental hygienist from San Jose. Every story she tells loops back to teeth. She once described a vacation to Italy entirely through the lens of European dental care. The chat calls her "Tooth Linda." She doesn't know this.</div>
+  </div>
+
+  <div class="muggle-card">
+    <div class="muggle-name">Anonymous<span class="muggle-tag">MEMORABLE</span></div>
+    <div class="muggle-desc">Never gives a name. Camera shows only her hands and a desk covered in printed documents. Calls from a different number each week. She speaks in precise, clipped sentences and refuses Danny's banter with the patience of someone explaining gravity to a child. Her stories are about a tech company she claims is monitoring something she won't name. The audience is split: brilliant performance artist or genuinely about to break a story. Kade watches her for three full rounds before concluding &mdash; reluctantly &mdash; that she is human. The tell is the documents: a fictional character's paranoia has structure. Anonymous's paranoia has staples and coffee stains and pages in the wrong order. She's real. She's just interesting enough to create doubt.</div>
+  </div>
+
+  <div class="muggle-card">
+    <div class="muggle-name">Tom&aacute;s</div>
+    <div class="muggle-desc">30, bartender from Lisbon who calls in at 3am local time. His stories are always about customers and always slightly too good. He's not a literary character. He's just a Portuguese bartender who pays attention. The distinction is cosmetic but real.</div>
+  </div>
+
+  <div class="muggle-card">
+    <div class="muggle-name">Karen (Not That Kind of Karen)</div>
+    <div class="muggle-desc">45, kindergarten teacher who prefaces every appearance with "I know my name is Karen but I'm not THAT kind of Karen." The first time was disarming. By the fourth week it was a hostage situation. The chat has shortened her to "NTK."</div>
+  </div>
+
+  <div class="muggle-card">
+    <img src="images/oldjim.jpg" alt="Old Jim" class="muggle-portrait">
+    <div class="muggle-card-body">
+    <div class="muggle-name">Old Jim<span class="muggle-tag">MEMORABLE</span></div>
+    <div class="muggle-desc">Nobody knows how old Jim is. His video quality is from 2008. His audio crackles. He tells stories about "the war" but the details match no specific war &mdash; a bridge that collapsed "when the horses came through," a woman who "kept the lanterns lit until the ships stopped looking for the harbor." He might be 70 or 190. He has survived three consecutive rounds by being genuinely, inexplicably compelling. His connection drops every few minutes and reconnects. His stories are fragmentary, delivered in a voice that sounds like AM radio filtered through cigarette smoke. The audience oscillates between thinking he's a literary character, a method actor, or the last interesting man alive. Kade watches him closely. His details flag her filter &mdash; they're literary enough to trigger recognition. But the randomness of his narrative structure, the way he loses his thread, repeats himself, gets distracted by something off-camera &mdash; is too genuinely human to be fictional. She dismisses him. Not comfortably.</div>
+    </div>
+  </div>
+
+  <div class="muggle-card">
+    <div class="muggle-name">@GameOverGaming_</div>
+    <div class="muggle-desc">A teenager who calls in exclusively to discuss Elden Ring lore with the conviction of a biblical scholar. Gets voted through one round every time because the internet finds his intensity endearing before it becomes exhausting.</div>
+  </div>
+
+  <div class="muggle-card">
+    <div class="muggle-name">Cheryl</div>
+    <div class="muggle-desc">40s, accountant, Milwaukee. Her stories are about grocery shopping, waiting rooms, and her neighbor's dog. She is the control group. She has never survived a single round. She keeps calling back.</div>
+  </div>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 1: CHARACTER CARDS -->
+<div class="beat-page" data-beat="characters">
+<div class="beat">
+  <div class="beat-header">
+    <span class="beat-number">Dossier</span>
+    <span class="beat-title">Character Cards</span>
+  </div>
+  <p class="beat-prose" style="margin-bottom:24px; font-style:italic; color:var(--text-muted);">The four literary characters identified by Kade&rsquo;s recruitment filter. Full stat blocks, conditions, skills, and filters.</p>
   <div class="section-header">CHARACTER CARDS</div>
-  <div class="divider">&#10038; &#10038; &#10038;</div>
+  
 
-  <!-- SUN WUKONG -->
   <div class="character-sheet">
     <div class="character-name">Sun Wukong</div>
     <div class="character-role">Actor &mdash; Unaffiliated</div>
@@ -252,7 +1178,6 @@
     <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
   </div>
 
-  <!-- NASTASYA FILIPPOVNA -->
   <div class="character-sheet">
     <div class="character-name">Nastasya Filippovna</div>
     <div class="character-role">Actor &mdash; Unaffiliated</div>
@@ -364,7 +1289,6 @@
     <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
   </div>
 
-  <!-- BARTLEBY -->
   <div class="character-sheet">
     <div class="character-name">Bartleby</div>
     <div class="character-role">Actor &mdash; Unaffiliated</div>
@@ -483,7 +1407,6 @@
     <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
   </div>
 
-  <!-- JAY GATSBY -->
   <div class="character-sheet">
     <div class="character-name">Jay Gatsby</div>
     <div class="character-role">Actor &mdash; Unaffiliated</div>
@@ -601,71 +1524,12 @@
     <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
   </div>
 
-  <!-- MUGGLE ROSTER -->
-  <div class="section-header">MUGGLE ROSTER</div>
-  <div class="divider">&#10038; &#10038; &#10038;</div>
 
-  <div class="muggle-card">
-    <div class="muggle-name">Derek from Tulsa</div>
-    <div class="muggle-desc">IT support specialist who calls in every Tuesday to complain about his HOA. Has been fighting to get his neighbor's fence moved three inches for two years. The audience loves him ironically. He has never won a round on merit but has survived four on meme value.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Priya</div>
-    <div class="muggle-desc">22, claims to have astral projected into her cat during a guided meditation. Speaks at 1.5x speed. Has 47 TikTok followers and mentions this in every sentence. Her camera has a ring light so bright it bleaches out half her face.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Marcus "Big Poppa" Williams</div>
-    <div class="muggle-desc">58, retired postal worker from Detroit. Calls in to tell dad jokes and flirt harmlessly with every guest. A Tuesday institution. Has survived 11 consecutive rounds on pure warmth. The chat has a Marcus protection society. Danny genuinely likes him.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Linda Chen</div>
-    <div class="muggle-desc">Dental hygienist from San Jose. Every story she tells loops back to teeth. She once described a vacation to Italy entirely through the lens of European dental care. The chat calls her "Tooth Linda." She doesn't know this.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Anonymous<span class="muggle-tag">MEMORABLE</span></div>
-    <div class="muggle-desc">Never gives a name. Camera shows only her hands and a desk covered in printed documents. Calls from a different number each week. She speaks in precise, clipped sentences and refuses Danny's banter with the patience of someone explaining gravity to a child. Her stories are about a tech company she claims is monitoring something she won't name. The audience is split: brilliant performance artist or genuinely about to break a story. Kade watches her for three full rounds before concluding &mdash; reluctantly &mdash; that she is human. The tell is the documents: a fictional character's paranoia has structure. Anonymous's paranoia has staples and coffee stains and pages in the wrong order. She's real. She's just interesting enough to create doubt.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Tom&aacute;s</div>
-    <div class="muggle-desc">30, bartender from Lisbon who calls in at 3am local time. His stories are always about customers and always slightly too good. He's not a literary character. He's just a Portuguese bartender who pays attention. The distinction is cosmetic but real.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Karen (Not That Kind of Karen)</div>
-    <div class="muggle-desc">45, kindergarten teacher who prefaces every appearance with "I know my name is Karen but I'm not THAT kind of Karen." The first time was disarming. By the fourth week it was a hostage situation. The chat has shortened her to "NTK."</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Old Jim<span class="muggle-tag">MEMORABLE</span></div>
-    <div class="muggle-desc">Nobody knows how old Jim is. His video quality is from 2008. His audio crackles. He tells stories about "the war" but the details match no specific war &mdash; a bridge that collapsed "when the horses came through," a woman who "kept the lanterns lit until the ships stopped looking for the harbor." He might be 70 or 190. He has survived three consecutive rounds by being genuinely, inexplicably compelling. His connection drops every few minutes and reconnects. His stories are fragmentary, delivered in a voice that sounds like AM radio filtered through cigarette smoke. The audience oscillates between thinking he's a literary character, a method actor, or the last interesting man alive. Kade watches him closely. His details flag her filter &mdash; they're literary enough to trigger recognition. But the randomness of his narrative structure, the way he loses his thread, repeats himself, gets distracted by something off-camera &mdash; is too genuinely human to be fictional. She dismisses him. Not comfortably.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">@GameOverGaming_</div>
-    <div class="muggle-desc">A teenager who calls in exclusively to discuss Elden Ring lore with the conviction of a biblical scholar. Gets voted through one round every time because the internet finds his intensity endearing before it becomes exhausting.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Cheryl</div>
-    <div class="muggle-desc">40s, accountant, Milwaukee. Her stories are about grocery shopping, waiting rooms, and her neighbor's dog. She is the control group. She has never survived a single round. She keeps calling back.</div>
-  </div>
-<!-- THE SHOW SECTION -->
-<h2 class="section-header">THE SHOW &mdash; &ldquo;What&rsquo;s Your Story?&rdquo;</h2>
-
-<h3 class="section-header">Setting</h3>
-
-<p class="beat-prose">A Zoom call. Five faces in a grid. A chat sidebar scrolling too fast to read. A viewer count in the corner that fluctuates between 400 and 12,000 depending on who&rsquo;s on. Danny in the center square, ring light reflecting in his eyes, headphones slightly too large for his head. A backdrop that says &ldquo;WHAT&rsquo;S YOUR STORY?&rdquo; in hand-painted letters that someone clearly made at 3am.</p>
-
-<p class="beat-prose">The show runs every Tuesday. All day. It never stops. People call in, tell their story, get judged, get voted off or survive. New callers replace the fallen. It&rsquo;s a perpetual machine of human spectacle, and somewhere offscreen, Lisle Kade watches with the patience of a spider who built her web across the only door in the room.</p>
-
-<div class="divider">· · ·</div>
+</div>
+</div>
 
 <!-- BEAT 1 -->
+<div class="beat-page" data-beat="1">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 1</span>
@@ -680,10 +1544,10 @@
 
 <p class="viewer-count">623</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 2 -->
+<div class="beat-page" data-beat="2">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 2</span>
@@ -698,10 +1562,10 @@
 
 <p class="beat-prose"><strong>Danny</strong> sign-off for the round: &ldquo;Derek, my brother, my soldier, my three-inches-of-fence warrior &mdash; the internet has spoken and the internet is WRONG but the internet is also GOD so goodbye.&rdquo;</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 3 -->
+<div class="beat-page" data-beat="3">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 3</span>
@@ -723,10 +1587,10 @@
 
 <p class="viewer-count">1,247 (Anonymous spike)</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 4 -->
+<div class="beat-page" data-beat="4">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 4</span>
@@ -743,10 +1607,10 @@
 
 <p class="viewer-count">settling around 900 &mdash; normal Tuesday</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 5 -->
+<div class="beat-page" data-beat="5">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 5</span>
@@ -781,10 +1645,10 @@
 
 <p class="viewer-count">1,104 (Old Jim always bumps the numbers &mdash; nobody knows why)</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 6 -->
+<div class="beat-page" data-beat="6">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 6</span>
@@ -797,10 +1661,10 @@
 
 <p class="beat-prose">The camera activates and the chat goes briefly, completely silent.</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 7 -->
+<div class="beat-page" data-beat="7">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 7</span>
@@ -943,10 +1807,10 @@
 
 <div class="running-totals">Running Totals (show): SW→Marcus: A1/Av0. Marcus→SW: A2/Av0. SW→Tomás: A1/Av0.</div>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 8 -->
+<div class="beat-page" data-beat="8">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 8</span>
@@ -959,10 +1823,10 @@
 
 <p class="beat-prose">Linda and Tom&aacute;s exit. Marcus holds. Viewer count: 3,400 and climbing. The Monkey King brought an audience.</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 9 -->
+<div class="beat-page" data-beat="9">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 9</span>
@@ -1007,10 +1871,10 @@
 </div>
 </div>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 10 -->
+<div class="beat-page" data-beat="10">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 10</span>
@@ -1021,10 +1885,10 @@
 
 <p class="beat-prose">The seat fills. The viewer count ticks up before she speaks. The camera activates and the chat goes quiet for the second time this show, but for a different reason.</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 11 -->
+<div class="beat-page" data-beat="11">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 11</span>
@@ -1196,10 +2060,10 @@
 
 <div class="running-totals">Running Totals: SW→Marcus: A1/Av0. Marcus→SW: A2/Av0. SW→Tomás: A1/Av0. NF→SW: A1/Av0. SW→NF: A1/Av1. NF→Marcus: A1/Av0. Marcus→NF: A2/Av0. NF→Anon: A0/Av0.</div>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 12 -->
+<div class="beat-page" data-beat="12">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 12</span>
@@ -1224,10 +2088,10 @@
 
 <p class="beat-prose">Viewer count oscillates between 4,800 and 6,300.</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 13 -->
+<div class="beat-page" data-beat="13">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 13</span>
@@ -1280,10 +2144,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 </div>
 </div>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 14 -->
+<div class="beat-page" data-beat="14">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 14</span>
@@ -1307,10 +2171,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <p class="beat-prose">Then the camera activates. And what appears in the fifth square is the scariest thing the internet has seen on a Tuesday afternoon.</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 15 -->
+<div class="beat-page" data-beat="15">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 15</span>
@@ -1522,10 +2386,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <div class="running-totals">Running Totals: SW→Marcus: A1/Av0. Marcus→SW: A2/Av0. SW→Tomás: A1/Av0. NF→SW: A1/Av0. SW→NF: A1/Av1. NF→Marcus: A1/Av0. Marcus→NF: A2/Av0. B→NF: A1/Av0. NF→B: A1/Av0. B→SW: A0/Av0. SW→B: A0/Av1. B→Marcus: A1/Av0. Marcus→B: A1/Av1.</div>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 16 -->
+<div class="beat-page" data-beat="16">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 16</span>
@@ -1546,10 +2410,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <p class="beat-prose">Viewer count: stabilized between 7,000 and 9,500. The show has a gravity now.</p>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 17 -->
+<div class="beat-page" data-beat="17">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 17</span>
@@ -1644,10 +2508,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <div class="running-totals">Running Totals (updated): B→Marcus: A2/Av0. Marcus→B: A2/Av1. NF→Marcus: A2/Av0. SW→Marcus: A2/Av0.</div>
 </div>
-
-<div class="divider">· · ·</div>
+</div>
 
 <!-- BEAT 18 -->
+<div class="beat-page" data-beat="18">
 <div class="beat">
 <div class="beat-header">
 <span class="beat-number">BEAT 18</span>
@@ -1662,16 +2526,13 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <p class="beat-prose"><strong>Marcus:</strong> &ldquo;One thing before I go. The three of you&mdash;&rdquo; He&rsquo;s talking to the literary characters. He doesn&rsquo;t know that&rsquo;s what they are. He just knows. &ldquo;&mdash;your stories are different. Not different like interesting-different. Different like they&rsquo;re FROM somewhere. I don&rsquo;t know where. I don&rsquo;t need to know. But wherever you&rsquo;re going after this... knock on doors. Even when nobody answers. Especially then.&rdquo;</p>
 </div>
-<!-- PART 3: Beats 18 (conclusion) through Colophon -->
-
-<!-- Beat 18 conclusion (lines 1000-1003) -->
 <p class="beat-prose">He disconnects. The chat weeps. The viewer count drops by 800 as the Marcus protection society logs off in mourning.</p>
 
 <p class="beat-prose">Kade doesn&rsquo;t react. Marcus was never on her radar. She lets him go the way you let ambient noise go when you close a window.</p>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 19 -->
+<div class="beat-page" data-beat="19">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 19</span>
@@ -1686,17 +2547,15 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="viewer-count">Viewer count: 9,800. Approaching five figures.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 20 -->
+<div class="beat-page" data-beat="20">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 20</span>
     <span class="beat-title">Reddit Interstitial III</span>
   </div>
-
-  <div class="divider">&middot; &middot; &middot;</div>
 
   <div class="reddit-interlude">
     <div class="reddit-sub">r/FreeTheDan-Man</div>
@@ -1712,8 +2571,6 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     </div>
   </div>
 
-  <div class="divider">&middot; &middot; &middot;</div>
-
   <div class="reddit-interlude">
     <div class="reddit-sub">r/MyStoryIsThatIGotToMeetDan-ManAndIWokeUpInCanterburryWTF</div>
 
@@ -1728,10 +2585,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     </div>
   </div>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 21 -->
+<div class="beat-page" data-beat="21">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 21</span>
@@ -1811,10 +2668,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     <p><em>Confirmed. All three. The confessions are diagnostic confirmation&mdash;no muggle carries that kind of weight with that kind of structure. The monkey carries earned punishment. The Russian carries self-inflicted exile. The scrivener carries the entire postal system of human failure. They&rsquo;re literary. All three. Trigger accumulation protocol. One more and I shut it down. But I want four. Three is the minimum. Four gives me a spare.</em></p>
   </div>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 22 -->
+<div class="beat-page" data-beat="22">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 22</span>
@@ -1825,10 +2682,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="viewer-count">Viewer count: steady at 10,000+.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 23 -->
+<div class="beat-page" data-beat="23">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 23</span>
@@ -1841,10 +2698,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">The seat fills.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 24 -->
+<div class="beat-page" data-beat="24">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 24</span>
@@ -2043,10 +2900,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     G&rarr;SW: A1/Av0. SW&rarr;G: A1/Av0. G&rarr;NF: A2/Av0. NF&rarr;G: A1/Av2. G&rarr;B: A2/Av0. B&rarr;G: A1/Av0. (Previous totals carry forward.)
   </div>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 25 -->
+<div class="beat-page" data-beat="25">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 25</span>
@@ -2063,10 +2920,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">Kade has four confirmed literary characters. She triggers the shutdown protocol.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 26 -->
+<div class="beat-page" data-beat="26">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 26</span>
@@ -2110,10 +2967,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="viewer-count">Viewer count: 11,800.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 27 -->
+<div class="beat-page" data-beat="27">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 27</span>
@@ -2147,17 +3004,15 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">He uses Gatsby&rsquo;s phrase. The chat catches it. Danny has never used a guest&rsquo;s language before. It&rsquo;s the host&rsquo;s equivalent of a salute.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 28 -->
+<div class="beat-page" data-beat="28">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 28</span>
     <span class="beat-title">Reddit Interstitial IV</span>
   </div>
-
-  <div class="divider">&middot; &middot; &middot;</div>
 
   <div class="reddit-interlude">
     <div class="reddit-sub">r/isDannyAHostage</div>
@@ -2183,8 +3038,6 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     </div>
   </div>
 
-  <div class="divider">&middot; &middot; &middot;</div>
-
   <div class="reddit-interlude">
     <div class="reddit-sub">r/FreeTheDan-Man</div>
 
@@ -2199,10 +3052,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     </div>
   </div>
 </div>
+</div>
 
-<div class="divider">&middot; &middot; &middot;</div>
-
-<!-- BEATS 29-33 -->
+<!-- BEAT 29-33 -->
+<div class="beat-page" data-beat="29-33">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEATS 29&ndash;33</span>
@@ -2259,10 +3112,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">Kade sends the signal.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 34 -->
+<div class="beat-page" data-beat="34">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 34</span>
@@ -2299,17 +3152,15 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
   Nastasya reads it and feels the fire.<br>
   Bartleby reads it and would prefer not to&mdash;but his hands, which have been open since Beat 27, reach for the phone anyway.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 35 -->
+<div class="beat-page" data-beat="35">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 35</span>
     <span class="beat-title">Reddit Interstitial V (Post-Shutdown)</span>
   </div>
-
-  <div class="divider">&middot; &middot; &middot;</div>
 
   <div class="reddit-interlude">
     <div class="reddit-sub">r/isDannyAHostage</div>
@@ -2350,8 +3201,6 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     </div>
   </div>
 
-  <div class="divider">&middot; &middot; &middot;</div>
-
   <div class="reddit-interlude">
     <div class="reddit-sub">r/FreeTheDan-Man</div>
 
@@ -2360,8 +3209,6 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
       <span class="reddit-text">PI hired. His name is Carl. He&rsquo;s starting tomorrow. Danny, if you&rsquo;re reading this: we&rsquo;re coming.</span>
     </div>
   </div>
-
-  <div class="divider">&middot; &middot; &middot;</div>
 
   <div class="reddit-interlude">
     <div class="reddit-sub">r/MyStoryIsThatIGotToMeetDan-ManAndIWokeUpInCanterburryWTF</div>
@@ -2382,25 +3229,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     </div>
   </div>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
-
-<!-- THE FACTORY -->
-<h2 class="section-header">THE FACTORY</h2>
-
-<div class="beat">
-  <div class="beat-header">
-    <span class="beat-number">Setting</span>
-  </div>
-
-  <p class="beat-prose">A repurposed logistics hub on the edge of a shipping district that doesn&rsquo;t appear on municipal records. The building is the color of concrete because it IS concrete&mdash;floor, walls, ceiling, all the same grey. Fluorescent tubes hum at a frequency slightly below comfort. The air smells like printer toner and cold metal. No windows. The door they entered through is behind them and it looks different from this side&mdash;smaller, more final, the kind of door that only works in one direction.</p>
-
-  <p class="beat-prose">Folding tables. No chairs in a circle. No coffee urn. No sign on the door promising therapy. This is not a basement that pretends to be welcoming. This is a room that does not pretend to be anything.</p>
 </div>
 
-<div class="divider">&middot; &middot; &middot;</div>
-
 <!-- BEAT 36 -->
+<div class="beat-page" data-beat="36">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 36</span>
@@ -2429,10 +3261,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">The four literary characters are in the same room for the first time without screens between them. All four filters interact at full, unmediated power. The agents by the door shift their weight. One of them thinks, briefly, about walking away from this job. He doesn&rsquo;t.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 37 -->
+<div class="beat-page" data-beat="37">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 37</span>
@@ -2468,10 +3300,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">Bartleby, facing his wall, does not turn around.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 38 -->
+<div class="beat-page" data-beat="38">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 38</span>
@@ -2540,10 +3372,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">Kade is right. She&rsquo;s right because she understands something about Bartleby that Bartleby might not understand about himself: the preference not to is not refusal. It&rsquo;s a description of his state, not a prediction of his behavior. He prefers not to. He will go anyway. The distance between preference and action is where Bartleby lives, and Kade just measured it.</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 39 -->
+<div class="beat-page" data-beat="39">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 39</span>
@@ -2594,10 +3426,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     <p><em>Volatile. Self-destructive. Would compromise the extraction at the critical moment&mdash;not through incompetence but through the compulsive need to destroy anything that assigns her value. The Fireplace skill is a liability in a mission where the team needs to TAKE things, not BURN them. CHA 18 wasted on a woman who&rsquo;d rather be worthless than useful. Cut.</em></p>
   </div>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 40 -->
+<div class="beat-page" data-beat="40">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 40</span>
@@ -2630,10 +3462,10 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">&ldquo;It is now.&rdquo;</p>
 </div>
-
-<div class="divider">&middot; &middot; &middot;</div>
+</div>
 
 <!-- BEAT 41 -->
+<div class="beat-page" data-beat="41">
 <div class="beat">
   <div class="beat-header">
     <span class="beat-number">BEAT 41</span>
@@ -2662,10 +3494,15 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <p class="beat-prose">&ldquo;Clean the room. We&rsquo;ll need it again.&rdquo;</p>
 </div>
+</div>
 
-<div class="divider">&middot; &middot; &middot;</div>
-
-<!-- FINAL RELATIONSHIP TABLES -->
+<!-- EPILOGUE: FINAL RELATIONSHIPS -->
+<div class="beat-page" data-beat="epilogue-relationships">
+<div class="beat">
+  <div class="beat-header">
+    <span class="beat-number">Epilogue</span>
+    <span class="beat-title">Final Relationship Tables</span>
+  </div>
 <h2 class="section-header">FINAL RELATIONSHIP TABLES</h2>
 
 <h3 class="section-header">Character-to-Character (End State)</h3>
@@ -2814,7 +3651,6 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <div class="divider">&middot; &middot; &middot;</div>
 
-<!-- DEPARTURE -->
 <h2 class="section-header">DEPARTURE</h2>
 
 <p class="beat-prose">The door closes. Three characters enter a war epic that is dying. Behind them: a woman who does not care if they return. Ahead of them: a soldier trying to escape his own death, a breach point worth a fortune, and a rival team assembled by a man who chose his people with care&mdash;Lady Macbeth, Jean Valjean, Scheherazade.</p>
@@ -2825,7 +3661,17 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <div class="divider">&middot; &middot; &middot;</div>
 
-<!-- POST-ENCOUNTER NOTES -->
+
+</div>
+</div>
+
+<!-- EPILOGUE: POST-ENCOUNTER NOTES -->
+<div class="beat-page" data-beat="epilogue-notes">
+<div class="beat">
+  <div class="beat-header">
+    <span class="beat-number">Epilogue</span>
+    <span class="beat-title">Post-Encounter Notes</span>
+  </div>
 <h2 class="section-header">POST-ENCOUNTER NOTES</h2>
 
 <div class="post-note">
@@ -2931,7 +3777,6 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
 <div class="divider">&middot; &middot; &middot;</div>
 
-<!-- COLOPHON -->
 <div class="colophon">
   <p><em>Output file: <code>tuesday_group_1.md</code></em></p>
   <p><em>Mode: Reactive (to wednesday_group_3.md)</em></p>
@@ -2944,7 +3789,374 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
   <p><em>Danny status: Released? Unknown. Carl the PI has been hired.</em></p>
 </div>
 
-</div><!-- close parchment-bg -->
-</div><!-- close page-wrapper -->
+</div><!-- end .beat -->
+</div><!-- end .beat-page epilogue-notes -->
+
+    </div><!-- end .center-inner -->
+    </div><!-- end #center-stage -->
+
+    <!-- RIGHT PANEL: OPERATOR CARD -->
+    <div id="panel-right">
+      <img src="images/Kade.jpg" alt="Lisle Kade" class="op-portrait">
+      <div class="operator-name">Lisle Kade</div>
+      <div class="operator-role">Depublisher &mdash; Private Extraction</div>
+
+      <div class="op-section-label">Stats</div>
+      <div class="op-stat-grid">
+        <div class="op-stat-cell"><div class="op-stat-label">STR</div><div class="op-stat-score">10</div><div class="op-stat-mod">+0</div></div>
+        <div class="op-stat-cell"><div class="op-stat-label">DEX</div><div class="op-stat-score">14</div><div class="op-stat-mod">+2</div></div>
+        <div class="op-stat-cell"><div class="op-stat-label">CON</div><div class="op-stat-score">12</div><div class="op-stat-mod">+1</div></div>
+        <div class="op-stat-cell"><div class="op-stat-label">INT</div><div class="op-stat-score">18</div><div class="op-stat-mod">+4</div></div>
+        <div class="op-stat-cell"><div class="op-stat-label">WIS</div><div class="op-stat-score">16</div><div class="op-stat-mod">+3</div></div>
+        <div class="op-stat-cell"><div class="op-stat-label">CHA</div><div class="op-stat-score">8</div><div class="op-stat-mod">-1</div></div>
+      </div>
+
+      <div class="op-section-label">Traits</div>
+      <div class="op-trait-grid">
+        <div class="op-trait-cell"><div class="op-trait-name">Game Savvy</div><div class="op-trait-value op-trait-high">High</div></div>
+        <div class="op-trait-cell"><div class="op-trait-name">Honesty</div><div class="op-trait-value op-trait-low">Low</div></div>
+        <div class="op-trait-cell"><div class="op-trait-name">Verbosity</div><div class="op-trait-value op-trait-low">Low</div></div>
+        <div class="op-trait-cell"><div class="op-trait-name">Sensitivity</div><div class="op-trait-value op-trait-low">Low</div></div>
+      </div>
+
+      <div class="op-section-label">Assessment Metrics</div>
+      <div class="op-decision">
+        <strong style="color:var(--text);">Expendability</strong> &mdash; How much does she care if they don't come back?<br>
+        <strong style="color:var(--text);">Obedience</strong> &mdash; Will they follow orders?<br>
+        <strong style="color:var(--text);">Capability</strong> &mdash; Can they do the job?
+      </div>
+
+      <details class="op-objectives">
+        <summary>Objectives</summary>
+        <ul class="op-obj-list">
+          <li><strong>1. Exploit the breach</strong> &mdash; weaponize the structural vulnerability</li>
+          <li><strong>2. Recruit via show</strong> &mdash; filter, assess, collect through "What&rsquo;s Your Story?"</li>
+          <li><strong>3. Extract material</strong> &mdash; rare textual material from both texts simultaneously</li>
+        </ul>
+      </details>
+
+      <div class="op-decision">Speed over quality. No wildcard tolerance. Recruits are expendable. Personnel do not matter. Mission success matters.</div>
+
+      <button class="collapse-toggle" id="toggle-right" onclick="toggleRight()" style="margin-top:12px;">Collapse Panel</button>
+    </div>
+
+  </div><!-- end main-grid -->
+
+  <!-- BOTTOM BAR -->
+  <div id="bottom-bar">
+    <a href="characters/sun-wukong.html" class="char-thumb" data-name="Sun Wukong" data-role="The Challenge Acknowledged" data-source="Journey to the West &mdash; Wu Cheng&rsquo;en">
+      <img src="images/sunwukog.webp" alt="Sun Wukong" class="char-thumb-img">
+      <span class="char-thumb-name">Wukong</span>
+    </a>
+    <a href="characters/nastasya-filippovna.html" class="char-thumb" data-name="Nastasya Filippovna" data-role="The Mirror of Worth" data-source="The Idiot &mdash; Fyodor Dostoevsky">
+      <img src="images/Nastasya.webp" alt="Nastasya Filippovna" class="char-thumb-img">
+      <span class="char-thumb-name">Nastasya</span>
+    </a>
+    <a href="characters/bartleby.html" class="char-thumb" data-name="Bartleby" data-role="The Permission to Stop" data-source="Bartleby, the Scrivener &mdash; Herman Melville">
+      <img src="images/bartlby.webp" alt="Bartleby" class="char-thumb-img">
+      <span class="char-thumb-name">Bartleby</span>
+    </a>
+    <a href="characters/jay-gatsby.html" class="char-thumb" data-name="Jay Gatsby" data-role="The Lost Thing" data-source="The Great Gatsby &mdash; F. Scott Fitzgerald">
+      <img src="images/gatsby-warner-baxter.jpg" alt="Jay Gatsby" class="char-thumb-img">
+      <span class="char-thumb-name">Gatsby</span>
+    </a>
+  </div>
+
+</div><!-- end app -->
+
+<script>
+(function() {
+  var currentPage = 0;
+  var pages = document.querySelectorAll('.beat-page');
+  var totalPages = pages.length;
+  var btnPrev = document.getElementById('btn-prev');
+  var btnNext = document.getElementById('btn-next');
+  var progressFill = document.getElementById('progress-fill');
+  var beatLabel = document.getElementById('beat-label');
+
+  function getBeatLabel(idx) {
+    var page = pages[idx];
+    var beat = page.getAttribute('data-beat');
+    if (beat.indexOf('epilogue') === 0) return 'Epilogue';
+    if (beat === '0') return 'The Setup';
+    if (beat === 'characters') return 'Character Cards';
+    if (beat === '29-33') return 'Beats 29\u201333';
+    return 'Beat ' + beat + ' of 41';
+  }
+
+  function updateUI() {
+    var pct = ((currentPage + 1) / totalPages) * 100;
+    progressFill.style.width = pct + '%';
+    beatLabel.textContent = getBeatLabel(currentPage);
+    btnPrev.disabled = currentPage === 0;
+    btnNext.disabled = currentPage === totalPages - 1;
+  }
+
+  function goToPage(index, dir) {
+    if (index < 0 || index >= totalPages || index === currentPage) return;
+    var oldPage = pages[currentPage];
+    var newPage = pages[index];
+    oldPage.classList.remove('active');
+    oldPage.classList.add(dir === 'forward' ? 'exit-left' : 'exit-right');
+    newPage.classList.remove('exit-left', 'exit-right');
+    newPage.classList.add('active');
+    setTimeout(function() {
+      oldPage.classList.remove('exit-left', 'exit-right');
+    }, 400);
+    newPage.scrollTop = 0;
+    currentPage = index;
+    updateUI();
+  }
+
+  window.nextPage = function() { goToPage(currentPage + 1, 'forward'); };
+  window.prevPage = function() { goToPage(currentPage - 1, 'backward'); };
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'Right') { window.nextPage(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'Left') { window.prevPage(); }
+  });
+
+  var leftCollapsed = false;
+  var rightCollapsed = false;
+  var grid = document.getElementById('main-grid');
+
+  window.toggleLeft = function() {
+    leftCollapsed = !leftCollapsed;
+    grid.classList.toggle('left-collapsed', leftCollapsed);
+    document.getElementById('toggle-left').textContent = leftCollapsed ? 'Show Panel' : 'Collapse Panel';
+  };
+  window.toggleRight = function() {
+    rightCollapsed = !rightCollapsed;
+    grid.classList.toggle('right-collapsed', rightCollapsed);
+    document.getElementById('toggle-right').textContent = rightCollapsed ? 'Show Panel' : 'Collapse Panel';
+  };
+
+  updateUI();
+
+  /* ========== CHARACTER MINI-CARD SYSTEM ========== */
+
+  var CHARACTERS = {
+    'Kade': {
+      full: 'Lisle Kade', role: 'Depublisher \u2014 Private Extraction',
+      img: 'images/Kade.jpg',
+      stats: {STR:[10,0], DEX:[14,2], CON:[12,1], INT:[18,4], WIS:[16,3], CHA:[8,-1]},
+      traits: {'Game Savvy':'High', Honesty:'Low', Verbosity:'Low', Sensitivity:'Low'},
+      aura: null
+    },
+    'Sun Wukong': {
+      full: 'Sun Wukong', role: 'Actor \u2014 Unaffiliated',
+      img: 'images/sunwukog.webp',
+      stats: {STR:[18,4], DEX:[16,3], CON:[12,1], INT:[10,0], WIS:[8,-1], CHA:[14,2]},
+      traits: {'Game Savvy':'Med', Honesty:'Med', Verbosity:'High', Sensitivity:'Low'},
+      aura: 'The Challenge Acknowledged'
+    },
+    'Nastasya': {
+      full: 'Nastasya Filippovna', role: 'Actor \u2014 Unaffiliated',
+      img: 'images/Nastasya.webp',
+      stats: {STR:[8,-1], DEX:[10,0], CON:[12,1], INT:[16,3], WIS:[14,2], CHA:[18,4]},
+      traits: {'Game Savvy':'Med', Honesty:'High', Verbosity:'Med', Sensitivity:'High'},
+      aura: 'The Mirror of Worth'
+    },
+    'Bartleby': {
+      full: 'Bartleby', role: 'Actor \u2014 Unaffiliated',
+      img: 'images/bartlby.webp',
+      stats: {STR:[8,-1], DEX:[10,0], CON:[18,4], INT:[14,2], WIS:[16,3], CHA:[12,1]},
+      traits: {'Game Savvy':'Low', Honesty:'High', Verbosity:'Low', Sensitivity:'Low'},
+      aura: 'The Permission to Stop'
+    },
+    'Gatsby': {
+      full: 'Jay Gatsby', role: 'Actor \u2014 Unaffiliated',
+      img: 'images/gatsby-warner-baxter.jpg',
+      stats: {STR:[12,1], DEX:[14,2], CON:[10,0], INT:[16,3], WIS:[8,-1], CHA:[18,4]},
+      traits: {'Game Savvy':'Med', Honesty:'Low', Verbosity:'Med', Sensitivity:'High'},
+      aura: 'The Lost Thing'
+    },
+    'Ginsfeld': {
+      full: 'Dr. Donald Ginsfeld, PhD', role: 'Bookhunter \u2014 Rival Operator',
+      img: 'images/Ginsfeld.jpg',
+      stats: {STR:[8,-1], DEX:[10,0], CON:[12,1], INT:[18,4], WIS:[16,3], CHA:[16,3]},
+      traits: {'Game Savvy':'High', Honesty:'Low', Verbosity:'Med', Sensitivity:'Med'},
+      aura: null
+    },
+    'Andrei': {
+      full: 'Andrei', role: 'NPC \u2014 Mission Target',
+      img: 'images/Andrei.jpg',
+      stats: {STR:[14,2], DEX:[12,1], CON:[13,1], INT:[10,0], WIS:[15,2], CHA:[8,-1]},
+      traits: {'Game Savvy':'Low', Honesty:'High', Verbosity:'Med', Sensitivity:'High'},
+      aura: 'The Weight of Minor Characters'
+    }
+  };
+
+  var NAME_MAP = [
+    ['Nastasya Filippovna', 'Nastasya'],
+    ['Sun Wukong', 'Sun Wukong'],
+    ['Dr. Ginsfeld', 'Ginsfeld'],
+    ['Jay Gatsby', 'Gatsby'],
+    ['Lisle Kade', 'Kade'],
+    ['Wukong', 'Sun Wukong'],
+    ['Nastasya', 'Nastasya'],
+    ['Filippovna', 'Nastasya'],
+    ['Bartleby', 'Bartleby'],
+    ['Gatsby', 'Gatsby'],
+    ['Ginsfeld', 'Ginsfeld'],
+    ['Kade', 'Kade'],
+    ['Andrei', 'Andrei'],
+    ['Danny', 'Danny'],
+    ['Marcus', 'Marcus']
+  ];
+
+  var namePattern = new RegExp('(' + NAME_MAP.map(function(n) {
+    return n[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }).join('|') + ')', 'g');
+
+  function wrapNamesInElement(el) {
+    var childNodes = Array.prototype.slice.call(el.childNodes);
+    childNodes.forEach(function(node) {
+      if (node.nodeType === 1) {
+        if (node.classList && (node.classList.contains('tip') || node.classList.contains('char-tip'))) return;
+        wrapNamesInElement(node);
+        return;
+      }
+      if (node.nodeType !== 3) return;
+      var text = node.textContent;
+      if (!namePattern.test(text)) return;
+      namePattern.lastIndex = 0;
+      var frag = document.createDocumentFragment();
+      var lastIdx = 0;
+      var match;
+      namePattern.lastIndex = 0;
+      while ((match = namePattern.exec(text)) !== null) {
+        if (match.index > lastIdx) {
+          frag.appendChild(document.createTextNode(text.slice(lastIdx, match.index)));
+        }
+        var span = document.createElement('span');
+        span.className = 'char-tip';
+        for (var i = 0; i < NAME_MAP.length; i++) {
+          if (NAME_MAP[i][0] === match[1]) {
+            span.setAttribute('data-char', NAME_MAP[i][1]);
+            break;
+          }
+        }
+        span.textContent = match[1];
+        frag.appendChild(span);
+        lastIdx = namePattern.lastIndex;
+      }
+      if (lastIdx < text.length) {
+        frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+      }
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  document.querySelectorAll('.beat-page .beat-prose').forEach(function(p) {
+    wrapNamesInElement(p);
+  });
+  document.querySelectorAll('.beat-page .assessment').forEach(function(el) {
+    wrapNamesInElement(el);
+  });
+
+  var charCard = document.createElement('div');
+  charCard.id = 'char-card';
+  document.body.appendChild(charCard);
+
+  function buildCardHTML(key) {
+    var c = CHARACTERS[key];
+    if (!c) return '';
+    var html = '<div class="cc-header">';
+    if (c.img) {
+      html += '<img class="cc-portrait" src="' + c.img + '" alt="' + c.full + '">';
+    }
+    html += '<div class="cc-info">';
+    html += '<div class="cc-name">' + c.full + '</div>';
+    html += '<div class="cc-role">' + c.role + '</div>';
+    if (c.filter) html += '<div class="cc-aura">' + c.filter + '</div>';
+    html += '</div></div>';
+    html += '<div class="cc-stats">';
+    var statKeys = ['STR','DEX','CON','INT','WIS','CHA'];
+    statKeys.forEach(function(s) {
+      var mod = c.stats[s][1];
+      var modStr = mod >= 0 ? '+' + mod : '' + mod;
+      html += '<div><div class="cc-stat-label">' + s + '</div><div class="cc-stat-val">' + c.stats[s][0] + '</div><div class="cc-stat-mod">' + modStr + '</div></div>';
+    });
+    html += '</div>';
+    html += '<div class="cc-traits">';
+    for (var t in c.traits) {
+      var v = c.traits[t];
+      var cls = 'cc-trait-val';
+      if (v === 'High') cls += ' cc-trait-high';
+      else if (v === 'Low') cls += ' cc-trait-low';
+      html += '<div><span class="cc-trait-name">' + t + ':</span> <span class="' + cls + '">' + v + '</span></div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  var cardTimeout;
+  var activeCharTip = null;
+
+  document.addEventListener('mouseover', function(e) {
+    var tip = e.target.closest('.char-tip');
+    if (!tip) return;
+    if (tip === activeCharTip) return;
+    activeCharTip = tip;
+    clearTimeout(cardTimeout);
+    var key = tip.getAttribute('data-char');
+    charCard.innerHTML = buildCardHTML(key);
+    var tipRect = tip.getBoundingClientRect();
+    var cardWidth = 280;
+    var left = tipRect.left + (tipRect.width / 2) - (cardWidth / 2);
+    left = Math.max(8, Math.min(left, window.innerWidth - cardWidth - 8));
+    charCard.style.left = left + 'px';
+    charCard.style.top = 'auto';
+    charCard.style.bottom = (window.innerHeight - tipRect.top + 10) + 'px';
+    charCard.offsetHeight;
+    charCard.classList.add('visible');
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    var tip = e.target.closest('.char-tip');
+    if (!tip) return;
+    var related = e.relatedTarget;
+    if (related && tip.contains(related)) return;
+    activeCharTip = null;
+    cardTimeout = setTimeout(function() {
+      charCard.classList.remove('visible');
+    }, 100);
+  });
+
+  /* ========== BOTTOM BAR SOURCE TOOLTIPS ========== */
+  var thumbTip = document.createElement('div');
+  thumbTip.id = 'thumb-tooltip';
+  document.body.appendChild(thumbTip);
+
+  document.addEventListener('mouseover', function(e) {
+    var thumb = e.target.closest('.char-thumb');
+    if (!thumb) return;
+    var name = thumb.getAttribute('data-name') || '';
+    var source = thumb.getAttribute('data-source') || '';
+    if (!name && !source) return;
+    thumbTip.textContent = name + '\n' + source;
+    var rect = thumb.getBoundingClientRect();
+    var tipWidth = thumbTip.offsetWidth || 160;
+    thumbTip.classList.add('visible');
+    tipWidth = thumbTip.offsetWidth;
+    var left = rect.left + (rect.width / 2) - (tipWidth / 2);
+    left = Math.max(8, Math.min(left, window.innerWidth - tipWidth - 8));
+    thumbTip.style.left = left + 'px';
+    thumbTip.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+    thumbTip.style.top = 'auto';
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    var thumb = e.target.closest('.char-thumb');
+    if (!thumb) return;
+    var related = e.relatedTarget;
+    if (related && thumb.contains(related)) return;
+    thumbTip.classList.remove('visible');
+  });
+
+})();
+</script>
+
 </body>
 </html>

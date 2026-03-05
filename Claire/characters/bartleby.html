@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartleby &mdash; The Guttenberg Engine</title>
+<link rel="stylesheet" href="../styles/terminally-online.css">
+<style>
+  .char-header {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .char-portrait-standalone { flex: 0 0 180px; }
+  .char-portrait-standalone img {
+    width: 100%; height: auto;
+    border: 2px solid var(--border); padding: 3px;
+    background: var(--surface);
+    box-shadow: 3px 3px 12px var(--shadow);
+    filter: contrast(1.05) brightness(0.9);
+  }
+  .char-portrait-caption {
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 0.68em; font-style: italic;
+    color: var(--text-muted); margin-top: 4px; opacity: 0.7; text-align: center;
+  }
+  .char-portrait-placeholder {
+    width: 100%; aspect-ratio: 3/4;
+    background: var(--surface-raised); border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bangers', Impact, sans-serif; font-size: 3em;
+    color: var(--text-muted); letter-spacing: 0.05em;
+  }
+  .char-header-info { flex: 1; min-width: 0; }
+  .char-header-info .character-name { text-align: left; margin-bottom: 4px; }
+  .char-header-info .character-role { text-align: left; margin-bottom: 12px; }
+  .character-quote {
+    font-family: 'IBM Plex Sans', sans-serif; font-style: italic; line-height: 1.5;
+    color: var(--text-muted); font-size: 0.95em; margin: 0;
+  }
+  .conditions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .conditions-grid .condition { margin-bottom: 0; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .skills-grid .skill-block { margin-bottom: 0; }
+  .reputations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .reputations-grid .reputation { margin-bottom: 0; }
+  .equipment-inline { display: flex; gap: 24px; font-family: 'IBM Plex Sans', sans-serif; }
+  .equipment-inline p { margin: 0; }
+  .character-section-label { margin-top: 20px; margin-bottom: 8px; }
+  .colophon-line {
+    font-family: 'IBM Plex Sans', sans-serif; font-style: italic; text-align: center;
+    font-size: 0.8em; color: var(--text-muted); margin-top: 28px; opacity: 0.6;
+  }
+  @media (max-width: 640px) {
+    .char-header { flex-direction: column; align-items: center; text-align: center; }
+    .char-header-info .character-name, .char-header-info .character-role { text-align: center; }
+    .conditions-grid, .skills-grid, .reputations-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <nav style="margin-bottom: 24px;">
+    <a href="../kade_session_v1_interface.html" style="font-family: 'IBM Plex Mono', monospace; font-size: 0.85em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--upvote); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;"
+       onmouseover="this.style.borderBottomColor='var(--upvote)'" onmouseout="this.style.borderBottomColor='transparent'">&larr; Back to What&rsquo;s Your Story?</a>
+  </nav>
+
+  <div class="char-header">
+    <div class="char-portrait-standalone">
+      <img src="../images/bartlby.webp" alt="Bartleby">
+      <div class="char-portrait-caption">A daguerreotype that learned to blink</div>
+    </div>
+    <div class="char-header-info">
+      <div class="character-name">Bartleby</div>
+      <div class="character-role">Actor &mdash; Unaffiliated</div>
+      <div class="character-quote">A scrivener. A copyist. A man who sat at a desk facing a wall and one day simply stopped. "I would prefer not to." Not defiance. Not protest. Not laziness. Something else &mdash; a withdrawal so total it became its own philosophy. He worked at the Dead Letter Office before the law firm. He sorted the letters that never arrived: love letters to the dead, money to the starving, hope to the hopeless. He saw what the world does to human effort and made a decision about effort that he has never reversed.</div>
+    </div>
+  </div>
+
+  <div class="character-section-label">Stats</div>
+  <div class="stat-grid">
+    <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+    <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+    <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+    <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+    <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+  </div>
+
+  <div class="character-section-label">Game Traits</div>
+  <div class="trait-grid">
+    <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--low">Low</div></div>
+    <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">High</div></div>
+    <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
+    <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--low">Low</div></div>
+  </div>
+
+  <div class="character-section-label">Conditions</div>
+  <div class="conditions-grid">
+
+  <div class="condition">
+    <div class="condition-name">The Dead Letter Office</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag condition-tag--private">Private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">Before the law firm, he sorted letters that never reached their recipients. Thousands of them. Love declared to the already dead. Fortunes mailed to addresses that no longer existed. Pardons that arrived after the execution. The accumulated weight of every failed human connection passed through his hands, and when he was done, his hands stopped reaching for anything.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">I Would Prefer Not To</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Public</span>
+      <span class="condition-tag">o2o</span>
+    </div>
+    <div class="condition-desc">The phrase. It's not a refusal exactly &mdash; it's a preference stated so mildly and so immovably that it functionally stops the world. He says it to every request with the same gentle, unflappable tone. On Zoom, it's devastating.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">The Wall</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Public</span>
+      <span class="condition-tag">o2o</span>
+    </div>
+    <div class="condition-desc">He positions himself facing blank walls. On Zoom, his camera shows nothing behind him &mdash; no room, no window, no bookshelf, no personality. Just wall. Cream-colored, featureless, close. The internet finds this more unsettling than any horror they've ever streamed. Someone in the chat calls it "the scariest background on the internet" and the phrase sticks.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">Cadaverous</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Public</span>
+      <span class="condition-tag">o2o</span>
+    </div>
+    <div class="condition-desc">He is thin in the way candles are thin after burning all night. Pale. Still. His face has the quality of a man who has already left and whose body is waiting for the forwarding address. On camera, he looks like a daguerreotype that learned to blink.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Reputations</div>
+  <div class="reputations-grid">
+
+  <div class="reputation">
+    <div class="reputation-name">"The Preference"</div>
+    <div class="reputation-source">Source: The Ashkeepers</div>
+    <div class="reputation-desc">The Ashkeepers &mdash; custodians of dying texts &mdash; consider Bartleby a philosophical problem. A character whose defining act is the refusal to act. A narrative entity that generates meaning through absence. They have debated his classification for decades. He is filed under "Unresolved."</div>
+  </div>
+
+  <div class="reputation">
+    <div class="reputation-name">"Dead Letter"</div>
+    <div class="reputation-source">Source: The Marginalia</div>
+    <div class="reputation-desc">The Marginalia know about the Dead Letter Office. They consider it the saddest backstory in American literature. In their annotated records, Bartleby's margin notes are always empty. Not blank &mdash; empty. The distinction matters to the Marginalia, even if it wouldn't matter to anyone else.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Roll Skills</div>
+  <div class="skills-grid">
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">The Preference</span>
+      <span class="skill-type">Passive</span>
+    </div>
+    <div class="skill-trigger">Trigger: Fires when anyone asks, demands, or requires anything of him</div>
+    <div class="skill-mechanic">Mechanic: d20 + WIS (+3)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> "I would prefer not to." Simple, mild, immovable. The requester feels the oddness &mdash; not anger, not rebellion, just a polite, absolute no that seems to have no bottom.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 14:</span> The refusal carries weight. Other people in the room begin to question their own compliance. Why ARE they doing what's being asked? The preference not to becomes contagious.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Reality pauses. The social machinery that makes people do things &mdash; obligation, authority, politeness, fear &mdash; stalls. Everyone in earshot feels the existential permission to simply... stop.</div>
+    <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Each activation deepens his isolation. The wall behind him gets closer. His already-thin frame seems to narrow.</div>
+  </div>
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">Dead Letters</span>
+      <span class="skill-type">Passive</span>
+    </div>
+    <div class="skill-trigger">Trigger: Fires in the presence of failed communication, missed connections, or messages that didn't arrive</div>
+    <div class="skill-mechanic">Mechanic: d20 + INT (+2)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> He identifies the failure &mdash; the thing that wasn't said, the letter that wasn't sent, the connection that was missed.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 14:</span> He understands why &mdash; the specific, structural reason the communication broke down, the gap in the architecture of human contact.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> He can reconstruct the original intent &mdash; what was supposed to reach the other person, what the world would look like if it had.</div>
+    <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Every dead letter he reads adds to the weight. Every reconstruction is another reason the world doesn't work. Another reason to prefer not to.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Aura</div>
+  <div class="aura-block">
+    <div class="aura-name">The Permission to Stop</div>
+    <div class="aura-desc">In Bartleby's presence, people feel the weight of their obligations. Not guilt &mdash; mass. The accumulated tonnage of everything they must do, should do, have always done, will continue to do. And beneath the weight, a small, quiet voice that sounds like their own: <em>I would prefer not to.</em> The effect doesn't make people stop. It makes them aware that stopping is possible. For some, this is the most liberating thing they've ever felt. For others, it is the most terrifying.</div>
+  </div>
+
+  <div class="character-section-label">Equipment</div>
+  <div class="equipment-inline">
+    <p><strong>Artifact:</strong> (unbound)</p>
+    <p><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <p class="colophon-line">Bartleby &mdash; Actor Card &mdash; The Guttenberg Engine</p>
+
+</div>
+</body>
+</html>

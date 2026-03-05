@@ -21,7 +21,7 @@
 ## Image Insertions
 
 9. **Mission Brief**: `images/Battle Map.png` — inline above or beside the brief
-10. **Ginsfeld card**: `images/Ginsberg.jpg` — inline in his operator mini-card
+10. **Ginsfeld card**: `images/Ginsfeld.jpg` — inline in his operator mini-card
 11. **Kade card**: `images/Kade.jpg` — inline in her operator mini-card
 12. **Wednesday Group link**: `images/chairs.jpeg` — in the scenario panel
 13. **Tuesday Group link**: `images/Lady_Macbeth_Cattermole.jpg` OR `images/Youtube.jpg` — TBD per user preference

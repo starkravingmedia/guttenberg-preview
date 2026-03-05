@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sun Wukong &mdash; The Guttenberg Engine</title>
+<link rel="stylesheet" href="../styles/terminally-online.css">
+<style>
+  .char-header {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .char-portrait-standalone {
+    flex: 0 0 180px;
+  }
+  .char-portrait-standalone img {
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--border);
+    padding: 3px;
+    background: var(--surface);
+    box-shadow: 3px 3px 12px var(--shadow);
+    filter: contrast(1.05) brightness(0.9);
+  }
+  .char-portrait-caption {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.68em;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 4px;
+    opacity: 0.7;
+    text-align: center;
+  }
+  .char-portrait-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--surface-raised);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bangers', Impact, sans-serif;
+    font-size: 3em;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .char-header-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .char-header-info .character-name {
+    text-align: left;
+    margin-bottom: 4px;
+  }
+  .char-header-info .character-role {
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  .character-quote {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--text-muted);
+    font-size: 0.95em;
+    margin: 0;
+  }
+  .conditions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .conditions-grid .condition { margin-bottom: 0; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .skills-grid .skill-block { margin-bottom: 0; }
+  .reputations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .reputations-grid .reputation { margin-bottom: 0; }
+  .equipment-inline {
+    display: flex;
+    gap: 24px;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .equipment-inline p { margin: 0; }
+  .character-section-label {
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .colophon-line {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: italic;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--text-muted);
+    margin-top: 28px;
+    opacity: 0.6;
+  }
+  @media (max-width: 640px) {
+    .char-header { flex-direction: column; align-items: center; text-align: center; }
+    .char-header-info .character-name, .char-header-info .character-role { text-align: center; }
+    .conditions-grid, .skills-grid, .reputations-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <nav style="margin-bottom: 24px;">
+    <a href="../kade_session_v1_interface.html" style="font-family: 'IBM Plex Mono', monospace; font-size: 0.85em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--upvote); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;"
+       onmouseover="this.style.borderBottomColor='var(--upvote)'" onmouseout="this.style.borderBottomColor='transparent'">&larr; Back to What&rsquo;s Your Story?</a>
+  </nav>
+
+  <div class="char-header">
+    <div class="char-portrait-standalone">
+      <img src="../images/sunwukog.webp" alt="Sun Wukong">
+      <div class="char-portrait-caption">The Monkey King, in armor and circlet</div>
+    </div>
+    <div class="char-header-info">
+      <div class="character-name">Sun Wukong</div>
+      <div class="character-role">Actor &mdash; Unaffiliated</div>
+      <div class="character-quote">The Monkey King. Born from a stone, crowned himself king of the monkeys, stole immortality three times over, challenged all of heaven, and lost &mdash; not to any god but to the Buddha's palm. Spent five hundred years under a mountain. Walked west with a monk as penance. He is the greatest warrior in Chinese literature and the worst student. He does not follow rules. He follows whoever earns the right to hold the leash, and even then he pulls.</div>
+    </div>
+  </div>
+
+  <div class="character-section-label">Stats</div>
+  <div class="stat-grid">
+    <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+    <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+    <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+    <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+    <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+  </div>
+
+  <div class="character-section-label">Game Traits</div>
+  <div class="trait-grid">
+    <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value">Medium</div></div>
+    <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value">Medium</div></div>
+    <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--high">High</div></div>
+    <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--low">Low</div></div>
+  </div>
+
+  <div class="character-section-label">Conditions</div>
+  <div class="conditions-grid">
+
+  <div class="condition">
+    <div class="condition-name">The Circlet</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Public</span>
+      <span class="condition-tag">o2o</span>
+    </div>
+    <div class="condition-desc">A golden band around his head, placed there by the Buddha as a leash. When someone speaks to him with genuine authority &mdash; not bluster, not volume, but the real thing &mdash; it tightens. He flinches at commands. On camera, it reads as a gold headband that catches the light at odd angles. The internet thinks it's a fashion choice.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">Five Hundred Years</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag condition-tag--private">Private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">He spent five centuries under a mountain. Alone. In the dark. He doesn't talk about it. He doesn't talk about anything quietly. But small rooms make his voice louder than it needs to be, and locked doors make his hands move to the staff he no longer carries. Claustrophobia worn as volume.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">Seventy-Two Transformations</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Semi-private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">He can change form. In the Literary Web, transformation is unstable &mdash; his edges shimmer when he's emotional, his face flickers between human and something older. On Zoom, it reads as camera glitches. The audience blames his WiFi. It's not his WiFi.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">Stone-Born</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Public</span>
+      <span class="condition-tag">o2o</span>
+    </div>
+    <div class="condition-desc">His skin has a faintly mineral quality &mdash; smoother than human, slightly luminous. On Zoom, it looks like unusually good lighting. His eyes are amber. The chat is obsessed with his skincare routine. He does not have a skincare routine. He was born from a rock.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Reputations</div>
+  <div class="reputations-grid">
+
+  <div class="reputation">
+    <div class="reputation-name">"The Great Sage Equal to Heaven"</div>
+    <div class="reputation-source">Source: The Lamplighters</div>
+    <div class="reputation-desc">He challenged all of heaven and nearly won. The Lamplighters maintain a file on him that is three inches thick and still classified as "inconclusive." He is categorized as an extinction-level event that happens to currently be cooperative. The "currently" is underlined twice.</div>
+  </div>
+
+  <div class="reputation">
+    <div class="reputation-name">"The Penitent"</div>
+    <div class="reputation-source">Source: The Ashkeepers</div>
+    <div class="reputation-desc">He walked west. He protected the monk. He carried the scriptures. The Ashkeepers, who tend dying texts, know the version of Wukong who earned his title through service. They trust him more than the Lamplighters do. They might be wrong.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Roll Skills</div>
+  <div class="skills-grid">
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">Cloud Somersault</span>
+      <span class="skill-type skill-type--active">Active</span>
+    </div>
+    <div class="skill-mechanic">Mechanic: d20 + DEX (+3)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> He moves faster than anyone expected &mdash; a blur, a displacement, the chair is empty before you registered he stood up.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 15:</span> Fast enough to be in two places in the same beat &mdash; across the room and back, having done something, before the camera catches up.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Reality lags. He exists in two points simultaneously, and nearby text distorts around the movement like a lens flare in a manuscript.</div>
+    <div class="skill-cost"><span class="skill-cost-label">Cost: </span>The Literary Web wasn't built for <em>Journey to the West</em> physics. High-speed movement causes textual distortion in his vicinity &mdash; words blur, pages tremble, nearby characters feel momentarily dizzy.</div>
+  </div>
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">The Iron Staff</span>
+      <span class="skill-type skill-type--active">Active</span>
+    </div>
+    <div class="skill-mechanic">Mechanic: d20 + STR (+4)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> Devastating physical force &mdash; he hits like a siege engine, and what he hits stays hit.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 15:</span> The impact carries narrative weight &mdash; the target doesn't just take damage, they feel the weight of 500 years of containment behind the blow.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Ruyi Jingu Bang manifests at full mythic scale. The staff doesn't just strike &mdash; it restructures the local narrative around the point of impact. Physics become mythology.</div>
+    <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Using the staff at full power inside someone else's text is vandalism. The text fights back. Structural integrity drops. Every DC 20 roll in the field makes the extraction window shorter.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Aura</div>
+  <div class="aura-block">
+    <div class="aura-name">The Challenge Acknowledged</div>
+    <div class="aura-desc">In Sun Wukong's presence, hierarchies become visible and contestable. Authority figures feel their authority noticed &mdash; not attacked, not undermined, but <em>seen</em> as a thing that exists and could, theoretically, be challenged. Subordinates feel permission to look up. The effect doesn't encourage rebellion. It encourages the awareness that rebellion is a verb that conjugates. The Monkey King bowed to one being in his entire existence, and it took a mountain on his back to teach him how.</div>
+  </div>
+
+  <div class="character-section-label">Equipment</div>
+  <div class="equipment-inline">
+    <p><strong>Artifact:</strong> (unbound)</p>
+    <p><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <p class="colophon-line">Sun Wukong &mdash; Actor Card &mdash; The Guttenberg Engine</p>
+
+</div>
+</body>
+</html>

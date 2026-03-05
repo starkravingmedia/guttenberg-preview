@@ -1109,10 +1109,10 @@ em { color: var(--ink); }
 }
 
 /* ------------------------------------------------------------
-   21. FILTER BLOCK
+   21. AURA BLOCK
    ------------------------------------------------------------ */
 
-.filter-block {
+.aura-block {
   margin-bottom: 20px;
   padding: 20px 24px;
   border: 1px solid var(--gold);
@@ -1120,7 +1120,7 @@ em { color: var(--ink); }
   position: relative;
 }
 
-.filter-block::before {
+.aura-block::before {
   content: '~';
   position: absolute;
   top: -12px;
@@ -1133,7 +1133,7 @@ em { color: var(--ink); }
   padding: 0 8px;
 }
 
-.filter-name {
+.aura-name {
   font-family: 'Cinzel', serif;
   font-weight: 700;
   font-size: 0.9em;
@@ -1142,7 +1142,7 @@ em { color: var(--ink); }
   margin-bottom: 10px;
 }
 
-.filter-desc {
+.aura-desc {
   font-family: 'EB Garamond', serif;
   font-style: italic;
   font-size: 0.92em;
@@ -1312,10 +1312,10 @@ em { color: var(--ink); }
 }
 
 /* ------------------------------------------------------------
-   26. FILTER TRIGGER (INLINE)
+   26. AURA TRIGGER (INLINE)
    ------------------------------------------------------------ */
 
-.filter-trigger {
+.aura-trigger {
   margin: 16px 0;
   padding: 10px 18px;
   border-left: 3px solid var(--gold);
@@ -1325,7 +1325,7 @@ em { color: var(--ink); }
   line-height: 1.55;
 }
 
-.filter-trigger-label {
+.aura-trigger-label {
   font-family: 'Cinzel', serif;
   font-weight: 700;
   font-size: 0.7em;
