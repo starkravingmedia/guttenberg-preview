@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scheherazade &mdash; The Guttenberg Engine</title>
+<link rel="stylesheet" href="../styles/guttenberg.css">
+<style>
+  /* Header: portrait beside name/quote */
+  .char-header {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .char-portrait-standalone {
+    flex: 0 0 180px;
+  }
+  .char-portrait-standalone img {
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--parchment-dark);
+    padding: 3px;
+    background: var(--parchment);
+    box-shadow: 3px 3px 12px var(--shadow);
+    filter: sepia(0.2) contrast(1.05);
+  }
+  .char-portrait-caption {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.68em;
+    font-style: italic;
+    color: var(--ink-light);
+    margin-top: 4px;
+    opacity: 0.7;
+    text-align: center;
+  }
+  .char-header-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .char-header-info .character-name {
+    text-align: left;
+    margin-bottom: 4px;
+  }
+  .char-header-info .character-role {
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  .character-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink-light);
+    font-size: 0.95em;
+    margin: 0;
+  }
+  .conditions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .conditions-grid .condition {
+    margin-bottom: 0;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .skills-grid .skill-block {
+    margin-bottom: 0;
+  }
+  .reputations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .reputations-grid .reputation {
+    margin-bottom: 0;
+  }
+  .equipment-inline {
+    display: flex;
+    gap: 24px;
+    font-family: 'EB Garamond', serif;
+  }
+  .equipment-inline p { margin: 0; }
+  .character-section-label {
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .colophon {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--ink-light);
+    margin-top: 28px;
+    opacity: 0.6;
+  }
+  @media (max-width: 640px) {
+    .char-header { flex-direction: column; align-items: center; text-align: center; }
+    .char-header-info .character-name, .char-header-info .character-role { text-align: center; }
+    .conditions-grid, .skills-grid, .reputations-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="parchment-bg">
+
+  <nav style="margin-bottom: 24px;">
+    <a href="../ginsberg_session_1_Interface_b.html" style="font-family: 'Cinzel', serif; font-size: 0.85em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blood); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;"
+       onmouseover="this.style.borderBottomColor='var(--blood)'" onmouseout="this.style.borderBottomColor='transparent'">&larr; Back to The Wednesday Group</a>
+  </nav>
+
+  <div class="char-header">
+    <div class="char-portrait-standalone">
+      <img src="../images/scheherazade-anderson.jpg" alt="Scheherazade">
+      <div class="char-portrait-caption">Sophie Gengembre Anderson, <em>Scheherazade</em></div>
+    </div>
+    <div class="char-header-info">
+      <div class="character-name">Scheherazade</div>
+      <div class="character-role">Actor &mdash; Unaffiliated</div>
+      <div class="character-quote">The woman who told one thousand and one stories to stay alive. Every night the Sultan could have killed her. Every night she gave him a reason not to &mdash; a cliffhanger, a question, a thread left dangling that demanded morning.</div>
+    </div>
+  </div>
+
+  <div class="character-section-label">Stats</div>
+  <div class="stat-grid">
+    <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+    <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+    <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+    <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+    <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+  </div>
+
+  <div class="character-section-label">Game Traits</div>
+  <div class="trait-grid">
+    <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--high">High</div></div>
+    <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value">Medium</div></div>
+    <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--high">High</div></div>
+    <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value trait-value--high">High</div></div>
+  </div>
+
+  <div class="character-section-label">Conditions</div>
+
+  <div class="conditions-grid">
+
+  <div class="condition">
+    <div class="condition-name">One Thousand and One</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag condition-tag--private">Private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">She has told so many stories that the boundary between her life and her tales has thinned to tissue.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">The Unfinished Story</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Semi-private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">She never finishes anything completely. Conversations trail off. Plans lack final steps.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">Thread Voice</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Public</span>
+      <span class="condition-tag">o2o</span>
+    </div>
+    <div class="condition-desc">Her voice has a quality that makes people lean in. Not loudness &mdash; texture.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">The Sultan's Shadow</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag condition-tag--private">Private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">She lived under a death sentence for nearly three years. She flinches at sudden male anger.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Reputations</div>
+
+  <div class="reputations-grid">
+
+  <div class="reputation">
+    <div class="reputation-name">"The Weaver"</div>
+    <div class="reputation-source">Source: The Marginalia</div>
+    <div class="reputation-desc">The Marginalia consider Scheherazade the greatest living narrative architect.</div>
+  </div>
+
+  <div class="reputation">
+    <div class="reputation-name">"The Survivor"</div>
+    <div class="reputation-source">Source: Wide</div>
+    <div class="reputation-desc">Everyone knows her story.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Roll Skills</div>
+
+  <div class="skills-grid">
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">The Cliffhanger</span>
+      <span class="skill-type skill-type--active">Active</span>
+    </div>
+    <div class="skill-mechanic">Mechanic: d20 + INT (+4)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Restructures entire dynamic.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 15:</span> Confrontation suspended.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> Introduces unresolved element that makes other party pause.</div>
+    <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Blurs line between stories and reality. At DC 20, loses certainty about whether current situation is real.</div>
+  </div>
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">Story Sense</span>
+      <span class="skill-type">Passive</span>
+    </div>
+    <div class="skill-trigger">Trigger: Fires when near a narrative structure</div>
+    <div class="skill-mechanic">Mechanic: d20 + INT (+4)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Sees story's future through structural prediction.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 14:</span> Reads architecture.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> Senses genre and emotional register.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Filter</div>
+  <div class="filter-block">
+    <div class="filter-name">The Compulsion to Listen</div>
+    <div class="filter-desc">In Scheherazade's presence, people feel compelled to listen. Interrupting her feels like tearing a page from a book.</div>
+  </div>
+
+  <div class="character-section-label">Equipment</div>
+  <div class="equipment-inline">
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <p class="colophon">Scheherazade &mdash; Actor Card &mdash; The Guttenberg Engine</p>
+
+</div>
+</div>
+</body>
+</html>

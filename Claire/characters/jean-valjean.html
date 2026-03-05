@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jean Valjean &mdash; The Guttenberg Engine</title>
+<link rel="stylesheet" href="../styles/guttenberg.css">
+<style>
+  /* Header: portrait beside name/quote */
+  .char-header {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .char-portrait-standalone {
+    flex: 0 0 180px;
+  }
+  .char-portrait-standalone img {
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--parchment-dark);
+    padding: 3px;
+    background: var(--parchment);
+    box-shadow: 3px 3px 12px var(--shadow);
+    filter: sepia(0.2) contrast(1.05);
+  }
+  .char-portrait-caption {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.68em;
+    font-style: italic;
+    color: var(--ink-light);
+    margin-top: 4px;
+    opacity: 0.7;
+    text-align: center;
+  }
+  .char-header-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .char-header-info .character-name {
+    text-align: left;
+    margin-bottom: 4px;
+  }
+  .char-header-info .character-role {
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  .character-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink-light);
+    font-size: 0.95em;
+    margin: 0;
+  }
+  .conditions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .conditions-grid .condition {
+    margin-bottom: 0;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .skills-grid .skill-block {
+    margin-bottom: 0;
+  }
+  .reputations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .reputations-grid .reputation {
+    margin-bottom: 0;
+  }
+  .equipment-inline {
+    display: flex;
+    gap: 24px;
+    font-family: 'EB Garamond', serif;
+  }
+  .equipment-inline p { margin: 0; }
+  .character-section-label {
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .colophon {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--ink-light);
+    margin-top: 28px;
+    opacity: 0.6;
+  }
+  @media (max-width: 640px) {
+    .char-header { flex-direction: column; align-items: center; text-align: center; }
+    .char-header-info .character-name, .char-header-info .character-role { text-align: center; }
+    .conditions-grid, .skills-grid, .reputations-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="parchment-bg">
+
+  <nav style="margin-bottom: 24px;">
+    <a href="../ginsberg_session_1_Interface_b.html" style="font-family: 'Cinzel', serif; font-size: 0.85em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blood); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s;"
+       onmouseover="this.style.borderBottomColor='var(--blood)'" onmouseout="this.style.borderBottomColor='transparent'">&larr; Back to The Wednesday Group</a>
+  </nav>
+
+  <div class="char-header">
+    <div class="char-portrait-standalone">
+      <img src="../images/valjean-gustave-brion.jpg" alt="Jean Valjean">
+      <div class="char-portrait-caption">Gustave Brion, <em>Monsieur Madeleine</em></div>
+    </div>
+    <div class="char-header-info">
+      <div class="character-name">Jean Valjean</div>
+      <div class="character-role">Actor &mdash; Unaffiliated</div>
+      <div class="character-quote">Convict 24601. Stole bread. Served nineteen years. Broke parole. Was shown mercy by a bishop who gave him silver candlesticks and told him to become an honest man. He did. He became a mayor, a factory owner, a father. Then the law found him again because the law always does. He is the strongest man in any room and the gentlest, and the distance between those two things is where his whole life happens.</div>
+    </div>
+  </div>
+
+  <div class="character-section-label">Stats</div>
+  <div class="stat-grid">
+    <div class="stat-cell"><div class="stat-label">STR</div><div class="stat-score">18</div><div class="stat-mod">+4</div></div>
+    <div class="stat-cell"><div class="stat-label">DEX</div><div class="stat-score">10</div><div class="stat-mod">+0</div></div>
+    <div class="stat-cell"><div class="stat-label">CON</div><div class="stat-score">16</div><div class="stat-mod">+3</div></div>
+    <div class="stat-cell"><div class="stat-label">INT</div><div class="stat-score">12</div><div class="stat-mod">+1</div></div>
+    <div class="stat-cell"><div class="stat-label">WIS</div><div class="stat-score">14</div><div class="stat-mod">+2</div></div>
+    <div class="stat-cell"><div class="stat-label">CHA</div><div class="stat-score">8</div><div class="stat-mod">-1</div></div>
+  </div>
+
+  <div class="character-section-label">Game Traits</div>
+  <div class="trait-grid">
+    <div class="trait-cell"><div class="trait-name">Game Savvy</div><div class="trait-value trait-value--low">Low</div></div>
+    <div class="trait-cell"><div class="trait-name">Honesty</div><div class="trait-value trait-value--high">High</div></div>
+    <div class="trait-cell"><div class="trait-name">Verbosity</div><div class="trait-value trait-value--low">Low</div></div>
+    <div class="trait-cell"><div class="trait-name">Sensitivity</div><div class="trait-value">Medium</div></div>
+  </div>
+
+  <div class="character-section-label">Conditions</div>
+
+  <div class="conditions-grid">
+
+  <div class="condition">
+    <div class="condition-name">The Brand</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag condition-tag--private">Private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">Prisoner number 24601 is inked into the skin of his chest. He keeps it hidden &mdash; buttoned collars, layered clothing even in warm rooms.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">The Candlesticks</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Semi-private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">He carries two silver candlesticks in an interior pocket of his coat. They are heavy and real and they clink faintly when he moves.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">Strength of the Condemned</div>
+    <div class="condition-meta">
+      <span class="condition-tag condition-tag--permanent">Permanent</span>
+      <span class="condition-tag">Public</span>
+      <span class="condition-tag">o2o</span>
+    </div>
+    <div class="condition-desc">His physical power is unmistakable. Broad shoulders, hands like shovels, the dense musculature of a man who spent two decades at hard labor.</div>
+  </div>
+
+  <div class="condition">
+    <div class="condition-name">The Mayor's Ghost</div>
+    <div class="condition-meta">
+      <span class="condition-tag">3 encounters</span>
+      <span class="condition-tag">Semi-private</span>
+      <span class="condition-tag">no2o</span>
+    </div>
+    <div class="condition-desc">Occasionally, without explanation, people treat Valjean with deference.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Reputations</div>
+
+  <div class="reputation">
+    <div class="reputation-name">"24601"</div>
+    <div class="reputation-source">Source: The Bindery</div>
+    <div class="reputation-desc">The Bindery keeps records. Deep, thorough, unforgiving records. They know what Valjean was before the Bishop's silver. Cross-referenced under "reformed," "dangerous," and "unresolved."</div>
+  </div>
+
+  <div class="character-section-label">Roll Skills</div>
+
+  <div class="skills-grid">
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">The Lift</span>
+      <span class="skill-type skill-type--active">Active</span>
+    </div>
+    <div class="skill-mechanic">Mechanic: d20 + STR (+4)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Enters legend.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 15:</span> Impossible by normal standards.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 10:</span> Extraordinary physical feat.</div>
+    <div class="skill-cost"><span class="skill-cost-label">Cost: </span>Reveals convict past. Observers (INT 12+) recognize chain gang body language.</div>
+  </div>
+
+  <div class="skill-block">
+    <div class="skill-header">
+      <span class="skill-name">Mercy's Shield</span>
+      <span class="skill-type">Passive</span>
+    </div>
+    <div class="skill-trigger">Trigger: Fires when someone is being unjustly condemned, abandoned, or sacrificed</div>
+    <div class="skill-mechanic">Mechanic: d20 + WIS (+2)</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--high">DC 20:</span> Transforms the dynamic.</div>
+    <div class="skill-range"><span class="skill-range-label">DC 14:</span> Intervention carries moral authority.</div>
+    <div class="skill-range"><span class="skill-range-label skill-range-label--low">DC 8:</span> Intervenes physically.</div>
+  </div>
+
+  </div>
+
+  <div class="character-section-label">Filter</div>
+  <div class="filter-block">
+    <div class="filter-name">The Test of Goodness</div>
+    <div class="filter-desc">Authority figures feel compelled to test Valjean &mdash; to challenge his reformation, to look for the crack in the saint.</div>
+  </div>
+
+  <div class="character-section-label">Equipment</div>
+  <div class="equipment-inline">
+    <p class="beat-prose"><strong>Artifact:</strong> (unbound)</p>
+    <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
+  </div>
+
+  <p class="colophon">Jean Valjean &mdash; Actor Card &mdash; The Guttenberg Engine</p>
+
+</div>
+</div>
+</body>
+</html>
