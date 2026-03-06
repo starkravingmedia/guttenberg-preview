@@ -823,6 +823,13 @@
   .cc-trait-val { color: var(--text); }
   .cc-trait-high { color: var(--upvote); }
   .cc-trait-low { color: var(--text-muted); opacity: 0.6; }
+  .cc-muggle-desc {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.78em;
+    line-height: 1.5;
+    color: var(--text-muted);
+    padding: 8px 12px;
+  }
 </style>
 </head>
 <body>
@@ -967,17 +974,11 @@
   <p class="beat-prose">You are about to play a session of <em>The Guttenberg Engine</em> from the opposition&rsquo;s perspective. This is <strong><em>What&rsquo;s Your Story?</em></strong> &mdash; Lisle Kade&rsquo;s recruitment operation, running reactive to Dr. Ginsfeld&rsquo;s Wednesday night support group.</p>
   <p class="beat-prose">Kade runs a YouTube show called <em>What&rsquo;s Your Story?</em> as a recruitment filter. It&rsquo;s cheap, it&rsquo;s scalable, and if the recruits don&rsquo;t come back, there are always more where they came from.</p>
 
+  <p class="beat-prose">The show runs every Tuesday. All day. It never stops. People call in, tell their story, get judged, get voted off or survive. New callers replace the fallen. It&rsquo;s a perpetual machine of human spectacle, and somewhere offscreen, Lisle Kade watches with the patience of a spider who built her web across the only door in the room.</p>
+
   <div style="margin:24px 0; position:relative; border-radius:6px; overflow:hidden; border:1px solid var(--border);">
     <img src="images/zoom.webp" alt="What's Your Story? — Live show gallery view" style="width:100%; display:block; filter:brightness(0.85) contrast(1.05);">
     <div style="position:absolute; bottom:0; left:0; right:0; padding:10px 16px; background:linear-gradient(transparent, rgba(3,3,3,0.85)); font-family:'IBM Plex Mono',monospace; font-size:0.7em; color:var(--text-muted); letter-spacing:0.05em;">LIVE &mdash; What&rsquo;s Your Story? &mdash; Tuesday Night</div>
-  </div>
-
-  <div class="muggle-card" style="margin-bottom:20px; border-color:var(--upvote); border-width:2px;">
-    <img src="images/danny.webp" alt="Danny" class="muggle-portrait" style="border-color:var(--upvote);">
-    <div class="muggle-card-body">
-    <div class="muggle-name" style="color:var(--upvote);">Danny<span style="font-weight:400; color:var(--text-muted); font-size:0.85em; margin-left:6px;">Host &amp; Frontman</span></div>
-    <div class="muggle-desc">The face of <em>What&rsquo;s Your Story?</em> YouTube personality. Headset energy. Thinks he&rsquo;s running a talk show. Doesn&rsquo;t know Kade is running him. The questions he asks aren&rsquo;t his &mdash; they&rsquo;re diagnostic instruments fed through his earpiece. He&rsquo;s good at his job because he doesn&rsquo;t know what his job actually is.</div>
-    </div>
   </div>
 
   <p class="beat-prose" style="margin-top:20px;"><strong>How to read this interface:</strong></p>
@@ -988,80 +989,25 @@
     <li><strong>Character names</strong> in the text are interactive &mdash; hover for mini-cards.</li>
     <li><strong>Arrow keys</strong> or the nav buttons to move between beats.</li>
   </ul>
-
-  <div style="margin-top:30px;">
-    <div class="section-header" style="font-family:'IBM Plex Sans',sans-serif; font-weight:700; font-size:0.85em; letter-spacing:0.08em; text-transform:uppercase; color:var(--upvote); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border);">MUGGLE ROSTER</div>
-    <p class="beat-prose" style="margin-bottom:16px; font-style:italic; color:var(--text-muted);">Human callers who cycle through the show. Some are noise. Some are signal. Kade watches all of them.</p>
-<div class="muggle-card">
-    <div class="muggle-name">Derek from Tulsa</div>
-    <div class="muggle-desc">IT support specialist who calls in every Tuesday to complain about his HOA. Has been fighting to get his neighbor's fence moved three inches for two years. The audience loves him ironically. He has never won a round on merit but has survived four on meme value.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Priya</div>
-    <div class="muggle-desc">22, claims to have astral projected into her cat during a guided meditation. Speaks at 1.5x speed. Has 47 TikTok followers and mentions this in every sentence. Her camera has a ring light so bright it bleaches out half her face.</div>
-  </div>
-
-  <div class="muggle-card">
-    <img src="images/marcus.webp" alt="Marcus" class="muggle-portrait">
-    <div class="muggle-card-body">
-    <div class="muggle-name">Marcus "Big Poppa" Williams</div>
-    <div class="muggle-desc">58, retired postal worker from Detroit. Calls in to tell dad jokes and flirt harmlessly with every guest. A Tuesday institution. Has survived 11 consecutive rounds on pure warmth. The chat has a Marcus protection society. Danny genuinely likes him.</div>
-    </div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Linda Chen</div>
-    <div class="muggle-desc">Dental hygienist from San Jose. Every story she tells loops back to teeth. She once described a vacation to Italy entirely through the lens of European dental care. The chat calls her "Tooth Linda." She doesn't know this.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Anonymous<span class="muggle-tag">MEMORABLE</span></div>
-    <div class="muggle-desc">Never gives a name. Camera shows only her hands and a desk covered in printed documents. Calls from a different number each week. She speaks in precise, clipped sentences and refuses Danny's banter with the patience of someone explaining gravity to a child. Her stories are about a tech company she claims is monitoring something she won't name. The audience is split: brilliant performance artist or genuinely about to break a story. Kade watches her for three full rounds before concluding &mdash; reluctantly &mdash; that she is human. The tell is the documents: a fictional character's paranoia has structure. Anonymous's paranoia has staples and coffee stains and pages in the wrong order. She's real. She's just interesting enough to create doubt.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Tom&aacute;s</div>
-    <div class="muggle-desc">30, bartender from Lisbon who calls in at 3am local time. His stories are always about customers and always slightly too good. He's not a literary character. He's just a Portuguese bartender who pays attention. The distinction is cosmetic but real.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Karen (Not That Kind of Karen)</div>
-    <div class="muggle-desc">45, kindergarten teacher who prefaces every appearance with "I know my name is Karen but I'm not THAT kind of Karen." The first time was disarming. By the fourth week it was a hostage situation. The chat has shortened her to "NTK."</div>
-  </div>
-
-  <div class="muggle-card">
-    <img src="images/oldjim.jpg" alt="Old Jim" class="muggle-portrait">
-    <div class="muggle-card-body">
-    <div class="muggle-name">Old Jim<span class="muggle-tag">MEMORABLE</span></div>
-    <div class="muggle-desc">Nobody knows how old Jim is. His video quality is from 2008. His audio crackles. He tells stories about "the war" but the details match no specific war &mdash; a bridge that collapsed "when the horses came through," a woman who "kept the lanterns lit until the ships stopped looking for the harbor." He might be 70 or 190. He has survived three consecutive rounds by being genuinely, inexplicably compelling. His connection drops every few minutes and reconnects. His stories are fragmentary, delivered in a voice that sounds like AM radio filtered through cigarette smoke. The audience oscillates between thinking he's a literary character, a method actor, or the last interesting man alive. Kade watches him closely. His details flag her filter &mdash; they're literary enough to trigger recognition. But the randomness of his narrative structure, the way he loses his thread, repeats himself, gets distracted by something off-camera &mdash; is too genuinely human to be fictional. She dismisses him. Not comfortably.</div>
-    </div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">@GameOverGaming_</div>
-    <div class="muggle-desc">A teenager who calls in exclusively to discuss Elden Ring lore with the conviction of a biblical scholar. Gets voted through one round every time because the internet finds his intensity endearing before it becomes exhausting.</div>
-  </div>
-
-  <div class="muggle-card">
-    <div class="muggle-name">Cheryl</div>
-    <div class="muggle-desc">40s, accountant, Milwaukee. Her stories are about grocery shopping, waiting rooms, and her neighbor's dog. She is the control group. She has never survived a single round. She keeps calling back.</div>
-  </div>
-  </div>
 </div>
 </div>
 
-<!-- PAGE 1: CHARACTER CARDS -->
-<div class="beat-page" data-beat="characters">
+<!-- PAGE 1: DANNY INTRO -->
+<div class="beat-page" data-beat="danny">
 <div class="beat">
   <div class="beat-header">
-    <span class="beat-number">Dossier</span>
-    <span class="beat-title">Character Cards</span>
+    <span class="beat-number">THE HOST</span>
+    <span class="beat-title">Danny</span>
   </div>
-  <p class="beat-prose" style="margin-bottom:24px; font-style:italic; color:var(--text-muted);">The four literary characters identified by Kade&rsquo;s recruitment filter. Full stat blocks, conditions, skills, and filters.</p>
-  <div class="section-header">CHARACTER CARDS</div>
-  
+  <img src="images/danny.webp" alt="Danny" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--shell-border); box-shadow:2px 2px 10px rgba(0,0,0,0.5); border-radius:4px;">
+  <p class="beat-prose">The face of <em>What&rsquo;s Your Story?</em> YouTube personality. Headset energy. Ring light reflecting in his eyes, headphones slightly too large for his head. A backdrop that says &ldquo;WHAT&rsquo;S YOUR STORY?&rdquo; in hand-painted letters that someone clearly made at 3am.</p>
+  <p class="beat-prose">Danny thinks he&rsquo;s running a talk show. He doesn&rsquo;t know Kade is running him. The questions he asks aren&rsquo;t his &mdash; they&rsquo;re diagnostic instruments fed through his earpiece. He&rsquo;s good at his job because he doesn&rsquo;t know what his job actually is.</p>
+  <p class="beat-prose" style="clear:both;">He opens every Tuesday with the energy of a man who has consumed too much caffeine and not enough doubt. He interviews callers, referees the chat, announces the votes, and genuinely believes the show is about human connection. He&rsquo;s not wrong. He&rsquo;s just not in on the version of &ldquo;connection&rdquo; that Kade is running.</p>
+</div>
+</div>
 
+<!-- Character sheets removed — access full sheets via bottom bar portrait links. Mini-card data is in CHARACTERS JS object. -->
+<div style="display:none">
   <div class="character-sheet">
     <div class="character-name">Sun Wukong</div>
     <div class="character-role">Actor &mdash; Unaffiliated</div>
@@ -1524,9 +1470,7 @@
     <p class="beat-prose"><strong>Idea:</strong> (unbound)</p>
   </div>
 
-
-</div>
-</div>
+</div><!-- end display:none -->
 
 <!-- BEAT 1 -->
 <div class="beat-page" data-beat="1">
@@ -1571,7 +1515,7 @@
 <span class="beat-number">BEAT 3</span>
 <span class="beat-title">Marcus Holds Court (Montage)</span>
 </div>
-
+<img src="images/marcus.webp" alt="Marcus" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--shell-border); box-shadow:2px 2px 10px rgba(0,0,0,0.5); border-radius:4px; filter:contrast(1.05) brightness(0.9);">
 <p class="beat-prose">Third round. Marcus&rsquo;s chair. He&rsquo;s been here eleven rounds. He tells a story about delivering mail to a house where a woman left cookies on the porch every Christmas for twenty-two years, and the one year the cookies weren&rsquo;t there, he knocked, and she was fine &mdash; she&rsquo;d just switched to brownies. &ldquo;I ate four brownies standing on that woman&rsquo;s porch in December and it was the best day of my career.&rdquo;</p>
 
 <p class="beat-prose"><strong>Anonymous</strong> enters the grid. Camera shows hands and documents. Voice: clipped, precise, no warmth. Story: &ldquo;Three months ago I found a discrepancy in the metadata of internal communications at a company I will not name. The discrepancy suggests a monitoring system that does not appear in any compliance documentation. I am here because I was told this show has reach.&rdquo;</p>
@@ -1616,7 +1560,7 @@
 <span class="beat-number">BEAT 5</span>
 <span class="beat-title">Old Jim (Memorable Muggle Beat)</span>
 </div>
-
+<img src="images/oldjim.jpg" alt="Old Jim" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--shell-border); box-shadow:2px 2px 10px rgba(0,0,0,0.5); border-radius:4px; filter:contrast(1.05) brightness(0.9);">
 <p class="beat-prose"><strong>Old Jim</strong> connects. The video quality drops thirty years. His face is a topographic map of a life lived outdoors &mdash; deep lines, sun damage, eyes that might be blue or might be the color blue was before someone named it. His audio crackles. He&rsquo;s wearing something that might be a flannel shirt or might be a blanket.</p>
 
 <p class="beat-prose"><strong>Danny:</strong> &ldquo;Jim! My man! Welcome back for week three &mdash; give the people what they want, big guy.&rdquo;</p>
@@ -1670,7 +1614,7 @@
 <span class="beat-number">BEAT 7</span>
 <span class="beat-title">Sun Wukong Arrives (FULL DETAIL)</span>
 </div>
-
+<img src="images/sunwukog.webp" alt="Sun Wukong" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--shell-border); box-shadow:2px 2px 10px rgba(0,0,0,0.5); border-radius:4px; filter:contrast(1.05) brightness(0.9);">
 <p class="beat-prose">A face appears in the fifth square of the grid. The first thing the audience sees is the gold band around his head &mdash; catching the light from an angle that shouldn&rsquo;t exist on a Zoom call. The second thing is his eyes: amber, bright, with a quality of focus that makes the rest of the grid look like they&rsquo;re running at a lower resolution. His skin has an unusual smoothness &mdash; the chat immediately begins debating his skincare. His grin is wide and uncontainable, the grin of someone who has never been in a room he couldn&rsquo;t own.</p>
 
 <div class="condition">
@@ -1894,7 +1838,7 @@
 <span class="beat-number">BEAT 11</span>
 <span class="beat-title">Nastasya Filippovna Arrives (FULL DETAIL)</span>
 </div>
-
+<img src="images/Nastasya.webp" alt="Nastasya Filippovna" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--shell-border); box-shadow:2px 2px 10px rgba(0,0,0,0.5); border-radius:4px; filter:contrast(1.05) brightness(0.9);">
 <p class="beat-prose">A woman&rsquo;s face fills the fifth square. The effect is immediate and disorienting &mdash; the kind of beauty that makes a Zoom grid feel like it was arranged wrong, like her square should be larger, like the resolution of reality briefly increased to accommodate her.</p>
 
 <div class="condition">
@@ -2180,7 +2124,7 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 <span class="beat-number">BEAT 15</span>
 <span class="beat-title">Bartleby Arrives (FULL DETAIL)</span>
 </div>
-
+<img src="images/bartlby.webp" alt="Bartleby" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--shell-border); box-shadow:2px 2px 10px rgba(0,0,0,0.5); border-radius:4px; filter:contrast(1.05) brightness(0.9);">
 <p class="beat-prose">A face. Thin. Pale. The pallor of a candle at the end of its wick. Eyes that are open but appear to be looking at nothing, or at everything, with the same mild disinterest. Behind him: a wall. Cream-colored. Featureless. Close. No decoration, no window, no life. Just wall.</p>
 
 <div class="condition">
@@ -2707,7 +2651,7 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     <span class="beat-number">BEAT 24</span>
     <span class="beat-title">Jay Gatsby Arrives (FULL DETAIL)</span>
   </div>
-
+  <img src="images/gatsby-warner-baxter.jpg" alt="Jay Gatsby" style="float:left; width:38%; max-width:180px; margin:4px 16px 10px 0; border:2px solid var(--shell-border); box-shadow:2px 2px 10px rgba(0,0,0,0.5); border-radius:4px; filter:contrast(1.05) brightness(0.9);">
   <p class="beat-prose">A man appears in the fifth square who looks like the evening&rsquo;s best idea.</p>
 
   <p class="beat-prose">Cream suit. No wrinkle. Hair that has never considered disorder. A smile that arrives at the camera like it&rsquo;s been rehearsing&mdash;wide, warm, and fractionally too perfect, the way a painting of a smile is too perfect because no one actually smiles with that much geometry.</p>
@@ -3879,7 +3823,7 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     var beat = page.getAttribute('data-beat');
     if (beat.indexOf('epilogue') === 0) return 'Epilogue';
     if (beat === '0') return 'The Setup';
-    if (beat === 'characters') return 'Character Cards';
+    if (beat === 'danny') return 'The Host';
     if (beat === '29-33') return 'Beats 29\u201333';
     return 'Beat ' + beat + ' of 41';
   }
@@ -3984,6 +3928,59 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
       stats: {STR:[14,2], DEX:[12,1], CON:[13,1], INT:[10,0], WIS:[15,2], CHA:[8,-1]},
       traits: {'Game Savvy':'Low', Honesty:'High', Verbosity:'Med', Sensitivity:'High'},
       aura: 'The Weight of Minor Characters'
+    },
+    'Danny': {
+      full: 'Danny', role: 'Muggle \u2014 Host & Frontman',
+      img: 'images/danny.webp',
+      muggle: true,
+      desc: 'The face of What\u2019s Your Story? YouTube personality. Headset energy. Thinks he\u2019s running a talk show. Doesn\u2019t know Kade is running him. The questions he asks aren\u2019t his \u2014 they\u2019re diagnostic instruments fed through his earpiece.'
+    },
+    'Marcus': {
+      full: 'Marcus \u201cBig Poppa\u201d Williams', role: 'Muggle \u2014 Tuesday Institution',
+      img: 'images/marcus.webp',
+      muggle: true,
+      desc: '58, retired postal worker from Detroit. Calls in to tell dad jokes and flirt harmlessly with every guest. Has survived 11 consecutive rounds on pure warmth. The chat has a Marcus protection society.'
+    },
+    'Old Jim': {
+      full: 'Old Jim', role: 'Muggle \u2014 Memorable',
+      img: 'images/oldjim.jpg',
+      muggle: true,
+      desc: 'Nobody knows how old Jim is. His video quality is from 2008. He tells stories about \u201cthe war\u201d but the details match no specific war. He might be 70 or 190. Kade watches him closely and dismisses him. Not comfortably.'
+    },
+    'Anonymous': {
+      full: 'Anonymous', role: 'Muggle \u2014 Memorable',
+      muggle: true,
+      desc: 'Never gives a name. Camera shows only her hands and documents. Speaks in precise, clipped sentences. Her stories are about a tech company she claims is monitoring something she won\u2019t name. Kade watches her for three rounds before concluding she is human.'
+    },
+    'Derek': {
+      full: 'Derek from Tulsa', role: 'Muggle \u2014 Regular Caller',
+      muggle: true,
+      desc: 'IT support specialist who calls in every Tuesday to complain about his HOA. Has been fighting to get his neighbor\u2019s fence moved three inches for two years. Survived four rounds on meme value.'
+    },
+    'Karen': {
+      full: 'Karen (Not That Kind of Karen)', role: 'Muggle \u2014 Regular Caller',
+      muggle: true,
+      desc: '45, kindergarten teacher. Prefaces every appearance with \u201cI know my name is Karen but I\u2019m not THAT kind of Karen.\u201d The chat has shortened her to NTK.'
+    },
+    'Linda': {
+      full: 'Linda Chen', role: 'Muggle \u2014 Regular Caller',
+      muggle: true,
+      desc: 'Dental hygienist from San Jose. Every story loops back to teeth. She once described a vacation to Italy entirely through the lens of European dental care. The chat calls her \u201cTooth Linda.\u201d'
+    },
+    'Cheryl': {
+      full: 'Cheryl', role: 'Muggle \u2014 Control Group',
+      muggle: true,
+      desc: '40s, accountant, Milwaukee. Her stories are about grocery shopping, waiting rooms, and her neighbor\u2019s dog. She has never survived a single round. She keeps calling back.'
+    },
+    'Tom\u00e1s': {
+      full: 'Tom\u00e1s', role: 'Muggle \u2014 Regular Caller',
+      muggle: true,
+      desc: '30, bartender from Lisbon who calls in at 3am local time. His stories are always about customers and always slightly too good. He\u2019s not a literary character. He\u2019s just a Portuguese bartender who pays attention.'
+    },
+    'Priya': {
+      full: 'Priya', role: 'Muggle \u2014 Regular Caller',
+      muggle: true,
+      desc: '22, claims to have astral projected into her cat during a guided meditation. Speaks at 1.5x speed. Has 47 TikTok followers and mentions this in every sentence.'
     }
   };
 
@@ -4002,7 +3999,15 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     ['Kade', 'Kade'],
     ['Andrei', 'Andrei'],
     ['Danny', 'Danny'],
-    ['Marcus', 'Marcus']
+    ['Marcus', 'Marcus'],
+    ['Old Jim', 'Old Jim'],
+    ['Anonymous', 'Anonymous'],
+    ['Derek', 'Derek'],
+    ['Karen', 'Karen'],
+    ['Linda', 'Linda'],
+    ['Cheryl', 'Cheryl'],
+    ['Tom\u00e1s', 'Tom\u00e1s'],
+    ['Priya', 'Priya']
   ];
 
   var namePattern = new RegExp('(' + NAME_MAP.map(function(n) {
@@ -4069,25 +4074,29 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     html += '<div class="cc-info">';
     html += '<div class="cc-name">' + c.full + '</div>';
     html += '<div class="cc-role">' + c.role + '</div>';
-    if (c.filter) html += '<div class="cc-aura">' + c.filter + '</div>';
+    if (c.aura) html += '<div class="cc-aura">' + c.aura + '</div>';
     html += '</div></div>';
-    html += '<div class="cc-stats">';
-    var statKeys = ['STR','DEX','CON','INT','WIS','CHA'];
-    statKeys.forEach(function(s) {
-      var mod = c.stats[s][1];
-      var modStr = mod >= 0 ? '+' + mod : '' + mod;
-      html += '<div><div class="cc-stat-label">' + s + '</div><div class="cc-stat-val">' + c.stats[s][0] + '</div><div class="cc-stat-mod">' + modStr + '</div></div>';
-    });
-    html += '</div>';
-    html += '<div class="cc-traits">';
-    for (var t in c.traits) {
-      var v = c.traits[t];
-      var cls = 'cc-trait-val';
-      if (v === 'High') cls += ' cc-trait-high';
-      else if (v === 'Low') cls += ' cc-trait-low';
-      html += '<div><span class="cc-trait-name">' + t + ':</span> <span class="' + cls + '">' + v + '</span></div>';
+    if (c.muggle) {
+      html += '<div class="cc-muggle-desc">' + c.desc + '</div>';
+    } else {
+      html += '<div class="cc-stats">';
+      var statKeys = ['STR','DEX','CON','INT','WIS','CHA'];
+      statKeys.forEach(function(s) {
+        var mod = c.stats[s][1];
+        var modStr = mod >= 0 ? '+' + mod : '' + mod;
+        html += '<div><div class="cc-stat-label">' + s + '</div><div class="cc-stat-val">' + c.stats[s][0] + '</div><div class="cc-stat-mod">' + modStr + '</div></div>';
+      });
+      html += '</div>';
+      html += '<div class="cc-traits">';
+      for (var t in c.traits) {
+        var v = c.traits[t];
+        var cls = 'cc-trait-val';
+        if (v === 'High') cls += ' cc-trait-high';
+        else if (v === 'Low') cls += ' cc-trait-low';
+        html += '<div><span class="cc-trait-name">' + t + ':</span> <span class="' + cls + '">' + v + '</span></div>';
+      }
+      html += '</div>';
     }
-    html += '</div>';
     return html;
   }
 
