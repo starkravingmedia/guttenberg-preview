@@ -419,6 +419,7 @@
     overflow: visible;
     position: relative;
   }
+  .bar-seat { display: contents; }
   .char-thumb {
     display: flex;
     flex-direction: column;
@@ -463,6 +464,26 @@
     transition: border-color 0.3s;
   }
   .char-thumb:hover .char-thumb-placeholder { border-color: var(--gold-award); }
+  .char-thumb.locked .char-thumb-img,
+  .char-thumb.locked .char-thumb-placeholder { filter: brightness(0.2) saturate(0); }
+  .char-thumb.locked .char-thumb-name { opacity: 0; }
+  .char-thumb.locked { pointer-events: none; }
+  .char-thumb.locked:hover { transform: none; }
+  .char-thumb.true-npc .char-thumb-img { filter: brightness(0.5) saturate(0); opacity: 0.6; }
+  .char-thumb.true-npc { pointer-events: none; }
+  .char-thumb.true-npc:hover { transform: none; }
+  .char-thumb.ghosted .char-thumb-img,
+  .char-thumb.ghosted .char-thumb-placeholder { opacity: 0.25; filter: brightness(0.3) saturate(0); }
+  .char-thumb.ghosted .char-thumb-name { opacity: 0.25; }
+  .char-thumb.ghosted { pointer-events: none; }
+  .char-thumb.ghosted:hover { transform: none; }
+  .char-thumb.empty-seat .char-thumb-placeholder { border-style: dashed; opacity: 0.2; }
+  .char-thumb.empty-seat .char-thumb-name { opacity: 0; }
+  .char-thumb.empty-seat { pointer-events: none; }
+  .char-thumb.empty-seat:hover { transform: none; }
+  .char-thumb .char-thumb-img,
+  .char-thumb .char-thumb-placeholder { transition: filter 0.4s ease, opacity 0.4s ease, border-color 0.3s; }
+  .char-thumb .char-thumb-name { transition: opacity 0.4s ease; }
   #thumb-tooltip {
     position: fixed;
     z-index: 300;
@@ -697,7 +718,7 @@
   .chat-block { margin: 12px 0; padding: 10px 14px; background: var(--surface-raised); border-radius: 4px; border: 1px solid var(--border); }
   .chat-msg { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; color: var(--text-muted); line-height: 1.8; display: block; }
   .viewer-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; color: var(--online); margin: 12px 0; }
-  .viewer-count::before { content: '\1F441 '; }
+  .viewer-count::before { content: '\1F441\FE0F  watching \2014  '; }
   .kade-question { margin: 16px 0; padding: 12px 16px; border-left: 3px solid var(--mod); background: rgba(88, 214, 141, 0.04); border-radius: 0 4px 4px 0; }
   .kade-question-label { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mod); display: block; margin-bottom: 6px; }
   .kade-question-label::before { content: '\1F3A7 '; }
@@ -715,11 +736,11 @@
 
   /* ========== CHARACTER MINI-CARD TOOLTIPS ========== */
   .char-tip {
-    border-bottom: 1px dotted var(--upvote);
+    border-bottom: 1px dotted var(--gold-award);
     cursor: pointer;
     position: relative;
   }
-  .char-tip:hover { color: var(--upvote); }
+  .char-tip:hover { color: var(--gold-award); }
   #char-card {
     position: fixed;
     z-index: 200;
@@ -3788,22 +3809,15 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
 
   <!-- BOTTOM BAR -->
   <div id="bottom-bar">
-    <a href="characters/sun-wukong.html" class="char-thumb" data-name="Sun Wukong" data-role="The Challenge Acknowledged" data-source="Journey to the West &mdash; Wu Cheng&rsquo;en">
-      <img src="images/sunwukog.webp" alt="Sun Wukong" class="char-thumb-img">
-      <span class="char-thumb-name">Wukong</span>
-    </a>
-    <a href="characters/nastasya-filippovna.html" class="char-thumb" data-name="Nastasya Filippovna" data-role="The Mirror of Worth" data-source="The Idiot &mdash; Fyodor Dostoevsky">
-      <img src="images/Nastasya.webp" alt="Nastasya Filippovna" class="char-thumb-img">
-      <span class="char-thumb-name">Nastasya</span>
-    </a>
-    <a href="characters/bartleby.html" class="char-thumb" data-name="Bartleby" data-role="The Permission to Stop" data-source="Bartleby, the Scrivener &mdash; Herman Melville">
-      <img src="images/bartlby.webp" alt="Bartleby" class="char-thumb-img">
-      <span class="char-thumb-name">Bartleby</span>
-    </a>
-    <a href="characters/jay-gatsby.html" class="char-thumb" data-name="Jay Gatsby" data-role="The Lost Thing" data-source="The Great Gatsby &mdash; F. Scott Fitzgerald">
-      <img src="images/gatsby-warner-baxter.jpg" alt="Jay Gatsby" class="char-thumb-img">
-      <span class="char-thumb-name">Gatsby</span>
-    </a>
+    <div class="char-thumb" data-name="Danny" data-role="Host &amp; Frontman">
+      <img src="images/danny.webp" alt="Danny" class="char-thumb-img">
+      <span class="char-thumb-name">Danny</span>
+    </div>
+    <div class="bar-seat" id="seat-0"></div>
+    <div class="bar-seat" id="seat-1"></div>
+    <div class="bar-seat" id="seat-2"></div>
+    <div class="bar-seat" id="seat-3"></div>
+    <div class="bar-seat" id="seat-4"></div>
   </div>
 
 </div><!-- end app -->
@@ -3850,6 +3864,7 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     newPage.scrollTop = 0;
     currentPage = index;
     updateUI();
+    updateBottomBar();
   }
 
   window.nextPage = function() { goToPage(currentPage + 1, 'forward'); };
@@ -3875,7 +3890,190 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     document.getElementById('toggle-right').textContent = rightCollapsed ? 'Show Panel' : 'Collapse Panel';
   };
 
+  /* ========== DYNAMIC BOTTOM BAR ========== */
+  var BEAT_CAST = {
+    '0': [],
+    'danny': [],
+    '1':  ['Cheryl','Derek','Priya','@GameOverGaming_','Tom\u00e1s'],
+    '2':  ['Karen','Derek','Marcus','Linda','Cheryl'],
+    '3':  ['Marcus','Anonymous','Linda','Priya','_muggle'],
+    '4':  ['Marcus','Anonymous','Tom\u00e1s','Linda','_muggle'],
+    '5':  ['Marcus','Anonymous','Tom\u00e1s','Linda','Old Jim'],
+    '6':  ['Marcus','Anonymous','Old Jim','_muggle','_empty'],
+    '7':  ['Marcus','Anonymous','Old Jim','_muggle','Sun Wukong'],
+    '8':  ['Sun Wukong','Marcus','Anonymous','@GameOverGaming_','_muggle'],
+    '9':  ['Sun Wukong','Marcus','Anonymous','@GameOverGaming_','_muggle'],
+    '10': ['Sun Wukong','Marcus','Anonymous','@GameOverGaming_','_empty'],
+    '11': ['Sun Wukong','Marcus','Anonymous','@GameOverGaming_','Nastasya'],
+    '12': ['Sun Wukong','Nastasya','Marcus','Karen','Priya'],
+    '13': ['Sun Wukong','Nastasya','Marcus','Karen','_muggle'],
+    '14': ['Sun Wukong','Nastasya','Marcus','Karen','_empty'],
+    '15': ['Sun Wukong','Nastasya','Marcus','Karen','Bartleby'],
+    '16': ['Sun Wukong','Nastasya','Bartleby','Marcus','_muggle'],
+    '17': ['Sun Wukong','Nastasya','Bartleby','Marcus','_muggle'],
+    '18': ['Sun Wukong','Nastasya','Bartleby','_muggle','_muggle'],
+    '19': ['Sun Wukong','Nastasya','Bartleby','_muggle','_muggle'],
+    '20': ['Sun Wukong','Nastasya','Bartleby','_muggle','_muggle'],
+    '21': ['Sun Wukong','Nastasya','Bartleby','_muggle','_muggle'],
+    '22': ['Sun Wukong','Nastasya','Bartleby','_muggle','_empty'],
+    '23': ['Sun Wukong','Nastasya','Bartleby','_muggle','_empty'],
+    '24': ['Sun Wukong','Nastasya','Bartleby','_muggle','Gatsby'],
+    '25': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_muggle'],
+    '26': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_muggle'],
+    '27': ['Sun Wukong','Nastasya','Bartleby','Gatsby','Derek'],
+    '28': ['Sun Wukong','Nastasya','Bartleby','Gatsby','Derek'],
+    '29-33': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_muggle'],
+    '34': [],
+    '35': [],
+    '36': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty'],
+    '37': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty'],
+    '38': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty'],
+    '39': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty'],
+    '40': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty'],
+    '41': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty'],
+    'epilogue-relationships': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty'],
+    'epilogue-notes': ['Sun Wukong','Nastasya','Bartleby','Gatsby','_empty']
+  };
+
+  var CHAR_TIERS = {
+    'Sun Wukong': 'literary', 'Nastasya': 'literary', 'Bartleby': 'literary', 'Gatsby': 'literary',
+    'Marcus': 'interesting', 'Old Jim': 'interesting', 'Anonymous': 'interesting'
+  };
+
+  var CHAR_LINKS = {
+    'Sun Wukong': { href: 'characters/sun-wukong.html', source: 'Journey to the West \u2014 Wu Cheng\u2019en' },
+    'Nastasya': { href: 'characters/nastasya-filippovna.html', source: 'The Idiot \u2014 Fyodor Dostoevsky' },
+    'Bartleby': { href: 'characters/bartleby.html', source: 'Bartleby, the Scrivener \u2014 Herman Melville' },
+    'Gatsby': { href: 'characters/jay-gatsby.html', source: 'The Great Gatsby \u2014 F. Scott Fitzgerald' }
+  };
+
+  var CHAR_DISPLAY = {
+    'Sun Wukong': { img: 'images/sunwukog.webp', label: 'Wukong', full: 'Sun Wukong', role: 'The Challenge Acknowledged' },
+    'Nastasya': { img: 'images/Nastasya.webp', label: 'Nastasya', full: 'Nastasya Filippovna', role: 'The Mirror of Worth' },
+    'Bartleby': { img: 'images/bartlby.webp', label: 'Bartleby', full: 'Bartleby', role: 'The Permission to Stop' },
+    'Gatsby': { img: 'images/gatsby-warner-baxter.jpg', label: 'Gatsby', full: 'Jay Gatsby', role: 'The Lost Thing' },
+    'Marcus': { img: 'images/marcus.webp', label: 'Marcus', full: 'Marcus \u201cBig Poppa\u201d Williams' },
+    'Old Jim': { img: 'images/oldjim.jpg', label: 'Old Jim', full: 'Old Jim' },
+    'Anonymous': { img: null, label: 'Anon', full: 'Anonymous' },
+    'Danny': { img: 'images/danny.webp', label: 'Danny', full: 'Danny' },
+    'Derek': { img: null, label: 'Derek', full: 'Derek from Tulsa' },
+    'Karen': { img: null, label: 'Karen', full: 'Karen (NTK)' },
+    'Linda': { img: null, label: 'Linda', full: 'Linda Chen' },
+    'Cheryl': { img: null, label: 'Cheryl', full: 'Cheryl' },
+    'Tom\u00e1s': { img: null, label: 'Tom\u00e1s', full: 'Tom\u00e1s' },
+    'Priya': { img: null, label: 'Priya', full: 'Priya' },
+    '@GameOverGaming_': { img: null, label: 'GG', full: '@GameOverGaming_' }
+  };
+
+  var seats = [
+    document.getElementById('seat-0'),
+    document.getElementById('seat-1'),
+    document.getElementById('seat-2'),
+    document.getElementById('seat-3'),
+    document.getElementById('seat-4')
+  ];
+  var prevCast = [];
+  var unlockedLiterary = {};
+
+  function getInitials(name) {
+    if (name.charAt(0) === '@') return name.slice(1, 3).toUpperCase();
+    var parts = name.split(' ');
+    return parts.length > 1 ? (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase() : name.slice(0, 2).toUpperCase();
+  }
+
+  function renderSeat(seatEl, charKey, isGhost) {
+    seatEl.innerHTML = '';
+    if (charKey === '_empty' || !charKey) {
+      var el = document.createElement('div');
+      el.className = 'char-thumb empty-seat';
+      el.innerHTML = '<div class="char-thumb-placeholder"></div><span class="char-thumb-name"></span>';
+      seatEl.appendChild(el);
+      return;
+    }
+    if (charKey === '_muggle') {
+      var el = document.createElement('div');
+      el.className = 'char-thumb true-npc';
+      el.innerHTML = '<div class="char-thumb-placeholder">\uD83D\uDCDE</div><span class="char-thumb-name">Caller</span>';
+      seatEl.appendChild(el);
+      return;
+    }
+
+    var tier = CHAR_TIERS[charKey] || 'true-npc';
+    var disp = CHAR_DISPLAY[charKey] || { img: null, label: charKey, full: charKey };
+    var link = CHAR_LINKS[charKey];
+    var isLiterary = tier === 'literary';
+    var isUnlocked = !isLiterary || unlockedLiterary[charKey];
+
+    var tag = (isUnlocked && link) ? 'a' : 'div';
+    var el = document.createElement(tag);
+    el.className = 'char-thumb';
+    if (link) {
+      el.setAttribute('data-name', disp.full);
+      el.setAttribute('data-source', link.source);
+      if (tag === 'a') el.setAttribute('href', link.href);
+    } else {
+      el.setAttribute('data-name', disp.full);
+    }
+
+    if (isGhost) {
+      el.classList.add('ghosted');
+    } else if (isLiterary && !isUnlocked) {
+      el.classList.add('locked');
+    } else if (tier === 'true-npc') {
+      el.classList.add('true-npc');
+    }
+
+    if (disp.img) {
+      el.innerHTML = '<img src="' + disp.img + '" alt="' + disp.full + '" class="char-thumb-img"><span class="char-thumb-name">' + disp.label + '</span>';
+    } else {
+      el.innerHTML = '<div class="char-thumb-placeholder">' + getInitials(charKey) + '</div><span class="char-thumb-name">' + disp.label + '</span>';
+    }
+
+    seatEl.appendChild(el);
+  }
+
+  function updateBottomBar() {
+    var beat = pages[currentPage].getAttribute('data-beat');
+    var cast = BEAT_CAST[beat] || [];
+
+    // Unlock literary characters when they first appear
+    for (var i = 0; i < cast.length; i++) {
+      if (cast[i] !== '_empty' && cast[i] !== '_muggle' && CHAR_TIERS[cast[i]] === 'literary') {
+        unlockedLiterary[cast[i]] = true;
+      }
+    }
+
+    // Determine ghosts: named characters in prev but not in current
+    var ghostKeys = [];
+    for (var i = 0; i < prevCast.length; i++) {
+      var p = prevCast[i];
+      if (p === '_empty' || p === '_muggle') continue;
+      if (cast.indexOf(p) === -1) ghostKeys.push(p);
+    }
+
+    // Build effective cast: replace _muggle/_empty slots with ghosts
+    var effective = cast.slice();
+    for (var i = effective.length; i < 5; i++) effective.push('_empty');
+    var gi = 0;
+    for (var i = 0; i < effective.length && gi < ghostKeys.length; i++) {
+      if (effective[i] === '_muggle' || effective[i] === '_empty') {
+        effective[i] = '~' + ghostKeys[gi++];
+      }
+    }
+
+    // Render seats
+    for (var i = 0; i < 5; i++) {
+      var c = effective[i] || '_empty';
+      var isGhost = c.charAt(0) === '~';
+      if (isGhost) c = c.slice(1);
+      renderSeat(seats[i], c, isGhost);
+    }
+
+    prevCast = cast.slice();
+  }
+
   updateUI();
+  updateBottomBar();
 
   /* ========== CHARACTER MINI-CARD SYSTEM ========== */
 
@@ -3981,6 +4179,11 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
       full: 'Priya', role: 'Muggle \u2014 Regular Caller',
       muggle: true,
       desc: '22, claims to have astral projected into her cat during a guided meditation. Speaks at 1.5x speed. Has 47 TikTok followers and mentions this in every sentence.'
+    },
+    '@GameOverGaming_': {
+      full: '@GameOverGaming_', role: 'Muggle \u2014 Regular Caller',
+      muggle: true,
+      desc: 'Elden Ring superfan who relates everything to Soulsborne lore. Insists Radahn is \u201cbasically a veteran with PTSD.\u201d Takes elimination well \u2014 \u201cThis is JUST like Elden Ring.\u201d'
     }
   };
 
@@ -4007,7 +4210,8 @@ Both times: eyes go upper-left. Smile changes. Voice drops half an octave. The q
     ['Linda', 'Linda'],
     ['Cheryl', 'Cheryl'],
     ['Tom\u00e1s', 'Tom\u00e1s'],
-    ['Priya', 'Priya']
+    ['Priya', 'Priya'],
+    ['@GameOverGaming_', '@GameOverGaming_']
   ];
 
   var namePattern = new RegExp('(' + NAME_MAP.map(function(n) {
